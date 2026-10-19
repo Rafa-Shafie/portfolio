@@ -1,0 +1,62 @@
+/*
+ * Design tokens — tema escuro.
+ * Toda cor, tamanho e espaçamento do site vem daqui. A Fase 3 adiciona a
+ * paleta clara redefinindo só as variáveis de cor.
+ *
+ * Contraste (WCAG 2.2) conferido:
+ *   texto / fundo        16,1:1    texto-secundário / fundo     7,7:1
+ *   texto / superfície   14,9:1    texto-secundário / superfície 7,2:1
+ *   destaque / fundo     13,4:1    texto-sobre-destaque / destaque 13,4:1
+ */
+:root {
+	color-scheme: dark;
+
+	/* cores */
+	--color-bg: #0b1117;
+	--color-surface: #111a22;
+	--color-border: #2a3946;
+	--color-text: #e6edf3;
+	--color-text-muted: #9aa7b4;
+	--color-accent: #12efff;
+	--color-on-accent: #0b1117;
+	--color-focus: var(--color-accent);
+
+	/* tipografia — o Astro injeta --font-poppins com a fonte e os fallbacks */
+	--font-sans: var(--font-poppins, system-ui, sans-serif);
+
+	--text-sm: 0.875rem;
+	--text-base: 1rem;
+	--text-lg: 1.125rem;
+	--text-xl: clamp(1.25rem, 1.1rem + 0.6vw, 1.5rem);
+	--text-2xl: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+	--text-3xl: clamp(2.25rem, 1.6rem + 3vw, 3.75rem);
+
+	--weight-regular: 400;
+	--weight-semibold: 600;
+	--weight-bold: 700;
+
+	--leading-tight: 1.2;
+	--leading-normal: 1.6;
+
+	/* espaçamento */
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 0.75rem;
+	--space-4: 1rem;
+	--space-5: 1.5rem;
+	--space-6: 2rem;
+	--space-7: 3rem;
+	--space-8: 4rem;
+	--space-9: 6rem;
+
+	/* formas e layout */
+	--radius-sm: 0.375rem;
+	--radius-md: 0.75rem;
+	--radius-full: 999px;
+	--content-width: 68rem;
+	--header-height: 4rem;
+
+	/* movimento */
+	--duration-fast: 150ms;
+	--duration-base: 250ms;
+}
