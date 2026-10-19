@@ -112,6 +112,11 @@ export const en: Dictionary = {
 		linkedin: 'LinkedIn',
 		github: 'GitHub',
 		cv: 'CV',
+		linkedinHint: "Let's connect",
+		githubHint: 'My repositories',
+		copyEmail: 'Copy email',
+		copied: 'Email copied.',
+		copyFailed: "Couldn't copy. Please use the address above.",
 	},
 	period: {
 		present: 'present',

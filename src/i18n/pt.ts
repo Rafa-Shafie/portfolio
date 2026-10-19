@@ -115,6 +115,11 @@ export const pt = {
 		linkedin: 'LinkedIn',
 		github: 'GitHub',
 		cv: 'Currículo',
+		linkedinHint: 'Vamos nos conectar',
+		githubHint: 'Meus repositórios',
+		copyEmail: 'Copiar e-mail',
+		copied: 'E-mail copiado.',
+		copyFailed: 'Não foi possível copiar. Use o endereço acima.',
 	},
 	period: {
 		present: 'atual',

@@ -7,14 +7,16 @@ interface Props {
 	label: string;
 	/** Título em frase; "\n" vira quebra de linha. */
 	heading: string;
+	/** "inverted": bloco com fundo de destaque (usado no contato). */
+	variant?: 'default' | 'inverted';
 }
 
-const { id, number, label, heading } = Astro.props;
+const { id, number, label, heading, variant = 'default' } = Astro.props;
 const headingId = `${id}-title`;
 const lines = heading.split('\n');
 ---
 
-<section id={id} class="section" aria-labelledby={headingId}>
+<section id={id} class:list={['section', `section-${variant}`]} aria-labelledby={headingId}>
 	<div class="container">
 		<div class="section-head">
 			<div>
@@ -66,7 +68,32 @@ const lines = heading.split('\n');
 		color: var(--color-text-muted);
 	}
 
+	/* Bloco invertido: fundo de destaque, texto escuro e foco escuro (o ciano sumiria aqui) */
+	.section-inverted .container {
+		padding: var(--space-8) var(--space-6);
+		background-color: var(--color-accent);
+		border-radius: var(--radius-md);
+		color: var(--color-on-accent);
+	}
+
+	.section-inverted .section-label {
+		color: var(--color-on-accent);
+		opacity: 0.75;
+	}
+
+	.section-inverted .section-intro {
+		color: var(--color-on-accent);
+	}
+
+	.section-inverted :global(:focus-visible) {
+		outline-color: var(--color-on-accent);
+	}
+
 	@media (min-width: 60rem) {
+		.section-inverted .container {
+			padding: var(--space-9) var(--space-8);
+		}
+
 		.section-head {
 			grid-template-columns: 1fr auto;
 		}

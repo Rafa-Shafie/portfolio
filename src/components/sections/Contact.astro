@@ -2,8 +2,11 @@
 import EmailIcon from 'bootstrap-icons/icons/envelope.svg';
 import LinkedInIcon from 'bootstrap-icons/icons/linkedin.svg';
 import GitHubIcon from 'bootstrap-icons/icons/github.svg';
+import CvIcon from 'bootstrap-icons/icons/file-earmark-pdf.svg';
+import ArrowIcon from 'bootstrap-icons/icons/arrow-up-right.svg';
+import CopyIcon from 'bootstrap-icons/icons/copy.svg';
 import Section from '../Section.astro';
-import CvLink from '../CvLink.astro';
+import { cvFileSize } from '../../data/cv';
 import { profile } from '../../data/profile';
 import { useTranslations, type Locale } from '../../i18n/utils';
 
@@ -15,51 +18,161 @@ interface Props {
 
 const { id, number, locale } = Astro.props;
 const t = useTranslations(locale);
+
+const external = [
+	{ href: profile.linkedin, title: t.contact.linkedin, hint: t.contact.linkedinHint, Icon: LinkedInIcon },
+	{ href: profile.github, title: t.contact.github, hint: t.contact.githubHint, Icon: GitHubIcon },
+	{ href: profile.cv[locale], title: t.contact.cv, hint: `PDF · ${cvFileSize(locale)}`, Icon: CvIcon },
+];
 ---
 
-<Section id={id} number={number} label={t.contact.label} heading={t.contact.heading}>
-	<p class="text">{t.contact.text}</p>
+<Section id={id} number={number} label={t.contact.label} heading={t.contact.heading} variant="inverted">
+	<p slot="intro">{t.contact.text}</p>
 
-	<ul class="links">
-		<li>
-			<a class="button button-primary" href={`mailto:${profile.email}`}>
-				<EmailIcon aria-hidden="true" />
-				<span><span class="visually-hidden">{t.contact.email}: </span>{profile.email}</span>
+	<ul class="cards">
+		<li class="card card-email">
+			<a class="card-link" href={`mailto:${profile.email}`}>
+				<EmailIcon class="card-icon" aria-hidden="true" />
+				<span class="card-title">{t.contact.email}</span>
+				<span class="card-hint">{profile.email}</span>
 			</a>
+			<!-- Só aparece com JavaScript: sem ele, o botão não teria função -->
+			<button class="copy" type="button" data-copy={profile.email} hidden>
+				<CopyIcon aria-hidden="true" />
+				{t.contact.copyEmail}
+			</button>
+			<p class="copy-status" role="status" data-ok={t.contact.copied} data-fail={t.contact.copyFailed}></p>
 		</li>
-		<li>
-			<a class="button button-secondary" href={profile.linkedin} target="_blank" rel="noopener noreferrer">
-				<LinkedInIcon aria-hidden="true" />
-				{t.contact.linkedin}
-				<span class="visually-hidden">{t.a11y.newTab}</span>
-			</a>
-		</li>
-		<li>
-			<a class="button button-secondary" href={profile.github} target="_blank" rel="noopener noreferrer">
-				<GitHubIcon aria-hidden="true" />
-				{t.contact.github}
-				<span class="visually-hidden">{t.a11y.newTab}</span>
-			</a>
-		</li>
-		<li>
-			<CvLink locale={locale} label={t.contact.cv} icon />
-		</li>
+		{
+			external.map(({ href, title, hint, Icon }) => (
+				<li class="card">
+					<a class="card-link" href={href} target="_blank" rel="noopener noreferrer">
+						<Icon class="card-icon" aria-hidden="true" />
+						<span class="card-title">{title}</span>
+						<span class="card-hint">{hint}</span>
+						<ArrowIcon class="card-arrow" aria-hidden="true" />
+						<span class="visually-hidden">{t.a11y.newTab}</span>
+					</a>
+				</li>
+			))
+		}
 	</ul>
 </Section>
 
-<style>
-	.text {
-		max-width: 40rem;
-		margin-bottom: var(--space-6);
-		color: var(--color-text-muted);
-		font-size: var(--text-lg);
-	}
+<script>
+	const button = document.querySelector<HTMLButtonElement>('[data-copy]');
+	const status = document.querySelector<HTMLElement>('.copy-status');
 
-	.links {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-3);
+	if (button && status && navigator.clipboard) {
+		button.hidden = false;
+		button.addEventListener('click', async () => {
+			try {
+				await navigator.clipboard.writeText(button.dataset.copy ?? '');
+				status.textContent = status.dataset.ok ?? '';
+			} catch {
+				status.textContent = status.dataset.fail ?? '';
+			}
+		});
+	}
+</script>
+
+<style>
+	.cards {
+		display: grid;
+		gap: 1px;
 		padding: 0;
 		list-style: none;
+		background-color: color-mix(in srgb, var(--color-on-accent) 22%, transparent);
+		border: 1px solid color-mix(in srgb, var(--color-on-accent) 22%, transparent);
+		border-radius: var(--radius-md);
+		overflow: hidden;
+	}
+
+	.card {
+		display: grid;
+		align-content: start;
+		gap: var(--space-2);
+		background-color: var(--color-accent);
+	}
+
+	.card-link {
+		position: relative;
+		display: grid;
+		gap: var(--space-1);
+		padding: var(--space-5);
+		color: var(--color-on-accent);
+		text-decoration: none;
+	}
+
+	.card-link:hover {
+		background-color: color-mix(in srgb, var(--color-on-accent) 8%, transparent);
+	}
+
+	.card-icon {
+		width: 1.5rem;
+		height: 1.5rem;
+		margin-bottom: var(--space-2);
+	}
+
+	.card-title {
+		font-weight: var(--weight-bold);
+	}
+
+	.card-hint {
+		font-size: var(--text-sm);
+		overflow-wrap: anywhere;
+	}
+
+	.card-arrow {
+		position: absolute;
+		top: var(--space-5);
+		right: var(--space-5);
+		width: 1rem;
+		height: 1rem;
+	}
+
+	.card-email {
+		padding-bottom: var(--space-4);
+	}
+
+	.copy {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		justify-self: start;
+		min-height: 2.75rem;
+		margin-inline: var(--space-5);
+		padding: 0 var(--space-4);
+		background: none;
+		border: 1px solid var(--color-on-accent);
+		border-radius: var(--radius-full);
+		color: var(--color-on-accent);
+		font-size: var(--text-sm);
+		font-weight: var(--weight-semibold);
+		cursor: pointer;
+	}
+
+	.copy svg {
+		width: 0.9rem;
+		height: 0.9rem;
+	}
+
+	.copy-status {
+		min-height: 1.25rem;
+		margin-inline: var(--space-5);
+		color: var(--color-on-accent);
+		font-size: var(--text-sm);
+	}
+
+	@media (min-width: 40rem) {
+		.cards {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 60rem) {
+		.cards {
+			grid-template-columns: repeat(4, 1fr);
+		}
 	}
 </style>
