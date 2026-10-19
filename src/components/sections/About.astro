@@ -1,0 +1,88 @@
+---
+import Section from '../Section.astro';
+import { useTranslations, type Locale } from '../../i18n/utils';
+
+interface Props {
+	id: string;
+	locale: Locale;
+}
+
+const { id, locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<Section id={id} title={t.about.title}>
+	<div class="about">
+		<div class="bio">
+			{t.about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+		</div>
+
+		<div class="languages">
+			<h3>{t.about.languagesTitle}</h3>
+			<dl>
+				{
+					t.about.languages.map(({ name, level }) => (
+						<div>
+							<dt>{name}</dt>
+							<dd>{level}</dd>
+						</div>
+					))
+				}
+			</dl>
+		</div>
+	</div>
+</Section>
+
+<style>
+	.about {
+		display: grid;
+		gap: var(--space-6);
+	}
+
+	.bio {
+		display: grid;
+		gap: var(--space-4);
+		max-width: 42rem;
+		color: var(--color-text-muted);
+		font-size: var(--text-lg);
+	}
+
+	.languages {
+		align-self: start;
+		padding: var(--space-5);
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+	}
+
+	.languages h3 {
+		margin-bottom: var(--space-4);
+		font-size: var(--text-lg);
+	}
+
+	dl {
+		display: grid;
+		gap: var(--space-3);
+	}
+
+	dl div {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-4);
+	}
+
+	dt {
+		font-weight: var(--weight-semibold);
+	}
+
+	dd {
+		color: var(--color-text-muted);
+	}
+
+	@media (min-width: 48rem) {
+		.about {
+			grid-template-columns: 1fr 18rem;
+			gap: var(--space-8);
+		}
+	}
+</style>

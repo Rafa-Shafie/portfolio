@@ -1,0 +1,100 @@
+---
+import { Picture } from 'astro:assets';
+import photo from '../../assets/rafael.jpg';
+import { useTranslations, type Locale } from '../../i18n/utils';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<section id="top" class="hero" aria-labelledby="hero-title">
+	<div class="container hero-inner">
+		<div class="hero-text">
+			<p class="greeting">{t.hero.greeting}</p>
+			<h1 id="hero-title">Rafael El Shafie</h1>
+			<p class="headline">{t.hero.headline}</p>
+			<p class="intro">{t.hero.intro}</p>
+			<slot name="actions" />
+		</div>
+
+		<Picture
+			class="photo"
+			src={photo}
+			alt={t.hero.photoAlt}
+			formats={['avif', 'webp']}
+			widths={[240, 360, 480, 720]}
+			sizes="(min-width: 48rem) 20rem, 15rem"
+			loading="eager"
+			fetchpriority="high"
+		/>
+	</div>
+</section>
+
+<style>
+	.hero {
+		padding-block: var(--space-8) var(--space-7);
+	}
+
+	.hero-inner {
+		display: flex;
+		flex-direction: column-reverse;
+		align-items: center;
+		gap: var(--space-6);
+		text-align: center;
+	}
+
+	.greeting {
+		color: var(--color-text-muted);
+		font-size: var(--text-lg);
+	}
+
+	h1 {
+		font-size: var(--text-3xl);
+	}
+
+	.headline {
+		margin-top: var(--space-3);
+		color: var(--color-accent);
+		font-size: var(--text-lg);
+		font-weight: var(--weight-semibold);
+	}
+
+	.intro {
+		max-width: 36rem;
+		margin-top: var(--space-4);
+		margin-inline: auto;
+		color: var(--color-text-muted);
+	}
+
+	.photo {
+		width: 15rem;
+		aspect-ratio: 1;
+		object-fit: cover;
+		border-radius: 50%;
+		border: 0.25rem solid var(--color-accent);
+	}
+
+	@media (min-width: 48rem) {
+		.hero {
+			padding-block: var(--space-9);
+		}
+
+		.hero-inner {
+			flex-direction: row;
+			justify-content: space-between;
+			text-align: start;
+		}
+
+		.intro {
+			margin-inline: 0;
+		}
+
+		.photo {
+			width: 20rem;
+		}
+	}
+</style>

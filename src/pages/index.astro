@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from '../components/Header.astro';
+import Hero from '../components/sections/Hero.astro';
+import About from '../components/sections/About.astro';
 import { htmlLang, ogLocale, useTranslations, type Locale } from '../i18n/utils';
 
 const locale: Locale = 'pt';
@@ -10,7 +12,9 @@ type SectionId = keyof typeof t.nav;
 
 // Uma seção só existe se tiver conteúdo. O menu e a página leem este mesmo mapa,
 // então nenhum link aponta para uma seção ausente.
-const show: Partial<Record<SectionId, boolean>> = {};
+const show: Partial<Record<SectionId, boolean>> = {
+	about: true,
+};
 
 const order: SectionId[] = ['about', 'experience', 'education', 'skills', 'projects', 'contact'];
 const navLinks = order.filter((id) => show[id]).map((id) => ({ id, label: t.nav[id] }));
@@ -24,7 +28,7 @@ const navLinks = order.filter((id) => show[id]).map((id) => ({ id, label: t.nav[
 >
 	<Header locale={locale} links={navLinks} />
 	<main id="main">
-		<h1 id="top">Rafael El Shafie</h1>
-		<p>{t.hero.headline}</p>
+		<Hero locale={locale} />
+		{show.about && <About id="about" locale={locale} />}
 	</main>
 </BaseLayout>
