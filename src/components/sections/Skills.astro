@@ -1,6 +1,5 @@
 ---
 import Section from '../Section.astro';
-import SkillGroupCard from '../SkillGroup.astro';
 import type { SkillGroup } from '../../data/skills';
 import { useTranslations, type Locale } from '../../i18n/utils';
 
@@ -16,17 +15,175 @@ const t = useTranslations(locale);
 ---
 
 <Section id={id} number={number} label={t.skills.label} heading={t.skills.heading}>
-	<ul class="grid">
-		{groups.map((group) => <SkillGroupCard group={group} locale={locale} />)}
-	</ul>
+	<p slot="intro">{t.skills.intro}</p>
+
+	<!--
+		Abas acessíveis (padrão W3C/APG) com aprimoramento progressivo: sem JavaScript, os grupos
+		aparecem um embaixo do outro e a lista de abas fica oculta; o script liga as abas.
+	-->
+	<div class="skills" data-tabs>
+		<div class="tablist" role="tablist" aria-label={t.skills.label} hidden>
+			{
+				groups.map((group, i) => (
+					<button
+						class="tab"
+						type="button"
+						role="tab"
+						id={`skill-tab-${group.id}`}
+						aria-controls={`skill-panel-${group.id}`}
+						aria-selected={i === 0 ? 'true' : 'false'}
+						tabindex={i === 0 ? 0 : -1}
+					>
+						{t.skills.groups[group.id]}
+					</button>
+				))
+			}
+		</div>
+
+		{
+			groups.map((group) => (
+				<div class="panel" id={`skill-panel-${group.id}`} data-tab={`skill-tab-${group.id}`}>
+					<h3 class="panel-title">{t.skills.groups[group.id]}</h3>
+					<ul class="items">
+						{group.items.map(({ name, learning }) => (
+							<li>
+								{name}
+								{learning && <span class="learning">({t.skills.learning})</span>}
+							</li>
+						))}
+					</ul>
+				</div>
+			))
+		}
+	</div>
 </Section>
 
+<script>
+	for (const root of document.querySelectorAll<HTMLElement>('[data-tabs]')) {
+		const tablist = root.querySelector<HTMLElement>('[role="tablist"]');
+		const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
+		const panels = [...root.querySelectorAll<HTMLElement>('.panel')];
+		if (!tablist || tabs.length === 0) continue;
+
+		// Liga o modo abas: cada painel vira tabpanel rotulado pela sua aba
+		root.classList.add('is-tabs');
+		tablist.hidden = false;
+		panels.forEach((panel) => {
+			panel.setAttribute('role', 'tabpanel');
+			panel.setAttribute('aria-labelledby', panel.dataset.tab ?? '');
+			panel.tabIndex = 0;
+		});
+
+		const select = (tab: HTMLButtonElement, focus = false) => {
+			tabs.forEach((t) => {
+				const active = t === tab;
+				t.setAttribute('aria-selected', String(active));
+				t.tabIndex = active ? 0 : -1;
+				const panel = root.querySelector<HTMLElement>(`#${t.getAttribute('aria-controls')}`);
+				if (panel) panel.hidden = !active;
+			});
+			if (focus) {
+				tab.focus();
+				tab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+			}
+		};
+		select(tabs[0]);
+
+		tabs.forEach((tab) => tab.addEventListener('click', () => select(tab)));
+
+		// Setas trocam de aba; Home e End vão para a primeira e a última
+		tablist.addEventListener('keydown', (event) => {
+			const current = tabs.indexOf(document.activeElement as HTMLButtonElement);
+			if (current === -1) return;
+			const last = tabs.length - 1;
+			const next = {
+				ArrowRight: current === last ? 0 : current + 1,
+				ArrowLeft: current === 0 ? last : current - 1,
+				Home: 0,
+				End: last,
+			}[event.key];
+			if (next === undefined) return;
+			event.preventDefault();
+			select(tabs[next], true);
+		});
+	}
+</script>
+
 <style>
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
-		gap: var(--space-5);
+	.tablist {
+		display: flex;
+		gap: var(--space-1);
+		overflow-x: auto;
+		border-bottom: 1px solid var(--color-border);
+		scrollbar-width: thin;
+	}
+
+	.tab {
+		flex: none;
+		min-height: 2.75rem;
+		padding: var(--space-3) var(--space-4);
+		background: none;
+		border: 0;
+		border-bottom: 2px solid transparent;
+		margin-bottom: -1px;
+		color: var(--color-text-muted);
+		font-weight: var(--weight-semibold);
+		cursor: pointer;
+	}
+
+	.tab:hover {
+		color: var(--color-text);
+	}
+
+	.tab[aria-selected='true'] {
+		color: var(--color-accent);
+		border-bottom-color: var(--color-accent);
+	}
+
+	/* Sem JavaScript: grupos empilhados, cada um com o seu título */
+	.panel {
+		padding-block: var(--space-6);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.panel-title {
+		margin-bottom: var(--space-4);
+		font-size: var(--text-xl);
+		font-weight: var(--weight-semibold);
+	}
+
+	/* Com abas: o título do painel repete o nome da aba, então some visualmente */
+	.is-tabs .panel {
+		border-top: 0;
+	}
+
+	.is-tabs .panel-title {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		white-space: nowrap;
+	}
+
+	.items {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
 		padding: 0;
 		list-style: none;
+	}
+
+	.items li {
+		padding: var(--space-2) var(--space-4);
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
+	}
+
+	.learning {
+		margin-left: var(--space-1);
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
 	}
 </style>

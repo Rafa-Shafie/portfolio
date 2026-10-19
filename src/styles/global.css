@@ -27,6 +27,11 @@ select {
 	font: inherit;
 }
 
+/* O atributo hidden sempre esconde, mesmo em elementos com display definido no CSS */
+[hidden] {
+	display: none !important;
+}
+
 /* Base */
 html {
 	-webkit-text-size-adjust: 100%;

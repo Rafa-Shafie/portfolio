@@ -79,6 +79,7 @@ export const en: Dictionary = {
 	skills: {
 		label: 'Skills',
 		heading: 'Tools for\nsolving problems.',
+		intro: 'Knowledge built through work, courses and practice. My main focus is backend and AI.',
 		learning: 'learning',
 		groups: {
 			backend: 'Backend',

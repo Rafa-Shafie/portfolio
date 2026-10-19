@@ -82,6 +82,7 @@ export const pt = {
 	skills: {
 		label: 'Habilidades',
 		heading: 'Ferramentas para\nresolver problemas.',
+		intro: 'Conhecimentos construídos entre experiências, cursos e prática. Meu foco de aprofundamento é backend e IA.',
 		learning: 'em formação',
 		groups: {
 			backend: 'Backend',
