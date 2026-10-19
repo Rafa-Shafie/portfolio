@@ -1,6 +1,8 @@
 ---
 import MenuIcon from 'bootstrap-icons/icons/list.svg';
 import CloseIcon from 'bootstrap-icons/icons/x-lg.svg';
+import BrandMark from '../assets/brand/mark.svg';
+import BrandWordmark from '../assets/brand/wordmark.svg';
 import LanguageSwitcher from './LanguageSwitcher.astro';
 import { useTranslations, type Locale } from '../i18n/utils';
 
@@ -17,27 +19,33 @@ const t = useTranslations(locale);
 
 <header class="site-header">
 	<div class="container header-inner">
-		<!-- O nome acessível começa pelo texto visível (WCAG 2.5.3), útil para controle por voz -->
-		<a class="logo" href="#top">Rafa<span class="accent">Shafie</span><span class="visually-hidden">, {t.a11y.backToTop}</span></a>
+		<!-- Marca em SVG; o nome acessível começa por "RafaShafie", o texto que aparece (WCAG 2.5.3) -->
+		<a class="logo" href="#top">
+			<BrandMark class="logo-mark" aria-hidden="true" />
+			<BrandWordmark class="logo-word" aria-hidden="true" />
+			<span class="visually-hidden">RafaShafie, {t.a11y.backToTop}</span>
+		</a>
 
-		<button
-			class="menu-toggle"
-			type="button"
-			aria-expanded="false"
-			aria-controls="site-nav"
-			data-label-open={t.a11y.openMenu}
-			data-label-close={t.a11y.closeMenu}
-		>
-			<MenuIcon class="icon icon-open" aria-hidden="true" />
-			<CloseIcon class="icon icon-close" aria-hidden="true" />
-			<span class="visually-hidden" data-menu-label>{t.a11y.openMenu}</span>
-		</button>
+		{
+			links.length > 0 && (
+				<>
+					<button
+						class="menu-toggle"
+						type="button"
+						aria-expanded="false"
+						aria-controls="site-nav"
+						data-label-open={t.a11y.openMenu}
+						data-label-close={t.a11y.closeMenu}
+					>
+						<MenuIcon class="icon icon-open" aria-hidden="true" />
+						<CloseIcon class="icon icon-close" aria-hidden="true" />
+						<span class="visually-hidden" data-menu-label>
+							{t.a11y.openMenu}
+						</span>
+					</button>
 
-		<!-- Gaveta no mobile, linha no desktop: links das seções + seletor de idioma -->
-		<div id="site-nav" class="site-nav" data-open="false">
-			{
-				links.length > 0 && (
-					<nav class="main-nav" aria-label={t.a11y.mainNav}>
+					<!-- Gaveta no mobile, linha no desktop. Vem depois do botão para o Tab seguir a ordem visual -->
+					<nav id="site-nav" class="site-nav" aria-label={t.a11y.mainNav} data-open="false">
 						<ul>
 							{links.map(({ id, label }) => (
 								<li>
@@ -46,10 +54,11 @@ const t = useTranslations(locale);
 							))}
 						</ul>
 					</nav>
-				)
-			}
-			<LanguageSwitcher locale={locale} />
-		</div>
+				</>
+			)
+		}
+
+		<LanguageSwitcher locale={locale} />
 	</div>
 </header>
 
@@ -122,20 +131,51 @@ const t = useTranslations(locale);
 	.header-inner {
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
+		gap: var(--space-3);
 		min-height: var(--header-height);
-		gap: var(--space-4);
 	}
 
 	.logo {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		min-height: 2.75rem;
+		margin-right: auto;
 		color: var(--color-text);
-		font-size: var(--text-xl);
-		font-weight: var(--weight-bold);
 		text-decoration: none;
 	}
 
-	.logo .accent {
+	.logo-mark {
+		width: 2.25rem;
+		height: 2.25rem;
+		flex: none;
 		color: var(--color-accent);
+	}
+
+	.logo-word {
+		height: 1.125rem;
+		width: auto;
+		flex: none;
+		color: var(--color-text);
+	}
+
+	/* Abaixo de 360px não cabem marca + nome + menu + idioma: fica só o monograma */
+	@media (max-width: 22.49rem) {
+		.logo-word {
+			display: none;
+		}
+	}
+
+	@media (min-width: 30rem) {
+		.logo-word {
+			height: 1.25rem;
+		}
+	}
+
+	/* Prepara a Fase 3: a cor de "Shafie" passa a vir do token */
+	.logo-word :global(.accent) {
+		fill: var(--color-accent);
+		stroke: var(--color-accent);
 	}
 
 	.menu-toggle {
@@ -165,12 +205,12 @@ const t = useTranslations(locale);
 		display: block;
 	}
 
-	.main-nav ul {
+	.site-nav ul {
 		list-style: none;
 		padding: 0;
 	}
 
-	.main-nav a {
+	.site-nav a {
 		display: block;
 		color: var(--color-text-muted);
 		font-weight: var(--weight-semibold);
@@ -178,7 +218,7 @@ const t = useTranslations(locale);
 		transition: color var(--duration-fast) ease;
 	}
 
-	.main-nav a:hover {
+	.site-nav a:hover {
 		color: var(--color-accent);
 	}
 
@@ -189,7 +229,6 @@ const t = useTranslations(locale);
 			top: 100%;
 			left: 0;
 			right: 0;
-			padding-bottom: var(--space-4);
 			background-color: var(--color-surface);
 			border-bottom: 1px solid var(--color-border);
 		}
@@ -198,45 +237,48 @@ const t = useTranslations(locale);
 			display: none;
 		}
 
-		.main-nav ul {
+		.site-nav ul {
 			padding-block: var(--space-2);
 		}
 
-		.main-nav a {
+		.site-nav a {
 			padding: var(--space-3) var(--space-5);
 			font-size: var(--text-lg);
 		}
-
-		.site-nav :global(.language-switcher) {
-			padding: var(--space-3) var(--space-5) 0;
-			border-top: 1px solid var(--color-border);
-		}
 	}
 
-	/* Desktop: links em linha, sem botão; o seletor vem depois de um separador */
+	/* Desktop: marca à esquerda, links no centro, idioma à direita */
 	@media (min-width: 60rem) {
+		.header-inner {
+			display: grid;
+			grid-template-columns: 1fr auto 1fr;
+		}
+
+		.logo-mark {
+			width: 2.5rem;
+			height: 2.5rem;
+		}
+
+		.logo-word {
+			height: 1.375rem;
+		}
+
 		.menu-toggle {
 			display: none;
 		}
 
-		.site-nav {
+		.site-nav ul {
 			display: flex;
-			align-items: center;
-			gap: var(--space-5);
+			gap: var(--space-6);
 		}
 
-		.main-nav ul {
-			display: flex;
-			gap: var(--space-5);
-		}
-
-		.main-nav a {
+		.site-nav a {
 			padding-block: var(--space-2);
+			font-size: var(--text-base);
 		}
 
-		.site-nav :global(.language-switcher) {
-			padding-left: var(--space-5);
-			border-left: 1px solid var(--color-border);
+		.header-inner > :global(.language-switcher) {
+			justify-self: end;
 		}
 	}
 </style>

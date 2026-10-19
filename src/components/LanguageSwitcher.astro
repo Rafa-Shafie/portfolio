@@ -1,5 +1,6 @@
 ---
 import { getRelativeLocaleUrl } from 'astro:i18n';
+import ChevronIcon from 'bootstrap-icons/icons/chevron-down.svg';
 import { htmlLang, languageName, locales, useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
@@ -10,8 +11,13 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<nav class="language-switcher" aria-label={t.a11y.language}>
-	<ul>
+<!-- Botão que mostra e esconde a lista de idiomas (padrão "disclosure", com links comuns) -->
+<div class="language-switcher" data-language-switcher>
+	<button class="lang-toggle" type="button" aria-expanded="false" aria-controls="language-list">
+		{locale.toUpperCase()}<span class="visually-hidden"> – {t.a11y.language}: {languageName[locale]}</span>
+		<ChevronIcon class="chevron" aria-hidden="true" />
+	</button>
+	<ul id="language-list" class="lang-list" hidden>
 		{
 			locales.map((target) => (
 				<li>
@@ -21,39 +27,115 @@ const t = useTranslations(locale);
 						hreflang={htmlLang[target]}
 						aria-current={target === locale ? 'page' : undefined}
 					>
-						{target.toUpperCase()}
-						<span class="visually-hidden"> – {languageName[target]}</span>
+						{languageName[target]}
+						<span class="code">{target.toUpperCase()}</span>
 					</a>
 				</li>
 			))
 		}
 	</ul>
-</nav>
+</div>
+
+<script>
+	const root = document.querySelector<HTMLElement>('[data-language-switcher]');
+	const button = root?.querySelector<HTMLButtonElement>('.lang-toggle');
+	const list = root?.querySelector<HTMLUListElement>('.lang-list');
+
+	if (root && button && list) {
+		const setOpen = (open: boolean) => {
+			button.setAttribute('aria-expanded', String(open));
+			list.hidden = !open;
+		};
+		const isOpen = () => button.getAttribute('aria-expanded') === 'true';
+
+		button.addEventListener('click', () => setOpen(!isOpen()));
+
+		// Esc fecha e devolve o foco ao botão
+		root.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape' && isOpen()) {
+				setOpen(false);
+				button.focus();
+			}
+		});
+
+		// Fecha ao clicar fora ou quando o foco sai do seletor
+		document.addEventListener('click', (event) => {
+			if (isOpen() && !root.contains(event.target as Node)) setOpen(false);
+		});
+		root.addEventListener('focusout', (event) => {
+			if (isOpen() && !root.contains(event.relatedTarget as Node | null)) setOpen(false);
+		});
+	}
+</script>
 
 <style>
-	ul {
-		display: flex;
-		gap: var(--space-1);
-		padding: 0;
-		list-style: none;
+	.language-switcher {
+		position: relative;
 	}
 
-	a {
-		display: block;
-		padding: var(--space-1) var(--space-2);
-		border-radius: var(--radius-sm);
-		color: var(--color-text-muted);
+	.lang-toggle {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		min-height: 2.75rem;
+		padding: 0 var(--space-4);
+		background: none;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
+		color: var(--color-text);
 		font-size: var(--text-sm);
 		font-weight: var(--weight-semibold);
+		cursor: pointer;
+	}
+
+	.chevron {
+		width: 0.8rem;
+		height: 0.8rem;
+		transition: transform var(--duration-fast) ease;
+	}
+
+	.lang-toggle[aria-expanded='true'] .chevron {
+		transform: rotate(180deg);
+	}
+
+	.lang-list {
+		position: absolute;
+		top: calc(100% + var(--space-2));
+		right: 0;
+		z-index: 60;
+		min-width: 11rem;
+		padding: var(--space-1);
+		list-style: none;
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		box-shadow: 0 0.75rem 2rem rgb(0 0 0 / 0.45);
+	}
+
+	.lang-list a {
+		display: flex;
+		justify-content: space-between;
+		gap: var(--space-4);
+		padding: var(--space-2) var(--space-3);
+		border-radius: var(--radius-sm);
+		color: var(--color-text);
+		font-size: var(--text-base);
 		text-decoration: none;
 	}
 
-	a:hover {
-		color: var(--color-accent);
+	.lang-list a:hover {
+		background-color: var(--color-bg);
 	}
 
-	a[aria-current='page'] {
-		color: var(--color-on-accent);
+	.lang-list a[aria-current='page'] {
 		background-color: var(--color-accent);
+		color: var(--color-on-accent);
+		font-weight: var(--weight-semibold);
+	}
+
+	.code {
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		opacity: 0.75;
 	}
 </style>
