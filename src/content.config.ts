@@ -71,16 +71,31 @@ const education = defineCollection({
 		}),
 });
 
-// Vazia no v1: a seção e o link do menu só aparecem quando houver ao menos um projeto.
+// Cada projeto aparece na seção (com filtro por área) e abre um modal de detalhes.
+// Com draft: true, só aparece no dev e no preview; a seção some quando não há projeto publicado.
 const projects = defineCollection({
 	loader: glob({ pattern: '**/*.yaml', base: './src/content/projects' }),
 	schema: z.object({
+		draft: z.boolean().default(false),
 		title: localized(z.string()),
+		/** Resumo do cartão, em uma ou duas frases. */
 		description: localized(z.string()),
+		category: z.enum(['ai', 'backend', 'data']),
+		status: z.enum(['progress', 'released']).default('progress'),
 		stack: z.array(z.string()).min(1),
 		repo: z.url().optional(),
 		demo: z.url().optional(),
 		order: z.number().int().default(0),
+		details: z
+			.object({
+				/** Por que estou construindo: o problema ou a motivação. */
+				context: localized(z.string()),
+				/** O que já está pronto ou sendo construído. */
+				building: localized(z.array(z.string()).min(1)),
+				/** Próximos passos. */
+				next: localized(z.string()),
+			})
+			.optional(),
 	}),
 });
 

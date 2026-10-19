@@ -154,6 +154,26 @@ export const pt = {
 	projects: {
 		label: 'Projetos',
 		heading: 'Ideias, contexto\ne código.',
+		intro: 'Projetos pessoais em andamento, onde coloco em prática o que estou estudando em backend, IA e dados.',
+		filterLabel: 'Filtrar projetos por área',
+		categories: {
+			all: 'Todos',
+			ai: 'IA',
+			backend: 'Backend',
+			data: 'Dados',
+		},
+		status: {
+			progress: 'Em andamento',
+			released: 'Publicado',
+		},
+		readMore: 'Ver detalhes',
+		count: 'projetos exibidos',
+		details: {
+			context: 'Por que estou construindo',
+			building: 'O que estou construindo',
+			next: 'Próximos passos',
+			tech: 'Tecnologias',
+		},
 		repo: 'Código',
 		demo: 'Demo',
 	},

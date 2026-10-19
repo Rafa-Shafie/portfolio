@@ -1,0 +1,122 @@
+---
+/**
+ * Ilustração abstrata por área do projeto (decorativa, sem fingir ser print de tela).
+ * As cores vêm dos tokens, então acompanham o tema.
+ */
+interface Props {
+	category: 'ai' | 'backend' | 'data';
+	/** Torna o id do padrão de grade único na página. */
+	uid: string;
+}
+
+const { category, uid } = Astro.props;
+const gridId = `grid-${uid}`;
+
+// Rede de nós (IA)
+const nodes = [
+	[60, 50],
+	[60, 130],
+	[160, 40],
+	[160, 90],
+	[160, 140],
+	[260, 60],
+	[260, 120],
+];
+const edges = [
+	[0, 2], [0, 3], [1, 3], [1, 4], [2, 5], [3, 5], [3, 6], [4, 6], [0, 4], [2, 6],
+];
+// Barras (Dados)
+const bars = [40, 70, 55, 95, 80, 120, 105];
+---
+
+<svg class="art" viewBox="0 0 320 180" aria-hidden="true" focusable="false">
+	<defs>
+		<pattern id={gridId} width="20" height="20" patternUnits="userSpaceOnUse">
+			<path d="M20 0H0V20" class="grid" />
+		</pattern>
+	</defs>
+	<rect width="320" height="180" fill={`url(#${gridId})`} />
+
+	{
+		category === 'ai' && (
+			<g>
+				{edges.map(([a, b]) => (
+					<line x1={nodes[a][0]} y1={nodes[a][1]} x2={nodes[b][0]} y2={nodes[b][1]} class="line" />
+				))}
+				{nodes.map(([x, y], i) => (
+					<circle cx={x} cy={y} r={i === 3 ? 9 : 6} class={i === 3 ? 'accent-fill' : 'node'} />
+				))}
+			</g>
+		)
+	}
+
+	{
+		category === 'backend' && (
+			<g>
+				{[0, 1, 2].map((i) => (
+					<rect x={90 - i * 14} y={40 + i * 34} width="140" height="34" rx="6" class={i === 1 ? 'accent-stroke' : 'layer'} />
+				))}
+				<path d="M250 60 l20 30 -20 30" class="accent-line" />
+				<path d="M48 60 l-20 30 20 30" class="accent-line" />
+			</g>
+		)
+	}
+
+	{
+		category === 'data' && (
+			<g>
+				{bars.map((h, i) => (
+					<rect x={44 + i * 34} y={150 - h} width="20" height={h} rx="3" class={i === 5 ? 'accent-fill' : 'bar'} />
+				))}
+				<polyline points={bars.map((h, i) => `${54 + i * 34},${140 - h}`).join(' ')} class="accent-line" />
+			</g>
+		)
+	}
+</svg>
+
+<style>
+	.art {
+		display: block;
+		width: 100%;
+		height: auto;
+		background-color: var(--color-bg);
+	}
+
+	.grid {
+		fill: none;
+		stroke: var(--color-border);
+		stroke-width: 0.5;
+		opacity: 0.6;
+	}
+
+	.line {
+		stroke: var(--color-border);
+		stroke-width: 1.5;
+	}
+
+	.node,
+	.layer,
+	.bar {
+		fill: var(--color-surface);
+		stroke: var(--color-text-muted);
+		stroke-width: 1.5;
+	}
+
+	.accent-fill {
+		fill: var(--color-accent);
+	}
+
+	.accent-stroke {
+		fill: var(--color-surface);
+		stroke: var(--color-accent);
+		stroke-width: 2;
+	}
+
+	.accent-line {
+		fill: none;
+		stroke: var(--color-accent);
+		stroke-width: 2.5;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+</style>

@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import Section from '../Section.astro';
+import ProjectArt from '../ProjectArt.astro';
+import DetailDialog from '../DetailDialog.astro';
 import { localize, useTranslations, type Locale } from '../../i18n/utils';
 
 interface Props {
@@ -12,46 +14,141 @@ interface Props {
 
 const { id, number, locale, entries } = Astro.props;
 const t = useTranslations(locale);
+
+// Só mostra filtros das áreas que têm projeto
+const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.some((e) => e.data.category === c));
 ---
 
 <Section id={id} number={number} label={t.projects.label} heading={t.projects.heading}>
+	<p slot="intro">{t.projects.intro}</p>
+
+	<!-- Filtros: só com JavaScript; sem ele, todos os projetos aparecem -->
+	<div class="filters" role="group" aria-label={t.projects.filterLabel} data-project-filters hidden>
+		<button type="button" class="filter" data-filter="all" aria-pressed="true">{t.projects.categories.all}</button>
+		{
+			categories.map((c) => (
+				<button type="button" class="filter" data-filter={c} aria-pressed="false">
+					{t.projects.categories[c]}
+				</button>
+			))
+		}
+	</div>
+	<p class="visually-hidden" role="status" data-project-count data-label={t.projects.count}></p>
+
 	<ul class="grid">
 		{
-			entries.map(({ data }) => (
-				<li class="card">
-					<h3>{localize(data.title, locale)}</h3>
-					<p class="description">{localize(data.description, locale)}</p>
-					<ul class="stack">
-						{data.stack.map((tech) => (
-							<li>{tech}</li>
-						))}
-					</ul>
-					{(data.repo || data.demo) && (
-						<p class="links">
-							{data.repo && (
-								<a href={data.repo} target="_blank" rel="noopener noreferrer">
-									{t.projects.repo}
-									<span class="visually-hidden">{t.a11y.newTab}</span>
-								</a>
+			entries.map(({ id: slug, data }) => {
+				const dialogId = `project-${slug}`;
+				const title = localize(data.title, locale);
+				return (
+					<li class="card" data-category={data.category}>
+						<ProjectArt category={data.category} uid={slug} />
+						<div class="card-body">
+							<p class="card-meta">
+								<span class="status">{t.projects.status[data.status]}</span>
+								<span class="category">{t.projects.categories[data.category]}</span>
+							</p>
+							{data.draft && <p class="draft">{t.a11y.draft}</p>}
+							<h3 class="card-title">{title}</h3>
+							<p class="description">{localize(data.description, locale)}</p>
+							<ul class="stack">
+								{data.stack.map((tech) => (
+									<li>{tech}</li>
+								))}
+							</ul>
+							{data.details && (
+								<button class="more" type="button" data-dialog-open={dialogId} aria-haspopup="dialog" hidden>
+									{t.projects.readMore}
+									<span class="visually-hidden">: {title}</span>
+									<span aria-hidden="true">→</span>
+								</button>
 							)}
-							{data.demo && (
-								<a href={data.demo} target="_blank" rel="noopener noreferrer">
-									{t.projects.demo}
-									<span class="visually-hidden">{t.a11y.newTab}</span>
-								</a>
-							)}
-						</p>
-					)}
-				</li>
-			))
+						</div>
+						{data.details && (
+							<DetailDialog
+								id={dialogId}
+								eyebrow={`${t.projects.categories[data.category]} · ${t.projects.status[data.status]}`}
+								title={title}
+								sections={[
+									{ heading: t.projects.details.context, text: localize(data.details.context, locale) },
+									{ heading: t.projects.details.building, items: localize(data.details.building, locale) },
+									{ heading: t.projects.details.next, text: localize(data.details.next, locale) },
+								]}
+								tagsHeading={t.projects.details.tech}
+								tags={data.stack}
+								links={[
+									...(data.repo ? [{ label: t.projects.repo, href: data.repo, newTabLabel: t.a11y.newTab }] : []),
+									...(data.demo ? [{ label: t.projects.demo, href: data.demo, newTabLabel: t.a11y.newTab }] : []),
+								]}
+								closeLabel={t.a11y.closeDetails}
+								draftLabel={data.draft ? t.a11y.draft : undefined}
+							/>
+						)}
+					</li>
+				);
+			})
 		}
 	</ul>
 </Section>
 
+<script>
+	const group = document.querySelector<HTMLElement>('[data-project-filters]');
+	const status = document.querySelector<HTMLElement>('[data-project-count]');
+	const cards = [...document.querySelectorAll<HTMLElement>('#projects .card')];
+
+	if (group && status && cards.length > 0) {
+		group.hidden = false;
+		const buttons = [...group.querySelectorAll<HTMLButtonElement>('[data-filter]')];
+
+		group.addEventListener('click', (event) => {
+			const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
+			if (!button) return;
+			const filter = button.dataset.filter;
+			buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
+			let shown = 0;
+			cards.forEach((card) => {
+				const match = filter === 'all' || card.dataset.category === filter;
+				card.hidden = !match;
+				if (match) shown++;
+			});
+			// Anuncia quantos projetos ficaram visíveis
+			status.textContent = `${shown} ${status.dataset.label ?? ''}`;
+		});
+	}
+</script>
+
 <style>
+	.filters {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		margin-bottom: var(--space-6);
+	}
+
+	.filter {
+		min-height: 2.75rem;
+		padding: 0 var(--space-5);
+		background: none;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
+		color: var(--color-text-muted);
+		font-weight: var(--weight-semibold);
+		cursor: pointer;
+	}
+
+	.filter:hover {
+		color: var(--color-text);
+	}
+
+	.filter[aria-pressed='true'] {
+		background-color: var(--color-accent);
+		border-color: var(--color-accent);
+		color: var(--color-on-accent);
+	}
+
 	.grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
 		gap: var(--space-5);
 		padding: 0;
 		list-style: none;
@@ -59,20 +156,69 @@ const t = useTranslations(locale);
 
 	.card {
 		display: grid;
-		gap: var(--space-3);
-		align-content: start;
-		padding: var(--space-5);
+		grid-template-rows: auto 1fr;
+		overflow: hidden;
 		background-color: var(--color-surface);
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-md);
 	}
 
-	h3 {
-		font-size: var(--text-lg);
+	.card-body {
+		display: grid;
+		align-content: start;
+		gap: var(--space-3);
+		padding: var(--space-5);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.card-meta {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		gap: var(--space-2);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+	}
+
+	.status {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		color: var(--color-accent);
+	}
+
+	.status::before {
+		content: '';
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 50%;
+		background-color: var(--color-accent);
+	}
+
+	.category {
+		color: var(--color-text-muted);
+	}
+
+	.draft {
+		justify-self: start;
+		padding: var(--space-1) var(--space-3);
+		border: 1px dashed var(--color-accent);
+		border-radius: var(--radius-full);
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+	}
+
+	.card-title {
+		font-size: var(--text-xl);
+		font-weight: var(--weight-semibold);
 	}
 
 	.description {
 		color: var(--color-text-muted);
+		font-size: var(--text-base);
 	}
 
 	.stack {
@@ -90,9 +236,23 @@ const t = useTranslations(locale);
 		font-size: var(--text-sm);
 	}
 
-	.links {
-		display: flex;
-		gap: var(--space-4);
+	.more {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		justify-self: start;
+		min-height: 2.75rem;
+		margin-top: var(--space-2);
+		padding: 0;
+		background: none;
+		border: 0;
+		color: var(--color-accent);
 		font-weight: var(--weight-semibold);
+		cursor: pointer;
+	}
+
+	.more:hover {
+		text-decoration: underline;
+		text-underline-offset: 0.2em;
 	}
 </style>

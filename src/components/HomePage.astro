@@ -13,6 +13,7 @@ import Contact from './sections/Contact.astro';
 import Footer from './Footer.astro';
 import CvLink from './CvLink.astro';
 import { skillGroups } from '../data/skills';
+import { isPublished } from '../data/drafts';
 import { useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
@@ -30,7 +31,8 @@ const byStart = (a: Dated, b: Dated) =>
 // Experiências: mais recente primeiro. Formação: na ordem do CV (a graduação, mais antiga, abre a lista).
 const experiences = (await getCollection('experiences')).sort((a, b) => byStart(b, a));
 const education = (await getCollection('education')).sort(byStart);
-const projects = (await getCollection('projects')).sort(
+// Projetos em rascunho só aparecem no dev e no preview
+const projects = (await getCollection('projects', ({ data }) => isPublished(data))).sort(
 	(a, b) => a.data.order - b.data.order || a.id.localeCompare(b.id),
 );
 

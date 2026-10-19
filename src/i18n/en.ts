@@ -151,6 +151,26 @@ export const en: Dictionary = {
 	projects: {
 		label: 'Projects',
 		heading: 'Ideas, context\nand code.',
+		intro: 'Personal projects in progress, where I put what I am studying in backend, AI and data into practice.',
+		filterLabel: 'Filter projects by area',
+		categories: {
+			all: 'All',
+			ai: 'AI',
+			backend: 'Backend',
+			data: 'Data',
+		},
+		status: {
+			progress: 'In progress',
+			released: 'Released',
+		},
+		readMore: 'See details',
+		count: 'projects shown',
+		details: {
+			context: 'Why I am building it',
+			building: 'What I am building',
+			next: 'Next steps',
+			tech: 'Technologies',
+		},
 		repo: 'Code',
 		demo: 'Demo',
 	},
