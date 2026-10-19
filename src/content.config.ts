@@ -47,9 +47,15 @@ const education = defineCollection({
 		.object({
 			institution: z.string(),
 			course: localized(z.string()),
-			...period,
+			// Sem datas = em andamento, no próprio ritmo (ex.: Kumon)
+			start: yearMonth.optional(),
+			end: yearMonth.optional(),
 		})
-		.refine(endAfterStart, { message: 'end não pode ser anterior a start', path: ['end'] }),
+		.refine((item) => !item.end || item.start, { message: 'end exige start', path: ['start'] })
+		.refine((item) => !item.end || !item.start || item.end >= item.start, {
+			message: 'end não pode ser anterior a start',
+			path: ['end'],
+		}),
 });
 
 // Vazia no v1: a seção e o link do menu só aparecem quando houver ao menos um projeto.

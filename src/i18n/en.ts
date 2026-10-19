@@ -80,6 +80,7 @@ export const en: Dictionary = {
 	},
 	period: {
 		present: 'present',
+		inProgress: 'in progress',
 	},
 	footer: {
 		builtWith: 'Built with Astro.',

@@ -83,6 +83,7 @@ export const pt = {
 	},
 	period: {
 		present: 'atual',
+		inProgress: 'em andamento',
 	},
 	footer: {
 		builtWith: 'Feito com Astro.',

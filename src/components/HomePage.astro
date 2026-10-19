@@ -21,8 +21,10 @@ interface Props {
 const { locale } = Astro.props;
 const t = useTranslations(locale);
 
-type Dated = { id: string; data: { start: string } };
-const byStart = (a: Dated, b: Dated) => a.data.start.localeCompare(b.data.start) || a.id.localeCompare(b.id);
+type Dated = { id: string; data: { start?: string } };
+// Sem data de início (em andamento, no próprio ritmo) vai para o fim
+const byStart = (a: Dated, b: Dated) =>
+	(a.data.start ?? '9999').localeCompare(b.data.start ?? '9999') || a.id.localeCompare(b.id);
 
 // Experiências: mais recente primeiro. Formação: na ordem do CV (a graduação, mais antiga, abre a lista).
 const experiences = (await getCollection('experiences')).sort((a, b) => byStart(b, a));
