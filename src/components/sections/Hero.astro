@@ -64,6 +64,8 @@ const [captionFirst, captionSecond] = t.hero.portraitCaption.split('\n');
 <style>
 	.hero {
 		padding-block: var(--space-8) var(--space-section);
+		/* A etiqueta girada do retrato gerava 1px de rolagem horizontal por arredondamento */
+		overflow-x: clip;
 	}
 
 	.hero-inner {
