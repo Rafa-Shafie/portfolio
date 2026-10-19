@@ -75,7 +75,7 @@ public/           cv/ (PT e EN), favicon, imagem Open Graph
 ### Fase 2 — Inglês e espanhol
 - Rotas `/en/` e `/es/`, seletor de idioma, `hreflang`, Open Graph por idioma e `lang` correto em cada página.
 - Conteúdo traduzido; o espanhol é revisado pelo Rafael antes de publicar.
-- CV: PT em `/`, EN em `/en/` e `/es/`.
+- CV: um por idioma, PT em `/`, EN em `/en/` e ES em `/es/` (os três exportados do Canva sem telefone).
 - **Entregável:** site nos 3 idiomas.
 - **Aprendizado:** i18n estático e SEO multilíngue.
 
