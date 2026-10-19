@@ -172,12 +172,7 @@ const t = useTranslations(locale);
 		}
 	}
 
-	/* Monograma: bloco no tom do token, R na cor do texto (como "Rafa") e S no destaque (color) */
-	.logo-mark :global(.mark-bg) {
-		fill: var(--color-brand-tile);
-		stroke: var(--color-brand-tile);
-	}
-
+	/* R do monograma na cor do texto, como "Rafa"; o S e o contorno seguem o destaque (color) */
 	.logo-mark :global(.mark-r) {
 		fill: var(--color-text);
 		stroke: var(--color-text);

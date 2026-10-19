@@ -39,21 +39,16 @@ const year = new Date().getFullYear();
 		text-align: center;
 	}
 
-	/* Sobre o ciano: bloco escuro com a marca colorida (R branco, S ciano), como no cabeçalho */
 	.footer-mark {
 		width: 2.5rem;
 		height: 2.5rem;
-		color: var(--color-accent);
+		color: var(--color-on-accent);
 	}
 
-	.footer-mark :global(.mark-bg) {
-		fill: var(--color-on-accent);
-		stroke: var(--color-on-accent);
-	}
-
+	/* Sobre o ciano, a marca fica de uma cor só: o S ciano sumiria aqui */
 	.footer-mark :global(.mark-r) {
-		fill: var(--color-text);
-		stroke: var(--color-text);
+		fill: currentColor;
+		stroke: currentColor;
 	}
 
 	@media (min-width: 40rem) {
