@@ -1,4 +1,5 @@
 ---
+import BrandMark from '../assets/brand/mark.svg';
 import { profile } from '../data/profile';
 import { useTranslations, type Locale } from '../i18n/utils';
 
@@ -12,7 +13,9 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="site-footer">
-	<div class="container">
+	<div class="container footer-inner">
+		<!-- Assinatura da página: a marca em escuro sobre o ciano -->
+		<BrandMark class="footer-mark" aria-hidden="true" />
 		<p>© {year} {profile.name}. {t.footer.builtWith}</p>
 	</div>
 </footer>
@@ -24,11 +27,29 @@ const year = new Date().getFullYear();
 		background-color: var(--color-accent);
 		color: var(--color-on-accent);
 		font-size: var(--text-sm);
+	}
+
+	.footer-inner {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--space-4);
+		padding-top: var(--space-6);
+		border-top: 1px solid color-mix(in srgb, var(--color-on-accent) 22%, transparent);
 		text-align: center;
 	}
 
-	.site-footer .container {
-		padding-top: var(--space-6);
-		border-top: 1px solid color-mix(in srgb, var(--color-on-accent) 22%, transparent);
+	.footer-mark {
+		width: 2.5rem;
+		height: 2.5rem;
+		color: var(--color-on-accent);
+	}
+
+	@media (min-width: 40rem) {
+		.footer-inner {
+			flex-direction: row;
+			justify-content: space-between;
+			text-align: left;
+		}
 	}
 </style>

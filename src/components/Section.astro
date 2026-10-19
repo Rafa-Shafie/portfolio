@@ -76,6 +76,24 @@ const lines = heading.split('\n');
 		color: var(--color-on-accent);
 	}
 
+	/* O contato fecha a página com o mesmo peso do nome no hero */
+	.section-inverted .section-title {
+		margin-top: var(--space-4);
+		/* Mesmo teto do nome no hero, com piso menor: "¿Construimos" não cabia em 320px */
+		font-size: clamp(2.25rem, 1.25rem + 5vw, 5.25rem);
+		font-weight: var(--weight-bold);
+		letter-spacing: -0.035em;
+		line-height: 0.98;
+	}
+
+	.section-inverted .section-head {
+		margin-bottom: var(--space-8);
+	}
+
+	.section-inverted .section-intro {
+		font-size: var(--text-lg);
+	}
+
 	.section-inverted .section-label {
 		color: var(--color-on-accent);
 		opacity: 0.75;
