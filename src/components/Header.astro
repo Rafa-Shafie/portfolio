@@ -16,7 +16,8 @@ const t = useTranslations(locale);
 
 <header class="site-header">
 	<div class="container header-inner">
-		<a class="logo" href="#top" aria-label={t.a11y.backToTop}>Rafa<span>Shafie</span></a>
+		<!-- O nome acessível começa pelo texto visível (WCAG 2.5.3), útil para controle por voz -->
+		<a class="logo" href="#top">Rafa<span class="accent">Shafie</span><span class="visually-hidden">, {t.a11y.backToTop}</span></a>
 
 		{
 			links.length > 0 && (
@@ -132,7 +133,7 @@ const t = useTranslations(locale);
 		text-decoration: none;
 	}
 
-	.logo span {
+	.logo .accent {
 		color: var(--color-accent);
 	}
 
