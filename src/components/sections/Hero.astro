@@ -1,7 +1,9 @@
 ---
 import { Picture } from 'astro:assets';
+import LocationIcon from 'bootstrap-icons/icons/geo-alt.svg';
+import CodeIcon from 'bootstrap-icons/icons/code-slash.svg';
+// Foto do retrato: para trocar, basta substituir este arquivo (proporção 4:5)
 import photo from '../../assets/rafael.jpg';
-import { profile } from '../../data/profile';
 import { useTranslations, type Locale } from '../../i18n/utils';
 
 interface Props {
@@ -10,13 +12,15 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+const [captionFirst, captionSecond] = t.hero.portraitCaption.split('\n');
 ---
 
 <section id="top" class="hero" aria-labelledby="hero-title">
 	<div class="container hero-inner">
 		<div class="hero-text">
-			<p class="greeting">{t.hero.greeting}</p>
-			<h1 id="hero-title">{profile.name}</h1>
+			<p class="status">{t.hero.status}</p>
+			<!-- "Rafael El" em cima e "Shafie" centralizado embaixo; o espaço entre os spans mantém o nome legível -->
+			<h1 id="hero-title" class="name"><span>Rafael El</span> <span>Shafie</span></h1>
 			<p class="headline">
 				{
 					t.hero.headline.split(' · ').map((part, i) => (
@@ -31,47 +35,79 @@ const t = useTranslations(locale);
 			<div class="actions">
 				<slot name="actions" />
 			</div>
+			<p class="location"><LocationIcon aria-hidden="true" />{t.hero.location}</p>
 		</div>
 
-		<Picture
-			class="photo"
-			src={photo}
-			alt={t.hero.photoAlt}
-			formats={['avif', 'webp']}
-			widths={[240, 360, 480, 720]}
-			sizes="(min-width: 48rem) 20rem, 15rem"
-			loading="eager"
-			fetchpriority="high"
-		/>
+		<figure class="portrait">
+			<Picture
+				class="photo"
+				src={photo}
+				alt={t.hero.photoAlt}
+				formats={['avif', 'webp']}
+				widths={[320, 480, 640, 800]}
+				sizes="(min-width: 60rem) 24rem, 20rem"
+				loading="eager"
+				fetchpriority="high"
+			/>
+			<figcaption>
+				<span class="portrait-label">{t.hero.portraitLabel}</span>
+				<span class="portrait-caption">{captionFirst}<br />{captionSecond}</span>
+			</figcaption>
+			<span class="portrait-tag" aria-hidden="true"><CodeIcon />{t.hero.portraitTag}</span>
+			<svg class="spark" viewBox="0 0 24 24" aria-hidden="true">
+				<path d="M12 2c.6 5.4 4.6 9.4 10 10-5.4.6-9.4 4.6-10 10-.6-5.4-4.6-9.4-10-10 5.4-.6 9.4-4.6 10-10z" />
+			</svg>
+		</figure>
 	</div>
 </section>
 
 <style>
 	.hero {
-		padding-block: var(--space-8) var(--space-7);
+		padding-block: var(--space-8) var(--space-section);
 	}
 
 	.hero-inner {
-		display: flex;
-		flex-direction: column-reverse;
+		display: grid;
+		gap: var(--space-8);
 		align-items: center;
-		gap: var(--space-6);
-		text-align: center;
 	}
 
-	.greeting {
+	.status {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-1) var(--space-4);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
 		color: var(--color-text-muted);
-		font-size: var(--text-lg);
+		font-size: var(--text-sm);
 	}
 
-	h1 {
-		font-size: var(--text-3xl);
+	.status::before {
+		content: '';
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 50%;
+		background-color: var(--color-accent);
+		box-shadow: 0 0 0 0.25rem color-mix(in srgb, var(--color-accent) 18%, transparent);
+	}
+
+	/* Bloco do tamanho do conteúdo: "Shafie" centraliza sob "Rafael El" e o selo fica em cima */
+	.name {
+		display: grid;
+		justify-items: center;
+		width: fit-content;
+		margin-top: var(--space-5);
+		font-size: var(--text-display);
+		font-weight: var(--weight-bold);
+		letter-spacing: -0.035em;
+		line-height: 0.98;
 	}
 
 	.headline {
-		margin-top: var(--space-3);
+		margin-top: var(--space-5);
 		color: var(--color-accent);
-		font-size: var(--text-lg);
+		font-size: var(--text-xl);
 		font-weight: var(--weight-semibold);
 	}
 
@@ -81,49 +117,121 @@ const t = useTranslations(locale);
 	}
 
 	.intro {
-		max-width: 36rem;
+		max-width: 34rem;
 		margin-top: var(--space-4);
-		margin-inline: auto;
 		color: var(--color-text-muted);
 	}
 
 	.actions {
 		display: flex;
 		flex-wrap: wrap;
-		justify-content: center;
+		align-items: center;
 		gap: var(--space-3);
 		margin-top: var(--space-6);
 	}
 
-	.photo {
-		width: 15rem;
-		aspect-ratio: 1;
-		object-fit: cover;
-		border-radius: 50%;
-		border: 0.25rem solid var(--color-accent);
+	.location {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		margin-top: var(--space-5);
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
 	}
 
-	@media (min-width: 48rem) {
+	.location svg {
+		width: 0.9rem;
+		height: 0.9rem;
+	}
+
+	/* Retrato em moldura levemente inclinada */
+	.portrait {
+		position: relative;
+		justify-self: center;
+		width: min(100%, 20rem);
+		padding: var(--space-3) var(--space-3) var(--space-5);
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		box-shadow: 0 1.75rem 3.5rem rgb(0 0 0 / 0.5);
+		transform: rotate(2deg);
+	}
+
+	.photo {
+		width: 100%;
+		aspect-ratio: 4 / 4.3;
+		object-fit: cover;
+		object-position: 50% 15%;
+		border-radius: var(--radius-sm);
+	}
+
+	figcaption {
+		display: grid;
+		gap: var(--space-2);
+		margin: var(--space-4) var(--space-2) 0;
+	}
+
+	.portrait-label {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+
+	.portrait-caption {
+		padding-right: var(--space-7);
+		font-size: var(--text-lg);
+		font-weight: var(--weight-semibold);
+		line-height: 1.35;
+	}
+
+	.portrait-tag {
+		position: absolute;
+		top: 58%;
+		right: calc(-1 * var(--space-4));
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		padding: var(--space-2) var(--space-3);
+		background-color: var(--color-accent);
+		border-radius: var(--radius-sm);
+		box-shadow: 0 0.5rem 1.25rem rgb(0 0 0 / 0.45);
+		color: var(--color-on-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		font-weight: var(--weight-semibold);
+		transform: rotate(-4deg);
+	}
+
+	.portrait-tag svg {
+		width: 1rem;
+		height: 1rem;
+	}
+
+	.spark {
+		position: absolute;
+		right: var(--space-5);
+		bottom: var(--space-5);
+		width: 1.75rem;
+		fill: none;
+		stroke: var(--color-accent);
+		stroke-width: 1.6;
+	}
+
+	@media (min-width: 60rem) {
 		.hero {
-			padding-block: var(--space-9);
+			padding-top: var(--space-9);
 		}
 
 		.hero-inner {
-			flex-direction: row;
-			justify-content: space-between;
-			text-align: start;
+			grid-template-columns: 1.3fr 1fr;
 		}
 
-		.intro {
-			margin-inline: 0;
-		}
-
-		.actions {
-			justify-content: flex-start;
-		}
-
-		.photo {
-			width: 20rem;
+		.portrait {
+			justify-self: end;
+			width: 24rem;
 		}
 	}
 </style>

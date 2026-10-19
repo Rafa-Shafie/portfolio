@@ -19,7 +19,7 @@ const fontFile = (weight: number) =>
 	readFile(resolve(`node_modules/@fontsource/poppins/files/poppins-latin-${weight}-normal.woff`));
 
 async function photoDataUrl() {
-	const jpeg = await sharp(resolve('src/assets/rafael.jpg')).resize(360, 360).jpeg({ quality: 85 }).toBuffer();
+	const jpeg = await sharp(resolve('src/assets/rafael.jpg')).resize(360, 360, { position: 'top' }).jpeg({ quality: 85 }).toBuffer();
 	return `data:image/jpeg;base64,${jpeg.toString('base64')}`;
 }
 

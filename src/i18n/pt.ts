@@ -27,13 +27,17 @@ export const pt = {
 		contact: 'Contato',
 	},
 	hero: {
-		greeting: 'Olá, eu sou',
+		status: 'Aberto a oportunidades de estágio',
 		headline: 'Engenharia de Software · IA Generativa · Backend',
 		intro:
 			'Estudante de Engenharia de Software. Construo sistemas backend e aplicações com IA generativa, do levantamento de requisitos até a produção.',
 		ctaContact: 'Entrar em contato',
 		ctaCv: 'Ver currículo',
 		photoAlt: 'Foto de Rafael El Shafie',
+		location: 'Rio de Janeiro, Brasil',
+		portraitLabel: 'Pessoas antes do código',
+		portraitCaption: 'Curioso por natureza.\nDesenvolvedor em evolução.',
+		portraitTag: 'Aprendizado contínuo',
 	},
 	about: {
 		label: 'Sobre mim',

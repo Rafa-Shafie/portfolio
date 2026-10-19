@@ -24,13 +24,17 @@ export const es: Dictionary = {
 		contact: 'Contacto',
 	},
 	hero: {
-		greeting: 'Hola, soy',
+		status: 'Abierto a oportunidades de pasantía',
 		headline: 'Ingeniería de Software · IA Generativa · Backend',
 		intro:
 			'Estudiante de Ingeniería de Software. Desarrollo sistemas backend y aplicaciones con IA generativa, desde el levantamiento de requisitos hasta producción.',
 		ctaContact: 'Contactar',
 		ctaCv: 'Ver CV',
 		photoAlt: 'Foto de Rafael El Shafie',
+		location: 'Río de Janeiro, Brasil',
+		portraitLabel: 'Las personas antes que el código',
+		portraitCaption: 'Curioso por naturaleza.\nDesarrollador en evolución.',
+		portraitTag: 'Aprendizaje continuo',
 	},
 	about: {
 		label: 'Sobre mí',

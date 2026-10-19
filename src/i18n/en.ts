@@ -24,13 +24,17 @@ export const en: Dictionary = {
 		contact: 'Contact',
 	},
 	hero: {
-		greeting: "Hi, I'm",
+		status: 'Open to internship opportunities',
 		headline: 'Software Engineering · Generative AI · Backend',
 		intro:
 			'Software Engineering student. I build backend systems and generative AI applications, from requirements gathering to production.',
 		ctaContact: 'Get in touch',
 		ctaCv: 'View CV',
 		photoAlt: 'Photo of Rafael El Shafie',
+		location: 'Rio de Janeiro, Brazil',
+		portraitLabel: 'People before code',
+		portraitCaption: 'Curious by nature.\nAlways growing as a developer.',
+		portraitTag: 'Always learning',
 	},
 	about: {
 		label: 'About me',
