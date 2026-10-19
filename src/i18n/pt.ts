@@ -63,12 +63,6 @@ export const pt = {
 			{ title: 'Conectar tecnologia e pessoas', text: 'Organizar informação, documentar decisões e colaborar com quem usa a solução.' },
 			{ title: 'Aprender e colocar em prática', text: 'Explorar ferramentas, testar ideias e evoluir a partir de feedback.' },
 		],
-		languagesTitle: 'Idiomas',
-		languages: [
-			{ name: 'Português', level: 'nativo' },
-			{ name: 'Inglês', level: 'intermediário' },
-			{ name: 'Espanhol', level: 'básico' },
-		],
 	},
 	experience: {
 		label: 'Experiências',

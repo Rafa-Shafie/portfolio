@@ -60,12 +60,6 @@ export const en: Dictionary = {
 			{ title: 'Connect technology and people', text: 'Organize information, document decisions and collaborate with the people using the solution.' },
 			{ title: 'Learn and put it into practice', text: 'Explore tools, test ideas and improve through feedback.' },
 		],
-		languagesTitle: 'Languages',
-		languages: [
-			{ name: 'Portuguese', level: 'native' },
-			{ name: 'English', level: 'intermediate' },
-			{ name: 'Spanish', level: 'basic' },
-		],
 	},
 	experience: {
 		label: 'Experience',
