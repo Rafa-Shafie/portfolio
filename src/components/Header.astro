@@ -1,6 +1,7 @@
 ---
 import MenuIcon from 'bootstrap-icons/icons/list.svg';
 import CloseIcon from 'bootstrap-icons/icons/x-lg.svg';
+import LanguageSwitcher from './LanguageSwitcher.astro';
 import { useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
@@ -19,25 +20,24 @@ const t = useTranslations(locale);
 		<!-- O nome acessível começa pelo texto visível (WCAG 2.5.3), útil para controle por voz -->
 		<a class="logo" href="#top">Rafa<span class="accent">Shafie</span><span class="visually-hidden">, {t.a11y.backToTop}</span></a>
 
-		{
-			links.length > 0 && (
-				<>
-					<button
-						class="menu-toggle"
-						type="button"
-						aria-expanded="false"
-						aria-controls="site-nav"
-						data-label-open={t.a11y.openMenu}
-						data-label-close={t.a11y.closeMenu}
-					>
-						<MenuIcon class="icon icon-open" aria-hidden="true" />
-						<CloseIcon class="icon icon-close" aria-hidden="true" />
-						<span class="visually-hidden" data-menu-label>
-							{t.a11y.openMenu}
-						</span>
-					</button>
+		<button
+			class="menu-toggle"
+			type="button"
+			aria-expanded="false"
+			aria-controls="site-nav"
+			data-label-open={t.a11y.openMenu}
+			data-label-close={t.a11y.closeMenu}
+		>
+			<MenuIcon class="icon icon-open" aria-hidden="true" />
+			<CloseIcon class="icon icon-close" aria-hidden="true" />
+			<span class="visually-hidden" data-menu-label>{t.a11y.openMenu}</span>
+		</button>
 
-					<nav id="site-nav" class="site-nav" aria-label={t.a11y.mainNav} data-open="false">
+		<!-- Gaveta no mobile, linha no desktop: links das seções + seletor de idioma -->
+		<div id="site-nav" class="site-nav" data-open="false">
+			{
+				links.length > 0 && (
+					<nav class="main-nav" aria-label={t.a11y.mainNav}>
 						<ul>
 							{links.map(({ id, label }) => (
 								<li>
@@ -46,9 +46,10 @@ const t = useTranslations(locale);
 							))}
 						</ul>
 					</nav>
-				</>
-			)
-		}
+				)
+			}
+			<LanguageSwitcher locale={locale} />
+		</div>
 	</div>
 </header>
 
@@ -87,7 +88,7 @@ const t = useTranslations(locale);
 		});
 
 		// Ao passar para o layout de desktop, o estado do menu mobile é descartado
-		matchMedia('(min-width: 48rem)').addEventListener('change', () => setOpen(false));
+		matchMedia('(min-width: 60rem)').addEventListener('change', () => setOpen(false));
 	}
 </script>
 
@@ -164,12 +165,12 @@ const t = useTranslations(locale);
 		display: block;
 	}
 
-	.site-nav ul {
+	.main-nav ul {
 		list-style: none;
 		padding: 0;
 	}
 
-	.site-nav a {
+	.main-nav a {
 		display: block;
 		color: var(--color-text-muted);
 		font-weight: var(--weight-semibold);
@@ -177,17 +178,18 @@ const t = useTranslations(locale);
 		transition: color var(--duration-fast) ease;
 	}
 
-	.site-nav a:hover {
+	.main-nav a:hover {
 		color: var(--color-accent);
 	}
 
 	/* Mobile: o menu é uma gaveta logo abaixo do header */
-	@media (max-width: 47.99rem) {
+	@media (max-width: 59.99rem) {
 		.site-nav {
 			position: absolute;
 			top: 100%;
 			left: 0;
 			right: 0;
+			padding-bottom: var(--space-4);
 			background-color: var(--color-surface);
 			border-bottom: 1px solid var(--color-border);
 		}
@@ -196,29 +198,45 @@ const t = useTranslations(locale);
 			display: none;
 		}
 
-		.site-nav ul {
+		.main-nav ul {
 			padding-block: var(--space-2);
 		}
 
-		.site-nav a {
+		.main-nav a {
 			padding: var(--space-3) var(--space-5);
 			font-size: var(--text-lg);
 		}
+
+		.site-nav :global(.language-switcher) {
+			padding: var(--space-3) var(--space-5) 0;
+			border-top: 1px solid var(--color-border);
+		}
 	}
 
-	/* Desktop: links em linha, sem botão */
-	@media (min-width: 48rem) {
+	/* Desktop: links em linha, sem botão; o seletor vem depois de um separador */
+	@media (min-width: 60rem) {
 		.menu-toggle {
 			display: none;
 		}
 
-		.site-nav ul {
+		.site-nav {
+			display: flex;
+			align-items: center;
+			gap: var(--space-5);
+		}
+
+		.main-nav ul {
 			display: flex;
 			gap: var(--space-5);
 		}
 
-		.site-nav a {
+		.main-nav a {
 			padding-block: var(--space-2);
+		}
+
+		.site-nav :global(.language-switcher) {
+			padding-left: var(--space-5);
+			border-left: 1px solid var(--color-border);
 		}
 	}
 </style>

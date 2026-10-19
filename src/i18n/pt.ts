@@ -14,6 +14,7 @@ export const pt = {
 		openMenu: 'Abrir menu',
 		closeMenu: 'Fechar menu',
 		mainNav: 'Navegação principal',
+		language: 'Idioma',
 		backToTop: 'voltar ao início',
 		newTab: '(abre em nova aba)',
 	},
