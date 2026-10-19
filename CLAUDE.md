@@ -25,7 +25,7 @@
 | Linguagem | TypeScript | Conteúdo e dicionários tipados: o build quebra se faltar campo ou tradução. |
 | Estilo | CSS puro com custom properties (tokens), `<style>` escopado por componente | O tema vira troca de tokens. Sem framework CSS, pra não esconder o aprendizado. |
 | Interatividade | Scripts pequenos em TS (tema, menu mobile) | Nada no v1 justifica React. Ilhas React ficam para o v2 (demos). |
-| Fontes | Poppins self-hosted, 3–4 pesos | Hoje carrega 18 variantes e usa ~4; self-host tira a dependência do Google Fonts. |
+| Fontes | Poppins self-hosted, 3–4 pesos; marca em Itim convertida em SVG | Hoje carrega 18 variantes e usa ~4; self-host tira a dependência do Google Fonts. A marca (RS + RafaShafie) é desenho vetorial gerado da Itim: centralização exata, igual em qualquer aparelho e sem fonte extra para baixar. |
 | Ícones | SVG local (Devicon ou Simple Icons) via componente | Remove os 2 CDNs de fonte de ícones; ícone decorativo leva `aria-hidden`. |
 | Imagens | `astro:assets` | Gera WebP/AVIF no tamanho certo; a foto atual é 200×200 ampliada para 300. |
 | Deploy | Vercel integrada ao GitHub | Deploy a cada push e preview por PR, grátis. Domínio próprio apontado por DNS. |
@@ -78,6 +78,14 @@ public/           cv/ (PT e EN), favicon, imagem Open Graph
 - CV: um por idioma, PT em `/`, EN em `/en/` e ES em `/es/` (os três exportados do Canva sem telefone).
 - **Entregável:** site nos 3 idiomas.
 - **Aprendizado:** i18n estático e SEO multilíngue.
+
+### Redesign (entre as Fases 2 e 3)
+- Layout editorial inspirado num portfólio de referência, mantendo as nossas cores (preto + ciano), a Poppins, o cabeçalho e toda a base técnica (rotas por idioma, conteúdo do CV, acessibilidade, performance).
+- Marca: monograma RS com contorno + "RafaShafie", em Itim reforçada, como SVG.
+- Hero com selo de disponibilidade, nome em duas linhas ("Rafael El" / "Shafie" centralizado) e retrato com moldura; faixa de trajetória com os logos oficiais em monocromático; experiências em acordeão; habilidades em abas; seção "Agora"; contato em bloco ciano.
+- Seletor de idioma em dropdown. Projetos continua oculto até existir projeto real.
+- Vem antes da Fase 3 para a paleta clara ser feita uma vez só, já sobre o visual novo.
+- **Entregável:** site com o visual novo nos 3 idiomas, sem perder as notas do Lighthouse.
 
 ### Fase 3 — Tema claro e alternador
 - Paleta clara em tokens.
@@ -152,7 +160,7 @@ public/           cv/ (PT e EN), favicon, imagem Open Graph
   - Qualidade: pytest, Playwright.
 - **Idiomas:** português nativo, inglês intermediário, espanhol no mesmo nível declarado no CV.
 - **Contato:** e-mail, LinkedIn, perfil do GitHub e botão de CV por idioma.
-- **Identidade:** fundo quase preto, destaque ciano e logo "Rafa**Shafie**" em Poppins (sai o Comic Sans). Foto nova em resolução maior.
+- **Identidade:** fundo quase preto, destaque ciano e marca "RS" + "Rafa**Shafie**" em Itim reforçada, desenhada em SVG. O espírito do logo antigo em Comic Sans continua, mas com uma fonte livre (OFL) que funciona em qualquer aparelho. Foto profissional em resolução maior quando houver (a atual é provisória).
 
 ## 11. Definição de Pronto aplicada a este projeto
 | Item | Como fica aqui |

@@ -1,38 +1,115 @@
 ---
 interface Props {
 	id: string;
-	title: string;
+	/** Posição da seção na página ("01"), calculada a partir das seções visíveis. */
+	number: string;
+	/** Rótulo curto, igual ao do menu ("Sobre"). */
+	label: string;
+	/** Título em frase; "\n" vira quebra de linha. */
+	heading: string;
+	/** "inverted": bloco com fundo de destaque (usado no contato). */
+	variant?: 'default' | 'inverted';
 }
 
-const { id, title } = Astro.props;
-const titleId = `${id}-title`;
+const { id, number, label, heading, variant = 'default' } = Astro.props;
+const headingId = `${id}-title`;
+const lines = heading.split('\n');
 ---
 
-<section id={id} class="section" aria-labelledby={titleId}>
+<section id={id} class:list={['section', `section-${variant}`]} aria-labelledby={headingId}>
 	<div class="container">
-		<h2 id={titleId} class="section-title">{title}</h2>
+		<div class="section-head">
+			<div>
+				<p class="section-label">{number} / {label}</p>
+				<h2 id={headingId} class="section-title">
+					{lines.map((line, i) => (i > 0 ? [<br />, line] : line))}
+				</h2>
+			</div>
+			{Astro.slots.has('intro') && (
+				<div class="section-intro">
+					<slot name="intro" />
+				</div>
+			)}
+		</div>
 		<slot />
 	</div>
 </section>
 
 <style>
 	.section {
-		padding-block: var(--space-8);
+		padding-block: var(--space-section);
+	}
+
+	.section-head {
+		display: grid;
+		gap: var(--space-5);
+		align-items: end;
+		margin-bottom: var(--space-7);
+	}
+
+	.section-label {
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
 	}
 
 	.section-title {
-		display: flex;
-		align-items: center;
-		gap: var(--space-3);
-		margin-bottom: var(--space-6);
-		font-size: var(--text-2xl);
+		margin-top: var(--space-3);
+		font-size: var(--text-section);
+		font-weight: var(--weight-semibold);
+		letter-spacing: -0.03em;
+		line-height: 1.12;
 	}
 
-	.section-title::before {
-		content: '';
-		width: var(--space-6);
-		height: 0.25rem;
+	.section-intro {
+		max-width: 26rem;
+		color: var(--color-text-muted);
+	}
+
+	/* Bloco invertido: a seção inteira com fundo de destaque, de borda a borda.
+	   Texto e foco ficam escuros (o contorno ciano sumiria aqui) */
+	.section-inverted {
+		padding-bottom: var(--space-7);
 		background-color: var(--color-accent);
-		border-radius: var(--radius-full);
+		color: var(--color-on-accent);
+	}
+
+	/* O contato fecha a página com o mesmo peso do nome no hero */
+	.section-inverted .section-title {
+		margin-top: var(--space-4);
+		/* Mesmo teto do nome no hero, com piso menor: "¿Construimos" não cabia em 320px */
+		font-size: clamp(2.25rem, 1.25rem + 5vw, 5.25rem);
+		font-weight: var(--weight-bold);
+		letter-spacing: -0.035em;
+		line-height: 0.98;
+	}
+
+	.section-inverted .section-head {
+		margin-bottom: var(--space-8);
+	}
+
+	.section-inverted .section-intro {
+		font-size: var(--text-lg);
+	}
+
+	.section-inverted .section-label {
+		color: var(--color-on-accent);
+		opacity: 0.75;
+	}
+
+	.section-inverted .section-intro {
+		color: var(--color-on-accent);
+	}
+
+	.section-inverted :global(:focus-visible) {
+		outline-color: var(--color-on-accent);
+	}
+
+	@media (min-width: 60rem) {
+		.section-head {
+			grid-template-columns: 1fr auto;
+		}
 	}
 </style>

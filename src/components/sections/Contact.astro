@@ -2,63 +2,176 @@
 import EmailIcon from 'bootstrap-icons/icons/envelope.svg';
 import LinkedInIcon from 'bootstrap-icons/icons/linkedin.svg';
 import GitHubIcon from 'bootstrap-icons/icons/github.svg';
+import CvIcon from 'bootstrap-icons/icons/file-earmark-pdf.svg';
+import ArrowIcon from 'bootstrap-icons/icons/arrow-up-right.svg';
+import CopyIcon from 'bootstrap-icons/icons/copy.svg';
 import Section from '../Section.astro';
-import CvLink from '../CvLink.astro';
+import { cvFileSize } from '../../data/cv';
 import { profile } from '../../data/profile';
 import { useTranslations, type Locale } from '../../i18n/utils';
 
 interface Props {
 	id: string;
+	number: string;
 	locale: Locale;
 }
 
-const { id, locale } = Astro.props;
+const { id, number, locale } = Astro.props;
 const t = useTranslations(locale);
+
+const external = [
+	{ href: profile.linkedin, title: t.contact.linkedin, hint: t.contact.linkedinHint, Icon: LinkedInIcon },
+	{ href: profile.github, title: t.contact.github, hint: t.contact.githubHint, Icon: GitHubIcon },
+	{ href: profile.cv[locale], title: t.contact.cv, hint: `PDF · ${cvFileSize(locale)}`, Icon: CvIcon },
+];
 ---
 
-<Section id={id} title={t.contact.title}>
-	<p class="text">{t.contact.text}</p>
+<Section id={id} number={number} label={t.contact.label} heading={t.contact.heading} variant="inverted">
+	<p slot="intro">{t.contact.text}</p>
 
-	<ul class="links">
-		<li>
-			<a class="button button-primary" href={`mailto:${profile.email}`}>
-				<EmailIcon aria-hidden="true" />
-				<span><span class="visually-hidden">{t.contact.email}: </span>{profile.email}</span>
+	<ul class="cards">
+		<li class="card">
+			<!--
+				E-mail: com JavaScript, o cartão copia o endereço (funciona para todo mundo; o mailto:
+				abre uma aba vazia quando não há programa de e-mail configurado). Sem JavaScript, é o mailto:.
+			-->
+			<a class="card-link" href={`mailto:${profile.email}`} data-email-link>
+				<EmailIcon class="card-icon" aria-hidden="true" />
+				<span class="card-title">{t.contact.email}</span>
+				<span class="card-hint">{profile.email}</span>
 			</a>
+			<button class="card-link" type="button" data-copy={profile.email} hidden>
+				<EmailIcon class="card-icon" aria-hidden="true" />
+				<span class="card-title">{t.contact.email}</span>
+				<span class="card-hint" data-copy-hint>{profile.email}</span>
+				<CopyIcon class="card-corner" aria-hidden="true" />
+				<span class="visually-hidden"> – {t.contact.copyEmail}</span>
+			</button>
 		</li>
-		<li>
-			<a class="button button-secondary" href={profile.linkedin} target="_blank" rel="noopener noreferrer">
-				<LinkedInIcon aria-hidden="true" />
-				{t.contact.linkedin}
-				<span class="visually-hidden">{t.a11y.newTab}</span>
-			</a>
-		</li>
-		<li>
-			<a class="button button-secondary" href={profile.github} target="_blank" rel="noopener noreferrer">
-				<GitHubIcon aria-hidden="true" />
-				{t.contact.github}
-				<span class="visually-hidden">{t.a11y.newTab}</span>
-			</a>
-		</li>
-		<li>
-			<CvLink locale={locale} label={t.contact.cv} icon />
-		</li>
+		{
+			external.map(({ href, title, hint, Icon }) => (
+				<li class="card">
+					<a class="card-link" href={href} target="_blank" rel="noopener noreferrer">
+						<Icon class="card-icon" aria-hidden="true" />
+						<span class="card-title">{title}</span>
+						<span class="card-hint">{hint}</span>
+						<ArrowIcon class="card-corner" aria-hidden="true" />
+						<span class="visually-hidden">{t.a11y.newTab}</span>
+					</a>
+				</li>
+			))
+		}
 	</ul>
+
+	<p class="visually-hidden" role="status" data-copy-status data-ok={t.contact.copied} data-fail={t.contact.copyFailed}>
+	</p>
 </Section>
 
-<style>
-	.text {
-		max-width: 40rem;
-		margin-bottom: var(--space-6);
-		color: var(--color-text-muted);
-		font-size: var(--text-lg);
-	}
+<script>
+	const link = document.querySelector<HTMLAnchorElement>('[data-email-link]');
+	const button = document.querySelector<HTMLButtonElement>('[data-copy]');
+	const hint = button?.querySelector<HTMLElement>('[data-copy-hint]');
+	const status = document.querySelector<HTMLElement>('[data-copy-status]');
 
-	.links {
-		display: flex;
-		flex-wrap: wrap;
-		gap: var(--space-3);
+	if (link && button && hint && status && navigator.clipboard) {
+		link.hidden = true;
+		button.hidden = false;
+		const address = button.dataset.copy ?? '';
+		let timer: number | undefined;
+
+		button.addEventListener('click', async () => {
+			let message: string;
+			try {
+				await navigator.clipboard.writeText(address);
+				message = status.dataset.ok ?? '';
+			} catch {
+				message = status.dataset.fail ?? '';
+			}
+			// Mostra a confirmação no próprio cartão e anuncia ao leitor de tela
+			status.textContent = message;
+			hint.textContent = message;
+			clearTimeout(timer);
+			timer = window.setTimeout(() => {
+				hint.textContent = address;
+				status.textContent = '';
+			}, 2500);
+		});
+	}
+</script>
+
+<style>
+	.cards {
+		display: grid;
+		gap: 1px;
 		padding: 0;
 		list-style: none;
+		background-color: color-mix(in srgb, var(--color-on-accent) 22%, transparent);
+		border: 1px solid color-mix(in srgb, var(--color-on-accent) 22%, transparent);
+		border-radius: var(--radius-md);
+		overflow: hidden;
+	}
+
+	.card {
+		display: grid;
+		background-color: var(--color-accent);
+	}
+
+	/* Link e botão com a mesma aparência: o cartão inteiro é clicável e todos têm a mesma altura */
+	.card-link {
+		position: relative;
+		display: grid;
+		align-content: start;
+		gap: var(--space-1);
+		width: 100%;
+		min-height: 12rem;
+		padding: var(--space-6);
+		background: none;
+		border: 0;
+		color: var(--color-on-accent);
+		font: inherit;
+		text-align: left;
+		text-decoration: none;
+		cursor: pointer;
+		transition: background-color var(--duration-fast) ease;
+	}
+
+	.card-link:hover {
+		background-color: color-mix(in srgb, var(--color-on-accent) 8%, transparent);
+	}
+
+	.card-icon {
+		width: 1.75rem;
+		height: 1.75rem;
+		margin-bottom: var(--space-5);
+	}
+
+	.card-title {
+		font-size: var(--text-xl);
+		font-weight: var(--weight-bold);
+	}
+
+	.card-hint {
+		font-size: var(--text-base);
+		overflow-wrap: anywhere;
+	}
+
+	.card-corner {
+		position: absolute;
+		top: var(--space-6);
+		right: var(--space-6);
+		width: 1.125rem;
+		height: 1.125rem;
+	}
+
+	@media (min-width: 40rem) {
+		.cards {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 60rem) {
+		.cards {
+			grid-template-columns: repeat(4, 1fr);
+		}
 	}
 </style>

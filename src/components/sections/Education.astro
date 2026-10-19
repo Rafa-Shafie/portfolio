@@ -6,26 +6,120 @@ import { useTranslations, type Locale } from '../../i18n/utils';
 
 interface Props {
 	id: string;
+	number: string;
 	locale: Locale;
 	entries: CollectionEntry<'education'>[];
 }
 
-const { id, locale, entries } = Astro.props;
+const { id, number, locale, entries } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<Section id={id} title={t.education.title}>
-	<ol class="list">
-		{entries.map((entry) => <EducationItem education={entry.data} locale={locale} />)}
-	</ol>
+<Section id={id} number={number} label={t.education.label} heading={t.education.heading}>
+	<p slot="intro">{t.education.intro}</p>
+
+	<!-- As duas colunas começam com o mesmo rótulo + linha, na mesma altura -->
+	<div class="education">
+		<div>
+			<h3 class="col-label now-label">{t.education.nowTag}</h3>
+			<ol class="now-list">
+				{
+					t.education.now.map(({ title, text }, i) => (
+						<li>
+							<span class="n" aria-hidden="true">
+								{String(i + 1).padStart(2, '0')}
+							</span>
+							<div>
+								<h4 class="now-title">{title}</h4>
+								<p class="now-text">{text}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+
+		<div>
+			<h3 class="col-label">{t.education.listTitle}</h3>
+			<ol class="list">
+				{entries.map((entry) => <EducationItem education={entry.data} locale={locale} />)}
+			</ol>
+		</div>
+	</div>
 </Section>
 
 <style>
-	.list {
+	.education {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
-		gap: var(--space-5);
+		gap: var(--space-8);
+	}
+
+	.col-label {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+		padding-bottom: var(--space-3);
+		border-bottom: 1px solid var(--color-border);
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		font-weight: var(--weight-regular);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	/* "Em evolução" leva o ponto de destaque */
+	.now-label {
+		color: var(--color-accent);
+	}
+
+	.now-label::before {
+		content: '';
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 50%;
+		background-color: var(--color-accent);
+	}
+
+	.now-list {
 		padding: 0;
 		list-style: none;
+	}
+
+	.now-list li {
+		display: grid;
+		grid-template-columns: 2.5rem 1fr;
+		padding-block: var(--space-4);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.n {
+		padding-top: 0.3rem;
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+	}
+
+	.now-title {
+		font-size: var(--text-lg);
+		font-weight: var(--weight-semibold);
+	}
+
+	.now-text {
+		margin-top: var(--space-1);
+		color: var(--color-text-muted);
+		font-size: var(--text-base);
+	}
+
+	.list {
+		padding: 0;
+		list-style: none;
+	}
+
+	@media (min-width: 60rem) {
+		.education {
+			grid-template-columns: 1fr 1.1fr;
+			gap: var(--space-9);
+		}
 	}
 </style>

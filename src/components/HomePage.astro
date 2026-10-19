@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from './Header.astro';
 import Hero from './sections/Hero.astro';
+import Trajectory from './sections/Trajectory.astro';
 import About from './sections/About.astro';
 import Experience from './sections/Experience.astro';
 import Education from './sections/Education.astro';
@@ -46,8 +47,11 @@ const show: Partial<Record<SectionId, boolean>> = {
 	contact: true,
 };
 
-const order: SectionId[] = ['about', 'experience', 'education', 'skills', 'projects', 'contact'];
-const navLinks = order.filter((id) => show[id]).map((id) => ({ id, label: t.nav[id] }));
+const order: SectionId[] = ['about', 'experience', 'projects', 'skills', 'education', 'contact'];
+const visible = order.filter((id) => show[id]);
+const navLinks = visible.map((id) => ({ id, label: t.nav[id] }));
+// Número de cada seção na página ("01", "02"…), contando só as visíveis
+const number = (id: SectionId) => String(visible.indexOf(id) + 1).padStart(2, '0');
 ---
 
 <BaseLayout locale={locale} title={t.meta.title} description={t.meta.description}>
@@ -63,12 +67,13 @@ const navLinks = order.filter((id) => show[id]).map((id) => ({ id, label: t.nav[
 			}
 			<CvLink slot="actions" locale={locale} label={t.hero.ctaCv} />
 		</Hero>
-		{show.about && <About id="about" locale={locale} />}
-		{show.experience && <Experience id="experience" locale={locale} entries={experiences} />}
-		{show.education && <Education id="education" locale={locale} entries={education} />}
-		{show.skills && <Skills id="skills" locale={locale} groups={skillGroups} />}
-		{show.projects && <Projects id="projects" locale={locale} entries={projects} />}
-		{show.contact && <Contact id="contact" locale={locale} />}
+		<Trajectory locale={locale} />
+		{show.about && <About id="about" number={number('about')} locale={locale} />}
+		{show.experience && <Experience id="experience" number={number('experience')} locale={locale} entries={experiences} />}
+		{show.projects && <Projects id="projects" number={number('projects')} locale={locale} entries={projects} />}
+		{show.skills && <Skills id="skills" number={number('skills')} locale={locale} groups={skillGroups} />}
+		{show.education && <Education id="education" number={number('education')} locale={locale} entries={education} />}
+		{show.contact && <Contact id="contact" number={number('contact')} locale={locale} />}
 	</main>
 	<Footer locale={locale} />
 </BaseLayout>

@@ -5,15 +5,16 @@ import { localize, useTranslations, type Locale } from '../../i18n/utils';
 
 interface Props {
 	id: string;
+	number: string;
 	locale: Locale;
 	entries: CollectionEntry<'projects'>[];
 }
 
-const { id, locale, entries } = Astro.props;
+const { id, number, locale, entries } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<Section id={id} title={t.projects.title}>
+<Section id={id} number={number} label={t.projects.label} heading={t.projects.heading}>
 	<ul class="grid">
 		{
 			entries.map(({ data }) => (

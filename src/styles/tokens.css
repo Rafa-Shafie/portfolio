@@ -23,6 +23,8 @@
 
 	/* tipografia — o Astro injeta --font-poppins com a fonte e os fallbacks */
 	--font-sans: var(--font-poppins, system-ui, sans-serif);
+	/* rótulos e metadados: fonte monoespaçada do sistema, sem download */
+	--font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Consolas, monospace;
 
 	--text-sm: 0.875rem;
 	--text-base: 1rem;
@@ -31,12 +33,18 @@
 	--text-2xl: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
 	--text-3xl: clamp(2.25rem, 1.6rem + 3vw, 3.75rem);
 
+	/* escala editorial */
+	--text-body: 1.125rem;
+	--text-label: 0.8125rem; /* mínimo de 13px para rótulos em caixa alta */
+	--text-section: clamp(2rem, 1.5rem + 2vw, 3rem);
+	--text-display: clamp(3rem, 2rem + 4.5vw, 5.25rem);
+
 	--weight-regular: 400;
 	--weight-semibold: 600;
 	--weight-bold: 700;
 
 	--leading-tight: 1.2;
-	--leading-normal: 1.6;
+	--leading-normal: 1.7;
 
 	/* espaçamento */
 	--space-1: 0.25rem;
@@ -48,12 +56,13 @@
 	--space-7: 3rem;
 	--space-8: 4rem;
 	--space-9: 6rem;
+	--space-section: clamp(4.5rem, 3rem + 5vw, 7rem);
 
 	/* formas e layout */
 	--radius-sm: 0.375rem;
 	--radius-md: 0.75rem;
 	--radius-full: 999px;
-	--content-width: 68rem;
+	--content-width: 74rem;
 	--header-height: 4rem;
 
 	/* movimento */
