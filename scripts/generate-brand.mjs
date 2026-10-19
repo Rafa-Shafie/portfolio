@@ -1,6 +1,6 @@
 /**
  * Gera a marca do site a partir dos contornos da fonte Itim (OFL):
- *   src/assets/brand/mark.svg       monograma RS com contorno (cabeçalho)
+ *   src/assets/brand/mark.svg       monograma RS em bloco preenchido (cabeçalho)
  *   src/assets/brand/wordmark.svg   "Rafa" + "Shafie" (cabeçalho e imagem OG)
  *   public/favicon.svg              monograma otimizado para 16–32 px, com fundo
  *   public/apple-touch-icon.png     ícone de 180 px para a tela inicial
@@ -16,7 +16,8 @@ import { resolve } from 'node:path';
 import opentype from 'opentype.js';
 import sharp from 'sharp';
 
-const COLORS = { bg: '#0b1117', text: '#e6edf3', accent: '#12efff' };
+// tile: cor do bloco do monograma (cabeçalho); tileStrong: mais presença no favicon de 16 px
+const COLORS = { bg: '#0b1117', text: '#e6edf3', accent: '#12efff', tile: '#1c2833', tileStrong: '#2a3946' };
 const FONT_FILE = 'node_modules/@fontsource/itim/files/itim-latin-400-normal.woff';
 
 const buf = readFileSync(resolve(FONT_FILE));
@@ -71,8 +72,8 @@ const strokeAttrs = (color, width) =>
 
 /** Monograma RS centralizado pelo desenho das letras dentro de um quadrado arredondado. */
 /**
- * Monograma: o R na cor do texto (classe .mark-r, que o CSS pode sobrescrever) e o S no destaque,
- * como "Rafa" e "Shafie" no wordmark. Contorno na cor de destaque.
+ * Monograma: bloco preenchido (classe .mark-bg) com o R na cor do texto (classe .mark-r) e o S no
+ * destaque, como "Rafa" e "Shafie" no wordmark. O CSS pode sobrescrever as cores pelas classes.
  */
 function monogram({
 	size = 48,
@@ -83,7 +84,7 @@ function monogram({
 	bold = 1.4,
 	color = 'currentColor',
 	first = COLORS.text,
-	background,
+	tile = COLORS.tile,
 }) {
 	// Limita pela altura e pela largura: o RS da Itim é mais largo que alto
 	const probe = layout('RS', 0, 0, 100).path.getBoundingBox();
@@ -96,9 +97,9 @@ function monogram({
 	const kern = font.getKerningValue(font.charToGlyph('R'), font.charToGlyph('S'));
 	const s = layout('S', r.end + (Number.isFinite(kern) ? kern : 0) * (fontSize / font.unitsPerEm), y, fontSize);
 	const inset = frame / 2;
-	const bg = background ? ` fill="${background}"` : ' fill="none"';
+	// Borda e fundo da mesma cor: um bloco preenchido, do mesmo tamanho da moldura anterior
 	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}">
-  <rect x="${inset}" y="${inset}" width="${size - frame}" height="${size - frame}" rx="${radius}"${bg} stroke="${color}" stroke-width="${frame}"/>
+  <rect class="mark-bg" x="${inset}" y="${inset}" width="${size - frame}" height="${size - frame}" rx="${radius}" fill="${tile}" stroke="${tile}" stroke-width="${frame}"/>
   <path class="mark-r" fill="${first}"${strokeAttrs(first, bold)} d="${pathData(r.path)}"/>
   <path fill="${color}"${strokeAttrs(color, bold)} d="${pathData(s.path)}"/>
 </svg>
@@ -125,7 +126,7 @@ function wordmark({ fontSize = 40, bold = 1.4, first = 'currentColor', second = 
 }
 
 // Favicon: letras maiores, contorno mais grosso e fundo escuro para ler bem em 16 px
-const favicon = monogram({ capRatio: 0.52, widthRatio: 0.68, frame: 3.5, radius: 11, bold: 1.8, color: COLORS.accent, background: COLORS.bg });
+const favicon = monogram({ capRatio: 0.52, widthRatio: 0.68, frame: 3.5, radius: 11, bold: 1.8, color: COLORS.accent, tile: COLORS.tileStrong });
 
 mkdirSync(resolve('src/assets/brand'), { recursive: true });
 writeFileSync(resolve('src/assets/brand/mark.svg'), monogram({}));

@@ -20,6 +20,8 @@
 	--color-accent: #12efff;
 	--color-on-accent: #0b1117;
 	--color-focus: var(--color-accent);
+	/* Bloco do monograma RS no cabeçalho (C2). Para a opção C1, use var(--color-surface) */
+	--color-brand-tile: #1c2833;
 
 	/* tipografia — o Astro injeta --font-poppins com a fonte e os fallbacks */
 	--font-sans: var(--font-poppins, system-ui, sans-serif);
