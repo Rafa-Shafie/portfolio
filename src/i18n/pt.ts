@@ -17,6 +17,8 @@ export const pt = {
 		language: 'Idioma',
 		backToTop: 'voltar ao início',
 		newTab: '(abre em nova aba)',
+		closeDetails: 'Fechar detalhes',
+		draft: 'Rascunho: não aparece em produção',
 	},
 	nav: {
 		about: 'Sobre',
@@ -69,6 +71,14 @@ export const pt = {
 		heading: 'Onde o aprendizado\nvirou entrega.',
 		intro: 'Duas passagens pelo BTG Pactual e uma base construída na empresa júnior da UFRJ.',
 		stack: 'Stack',
+		explore: 'Explorar a experiência',
+		details: {
+			context: 'O contexto',
+			contribution: 'Minha contribuição',
+			outcome: 'Entrega e aprendizado',
+			tech: 'Tecnologias',
+			note: 'Relato da minha participação profissional. Código e materiais internos não estão disponíveis neste portfólio.',
+		},
 	},
 	education: {
 		label: 'Formação',

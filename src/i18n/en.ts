@@ -14,6 +14,8 @@ export const en: Dictionary = {
 		language: 'Language',
 		backToTop: 'back to top',
 		newTab: '(opens in a new tab)',
+		closeDetails: 'Close details',
+		draft: 'Draft: not shown in production',
 	},
 	nav: {
 		about: 'About',
@@ -66,6 +68,14 @@ export const en: Dictionary = {
 		heading: 'Where learning\nturned into delivery.',
 		intro: "Two internships at BTG Pactual and a foundation built at UFRJ's junior enterprise.",
 		stack: 'Stack',
+		explore: 'Explore this experience',
+		details: {
+			context: 'The context',
+			contribution: 'My contribution',
+			outcome: 'Delivery and learning',
+			tech: 'Technologies',
+			note: 'An account of my professional contribution. Internal code and materials are not available in this portfolio.',
+		},
 	},
 	education: {
 		label: 'Education',

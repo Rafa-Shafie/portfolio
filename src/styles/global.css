@@ -27,6 +27,11 @@ select {
 	font: inherit;
 }
 
+/* Com um modal aberto, a página atrás não rola */
+body:has(dialog[open]) {
+	overflow: hidden;
+}
+
 /* O atributo hidden sempre esconde, mesmo em elementos com display definido no CSS */
 [hidden] {
 	display: none !important;

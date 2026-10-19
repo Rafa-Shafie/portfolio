@@ -1,5 +1,7 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import DetailDialog from './DetailDialog.astro';
+import { isPublished } from '../data/drafts';
 import { formatPeriod, localize, useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
@@ -9,11 +11,16 @@ interface Props {
 	index: string;
 	/** Começa aberta (a mais recente). */
 	open?: boolean;
+	/** Identificador do arquivo (para o id do modal). */
+	slug: string;
 }
 
-const { experience, locale, index, open = false } = Astro.props;
+const { experience, locale, index, open = false, slug } = Astro.props;
 const t = useTranslations(locale);
-const { company, companyNote, role, start, end, summary, highlights, stack } = experience;
+const { company, companyNote, role, start, end, summary, highlights, stack, details } = experience;
+const period = formatPeriod(start, end, locale);
+const dialogId = `experience-${slug}`;
+const hasDetails = details && isPublished(details);
 ---
 
 <!-- Acordeão nativo: abre e fecha sem JavaScript, pelo mouse e pelo teclado -->
@@ -27,7 +34,7 @@ const { company, companyNote, role, start, end, summary, highlights, stack } = e
 			</span>
 			<span class="role">{localize(role, locale)}</span>
 		</h3>
-		<span class="period">{formatPeriod(start, end, locale)}</span>
+		<span class="period">{period}</span>
 		<span class="toggle" aria-hidden="true"></span>
 	</summary>
 
@@ -40,8 +47,37 @@ const { company, companyNote, role, start, end, summary, highlights, stack } = e
 		<ul class="stack">
 			{stack.map((tech) => <li>{tech}</li>)}
 		</ul>
+		{
+			hasDetails && (
+				<button class="explore" type="button" data-dialog-open={dialogId} aria-haspopup="dialog" hidden>
+					{t.experience.explore}
+					<span aria-hidden="true">→</span>
+				</button>
+			)
+		}
 	</div>
 </details>
+
+{
+	hasDetails && details && (
+		<DetailDialog
+			id={dialogId}
+			eyebrow={company}
+			title={localize(role, locale)}
+			meta={period}
+			sections={[
+				{ heading: t.experience.details.context, text: localize(details.context, locale) },
+				{ heading: t.experience.details.contribution, items: localize(details.contributions, locale) },
+				{ heading: t.experience.details.outcome, text: localize(details.outcome, locale) },
+			]}
+			tagsHeading={t.experience.details.tech}
+			tags={stack}
+			note={t.experience.details.note}
+			closeLabel={t.a11y.closeDetails}
+			draftLabel={details.draft ? t.a11y.draft : undefined}
+		/>
+	)
+}
 
 <style>
 	.experience {
@@ -181,6 +217,25 @@ const { company, companyNote, role, start, end, summary, highlights, stack } = e
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-full);
 		font-size: var(--text-sm);
+	}
+
+	.explore {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		justify-self: start;
+		min-height: 2.75rem;
+		padding: 0 var(--space-5);
+		background-color: var(--color-accent);
+		border: 0;
+		border-radius: var(--radius-full);
+		color: var(--color-on-accent);
+		font-weight: var(--weight-semibold);
+		cursor: pointer;
+	}
+
+	.explore:hover {
+		background-color: var(--color-text);
 	}
 
 	@media (min-width: 60rem) {

@@ -37,6 +37,19 @@ const experiences = defineCollection({
 			summary: localized(z.string()),
 			highlights: localized(z.array(z.string()).min(2).max(3)),
 			stack: z.array(z.string()).min(1),
+			/**
+			 * Detalhes do "Explorar a experiência" (modal). Mais profundo que o CV, mas sem nomes de
+			 * sistemas internos, dados de clientes ou números não divulgados. Com draft: true, só
+			 * aparece no dev e no preview.
+			 */
+			details: z
+				.object({
+					draft: z.boolean().default(false),
+					context: localized(z.string()),
+					contributions: localized(z.array(z.string()).min(1)),
+					outcome: localized(z.string()),
+				})
+				.optional(),
 		})
 		.refine(endAfterStart, { message: 'end não pode ser anterior a start', path: ['end'] }),
 });

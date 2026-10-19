@@ -26,6 +26,7 @@ const t = useTranslations(locale);
 						locale={locale}
 						index={String(i + 1).padStart(2, '0')}
 						open={i === 0}
+						slug={entry.id}
 					/>
 				</li>
 			))

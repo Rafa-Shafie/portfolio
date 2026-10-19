@@ -1,0 +1,270 @@
+---
+/**
+ * Modal de detalhes (experiências e projetos), com <dialog> nativo + showModal():
+ * foco preso no modal, Esc fecha e o resto da página fica inerte. O script abaixo cuida de abrir
+ * pelos botões [data-dialog-open], fechar ao clicar fora e devolver o foco a quem abriu.
+ */
+import CloseIcon from 'bootstrap-icons/icons/x-lg.svg';
+
+interface Section {
+	heading: string;
+	text?: string;
+	items?: string[];
+}
+
+interface Props {
+	id: string;
+	title: string;
+	/** Linha pequena acima do título (empresa, área…). */
+	eyebrow?: string;
+	/** Linha abaixo do título (cargo, período…). */
+	meta?: string;
+	sections: Section[];
+	tagsHeading?: string;
+	tags?: string[];
+	links?: { label: string; href: string; newTabLabel: string }[];
+	note?: string;
+	closeLabel: string;
+	/** Marca visível de rascunho (só aparece no dev e no preview). */
+	draftLabel?: string;
+}
+
+const { id, title, eyebrow, meta, sections, tagsHeading, tags = [], links = [], note, closeLabel, draftLabel } = Astro.props;
+const titleId = `${id}-title`;
+---
+
+<dialog id={id} class="detail-dialog" aria-labelledby={titleId}>
+	<div class="dialog-inner">
+		<header class="dialog-head">
+			<div>
+				{eyebrow && <p class="eyebrow">{eyebrow}</p>}
+				<h2 id={titleId} class="dialog-title">{title}</h2>
+				{meta && <p class="meta">{meta}</p>}
+				{draftLabel && <p class="draft">{draftLabel}</p>}
+			</div>
+			<button class="close" type="button" data-dialog-close aria-label={closeLabel}>
+				<CloseIcon aria-hidden="true" />
+			</button>
+		</header>
+
+		{
+			sections.map(({ heading, text, items }) => (
+				<section class="block">
+					<h3 class="block-title">{heading}</h3>
+					{text && <p class="block-text">{text}</p>}
+					{items && (
+						<ul class="block-list">
+							{items.map((item) => (
+								<li>{item}</li>
+							))}
+						</ul>
+					)}
+				</section>
+			))
+		}
+
+		{
+			tags.length > 0 && (
+				<section class="block">
+					<h3 class="block-title">{tagsHeading}</h3>
+					<ul class="tags">
+						{tags.map((tag) => (
+							<li>{tag}</li>
+						))}
+					</ul>
+				</section>
+			)
+		}
+
+		{
+			links.length > 0 && (
+				<p class="links">
+					{links.map(({ label, href, newTabLabel }) => (
+						<a class="button button-secondary" href={href} target="_blank" rel="noopener noreferrer">
+							{label}
+							<span class="visually-hidden">{newTabLabel}</span>
+						</a>
+					))}
+				</p>
+			)
+		}
+
+		{note && <p class="note">{note}</p>}
+	</div>
+</dialog>
+
+<script>
+	// Um único conjunto de listeners para todos os modais da página
+	let opener: HTMLElement | null = null;
+
+	document.addEventListener('click', (event) => {
+		const target = event.target as HTMLElement;
+
+		const openButton = target.closest<HTMLElement>('[data-dialog-open]');
+		if (openButton) {
+			const dialog = document.getElementById(openButton.dataset.dialogOpen ?? '');
+			if (dialog instanceof HTMLDialogElement) {
+				opener = openButton;
+				dialog.showModal();
+			}
+			return;
+		}
+
+		if (target.closest('[data-dialog-close]')) {
+			target.closest('dialog')?.close();
+			return;
+		}
+
+		// Clique no fundo escurecido (fora da caixa) fecha
+		if (target instanceof HTMLDialogElement && target.open) target.close();
+	});
+
+	// Ao fechar (botão, Esc ou fundo), o foco volta para quem abriu
+	for (const dialog of document.querySelectorAll<HTMLDialogElement>('dialog.detail-dialog')) {
+		dialog.addEventListener('close', () => {
+			opener?.focus();
+			opener = null;
+		});
+	}
+
+	// Os botões que abrem modais só aparecem com JavaScript
+	for (const button of document.querySelectorAll<HTMLElement>('[data-dialog-open]')) button.hidden = false;
+</script>
+
+<style>
+	.detail-dialog {
+		width: min(100% - 2rem, 46rem);
+		max-height: min(100% - 2rem, 52rem);
+		padding: 0;
+		margin: auto;
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		box-shadow: 0 2rem 4rem rgb(0 0 0 / 0.6);
+		color: var(--color-text);
+	}
+
+	.detail-dialog::backdrop {
+		background-color: rgb(5 9 12 / 0.75);
+		backdrop-filter: blur(4px);
+	}
+
+	.dialog-inner {
+		display: grid;
+		gap: var(--space-6);
+		padding: var(--space-6);
+	}
+
+	.dialog-head {
+		display: flex;
+		justify-content: space-between;
+		align-items: start;
+		gap: var(--space-4);
+	}
+
+	.eyebrow,
+	.block-title {
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		font-weight: var(--weight-regular);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.dialog-title {
+		margin-top: var(--space-2);
+		font-size: var(--text-2xl);
+		font-weight: var(--weight-semibold);
+		letter-spacing: -0.02em;
+	}
+
+	.meta {
+		margin-top: var(--space-2);
+		color: var(--color-text-muted);
+	}
+
+	.draft {
+		display: inline-block;
+		margin-top: var(--space-3);
+		padding: var(--space-1) var(--space-3);
+		border: 1px dashed var(--color-accent);
+		border-radius: var(--radius-full);
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+	}
+
+	.close {
+		display: grid;
+		flex: none;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		background: none;
+		border: 1px solid var(--color-border);
+		border-radius: 50%;
+		color: var(--color-text);
+		cursor: pointer;
+	}
+
+	.close svg {
+		width: 1rem;
+		height: 1rem;
+	}
+
+	.block {
+		display: grid;
+		gap: var(--space-3);
+		padding-top: var(--space-5);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.block-text {
+		color: var(--color-text-muted);
+	}
+
+	.block-list {
+		display: grid;
+		gap: var(--space-2);
+		padding-left: var(--space-5);
+		color: var(--color-text-muted);
+	}
+
+	.block-list li::marker {
+		color: var(--color-accent);
+	}
+
+	.tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		padding: 0;
+		list-style: none;
+	}
+
+	.tags li {
+		padding: var(--space-1) var(--space-3);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
+		font-size: var(--text-sm);
+	}
+
+	.links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-3);
+	}
+
+	.note {
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+		font-style: italic;
+	}
+
+	@media (min-width: 40rem) {
+		.dialog-inner {
+			padding: var(--space-7);
+		}
+	}
+</style>

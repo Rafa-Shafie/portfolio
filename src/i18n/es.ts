@@ -14,6 +14,8 @@ export const es: Dictionary = {
 		language: 'Idioma',
 		backToTop: 'volver al inicio',
 		newTab: '(se abre en una pestaña nueva)',
+		closeDetails: 'Cerrar detalles',
+		draft: 'Borrador: no aparece en producción',
 	},
 	nav: {
 		about: 'Sobre mí',
@@ -66,6 +68,14 @@ export const es: Dictionary = {
 		heading: 'Donde el aprendizaje\nse convirtió en resultados.',
 		intro: 'Dos pasantías en BTG Pactual y una base construida en la empresa júnior de la UFRJ.',
 		stack: 'Stack',
+		explore: 'Explorar la experiencia',
+		details: {
+			context: 'El contexto',
+			contribution: 'Mi contribución',
+			outcome: 'Entrega y aprendizaje',
+			tech: 'Tecnologías',
+			note: 'Relato de mi participación profesional. El código y los materiales internos no están disponibles en este portafolio.',
+		},
 	},
 	education: {
 		label: 'Formación',
