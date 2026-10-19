@@ -1,0 +1,45 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatPeriod, localize, type Locale } from '../i18n/utils';
+
+interface Props {
+	education: CollectionEntry<'education'>['data'];
+	locale: Locale;
+}
+
+const { education, locale } = Astro.props;
+const { institution, course, start, end } = education;
+---
+
+<li class="item">
+	<p class="period">{formatPeriod(start, end, locale)}</p>
+	<h3>{institution}</h3>
+	<p class="course">{localize(course, locale)}</p>
+</li>
+
+<style>
+	.item {
+		display: grid;
+		gap: var(--space-1);
+		padding: var(--space-5);
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+	}
+
+	.period {
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+		font-weight: var(--weight-semibold);
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+
+	h3 {
+		font-size: var(--text-lg);
+	}
+
+	.course {
+		color: var(--color-text-muted);
+	}
+</style>

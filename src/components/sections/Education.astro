@@ -1,0 +1,31 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import Section from '../Section.astro';
+import EducationItem from '../EducationItem.astro';
+import { useTranslations, type Locale } from '../../i18n/utils';
+
+interface Props {
+	id: string;
+	locale: Locale;
+	entries: CollectionEntry<'education'>[];
+}
+
+const { id, locale, entries } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<Section id={id} title={t.education.title}>
+	<ol class="list">
+		{entries.map((entry) => <EducationItem education={entry.data} locale={locale} />)}
+	</ol>
+</Section>
+
+<style>
+	.list {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+		gap: var(--space-5);
+		padding: 0;
+		list-style: none;
+	}
+</style>

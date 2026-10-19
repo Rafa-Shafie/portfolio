@@ -1,0 +1,100 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { formatPeriod, localize, useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+	experience: CollectionEntry<'experiences'>['data'];
+	locale: Locale;
+}
+
+const { experience, locale } = Astro.props;
+const t = useTranslations(locale);
+const { company, companyNote, role, start, end, summary, highlights, stack } = experience;
+---
+
+<article class="card">
+	<header>
+		<p class="period">{formatPeriod(start, end, locale)}</p>
+		<h3>
+			{company}
+			{companyNote && <span class="note">{localize(companyNote, locale)}</span>}
+		</h3>
+		<p class="role">{localize(role, locale)}</p>
+	</header>
+
+	<p class="summary">{localize(summary, locale)}</p>
+
+	<ul class="highlights">
+		{localize(highlights, locale).map((item) => <li>{item}</li>)}
+	</ul>
+
+	<h4 class="visually-hidden">{t.experience.stack}</h4>
+	<ul class="stack">
+		{stack.map((tech) => <li>{tech}</li>)}
+	</ul>
+</article>
+
+<style>
+	.card {
+		display: grid;
+		gap: var(--space-4);
+		padding: var(--space-5);
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-left: 0.25rem solid var(--color-accent);
+		border-radius: var(--radius-md);
+	}
+
+	.period {
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+		font-weight: var(--weight-semibold);
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+	}
+
+	h3 {
+		font-size: var(--text-xl);
+	}
+
+	.note {
+		color: var(--color-text-muted);
+		font-size: var(--text-base);
+		font-weight: var(--weight-regular);
+	}
+
+	.note::before {
+		content: ' · ';
+	}
+
+	.role {
+		color: var(--color-accent);
+		font-weight: var(--weight-semibold);
+	}
+
+	.highlights {
+		display: grid;
+		gap: var(--space-2);
+		padding-left: var(--space-5);
+		color: var(--color-text-muted);
+	}
+
+	.highlights li::marker {
+		color: var(--color-accent);
+	}
+
+	.stack {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		padding: 0;
+		list-style: none;
+	}
+
+	.stack li {
+		padding: var(--space-1) var(--space-3);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
+		font-size: var(--text-sm);
+	}
+</style>
