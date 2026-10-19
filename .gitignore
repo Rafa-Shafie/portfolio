@@ -9,6 +9,9 @@ dist/
 !.env.example
 .vercel/
 
+# configurações locais do Claude Code
+.claude/settings.local.json
+
 # sistema
 .DS_Store
 Thumbs.db
