@@ -36,7 +36,8 @@ export const pt = {
 		photoAlt: 'Foto de Rafael El Shafie',
 	},
 	about: {
-		title: 'Sobre mim',
+		label: 'Sobre mim',
+		heading: 'Engenharia em formação.\nExperiência na prática.',
 		paragraphs: [
 			'Estudo Engenharia de Software na Estácio e venho me especializando em backend e IA generativa.',
 			'No BTG Pactual, desenvolvi do zero um assistente de IA com RAG e Text-to-SQL que entrou em produção e passou a ser usado pela equipe. Antes disso, integrei dados de sistemas diferentes e criei regras de negócio para apoiar decisões de investimento imobiliário.',
@@ -50,14 +51,17 @@ export const pt = {
 		],
 	},
 	experience: {
-		title: 'Experiências',
+		label: 'Experiências',
+		heading: 'Onde o aprendizado\nvirou entrega.',
 		stack: 'Stack',
 	},
 	education: {
-		title: 'Formação',
+		label: 'Formação',
+		heading: 'Aprender. Construir.\nRepetir.',
 	},
 	skills: {
-		title: 'Habilidades',
+		label: 'Habilidades',
+		heading: 'Ferramentas para\nresolver problemas.',
 		learning: 'em formação',
 		groups: {
 			backend: 'Backend',
@@ -69,12 +73,14 @@ export const pt = {
 		},
 	},
 	projects: {
-		title: 'Projetos',
+		label: 'Projetos',
+		heading: 'Ideias, contexto\ne código.',
 		repo: 'Código',
 		demo: 'Demo',
 	},
 	contact: {
-		title: 'Contato',
+		label: 'Contato',
+		heading: 'Vamos construir\nalgo útil?',
 		text: 'Quer conversar sobre uma vaga ou um projeto? O jeito mais rápido de falar comigo é por e-mail ou pelo LinkedIn.',
 		email: 'E-mail',
 		linkedin: 'LinkedIn',

@@ -9,14 +9,15 @@ import { useTranslations, type Locale } from '../../i18n/utils';
 
 interface Props {
 	id: string;
+	number: string;
 	locale: Locale;
 }
 
-const { id, locale } = Astro.props;
+const { id, number, locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<Section id={id} title={t.contact.title}>
+<Section id={id} number={number} label={t.contact.label} heading={t.contact.heading}>
 	<p class="text">{t.contact.text}</p>
 
 	<ul class="links">

@@ -6,15 +6,16 @@ import { useTranslations, type Locale } from '../../i18n/utils';
 
 interface Props {
 	id: string;
+	number: string;
 	locale: Locale;
 	entries: CollectionEntry<'experiences'>[];
 }
 
-const { id, locale, entries } = Astro.props;
+const { id, number, locale, entries } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<Section id={id} title={t.experience.title}>
+<Section id={id} number={number} label={t.experience.label} heading={t.experience.heading}>
 	<ol class="list">
 		{
 			entries.map((entry) => (

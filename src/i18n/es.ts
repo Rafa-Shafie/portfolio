@@ -33,7 +33,8 @@ export const es: Dictionary = {
 		photoAlt: 'Foto de Rafael El Shafie',
 	},
 	about: {
-		title: 'Sobre mí',
+		label: 'Sobre mí',
+		heading: 'Ingeniería en formación.\nExperiencia en la práctica.',
 		paragraphs: [
 			'Estudio Ingeniería de Software en Estácio y me estoy especializando en backend e IA generativa.',
 			'En BTG Pactual, desarrollé desde cero un asistente de IA con RAG y Text-to-SQL que llegó a producción y empezó a ser utilizado por el equipo. Antes, integré datos de distintos sistemas y creé reglas de negocio para apoyar decisiones de inversión inmobiliaria.',
@@ -47,14 +48,17 @@ export const es: Dictionary = {
 		],
 	},
 	experience: {
-		title: 'Experiencia',
+		label: 'Experiencia',
+		heading: 'Donde el aprendizaje\nse convirtió en resultados.',
 		stack: 'Stack',
 	},
 	education: {
-		title: 'Formación',
+		label: 'Formación',
+		heading: 'Aprender. Construir.\nRepetir.',
 	},
 	skills: {
-		title: 'Habilidades',
+		label: 'Habilidades',
+		heading: 'Herramientas para\nresolver problemas.',
 		learning: 'en formación',
 		groups: {
 			backend: 'Backend',
@@ -66,12 +70,14 @@ export const es: Dictionary = {
 		},
 	},
 	projects: {
-		title: 'Proyectos',
+		label: 'Proyectos',
+		heading: 'Ideas, contexto\ny código.',
 		repo: 'Código',
 		demo: 'Demo',
 	},
 	contact: {
-		title: 'Contacto',
+		label: 'Contacto',
+		heading: '¿Construimos\nalgo útil?',
 		text: '¿Quieres hablar sobre una vacante o un proyecto? La forma más rápida de contactarme es por correo electrónico o LinkedIn.',
 		email: 'Correo electrónico',
 		linkedin: 'LinkedIn',

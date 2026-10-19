@@ -4,14 +4,15 @@ import { useTranslations, type Locale } from '../../i18n/utils';
 
 interface Props {
 	id: string;
+	number: string;
 	locale: Locale;
 }
 
-const { id, locale } = Astro.props;
+const { id, number, locale } = Astro.props;
 const t = useTranslations(locale);
 ---
 
-<Section id={id} title={t.about.title}>
+<Section id={id} number={number} label={t.about.label} heading={t.about.heading}>
 	<div class="about">
 		<div class="bio">
 			{t.about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
