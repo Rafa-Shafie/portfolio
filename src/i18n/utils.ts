@@ -1,16 +1,21 @@
 import { pt, type Dictionary } from './pt';
+import { en } from './en';
+import { es } from './es';
 
-export const locales = ['pt'] as const;
+export const locales = ['pt', 'en', 'es'] as const;
 export type Locale = (typeof locales)[number];
 export const defaultLocale: Locale = 'pt';
 
-const dictionaries: Record<Locale, Dictionary> = { pt };
+const dictionaries: Record<Locale, Dictionary> = { pt, en, es };
 
-/** Tag BCP 47 usada no `lang` do HTML e no Intl. */
-export const htmlLang: Record<Locale, string> = { pt: 'pt-BR' };
+/** Tag BCP 47 usada no `lang` do HTML, no `hreflang` e no Intl. */
+export const htmlLang: Record<Locale, string> = { pt: 'pt-BR', en: 'en', es: 'es' };
 
 /** Formato do `og:locale`. */
-export const ogLocale: Record<Locale, string> = { pt: 'pt_BR' };
+export const ogLocale: Record<Locale, string> = { pt: 'pt_BR', en: 'en_US', es: 'es_LA' };
+
+/** Nome de cada idioma escrito nele mesmo, para o seletor. */
+export const languageName: Record<Locale, string> = { pt: 'Português', en: 'English', es: 'Español' };
 
 export function useTranslations(locale: Locale): Dictionary {
 	return dictionaries[locale];

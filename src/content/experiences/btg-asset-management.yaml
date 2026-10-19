@@ -1,15 +1,27 @@
 company: BTG Pactual
 role:
   pt: Estagiário (Summer Job) · IT Asset Management & Funds
+  en: Intern (Summer Job) · IT Asset Management & Funds
+  es: Pasante (Summer Job) · IT Asset Management & Funds
 start: 2026-01
 end: 2026-02
 summary:
   pt: Participei de um projeto de análise de imóveis em Manhattan para apoiar decisões de investimento.
+  en: Worked on a Manhattan real estate analysis project to support investment decisions.
+  es: Participé en un proyecto de análisis de inmuebles en Manhattan para apoyar decisiones de inversión.
 highlights:
   pt:
     - Integrei dados de dois sistemas, tratei inconsistências e identifiquei imóveis correspondentes entre as bases usando informações como preço e área.
     - Desenvolvi regras de negócio e um sistema de pontuação para sinalizar oportunidades, variações de preço, imóveis presentes em múltiplas bases e mudanças de status.
     - Contribuí para um dashboard com filtros, mapas e comparação de preço por pé quadrado para análise regional dos imóveis.
+  en:
+    - Integrated data from two systems, handled inconsistencies and matched properties across the datasets using attributes such as price and area.
+    - Developed business rules and a scoring system to flag opportunities, price changes, properties listed in multiple datasets and status changes.
+    - Contributed to a dashboard with filters, maps and price-per-square-foot comparison for regional property analysis.
+  es:
+    - Integré datos de dos sistemas, traté inconsistencias e identifiqué inmuebles correspondientes entre las bases usando información como precio y área.
+    - Desarrollé reglas de negocio y un sistema de puntuación para señalar oportunidades, variaciones de precio, inmuebles presentes en varias bases y cambios de estado.
+    - Contribuí a un dashboard con filtros, mapas y comparación de precio por pie cuadrado para el análisis regional de los inmuebles.
 stack:
   - Python
   - SQL
