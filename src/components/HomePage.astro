@@ -3,6 +3,7 @@ import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from './Header.astro';
 import Hero from './sections/Hero.astro';
+import Trajectory from './sections/Trajectory.astro';
 import About from './sections/About.astro';
 import Experience from './sections/Experience.astro';
 import Education from './sections/Education.astro';
@@ -66,6 +67,7 @@ const number = (id: SectionId) => String(visible.indexOf(id) + 1).padStart(2, '0
 			}
 			<CvLink slot="actions" locale={locale} label={t.hero.ctaCv} />
 		</Hero>
+		<Trajectory locale={locale} />
 		{show.about && <About id="about" number={number('about')} locale={locale} />}
 		{show.experience && <Experience id="experience" number={number('experience')} locale={locale} entries={experiences} />}
 		{show.projects && <Projects id="projects" number={number('projects')} locale={locale} entries={projects} />}

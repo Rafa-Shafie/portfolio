@@ -39,6 +39,15 @@ export const pt = {
 		portraitCaption: 'Curioso por natureza.\nDesenvolvedor em evolução.',
 		portraitTag: 'Aprendizado contínuo',
 	},
+	trajectory: {
+		label: 'Experiência e formação que fazem parte da minha história',
+		captions: {
+			btg: 'Tecnologia & IA',
+			fluxo: 'Empresa Júnior · UFRJ',
+			estacio: 'Engenharia de Software',
+			puc: 'IA & Dados na Nuvem',
+		},
+	},
 	about: {
 		label: 'Sobre mim',
 		heading: 'Engenharia em formação.\nExperiência na prática.',

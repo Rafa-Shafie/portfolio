@@ -1,0 +1,118 @@
+---
+// Logos oficiais, normalizados para currentColor (a cor vem do CSS e acompanha o tema):
+//   BTG Pactual: Wikimedia Commons (Btg-logo-blue.svg) · Fluxo: fluxoconsultoria.poli.ufrj.br
+//   Estácio: estacio.br · PUC-Rio: puc-rio.br
+import BtgLogo from '../../assets/logos/btg-pactual.svg';
+import FluxoLogo from '../../assets/logos/fluxo.svg';
+import EstacioLogo from '../../assets/logos/estacio.svg';
+import PucLogo from '../../assets/logos/puc-rio.svg';
+import { useTranslations, type Locale } from '../../i18n/utils';
+
+interface Props {
+	locale: Locale;
+}
+
+const { locale } = Astro.props;
+const t = useTranslations(locale);
+
+const items = [
+	{ key: 'btg', name: 'BTG Pactual', Logo: BtgLogo },
+	{ key: 'fluxo', name: 'Fluxo Consultoria', Logo: FluxoLogo },
+	{ key: 'estacio', name: 'Estácio', Logo: EstacioLogo },
+	{ key: 'puc', name: 'PUC-Rio', Logo: PucLogo },
+] as const;
+---
+
+<section class="trajectory" aria-labelledby="trajectory-title">
+	<div class="container">
+		<h2 id="trajectory-title" class="trajectory-label">{t.trajectory.label}</h2>
+		<ul class="logos">
+			{
+				items.map(({ key, name, Logo }) => (
+					<li class={`logo-item logo-${key}`}>
+						<Logo class="logo" role="img" aria-label={name} />
+						<span class="caption">{t.trajectory.captions[key]}</span>
+					</li>
+				))
+			}
+		</ul>
+	</div>
+</section>
+
+<style>
+	.trajectory .container {
+		padding-block: var(--space-6);
+		border-block: 1px solid var(--color-border);
+	}
+
+	.trajectory-label {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		font-weight: var(--weight-regular);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.logos {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: var(--space-6) var(--space-5);
+		margin-top: var(--space-5);
+		padding: 0;
+		list-style: none;
+	}
+
+	.logo-item {
+		display: grid;
+		align-content: space-between;
+		gap: var(--space-3);
+	}
+
+	/* Alturas diferentes para os logos terem o mesmo peso visual */
+	.logo {
+		width: auto;
+		max-width: 100%;
+		color: var(--color-text);
+		opacity: 0.9;
+	}
+
+	.logo-btg .logo {
+		height: 2.75rem;
+	}
+
+	.logo-fluxo .logo {
+		height: 2.25rem;
+	}
+
+	.logo-estacio .logo {
+		height: 1.75rem;
+	}
+
+	.logo-puc .logo {
+		height: 3rem;
+	}
+
+	.caption {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+	}
+
+	@media (min-width: 60rem) {
+		.logos {
+			grid-template-columns: repeat(4, 1fr);
+			gap: 0;
+		}
+
+		.logo-item {
+			padding-inline: var(--space-6);
+			border-left: 1px solid var(--color-border);
+		}
+
+		.logo-item:first-child {
+			padding-left: 0;
+			border-left: 0;
+		}
+	}
+</style>

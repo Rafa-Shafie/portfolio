@@ -36,6 +36,15 @@ export const es: Dictionary = {
 		portraitCaption: 'Curioso por naturaleza.\nDesarrollador en evolución.',
 		portraitTag: 'Aprendizaje continuo',
 	},
+	trajectory: {
+		label: 'Experiencia y formación que forman parte de mi historia',
+		captions: {
+			btg: 'Tecnología e IA',
+			fluxo: 'Empresa Júnior · UFRJ',
+			estacio: 'Ingeniería de Software',
+			puc: 'IA y Datos en la Nube',
+		},
+	},
 	about: {
 		label: 'Sobre mí',
 		heading: 'Ingeniería en formación.\nExperiencia en la práctica.',
