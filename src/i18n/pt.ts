@@ -95,6 +95,51 @@ export const pt = {
 			infra: 'Cloud e DevOps',
 			quality: 'Qualidade',
 		},
+		context: {
+			backend: {
+				title: 'Do requisito à API.',
+				text: 'APIs e regras de negócio em Python e FastAPI no assistente de IA do BTG, e em Node.js e TypeScript no software de gestão da Fluxo. Hoje, aprofundando Java e Spring Boot.',
+			},
+			ai: {
+				title: 'IA ligada a um problema real.',
+				text: 'RAG e Text-to-SQL em produção no assistente de onboarding do BTG. Treinamento e publicação de modelos no Amazon SageMaker e uso do Bedrock no curso da PUC-Rio.',
+			},
+			data: {
+				title: 'Dados que ajudam a decidir.',
+				text: 'Integração e cruzamento de bases com Spark e Databricks na análise de imóveis do BTG, e PostgreSQL e MySQL como fonte das consultas em linguagem natural do assistente.',
+			},
+			frontend: {
+				title: 'Interfaces para quem usa.',
+				text: 'Frontend em React e TypeScript do assistente de IA do BTG: chat, histórico, feedback e painéis administrativos.',
+			},
+			infra: {
+				title: 'Do código à produção.',
+				text: 'Entrega com Docker, Kubernetes e Azure DevOps e observabilidade no Datadog no assistente do BTG; serviços da AWS no projeto de imóveis e no curso da PUC-Rio.',
+			},
+			quality: {
+				title: 'Confiança para mudar.',
+				text: 'Testes automatizados e avaliações das respostas de IA para identificar falhas após alterações no assistente do BTG.',
+			},
+		},
+		sets: {
+			languages: 'Linguagens',
+			frameworks: 'Frameworks',
+			persistence: 'Persistência',
+			integration: 'Integração',
+			applications: 'Aplicações',
+			ml: 'Machine learning',
+			aws: 'AWS',
+			databases: 'Bancos de dados',
+			processing: 'Processamento',
+			analysis: 'Análise',
+			web: 'Base web',
+			react: 'Ecossistema React',
+			containers: 'Containers',
+			cloud: 'Cloud',
+			delivery: 'Entrega e operação',
+			python: 'Python',
+			javascript: 'JavaScript',
+		},
 	},
 	projects: {
 		label: 'Projetos',

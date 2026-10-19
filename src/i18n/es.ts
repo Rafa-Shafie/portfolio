@@ -92,6 +92,51 @@ export const es: Dictionary = {
 			infra: 'Cloud y DevOps',
 			quality: 'Calidad',
 		},
+		context: {
+			backend: {
+				title: 'Del requisito a la API.',
+				text: 'APIs y reglas de negocio en Python y FastAPI en el asistente de IA de BTG, y en Node.js y TypeScript en el software de gestión de Fluxo. Ahora profundizando en Java y Spring Boot.',
+			},
+			ai: {
+				title: 'IA conectada a un problema real.',
+				text: 'RAG y Text-to-SQL en producción en el asistente de onboarding de BTG. Entrenamiento y despliegue de modelos en Amazon SageMaker y uso de Bedrock en el curso de la PUC-Rio.',
+			},
+			data: {
+				title: 'Datos que ayudan a decidir.',
+				text: 'Integración y cruce de bases con Spark y Databricks en el análisis inmobiliario de BTG, y PostgreSQL y MySQL como fuente de las consultas en lenguaje natural del asistente.',
+			},
+			frontend: {
+				title: 'Interfaces para quienes las usan.',
+				text: 'Frontend en React y TypeScript del asistente de IA de BTG: chat, historial, feedback y paneles administrativos.',
+			},
+			infra: {
+				title: 'Del código a producción.',
+				text: 'Despliegue con Docker, Kubernetes y Azure DevOps y observabilidad en Datadog en el asistente de BTG; servicios de AWS en el proyecto inmobiliario y en el curso de la PUC-Rio.',
+			},
+			quality: {
+				title: 'Confianza para cambiar.',
+				text: 'Pruebas automatizadas y evaluaciones de las respuestas de IA para detectar fallos tras los cambios en el asistente de BTG.',
+			},
+		},
+		sets: {
+			languages: 'Lenguajes',
+			frameworks: 'Frameworks',
+			persistence: 'Persistencia',
+			integration: 'Integración',
+			applications: 'Aplicaciones',
+			ml: 'Machine learning',
+			aws: 'AWS',
+			databases: 'Bases de datos',
+			processing: 'Procesamiento',
+			analysis: 'Análisis',
+			web: 'Base web',
+			react: 'Ecosistema React',
+			containers: 'Contenedores',
+			cloud: 'Cloud',
+			delivery: 'Despliegue y operación',
+			python: 'Python',
+			javascript: 'JavaScript',
+		},
 	},
 	projects: {
 		label: 'Proyectos',

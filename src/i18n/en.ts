@@ -92,6 +92,51 @@ export const en: Dictionary = {
 			infra: 'Cloud & DevOps',
 			quality: 'Quality',
 		},
+		context: {
+			backend: {
+				title: 'From requirement to API.',
+				text: 'APIs and business rules in Python and FastAPI for the AI assistant at BTG, and in Node.js and TypeScript for the management software at Fluxo. Now going deeper into Java and Spring Boot.',
+			},
+			ai: {
+				title: 'AI tied to a real problem.',
+				text: "RAG and Text-to-SQL in production in BTG's onboarding assistant. Training and deploying models on Amazon SageMaker and using Bedrock in the PUC-Rio course.",
+			},
+			data: {
+				title: 'Data that supports decisions.',
+				text: "Integrating and matching datasets with Spark and Databricks in BTG's real estate analysis, and PostgreSQL and MySQL as the source for the assistant's natural-language queries.",
+			},
+			frontend: {
+				title: 'Interfaces for the people using them.',
+				text: "React and TypeScript frontend for BTG's AI assistant: chat, history, feedback and admin dashboards.",
+			},
+			infra: {
+				title: 'From code to production.',
+				text: "Delivery with Docker, Kubernetes and Azure DevOps and Datadog observability for BTG's assistant; AWS services in the real estate project and the PUC-Rio course.",
+			},
+			quality: {
+				title: 'Confidence to change.',
+				text: "Automated tests and AI response evaluations to catch failures after changes in BTG's assistant.",
+			},
+		},
+		sets: {
+			languages: 'Languages',
+			frameworks: 'Frameworks',
+			persistence: 'Persistence',
+			integration: 'Integration',
+			applications: 'Applications',
+			ml: 'Machine learning',
+			aws: 'AWS',
+			databases: 'Databases',
+			processing: 'Processing',
+			analysis: 'Analysis',
+			web: 'Web basics',
+			react: 'React ecosystem',
+			containers: 'Containers',
+			cloud: 'Cloud',
+			delivery: 'Delivery and operations',
+			python: 'Python',
+			javascript: 'JavaScript',
+		},
 	},
 	projects: {
 		label: 'Projects',

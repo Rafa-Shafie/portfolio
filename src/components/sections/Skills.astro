@@ -1,7 +1,7 @@
 ---
 import Section from '../Section.astro';
 import type { SkillGroup } from '../../data/skills';
-import { useTranslations, type Locale } from '../../i18n/utils';
+import { localize, useTranslations, type Locale } from '../../i18n/utils';
 
 interface Props {
 	id: string;
@@ -44,14 +44,30 @@ const t = useTranslations(locale);
 			groups.map((group) => (
 				<div class="panel" id={`skill-panel-${group.id}`} data-tab={`skill-tab-${group.id}`}>
 					<h3 class="panel-title">{t.skills.groups[group.id]}</h3>
-					<ul class="items">
-						{group.items.map(({ name, learning }) => (
-							<li>
-								{name}
-								{learning && <span class="learning">({t.skills.learning})</span>}
-							</li>
-						))}
-					</ul>
+					<div class="panel-body">
+						<!-- Onde uso essa área -->
+						<div class="context">
+							<p class="context-title">{t.skills.context[group.id].title}</p>
+							<p class="context-text">{t.skills.context[group.id].text}</p>
+						</div>
+						<dl class="sets">
+							{group.sets.map((set) => (
+								<div class="set">
+									<dt>{t.skills.sets[set.id]}</dt>
+									<dd>
+										<ul class="items">
+											{set.items.map(({ name, learning }) => (
+												<li>
+													{typeof name === 'string' ? name : localize(name, locale)}
+													{learning && <span class="learning">({t.skills.learning})</span>}
+												</li>
+											))}
+										</ul>
+									</dd>
+								</div>
+							))}
+						</dl>
+					</div>
 				</div>
 			))
 		}
@@ -172,19 +188,71 @@ const t = useTranslations(locale);
 		white-space: nowrap;
 	}
 
+	.panel-body {
+		display: grid;
+		gap: var(--space-6);
+	}
+
+	.context-title {
+		font-size: var(--text-xl);
+		font-weight: var(--weight-semibold);
+		line-height: var(--leading-tight);
+	}
+
+	.context-text {
+		max-width: 30rem;
+		margin-top: var(--space-3);
+		color: var(--color-text-muted);
+	}
+
+	/* Cada subgrupo: rótulo em monoespaçada à esquerda, itens à direita */
+	.set {
+		display: grid;
+		gap: var(--space-2);
+		padding-block: var(--space-4);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.set:first-child {
+		padding-top: 0;
+	}
+
+	dt {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
 	.items {
 		display: flex;
 		flex-wrap: wrap;
-		gap: var(--space-3);
+		gap: var(--space-2);
 		padding: 0;
 		list-style: none;
 	}
 
 	.items li {
-		padding: var(--space-2) var(--space-4);
+		padding: var(--space-1) var(--space-3);
 		background-color: var(--color-surface);
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-full);
+		font-size: var(--text-base);
+	}
+
+	@media (min-width: 40rem) {
+		.set {
+			grid-template-columns: 11rem 1fr;
+			align-items: baseline;
+		}
+	}
+
+	@media (min-width: 60rem) {
+		.panel-body {
+			grid-template-columns: 1fr 1.6fr;
+			gap: var(--space-9);
+		}
 	}
 
 	.learning {
