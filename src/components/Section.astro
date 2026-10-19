@@ -68,11 +68,11 @@ const lines = heading.split('\n');
 		color: var(--color-text-muted);
 	}
 
-	/* Bloco invertido: fundo de destaque, texto escuro e foco escuro (o ciano sumiria aqui) */
-	.section-inverted .container {
-		padding: var(--space-8) var(--space-6);
+	/* Bloco invertido: a seção inteira com fundo de destaque, de borda a borda.
+	   Texto e foco ficam escuros (o contorno ciano sumiria aqui) */
+	.section-inverted {
+		padding-bottom: var(--space-7);
 		background-color: var(--color-accent);
-		border-radius: var(--radius-md);
 		color: var(--color-on-accent);
 	}
 
@@ -90,10 +90,6 @@ const lines = heading.split('\n');
 	}
 
 	@media (min-width: 60rem) {
-		.section-inverted .container {
-			padding: var(--space-9) var(--space-8);
-		}
-
 		.section-head {
 			grid-template-columns: 1fr auto;
 		}

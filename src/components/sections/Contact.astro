@@ -30,18 +30,23 @@ const external = [
 	<p slot="intro">{t.contact.text}</p>
 
 	<ul class="cards">
-		<li class="card card-email">
-			<a class="card-link" href={`mailto:${profile.email}`}>
+		<li class="card">
+			<!--
+				E-mail: com JavaScript, o cartão copia o endereço (funciona para todo mundo; o mailto:
+				abre uma aba vazia quando não há programa de e-mail configurado). Sem JavaScript, é o mailto:.
+			-->
+			<a class="card-link" href={`mailto:${profile.email}`} data-email-link>
 				<EmailIcon class="card-icon" aria-hidden="true" />
 				<span class="card-title">{t.contact.email}</span>
 				<span class="card-hint">{profile.email}</span>
 			</a>
-			<!-- Só aparece com JavaScript: sem ele, o botão não teria função -->
-			<button class="copy" type="button" data-copy={profile.email} hidden>
-				<CopyIcon aria-hidden="true" />
-				{t.contact.copyEmail}
+			<button class="card-link" type="button" data-copy={profile.email} hidden>
+				<EmailIcon class="card-icon" aria-hidden="true" />
+				<span class="card-title">{t.contact.email}</span>
+				<span class="card-hint" data-copy-hint>{profile.email}</span>
+				<CopyIcon class="card-corner" aria-hidden="true" />
+				<span class="visually-hidden"> – {t.contact.copyEmail}</span>
 			</button>
-			<p class="copy-status" role="status" data-ok={t.contact.copied} data-fail={t.contact.copyFailed}></p>
 		</li>
 		{
 			external.map(({ href, title, hint, Icon }) => (
@@ -50,28 +55,46 @@ const external = [
 						<Icon class="card-icon" aria-hidden="true" />
 						<span class="card-title">{title}</span>
 						<span class="card-hint">{hint}</span>
-						<ArrowIcon class="card-arrow" aria-hidden="true" />
+						<ArrowIcon class="card-corner" aria-hidden="true" />
 						<span class="visually-hidden">{t.a11y.newTab}</span>
 					</a>
 				</li>
 			))
 		}
 	</ul>
+
+	<p class="visually-hidden" role="status" data-copy-status data-ok={t.contact.copied} data-fail={t.contact.copyFailed}>
+	</p>
 </Section>
 
 <script>
+	const link = document.querySelector<HTMLAnchorElement>('[data-email-link]');
 	const button = document.querySelector<HTMLButtonElement>('[data-copy]');
-	const status = document.querySelector<HTMLElement>('.copy-status');
+	const hint = button?.querySelector<HTMLElement>('[data-copy-hint]');
+	const status = document.querySelector<HTMLElement>('[data-copy-status]');
 
-	if (button && status && navigator.clipboard) {
+	if (link && button && hint && status && navigator.clipboard) {
+		link.hidden = true;
 		button.hidden = false;
+		const address = button.dataset.copy ?? '';
+		let timer: number | undefined;
+
 		button.addEventListener('click', async () => {
+			let message: string;
 			try {
-				await navigator.clipboard.writeText(button.dataset.copy ?? '');
-				status.textContent = status.dataset.ok ?? '';
+				await navigator.clipboard.writeText(address);
+				message = status.dataset.ok ?? '';
 			} catch {
-				status.textContent = status.dataset.fail ?? '';
+				message = status.dataset.fail ?? '';
 			}
+			// Mostra a confirmação no próprio cartão e anuncia ao leitor de tela
+			status.textContent = message;
+			hint.textContent = message;
+			clearTimeout(timer);
+			timer = window.setTimeout(() => {
+				hint.textContent = address;
+				status.textContent = '';
+			}, 2500);
 		});
 	}
 </script>
@@ -90,18 +113,26 @@ const external = [
 
 	.card {
 		display: grid;
-		align-content: start;
-		gap: var(--space-2);
 		background-color: var(--color-accent);
 	}
 
+	/* Link e botão com a mesma aparência: o cartão inteiro é clicável e todos têm a mesma altura */
 	.card-link {
 		position: relative;
 		display: grid;
+		align-content: start;
 		gap: var(--space-1);
+		width: 100%;
+		min-height: 9.5rem;
 		padding: var(--space-5);
+		background: none;
+		border: 0;
 		color: var(--color-on-accent);
+		font: inherit;
+		text-align: left;
 		text-decoration: none;
+		cursor: pointer;
+		transition: background-color var(--duration-fast) ease;
 	}
 
 	.card-link:hover {
@@ -111,7 +142,7 @@ const external = [
 	.card-icon {
 		width: 1.5rem;
 		height: 1.5rem;
-		margin-bottom: var(--space-2);
+		margin-bottom: var(--space-3);
 	}
 
 	.card-title {
@@ -123,45 +154,12 @@ const external = [
 		overflow-wrap: anywhere;
 	}
 
-	.card-arrow {
+	.card-corner {
 		position: absolute;
 		top: var(--space-5);
 		right: var(--space-5);
 		width: 1rem;
 		height: 1rem;
-	}
-
-	.card-email {
-		padding-bottom: var(--space-4);
-	}
-
-	.copy {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--space-2);
-		justify-self: start;
-		min-height: 2.75rem;
-		margin-inline: var(--space-5);
-		padding: 0 var(--space-4);
-		background: none;
-		border: 1px solid var(--color-on-accent);
-		border-radius: var(--radius-full);
-		color: var(--color-on-accent);
-		font-size: var(--text-sm);
-		font-weight: var(--weight-semibold);
-		cursor: pointer;
-	}
-
-	.copy svg {
-		width: 0.9rem;
-		height: 0.9rem;
-	}
-
-	.copy-status {
-		min-height: 1.25rem;
-		margin-inline: var(--space-5);
-		color: var(--color-on-accent);
-		font-size: var(--text-sm);
 	}
 
 	@media (min-width: 40rem) {
