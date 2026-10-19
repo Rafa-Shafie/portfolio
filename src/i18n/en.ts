@@ -53,6 +53,12 @@ export const en: Dictionary = {
 			'At BTG Pactual, I built from scratch an AI assistant with RAG and Text-to-SQL that went into production and is now used by the team. Before that, I integrated data from different systems and created business rules to support real estate investment decisions.',
 			"I'm looking for an internship in backend development or AI.",
 		],
+		contributionsTitle: 'What I bring to a team',
+		contributions: [
+			{ title: 'Build with context', text: 'Understand the business need before turning requirements into code.' },
+			{ title: 'Connect technology and people', text: 'Organize information, document decisions and collaborate with the people using the solution.' },
+			{ title: 'Learn and put it into practice', text: 'Explore tools, test ideas and improve through feedback.' },
+		],
 		languagesTitle: 'Languages',
 		languages: [
 			{ name: 'Portuguese', level: 'native' },

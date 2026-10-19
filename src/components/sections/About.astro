@@ -18,9 +18,26 @@ const t = useTranslations(locale);
 			{t.about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
 		</div>
 
-		<div class="languages">
-			<h3>{t.about.languagesTitle}</h3>
-			<dl>
+		<div class="side">
+			<h3 class="side-title">{t.about.contributionsTitle}</h3>
+			<ol class="contributions">
+				{
+					t.about.contributions.map(({ title, text }, i) => (
+						<li>
+							<span class="n" aria-hidden="true">
+								{String(i + 1).padStart(2, '0')}
+							</span>
+							<div>
+								<p class="contribution-title">{title}</p>
+								<p class="contribution-text">{text}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+
+			<h3 class="side-title languages-title">{t.about.languagesTitle}</h3>
+			<dl class="languages">
 				{
 					t.about.languages.map(({ name, level }) => (
 						<div>
@@ -37,39 +54,74 @@ const t = useTranslations(locale);
 <style>
 	.about {
 		display: grid;
-		gap: var(--space-6);
+		gap: var(--space-8);
 	}
 
 	.bio {
 		display: grid;
+		align-content: start;
 		gap: var(--space-4);
-		max-width: 42rem;
+		max-width: 40rem;
 		color: var(--color-text-muted);
-		font-size: var(--text-lg);
+	}
+
+	.side-title {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		font-weight: var(--weight-regular);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.contributions {
+		display: grid;
+		gap: var(--space-5);
+		margin-top: var(--space-4);
+		padding: 0;
+		list-style: none;
+	}
+
+	.contributions li {
+		display: grid;
+		grid-template-columns: 2.5rem 1fr;
+		padding-top: var(--space-4);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.n {
+		padding-top: 0.2rem;
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+	}
+
+	.contribution-title {
+		font-weight: var(--weight-semibold);
+	}
+
+	.contribution-text {
+		margin-top: var(--space-1);
+		color: var(--color-text-muted);
+		font-size: var(--text-base);
+	}
+
+	.languages-title {
+		margin-top: var(--space-7);
 	}
 
 	.languages {
-		align-self: start;
-		padding: var(--space-5);
-		background-color: var(--color-surface);
-		border: 1px solid var(--color-border);
-		border-radius: var(--radius-md);
-	}
-
-	.languages h3 {
-		margin-bottom: var(--space-4);
-		font-size: var(--text-lg);
-	}
-
-	dl {
 		display: grid;
-		gap: var(--space-3);
+		gap: var(--space-2);
+		margin-top: var(--space-4);
 	}
 
-	dl div {
+	.languages div {
 		display: flex;
 		justify-content: space-between;
 		gap: var(--space-4);
+		padding-bottom: var(--space-2);
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	dt {
@@ -80,10 +132,10 @@ const t = useTranslations(locale);
 		color: var(--color-text-muted);
 	}
 
-	@media (min-width: 48rem) {
+	@media (min-width: 60rem) {
 		.about {
-			grid-template-columns: 1fr 18rem;
-			gap: var(--space-8);
+			grid-template-columns: 1.2fr 1fr;
+			gap: var(--space-9);
 		}
 	}
 </style>

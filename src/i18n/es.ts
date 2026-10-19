@@ -53,6 +53,12 @@ export const es: Dictionary = {
 			'En BTG Pactual, desarrollé desde cero un asistente de IA con RAG y Text-to-SQL que llegó a producción y empezó a ser utilizado por el equipo. Antes, integré datos de distintos sistemas y creé reglas de negocio para apoyar decisiones de inversión inmobiliaria.',
 			'Busco una pasantía en desarrollo backend o IA.',
 		],
+		contributionsTitle: 'Lo que aporto a un equipo',
+		contributions: [
+			{ title: 'Construir con contexto', text: 'Entender la necesidad del negocio antes de convertir requisitos en código.' },
+			{ title: 'Conectar tecnología y personas', text: 'Organizar información, documentar decisiones y colaborar con quienes utilizan la solución.' },
+			{ title: 'Aprender y ponerlo en práctica', text: 'Explorar herramientas, probar ideas y evolucionar a partir del feedback.' },
+		],
 		languagesTitle: 'Idiomas',
 		languages: [
 			{ name: 'Portugués', level: 'nativo' },
