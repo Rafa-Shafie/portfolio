@@ -69,6 +69,8 @@ export const pt = {
 	},
 	projects: {
 		title: 'Projetos',
+		repo: 'Código',
+		demo: 'Demo',
 	},
 	contact: {
 		title: 'Contato',
