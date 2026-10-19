@@ -88,7 +88,7 @@ const t = useTranslations(locale);
 		});
 
 		// Ao passar para o layout de desktop, o estado do menu mobile é descartado
-		matchMedia('(min-width: 48rem)').addEventListener('change', () => setOpen(false));
+		matchMedia('(min-width: 60rem)').addEventListener('change', () => setOpen(false));
 	}
 </script>
 
@@ -183,7 +183,7 @@ const t = useTranslations(locale);
 	}
 
 	/* Mobile: o menu é uma gaveta logo abaixo do header */
-	@media (max-width: 47.99rem) {
+	@media (max-width: 59.99rem) {
 		.site-nav {
 			position: absolute;
 			top: 100%;
@@ -214,7 +214,7 @@ const t = useTranslations(locale);
 	}
 
 	/* Desktop: links em linha, sem botão; o seletor vem depois de um separador */
-	@media (min-width: 48rem) {
+	@media (min-width: 60rem) {
 		.menu-toggle {
 			display: none;
 		}
