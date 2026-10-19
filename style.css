@@ -1,0 +1,511 @@
+/*ESTILO GERAL*/
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /*font-family: "Comic Sans MS", sans-serif;*/
+    font-family: 'poppins', sans-serif;
+}
+
+html {
+    scroll-behavior: smooth;
+  }
+
+body{
+    background-color: rgb(0, 0, 0);
+    height: 100vh;
+}
+
+/* Define estilo base para todas as seções */
+section {
+    min-height: 100vh; /*Ajusta para ocupar a altura da janela com espaçamento */
+    background-color: rgb(0, 0, 0); /* Cor de fundo leve, opcional */
+  }
+  
+  /* Estiliza cada seção com espaçamentos específicos */
+  .home {
+    background-color: black; /* Azul claro para destaque */
+  }
+  
+  .about {
+    background-color: black; /* Rosa claro para destaque */
+  }
+
+  .experiences {
+    background-color: black; /* Rosa claro para destaque */
+  }
+  
+  .skills {
+    background-color:black; /* Verde claro para destaque */
+  }
+  
+  .projects {
+    background-color:black; /* Roxo claro para destaque */
+  }
+  
+  .contact {
+    background-color: black; /* Amarelo claro para destaque */
+  } 
+
+  .end{
+    background-color: rgb(0, 0, 0); /* Amarelo claro para destaque */
+  }
+  
+  /* Ajustes para dispositivos menores */
+  @media (max-width: 768px) {
+    section {
+      padding: 40px 15px;
+    }
+  }
+
+.interface{
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.flex{
+    display:flex;
+}
+.meu-contato button{
+    padding: 1vh 3vh;
+    font-size: 2vh;
+    font-weight: 600;
+    background-color: #12efff;
+    border: 0;
+    border-radius: 5vh;
+    cursor: pointer;
+    transition: .4s;
+}
+
+h2.titulo{
+    color: rgb(255, 255, 255);
+    font-size: 5vh;
+    text-align: center;
+    margin-bottom: 6vh;  
+}
+
+h2.titulo span{
+    color: #12efff;
+}
+
+h3.subtitulo{
+    color: rgb(255, 255, 255);
+    font-size: 3vh;
+    text-align: center;
+    margin-bottom: 4vh;  
+}
+
+p{
+    color: rgb(197, 197, 197);
+    font-size: 2vh;
+    line-height: 4vh;
+}
+
+button:hover{
+    box-shadow: 0vh 0vh 1.75vh #12efffda;
+    transform: scale(1.16);
+    transition: 0.6s;
+}
+
+/*ESTILO DO CABEÇALHO*/
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 3vh 4%;
+    background-color: black; /* Adiciona um fundo transparente */
+    z-index: 1000; /* Coloca o menu acima dos outros elementos */
+}
+
+header > .interface{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+header a{
+    color: rgb(105, 105, 105);
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.6s;
+}
+
+header a:hover{
+    color: white;
+    transform: scale(1.3)
+}
+
+header h1{
+    color: rgb(255, 255, 255);
+    text-decoration: none;
+    display: inline-block;
+    transition: 0.8s;
+    font-family: "Comic Sans MS", sans-serif;
+}
+
+header h1:hover{
+    color: white;
+    transform: scale(1.01);
+}
+
+header span{
+    color: #12efff;
+    font-family:  "Comic Sans MS", sans-serif;
+}
+
+header nav ul{
+    list-style-type: none;
+}
+
+header nav ul li{
+    display: inline-block;
+    padding: 0 4vh;
+}
+
+.menu-mobile-icon {
+    display: none;
+    font-size: 4vh;
+    color: white;
+    cursor: pointer;
+  }
+  
+  @media (max-width: 768px) {
+    .menu-desktop {
+      display: none;
+    }
+  
+    .menu-mobile-icon {
+      display: block;
+    }
+  
+    .menu-mobile {
+      display: none;
+      position: absolute;
+      top: 10vh;
+      right: 4%;
+      background-color: black;
+      padding: 2vh;
+      border-radius: 2vh;
+      box-shadow: 0 0 10px #12efff;
+    }
+  
+    .menu-mobile a {
+      display: block;
+      padding: 1vh 0;
+      color: white;
+    }
+  }
+  
+/*ESTILO DO HOME*/
+section.home{
+    padding: 5vh 4%;
+    display: flex;
+    align-items: center;
+}
+
+section.home .flex{
+    display: flex;
+    text-align: left;
+    justify-content: center;
+    gap: 15vh;
+}
+
+.home h1{
+    color:white;
+    font-size: 5vh;
+    line-height: 6vh;
+}
+
+.home .txt-home h1 span{
+    color: #12efff;
+}
+
+.home .txt-home p{
+    margin: 3vh 0;
+    font-size: 3vh;
+    line-height: 4vh;
+}
+
+.home .img-home img{
+    position: relative;
+    animation: flutuar 4s ease-in-out infinite alternate;
+}
+
+@keyframes flutuar{
+    0%{
+        top: 0;
+    }
+    100%{
+        top: 7vh;
+    }
+}
+
+/*ESTILO SOBRE*/
+section.about {
+    background-color: #000000; /* Cor clara como na imagem (troque para #000 se quiser escuro) */
+    padding: 25vh 5%;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  section.about .interface {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .about .titulo {
+    font-size: 4vh;
+    text-align: center;
+    font-weight: 800;
+  }
+
+  .about .flex {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 4vh;
+  }
+  
+  .img-about img {
+    width: 300px;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px #7d06df;
+  }
+  
+  .about .txt-about {
+    max-width: 600px;
+    color: #ffffff;
+    text-align: left;
+  }
+  
+  .about .txt-about h3 {
+    font-size: 2.2vh;
+    font-weight: 600;
+    color: #ffffff;
+    margin-bottom: 2vh;
+    text-align: left;
+  }
+  
+  .about .txt-about .list-about-me {
+    list-style: disc;
+    margin-left: 2vh;
+    margin-bottom: 3vh;
+    font-size: 2.2vh;
+    line-height: 1.6;
+  }
+  
+  .about .btn-social {
+    display: flex;
+    gap: 1.5vh;
+    flex-wrap: wrap;
+  }
+  
+  .about .btn-social button {
+    width: 60px;
+    height: 60px;
+    border: none;
+    border-radius: 50%;
+    background-color: #12efff;
+    color: white;
+    font-size: 3.7vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 0.3s ease;
+  }
+  
+  .about .btn-social button:hover {
+    background-color: #12efff;
+    transform: scale(1.2);
+  }
+     
+
+/*ESTILO DAS SKILLS*/
+section.skills{
+    padding: 20vh 4%;
+    display: flex;
+    align-items: center;
+}
+
+section.skills .flex {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* Limita a 4 colunas por linha */
+    gap: 4vh; /* Espaçamento entre os itens */
+    justify-items: center; /* Centraliza cada .skills-box dentro de sua célula */
+}
+
+.skills .skills-box {
+    color: white;
+    padding: 5vh;
+    border-radius: 5vh;
+    margin-top: 2vh;
+    transition: 0.5s;
+    text-align: center; /* Alinha o conteúdo do box ao centro */
+    height: 30vh;
+    width: 25vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.skills .skills-box:hover{
+    box-shadow: 0 0 4vh #12efff;
+    transform: translate(0, -10px);
+}
+
+.skills .skills-box i{
+    font-size: 6.5vh;
+    color: #12efff;
+}
+
+.skills .skills-box h3{
+    font-size: 3vh;
+    margin: 3vh 0;
+}
+
+@media (max-width: 768px) {
+    section.skills .flex {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 480px) {
+    section.skills .flex {
+      grid-template-columns: 1fr;
+    }
+  
+    .about .flex {
+      flex-direction: column;
+      align-items: center;
+      margin-left: 0;
+    }
+  
+    .about .txt-about {
+      max-width: 100%;
+    }
+  
+    .img-about img {
+      max-width: 60%;
+    }
+  }  
+
+/*ESTILO PROJETO*/
+section.projects{
+    padding: 26vh 4%;
+}
+
+section.projects .flex{
+    justify-content: space-around;
+}
+
+.img-proj{
+    width: 38vh;
+    height: 50vh;
+    background-size: cover;
+    background-position: 100% 0%;
+    cursor: pointer;
+    border-radius: 8vh;
+}
+
+.img-proj:hover{
+    background-position: 100% 100%;
+    transition: .8s;
+}
+
+/*RESPONSIVIDADE*/
+.btn-abrir-menu {
+    display: none;
+    font-size: 4vh;
+    color: #12efff;
+    cursor: pointer;
+  }
+  
+  .menu-mobile {
+    display: none;
+    background-color: black;
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 70%;
+    height: 100%;
+    padding: 4vh;
+    z-index: 1001;
+    flex-direction: column;
+    gap: 4vh;
+    transition: 0.3s;
+  }
+  
+  .menu-mobile nav ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 3vh;
+  }
+  
+  .menu-mobile nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 3vh;
+  }
+  
+  .menu-mobile .btn-fechar {
+    text-align: right;
+    font-size: 4vh;
+    color: #12efff;
+    cursor: pointer;
+  }
+  
+  .overlay-menu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+  }
+  
+  .open-menu {
+    display: flex;
+  }
+
+  @media (max-width: 768px) {
+    .about .flex {
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+  
+    .about .txt-about {
+      text-align: center;
+    }
+  
+    .about .txt-about .list-about-me {
+      margin-left: 0;
+      text-align: left;
+    }
+  }
+  
+
+  
+/* Menu desktop só some em telas pequenas */
+@media (max-width: 768px) {
+    .menu-desktop {
+      display: none;
+    }
+  
+    .btn-abrir-menu {
+      display: block;
+    }
+  }
+  
+  /* Fora do media query: o menu desktop deve aparecer */
+  .menu-desktop {
+    display: flex; /* ou inline-block, dependendo do seu layout */
+    gap: 4vh;
+  }
+  
