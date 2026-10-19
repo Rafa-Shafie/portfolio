@@ -1,7 +1,7 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import { defaultLocale, locales } from './src/i18n/utils.ts';
+import { defaultLocale, htmlLang, locales } from './src/i18n/utils.ts';
 
 const poppins = '@fontsource/poppins/files/poppins-latin';
 
@@ -15,7 +15,8 @@ export default defineConfig({
 		defaultLocale,
 		routing: { prefixDefaultLocale: false },
 	},
-	integrations: [sitemap()],
+	// O sitemap lista cada página com as versões nos outros idiomas (xhtml:link hreflang)
+	integrations: [sitemap({ i18n: { defaultLocale, locales: htmlLang } })],
 	fonts: [
 		{
 			// Arquivos do pacote @fontsource/poppins (versão travada no lockfile, sem rede no build).

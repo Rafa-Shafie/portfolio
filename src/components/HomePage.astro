@@ -12,7 +12,7 @@ import Contact from './sections/Contact.astro';
 import Footer from './Footer.astro';
 import { skillGroups } from '../data/skills';
 import { profile } from '../data/profile';
-import { htmlLang, ogLocale, useTranslations, type Locale } from '../i18n/utils';
+import { useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
 	locale: Locale;
@@ -48,13 +48,7 @@ const order: SectionId[] = ['about', 'experience', 'education', 'skills', 'proje
 const navLinks = order.filter((id) => show[id]).map((id) => ({ id, label: t.nav[id] }));
 ---
 
-<BaseLayout
-	title={t.meta.title}
-	description={t.meta.description}
-	lang={htmlLang[locale]}
-	ogLocale={ogLocale[locale]}
-	ogImage={`/og/${locale}.png`}
->
+<BaseLayout locale={locale} title={t.meta.title} description={t.meta.description}>
 	<Header locale={locale} links={navLinks} />
 	<main id="main">
 		<Hero locale={locale}>
