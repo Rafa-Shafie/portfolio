@@ -1,0 +1,48 @@
+# ---------------------------------------------------------------------------------------------
+# Projeto 3: TEMPLATE A PREENCHER.
+# - Enquanto draft for true, o projeto só aparece no `npm run dev` e no preview da Vercel.
+#   Quando estiver pronto nos 3 idiomas, apague a linha `draft: true`.
+# - O nome do arquivo vira o id do projeto: renomeie para algo como `assistente-de-estudos.yaml`.
+# ---------------------------------------------------------------------------------------------
+draft: true
+title:
+  pt: "Projeto 3 (a preencher)"
+  en: "Project 3 (to fill in)"
+  es: "Proyecto 3 (por completar)"
+# Resumo do cartão: o que é, em uma ou duas frases.
+description:
+  pt: "A PREENCHER: o que o projeto faz, em uma ou duas frases."
+  en: "TO FILL IN: what the project does, in one or two sentences."
+  es: "POR COMPLETAR: qué hace el proyecto, en una o dos frases."
+# Área do filtro: ai, backend ou data.
+category: data
+# progress (em andamento) ou released (publicado).
+status: progress
+stack:
+  - A preencher
+# Links opcionais (apague a linha se não houver):
+# repo: https://github.com/Rafa-Shafie/nome-do-repositorio
+# demo: https://...
+order: 3
+details:
+  # Por que você está construindo: o problema ou a motivação (2 a 4 frases).
+  context:
+    pt: "A PREENCHER: motivação e problema."
+    en: "TO FILL IN: motivation and problem."
+    es: "POR COMPLETAR: motivación y problema."
+  # O que já funciona ou está sendo construído (3 a 5 itens).
+  building:
+    pt:
+      - "A PREENCHER: o que já funciona."
+      - "A PREENCHER: o que está em construção."
+    en:
+      - "TO FILL IN: what already works."
+      - "TO FILL IN: what is being built."
+    es:
+      - "POR COMPLETAR: lo que ya funciona."
+      - "POR COMPLETAR: lo que está en construcción."
+  # Próximos passos (1 a 3 frases).
+  next:
+    pt: "A PREENCHER: próximos passos."
+    en: "TO FILL IN: next steps."
+    es: "POR COMPLETAR: próximos pasos."
