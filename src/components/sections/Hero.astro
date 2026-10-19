@@ -1,6 +1,7 @@
 ---
 import { Picture } from 'astro:assets';
 import photo from '../../assets/rafael.jpg';
+import { profile } from '../../data/profile';
 import { useTranslations, type Locale } from '../../i18n/utils';
 
 interface Props {
@@ -15,10 +16,12 @@ const t = useTranslations(locale);
 	<div class="container hero-inner">
 		<div class="hero-text">
 			<p class="greeting">{t.hero.greeting}</p>
-			<h1 id="hero-title">Rafael El Shafie</h1>
+			<h1 id="hero-title">{profile.name}</h1>
 			<p class="headline">{t.hero.headline}</p>
 			<p class="intro">{t.hero.intro}</p>
-			<slot name="actions" />
+			<div class="actions">
+				<slot name="actions" />
+			</div>
 		</div>
 
 		<Picture
@@ -70,6 +73,14 @@ const t = useTranslations(locale);
 		color: var(--color-text-muted);
 	}
 
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: var(--space-3);
+		margin-top: var(--space-6);
+	}
+
 	.photo {
 		width: 15rem;
 		aspect-ratio: 1;
@@ -91,6 +102,10 @@ const t = useTranslations(locale);
 
 		.intro {
 			margin-inline: 0;
+		}
+
+		.actions {
+			justify-content: flex-start;
 		}
 
 		.photo {
