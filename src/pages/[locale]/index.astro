@@ -1,0 +1,13 @@
+---
+import type { GetStaticPaths } from 'astro';
+import HomePage from '../../components/HomePage.astro';
+import { defaultLocale, locales, type Locale } from '../../i18n/utils';
+
+// /en/ e /es/; o idioma padrão (pt) fica na raiz, em pages/index.astro
+export const getStaticPaths = (() =>
+	locales.filter((locale) => locale !== defaultLocale).map((locale) => ({ params: { locale } }))) satisfies GetStaticPaths;
+
+const locale = Astro.params.locale as Locale;
+---
+
+<HomePage locale={locale} />

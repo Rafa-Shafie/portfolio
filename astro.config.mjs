@@ -1,6 +1,7 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { defaultLocale, locales } from './src/i18n/utils.ts';
 
 const poppins = '@fontsource/poppins/files/poppins-latin';
 
@@ -8,6 +9,12 @@ const poppins = '@fontsource/poppins/files/poppins-latin';
 export default defineConfig({
 	// Trocar pelo domínio próprio quando ele estiver apontado (canonical, Open Graph e sitemap usam este valor)
 	site: 'https://portfolio-chi-pink-45.vercel.app',
+	// Português na raiz; inglês e espanhol em /en/ e /es/
+	i18n: {
+		locales: [...locales],
+		defaultLocale,
+		routing: { prefixDefaultLocale: false },
+	},
 	integrations: [sitemap()],
 	fonts: [
 		{
