@@ -49,6 +49,7 @@ const navLinks = order.filter((id) => show[id]).map((id) => ({ id, label: t.nav[
 	description={t.meta.description}
 	lang={htmlLang[locale]}
 	ogLocale={ogLocale[locale]}
+	ogImage={`/og/${locale}.png`}
 >
 	<Header locale={locale} links={navLinks} />
 	<main id="main">

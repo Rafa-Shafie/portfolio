@@ -1,5 +1,6 @@
 // @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
+import sitemap from '@astrojs/sitemap';
 
 const poppins = '@fontsource/poppins/files/poppins-latin';
 
@@ -7,6 +8,7 @@ const poppins = '@fontsource/poppins/files/poppins-latin';
 export default defineConfig({
 	// Trocar pelo domínio próprio quando ele estiver apontado (canonical, Open Graph e sitemap usam este valor)
 	site: 'https://portfolio-chi-pink-45.vercel.app',
+	integrations: [sitemap()],
 	fonts: [
 		{
 			// Arquivos do pacote @fontsource/poppins (versão travada no lockfile, sem rede no build).
