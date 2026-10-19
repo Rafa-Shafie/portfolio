@@ -48,6 +48,7 @@ export const en: Dictionary = {
 	about: {
 		label: 'About me',
 		heading: 'Studying engineering.\nBuilding real experience.',
+		bioTitle: 'Who I am',
 		paragraphs: [
 			"I study Software Engineering at Estácio and I'm specializing in backend and generative AI.",
 			'At BTG Pactual, I built from scratch an AI assistant with RAG and Text-to-SQL that went into production and is now used by the team. Before that, I integrated data from different systems and created business rules to support real estate investment decisions.',
@@ -78,7 +79,7 @@ export const en: Dictionary = {
 		intro: 'What I am focusing on at the moment.',
 		nowTag: 'Growing',
 		now: [
-			{ title: 'Backend with Java', text: 'Java, object-oriented programming and Spring Boot in the DIO · Itaú bootcamp.' },
+			{ title: 'Backend with Java', text: 'Java, object-oriented programming and Spring Boot in the DIO · Itaú bootcamp.' },
 			{ title: 'AI engineering', text: 'LLM applications, context retrieval and response evaluation.' },
 			{ title: 'English', text: 'Ongoing study at Kumon, currently at level M.' },
 		],

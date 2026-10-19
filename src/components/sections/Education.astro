@@ -16,11 +16,12 @@ const t = useTranslations(locale);
 ---
 
 <Section id={id} number={number} label={t.education.label} heading={t.education.heading}>
+	<p slot="intro">{t.education.intro}</p>
+
+	<!-- As duas colunas começam com o mesmo rótulo + linha, na mesma altura -->
 	<div class="education">
-		<!-- O que estou estudando agora -->
-		<div class="now">
-			<p class="intro">{t.education.intro}</p>
-			<p class="tag">{t.education.nowTag}</p>
+		<div>
+			<h3 class="col-label now-label">{t.education.nowTag}</h3>
 			<ol class="now-list">
 				{
 					t.education.now.map(({ title, text }, i) => (
@@ -29,7 +30,7 @@ const t = useTranslations(locale);
 								{String(i + 1).padStart(2, '0')}
 							</span>
 							<div>
-								<h3 class="now-title">{title}</h3>
+								<h4 class="now-title">{title}</h4>
 								<p class="now-text">{text}</p>
 							</div>
 						</li>
@@ -38,8 +39,8 @@ const t = useTranslations(locale);
 			</ol>
 		</div>
 
-		<div class="history">
-			<h3 class="list-title">{t.education.listTitle}</h3>
+		<div>
+			<h3 class="col-label">{t.education.listTitle}</h3>
 			<ol class="list">
 				{entries.map((entry) => <EducationItem education={entry.data} locale={locale} />)}
 			</ol>
@@ -53,23 +54,26 @@ const t = useTranslations(locale);
 		gap: var(--space-8);
 	}
 
-	.intro {
-		color: var(--color-text-muted);
-	}
-
-	.tag {
-		display: inline-flex;
+	.col-label {
+		display: flex;
 		align-items: center;
 		gap: var(--space-2);
-		margin-top: var(--space-5);
-		color: var(--color-accent);
+		padding-bottom: var(--space-3);
+		border-bottom: 1px solid var(--color-border);
+		color: var(--color-text-muted);
 		font-family: var(--font-mono);
 		font-size: var(--text-label);
+		font-weight: var(--weight-regular);
 		letter-spacing: 0.14em;
 		text-transform: uppercase;
 	}
 
-	.tag::before {
+	/* "Em evolução" leva o ponto de destaque */
+	.now-label {
+		color: var(--color-accent);
+	}
+
+	.now-label::before {
 		content: '';
 		width: 0.5rem;
 		height: 0.5rem;
@@ -78,9 +82,6 @@ const t = useTranslations(locale);
 	}
 
 	.now-list {
-		display: grid;
-		gap: var(--space-5);
-		margin-top: var(--space-5);
 		padding: 0;
 		list-style: none;
 	}
@@ -88,8 +89,8 @@ const t = useTranslations(locale);
 	.now-list li {
 		display: grid;
 		grid-template-columns: 2.5rem 1fr;
-		padding-top: var(--space-4);
-		border-top: 1px solid var(--color-border);
+		padding-block: var(--space-4);
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	.n {
@@ -110,20 +111,9 @@ const t = useTranslations(locale);
 		font-size: var(--text-base);
 	}
 
-	.list-title {
-		color: var(--color-text-muted);
-		font-family: var(--font-mono);
-		font-size: var(--text-label);
-		font-weight: var(--weight-regular);
-		letter-spacing: 0.14em;
-		text-transform: uppercase;
-	}
-
 	.list {
-		margin-top: var(--space-3);
 		padding: 0;
 		list-style: none;
-		border-top: 1px solid var(--color-border);
 	}
 
 	@media (min-width: 60rem) {

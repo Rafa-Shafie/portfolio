@@ -51,6 +51,7 @@ export const pt = {
 	about: {
 		label: 'Sobre mim',
 		heading: 'Engenharia em formação.\nExperiência na prática.',
+		bioTitle: 'Quem sou',
 		paragraphs: [
 			'Estudo Engenharia de Software na Estácio e venho me especializando em backend e IA generativa.',
 			'No BTG Pactual, desenvolvi do zero um assistente de IA com RAG e Text-to-SQL que entrou em produção e passou a ser usado pela equipe. Antes disso, integrei dados de sistemas diferentes e criei regras de negócio para apoiar decisões de investimento imobiliário.',
@@ -81,7 +82,7 @@ export const pt = {
 		intro: 'O que está recebendo minha atenção neste momento.',
 		nowTag: 'Em evolução',
 		now: [
-			{ title: 'Backend com Java', text: 'Java, orientação a objetos e Spring Boot no bootcamp DIO · Itaú.' },
+			{ title: 'Backend com Java', text: 'Java, orientação a objetos e Spring Boot no bootcamp DIO · Itaú.' },
 			{ title: 'Engenharia de IA', text: 'Aplicações com LLMs, recuperação de contexto e avaliação de respostas.' },
 			{ title: 'Inglês', text: 'Estudo contínuo no Kumon, hoje no nível M.' },
 		],

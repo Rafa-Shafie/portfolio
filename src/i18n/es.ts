@@ -48,6 +48,7 @@ export const es: Dictionary = {
 	about: {
 		label: 'Sobre mí',
 		heading: 'Ingeniería en formación.\nExperiencia en la práctica.',
+		bioTitle: 'Quién soy',
 		paragraphs: [
 			'Estudio Ingeniería de Software en Estácio y me estoy especializando en backend e IA generativa.',
 			'En BTG Pactual, desarrollé desde cero un asistente de IA con RAG y Text-to-SQL que llegó a producción y empezó a ser utilizado por el equipo. Antes, integré datos de distintos sistemas y creé reglas de negocio para apoyar decisiones de inversión inmobiliaria.',
@@ -78,7 +79,7 @@ export const es: Dictionary = {
 		intro: 'En qué estoy centrando mi atención ahora.',
 		nowTag: 'En evolución',
 		now: [
-			{ title: 'Backend con Java', text: 'Java, programación orientada a objetos y Spring Boot en el bootcamp DIO · Itaú.' },
+			{ title: 'Backend con Java', text: 'Java, programación orientada a objetos y Spring Boot en el bootcamp DIO · Itaú.' },
 			{ title: 'Ingeniería de IA', text: 'Aplicaciones con LLMs, recuperación de contexto y evaluación de respuestas.' },
 			{ title: 'Inglés', text: 'Estudio continuo en Kumon, actualmente en el nivel M.' },
 		],

@@ -13,13 +13,17 @@ const t = useTranslations(locale);
 ---
 
 <Section id={id} number={number} label={t.about.label} heading={t.about.heading}>
+	<!-- As duas colunas começam com o mesmo rótulo + linha, na mesma altura -->
 	<div class="about">
-		<div class="bio">
-			{t.about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+		<div>
+			<h3 class="col-label">{t.about.bioTitle}</h3>
+			<div class="bio">
+				{t.about.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+			</div>
 		</div>
 
-		<div class="side">
-			<h3 class="side-title">{t.about.contributionsTitle}</h3>
+		<div>
+			<h3 class="col-label">{t.about.contributionsTitle}</h3>
 			<ol class="contributions">
 				{
 					t.about.contributions.map(({ title, text }, i) => (
@@ -36,7 +40,7 @@ const t = useTranslations(locale);
 				}
 			</ol>
 
-			<h3 class="side-title languages-title">{t.about.languagesTitle}</h3>
+			<h3 class="col-label languages-title">{t.about.languagesTitle}</h3>
 			<dl class="languages">
 				{
 					t.about.languages.map(({ name, level }) => (
@@ -57,15 +61,9 @@ const t = useTranslations(locale);
 		gap: var(--space-8);
 	}
 
-	.bio {
-		display: grid;
-		align-content: start;
-		gap: var(--space-4);
-		max-width: 40rem;
-		color: var(--color-text-muted);
-	}
-
-	.side-title {
+	.col-label {
+		padding-bottom: var(--space-3);
+		border-bottom: 1px solid var(--color-border);
 		color: var(--color-text-muted);
 		font-family: var(--font-mono);
 		font-size: var(--text-label);
@@ -74,10 +72,15 @@ const t = useTranslations(locale);
 		text-transform: uppercase;
 	}
 
-	.contributions {
+	.bio {
 		display: grid;
-		gap: var(--space-5);
-		margin-top: var(--space-4);
+		gap: var(--space-4);
+		max-width: 40rem;
+		padding-top: var(--space-5);
+		color: var(--color-text-muted);
+	}
+
+	.contributions {
 		padding: 0;
 		list-style: none;
 	}
@@ -85,8 +88,8 @@ const t = useTranslations(locale);
 	.contributions li {
 		display: grid;
 		grid-template-columns: 2.5rem 1fr;
-		padding-top: var(--space-4);
-		border-top: 1px solid var(--color-border);
+		padding-block: var(--space-5);
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	.n {
@@ -110,17 +113,11 @@ const t = useTranslations(locale);
 		margin-top: var(--space-7);
 	}
 
-	.languages {
-		display: grid;
-		gap: var(--space-2);
-		margin-top: var(--space-4);
-	}
-
 	.languages div {
 		display: flex;
 		justify-content: space-between;
 		gap: var(--space-4);
-		padding-bottom: var(--space-2);
+		padding-block: var(--space-3);
 		border-bottom: 1px solid var(--color-border);
 	}
 
