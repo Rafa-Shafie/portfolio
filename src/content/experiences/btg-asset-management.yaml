@@ -1,0 +1,21 @@
+company: BTG Pactual
+role:
+  pt: Estagiário (Summer Job) · IT Asset Management & Funds
+start: 2026-01
+end: 2026-02
+summary:
+  pt: Participei de um projeto de análise de imóveis em Manhattan para apoiar decisões de investimento.
+highlights:
+  pt:
+    - Integrei dados de dois sistemas, tratei inconsistências e identifiquei imóveis correspondentes entre as bases usando informações como preço e área.
+    - Desenvolvi regras de negócio e um sistema de pontuação para sinalizar oportunidades, variações de preço, imóveis presentes em múltiplas bases e mudanças de status.
+    - Contribuí para um dashboard com filtros, mapas e comparação de preço por pé quadrado para análise regional dos imóveis.
+stack:
+  - Python
+  - SQL
+  - Apache Spark
+  - Pandas
+  - Databricks
+  - AWS
+  - RabbitMQ
+  - Scrum

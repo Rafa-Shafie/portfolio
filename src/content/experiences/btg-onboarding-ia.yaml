@@ -1,0 +1,25 @@
+company: BTG Pactual
+role:
+  pt: Estagiário (Short Job) · IT Onboarding & IA
+start: 2026-06
+end: 2026-10
+summary:
+  pt: Desenvolvi do zero e de ponta a ponta um assistente de IA para apoiar operadores de onboarding bancário na consulta de regras de negócio, documentação e dados. A aplicação entrou em produção e começou a ser utilizada pela equipe.
+highlights:
+  pt:
+    - Implementei busca inteligente na documentação com RAG e consultas em linguagem natural a PostgreSQL e MySQL, com indicação de fontes e acesso somente leitura aos dados.
+    - Desenvolvi o backend em Python/FastAPI e o frontend em React/TypeScript, com chat, histórico, feedback e painéis administrativos.
+    - Preparei a entrega com Docker, Kubernetes e Azure DevOps, com observabilidade no Datadog, controles de custo de IA e avaliações automatizadas da qualidade das respostas.
+stack:
+  - Python
+  - FastAPI
+  - React
+  - TypeScript
+  - PostgreSQL
+  - MySQL
+  - RAG
+  - Text-to-SQL
+  - Docker
+  - Kubernetes
+  - Azure DevOps
+  - Datadog

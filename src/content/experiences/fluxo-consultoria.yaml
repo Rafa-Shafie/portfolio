@@ -1,0 +1,21 @@
+company: Fluxo Consultoria
+companyNote:
+  pt: Empresa Júnior · UFRJ
+role:
+  pt: Consultor de Projetos
+start: 2024-01
+end: 2024-08
+summary:
+  pt: Desenvolvi em equipe um software de gestão em Node.js e TypeScript, do levantamento de requisitos à entrega.
+highlights:
+  pt:
+    - Realizei visitas técnicas e entrevistei funcionários de uma fábrica alimentícia para levantar requisitos e mapear processos; participei da remodelagem dos dados e do desenho do fluxo de um novo sistema.
+    - Apoiei rotinas de contas a pagar e conciliação bancária na Diretoria Administrativo-Financeira.
+    - Conduzi entrevistas e dinâmicas no processo seletivo e orientei novos trainees.
+stack:
+  - Node.js
+  - TypeScript
+  - SQLite
+  - Git
+  - Scrum
+  - Kanban
