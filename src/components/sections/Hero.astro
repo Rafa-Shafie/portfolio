@@ -17,7 +17,16 @@ const t = useTranslations(locale);
 		<div class="hero-text">
 			<p class="greeting">{t.hero.greeting}</p>
 			<h1 id="hero-title">{profile.name}</h1>
-			<p class="headline">{t.hero.headline}</p>
+			<p class="headline">
+				{
+					t.hero.headline.split(' · ').map((part, i) => (
+						<>
+							{i > 0 && ' · '}
+							<span>{part}</span>
+						</>
+					))
+				}
+			</p>
 			<p class="intro">{t.hero.intro}</p>
 			<div class="actions">
 				<slot name="actions" />
@@ -64,6 +73,11 @@ const t = useTranslations(locale);
 		color: var(--color-accent);
 		font-size: var(--text-lg);
 		font-weight: var(--weight-semibold);
+	}
+
+	/* Quebra de linha só entre os itens, nunca dentro de um */
+	.headline span {
+		white-space: nowrap;
 	}
 
 	.intro {
