@@ -75,6 +75,14 @@ export const en: Dictionary = {
 	education: {
 		label: 'Education',
 		heading: 'Learn. Build.\nRepeat.',
+		intro: 'What I am focusing on at the moment.',
+		nowTag: 'Growing',
+		now: [
+			{ title: 'Backend with Java', text: 'Java, object-oriented programming and Spring Boot in the DIO · Itaú bootcamp.' },
+			{ title: 'AI engineering', text: 'LLM applications, context retrieval and response evaluation.' },
+			{ title: 'English', text: 'Ongoing study at Kumon, currently at level M.' },
+		],
+		listTitle: 'Education and courses',
 	},
 	skills: {
 		label: 'Skills',

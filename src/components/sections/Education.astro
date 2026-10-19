@@ -16,17 +16,120 @@ const t = useTranslations(locale);
 ---
 
 <Section id={id} number={number} label={t.education.label} heading={t.education.heading}>
-	<ol class="list">
-		{entries.map((entry) => <EducationItem education={entry.data} locale={locale} />)}
-	</ol>
+	<div class="education">
+		<!-- O que estou estudando agora -->
+		<div class="now">
+			<p class="intro">{t.education.intro}</p>
+			<p class="tag">{t.education.nowTag}</p>
+			<ol class="now-list">
+				{
+					t.education.now.map(({ title, text }, i) => (
+						<li>
+							<span class="n" aria-hidden="true">
+								{String(i + 1).padStart(2, '0')}
+							</span>
+							<div>
+								<h3 class="now-title">{title}</h3>
+								<p class="now-text">{text}</p>
+							</div>
+						</li>
+					))
+				}
+			</ol>
+		</div>
+
+		<div class="history">
+			<h3 class="list-title">{t.education.listTitle}</h3>
+			<ol class="list">
+				{entries.map((entry) => <EducationItem education={entry.data} locale={locale} />)}
+			</ol>
+		</div>
+	</div>
 </Section>
 
 <style>
-	.list {
+	.education {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+		gap: var(--space-8);
+	}
+
+	.intro {
+		color: var(--color-text-muted);
+	}
+
+	.tag {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		margin-top: var(--space-5);
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.tag::before {
+		content: '';
+		width: 0.5rem;
+		height: 0.5rem;
+		border-radius: 50%;
+		background-color: var(--color-accent);
+	}
+
+	.now-list {
+		display: grid;
 		gap: var(--space-5);
+		margin-top: var(--space-5);
 		padding: 0;
 		list-style: none;
+	}
+
+	.now-list li {
+		display: grid;
+		grid-template-columns: 2.5rem 1fr;
+		padding-top: var(--space-4);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.n {
+		padding-top: 0.3rem;
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+	}
+
+	.now-title {
+		font-size: var(--text-lg);
+		font-weight: var(--weight-semibold);
+	}
+
+	.now-text {
+		margin-top: var(--space-1);
+		color: var(--color-text-muted);
+		font-size: var(--text-base);
+	}
+
+	.list-title {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		font-weight: var(--weight-regular);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.list {
+		margin-top: var(--space-3);
+		padding: 0;
+		list-style: none;
+		border-top: 1px solid var(--color-border);
+	}
+
+	@media (min-width: 60rem) {
+		.education {
+			grid-template-columns: 1fr 1.1fr;
+			gap: var(--space-9);
+		}
 	}
 </style>

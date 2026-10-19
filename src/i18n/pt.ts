@@ -78,6 +78,14 @@ export const pt = {
 	education: {
 		label: 'Formação',
 		heading: 'Aprender. Construir.\nRepetir.',
+		intro: 'O que está recebendo minha atenção neste momento.',
+		nowTag: 'Em evolução',
+		now: [
+			{ title: 'Backend com Java', text: 'Java, orientação a objetos e Spring Boot no bootcamp DIO · Itaú.' },
+			{ title: 'Engenharia de IA', text: 'Aplicações com LLMs, recuperação de contexto e avaliação de respostas.' },
+			{ title: 'Inglês', text: 'Estudo contínuo no Kumon, hoje no nível M.' },
+		],
+		listTitle: 'Formação e cursos',
 	},
 	skills: {
 		label: 'Habilidades',

@@ -75,6 +75,14 @@ export const es: Dictionary = {
 	education: {
 		label: 'Formación',
 		heading: 'Aprender. Construir.\nRepetir.',
+		intro: 'En qué estoy centrando mi atención ahora.',
+		nowTag: 'En evolución',
+		now: [
+			{ title: 'Backend con Java', text: 'Java, programación orientada a objetos y Spring Boot en el bootcamp DIO · Itaú.' },
+			{ title: 'Ingeniería de IA', text: 'Aplicaciones con LLMs, recuperación de contexto y evaluación de respuestas.' },
+			{ title: 'Inglés', text: 'Estudio continuo en Kumon, actualmente en el nivel M.' },
+		],
+		listTitle: 'Formación y cursos',
 	},
 	skills: {
 		label: 'Habilidades',
