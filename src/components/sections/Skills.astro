@@ -1,0 +1,31 @@
+---
+import Section from '../Section.astro';
+import SkillGroupCard from '../SkillGroup.astro';
+import type { SkillGroup } from '../../data/skills';
+import { useTranslations, type Locale } from '../../i18n/utils';
+
+interface Props {
+	id: string;
+	locale: Locale;
+	groups: SkillGroup[];
+}
+
+const { id, locale, groups } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<Section id={id} title={t.skills.title}>
+	<ul class="grid">
+		{groups.map((group) => <SkillGroupCard group={group} locale={locale} />)}
+	</ul>
+</Section>
+
+<style>
+	.grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
+		gap: var(--space-5);
+		padding: 0;
+		list-style: none;
+	}
+</style>

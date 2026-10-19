@@ -57,6 +57,7 @@ export const pt = {
 	},
 	skills: {
 		title: 'Habilidades',
+		learning: 'em formação',
 		groups: {
 			backend: 'Backend',
 			ai: 'IA aplicada',

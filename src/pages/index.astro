@@ -6,6 +6,8 @@ import Hero from '../components/sections/Hero.astro';
 import About from '../components/sections/About.astro';
 import Experience from '../components/sections/Experience.astro';
 import Education from '../components/sections/Education.astro';
+import Skills from '../components/sections/Skills.astro';
+import { skillGroups } from '../data/skills';
 import { htmlLang, ogLocale, useTranslations, type Locale } from '../i18n/utils';
 
 const locale: Locale = 'pt';
@@ -26,6 +28,7 @@ const show: Partial<Record<SectionId, boolean>> = {
 	about: true,
 	experience: experiences.length > 0,
 	education: education.length > 0,
+	skills: skillGroups.length > 0,
 };
 
 const order: SectionId[] = ['about', 'experience', 'education', 'skills', 'projects', 'contact'];
@@ -44,5 +47,6 @@ const navLinks = order.filter((id) => show[id]).map((id) => ({ id, label: t.nav[
 		{show.about && <About id="about" locale={locale} />}
 		{show.experience && <Experience id="experience" locale={locale} entries={experiences} />}
 		{show.education && <Education id="education" locale={locale} entries={education} />}
+		{show.skills && <Skills id="skills" locale={locale} groups={skillGroups} />}
 	</main>
 </BaseLayout>

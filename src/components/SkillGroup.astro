@@ -1,0 +1,61 @@
+---
+import type { SkillGroup } from '../data/skills';
+import { useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+	group: SkillGroup;
+	locale: Locale;
+}
+
+const { group, locale } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<li class="group">
+	<h3>{t.skills.groups[group.id]}</h3>
+	<ul class="items">
+		{
+			group.items.map(({ name, learning }) => (
+				<li>
+					{name}
+					{learning && <span class="learning">({t.skills.learning})</span>}
+				</li>
+			))
+		}
+	</ul>
+</li>
+
+<style>
+	.group {
+		padding: var(--space-5);
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+	}
+
+	h3 {
+		margin-bottom: var(--space-4);
+		color: var(--color-accent);
+		font-size: var(--text-lg);
+	}
+
+	.items {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		padding: 0;
+		list-style: none;
+	}
+
+	.items li {
+		padding: var(--space-1) var(--space-3);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
+		font-size: var(--text-sm);
+	}
+
+	.learning {
+		margin-left: var(--space-1);
+		color: var(--color-text-muted);
+	}
+</style>
