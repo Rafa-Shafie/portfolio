@@ -70,19 +70,37 @@ const strokeAttrs = (color, width) =>
 	width > 0 ? ` stroke="${color}" stroke-width="${width}" stroke-linejoin="round"` : '';
 
 /** Monograma RS centralizado pelo desenho das letras dentro de um quadrado arredondado. */
-function monogram({ size = 48, frame = 2.5, radius = 10, capRatio = 0.44, widthRatio = 0.6, bold = 1.4, color = 'currentColor', background }) {
+/**
+ * Monograma: o R na cor do texto (classe .mark-r, que o CSS pode sobrescrever) e o S no destaque,
+ * como "Rafa" e "Shafie" no wordmark. Contorno na cor de destaque.
+ */
+function monogram({
+	size = 48,
+	frame = 2.5,
+	radius = 10,
+	capRatio = 0.44,
+	widthRatio = 0.6,
+	bold = 1.4,
+	color = 'currentColor',
+	first = COLORS.text,
+	background,
+}) {
 	// Limita pela altura e pela largura: o RS da Itim é mais largo que alto
 	const probe = layout('RS', 0, 0, 100).path.getBoundingBox();
 	const fontSize = 100 * Math.min((size * capRatio) / (probe.y2 - probe.y1), (size * widthRatio) / (probe.x2 - probe.x1));
 	const box = layout('RS', 0, 0, fontSize).path.getBoundingBox();
 	const x = size / 2 - (box.x1 + box.x2) / 2;
 	const y = size / 2 - (box.y1 + box.y2) / 2;
-	const glyphs = layout('RS', x, y, fontSize).path;
+	// R e S separados, na mesma posição que teriam juntos (avanço do R + kerning do par)
+	const r = layout('R', x, y, fontSize);
+	const kern = font.getKerningValue(font.charToGlyph('R'), font.charToGlyph('S'));
+	const s = layout('S', r.end + (Number.isFinite(kern) ? kern : 0) * (fontSize / font.unitsPerEm), y, fontSize);
 	const inset = frame / 2;
 	const bg = background ? ` fill="${background}"` : ' fill="none"';
 	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}">
   <rect x="${inset}" y="${inset}" width="${size - frame}" height="${size - frame}" rx="${radius}"${bg} stroke="${color}" stroke-width="${frame}"/>
-  <path fill="${color}"${strokeAttrs(color, bold)} d="${pathData(glyphs)}"/>
+  <path class="mark-r" fill="${first}"${strokeAttrs(first, bold)} d="${pathData(r.path)}"/>
+  <path fill="${color}"${strokeAttrs(color, bold)} d="${pathData(s.path)}"/>
 </svg>
 `;
 }

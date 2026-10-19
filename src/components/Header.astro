@@ -172,6 +172,12 @@ const t = useTranslations(locale);
 		}
 	}
 
+	/* R do monograma na cor do texto, como "Rafa"; o S e o contorno seguem o destaque (color) */
+	.logo-mark :global(.mark-r) {
+		fill: var(--color-text);
+		stroke: var(--color-text);
+	}
+
 	/* Prepara a Fase 3: a cor de "Shafie" passa a vir do token */
 	.logo-word :global(.accent) {
 		fill: var(--color-accent);

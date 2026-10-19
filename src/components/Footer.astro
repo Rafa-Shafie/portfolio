@@ -45,6 +45,12 @@ const year = new Date().getFullYear();
 		color: var(--color-on-accent);
 	}
 
+	/* Sobre o ciano, a marca fica de uma cor só: o S ciano sumiria aqui */
+	.footer-mark :global(.mark-r) {
+		fill: currentColor;
+		stroke: currentColor;
+	}
+
 	@media (min-width: 40rem) {
 		.footer-inner {
 			flex-direction: row;
