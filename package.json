@@ -11,6 +11,7 @@
     "build": "astro build --force",
     "preview": "astro preview",
     "check": "astro check",
+    "brand": "node scripts/generate-brand.mjs",
     "astro": "astro"
   },
   "dependencies": {
@@ -23,6 +24,8 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
+    "@fontsource/itim": "^5.3.0",
+    "opentype.js": "2.0.0",
     "typescript": "^6.0.3"
   }
 }
