@@ -1,7 +1,7 @@
 company: Fluxo Consultoria
 companyNote:
   pt: Empresa Júnior · UFRJ
-  en: Junior Enterprise · UFRJ
+  en: UFRJ Junior Enterprise
   es: Empresa Júnior · UFRJ
 role:
   pt: Consultor de Projetos
@@ -10,25 +10,26 @@ role:
 start: 2024-01
 end: 2024-08
 summary:
-  pt: Desenvolvi em equipe um software de gestão em Node.js e TypeScript, do levantamento de requisitos à entrega.
-  en: Built a management software in Node.js and TypeScript as part of a team, from requirements gathering to delivery.
-  es: Desarrollé en equipo un software de gestión en Node.js y TypeScript, desde el levantamiento de requisitos hasta la entrega.
+  pt: Na Coordenação de Tecnologia, desenvolvi em equipe um software de gestão em Node.js e TypeScript, do levantamento de requisitos à entrega.
+  en: In the Technology Coordination team, developed a management application in Node.js and TypeScript, from requirements gathering to delivery.
+  es: En la Coordinación de Tecnología, desarrollé en equipo un software de gestión en Node.js y TypeScript, desde la recopilación de requisitos hasta la entrega.
 highlights:
   pt:
-    - Realizei visitas técnicas e entrevistei funcionários de uma fábrica alimentícia para levantar requisitos e mapear processos; participei da remodelagem dos dados e do desenho do fluxo de um novo sistema.
+    - Realizei visitas técnicas e entrevistei funcionários de uma fábrica alimentícia para levantar requisitos e mapear processos; participei da remodelagem dos dados e do desenho do fluxo de um novo sistema para a fábrica.
     - Apoiei rotinas de contas a pagar e conciliação bancária na Diretoria Administrativo-Financeira.
     - Conduzi entrevistas e dinâmicas no processo seletivo e orientei novos trainees.
   en:
-    - Ran site visits and interviewed staff at a food factory to gather requirements and map processes; helped remodel the data and design the workflow of a new system.
-    - Supported accounts payable and bank reconciliation routines in the Administrative and Financial department.
-    - Conducted interviews and group activities in the recruitment process and mentored new trainees.
+    - Visited a food factory and interviewed employees to gather requirements and map processes; helped redesign its data model and the new system's data flow.
+    - Supported accounts payable and bank reconciliation in the Administration and Finance department.
+    - Conducted interviews and group exercises during recruiting and mentored new trainees.
   es:
-    - Realicé visitas técnicas y entrevisté a empleados de una fábrica de alimentos para levantar requisitos y mapear procesos; participé en la remodelación de los datos y en el diseño del flujo de un nuevo sistema.
-    - Apoyé rutinas de cuentas por pagar y conciliación bancaria en la Dirección Administrativo-Financiera.
-    - Conduje entrevistas y dinámicas en el proceso de selección y orienté a nuevos trainees.
+    - Realicé visitas técnicas y entrevisté a empleados de una fábrica de alimentos para recopilar requisitos y mapear procesos; participé en el rediseño del modelo de datos y del flujo de un nuevo sistema para la fábrica.
+    - Apoyé las tareas de cuentas por pagar y conciliación bancaria en la Dirección Administrativa y Financiera.
+    - Realicé entrevistas y dinámicas de grupo en el proceso de selección y orienté a los nuevos trainees.
 stack:
   - Node.js
   - TypeScript
+  - Prisma
   - SQLite
   - Git
   - Scrum

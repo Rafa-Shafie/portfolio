@@ -1,27 +1,27 @@
 company: BTG Pactual
 role:
   pt: Estagiário (Short Job) · IT Onboarding & IA
-  en: Intern (Short Job) · IT Onboarding & AI
+  en: Software Engineering Intern (Short Job) · IT Onboarding & AI
   es: Pasante (Short Job) · IT Onboarding & IA
 start: 2026-06
 end: 2026-10
 summary:
   pt: Desenvolvi do zero e de ponta a ponta um assistente de IA para apoiar operadores de onboarding bancário na consulta de regras de negócio, documentação e dados. A aplicação entrou em produção e começou a ser utilizada pela equipe.
-  en: I built, from scratch and end to end, an AI assistant that helps banking onboarding operators look up business rules, documentation and data. The application went into production and is now used by the team.
-  es: Desarrollé desde cero y de punta a punta un asistente de IA para apoyar a los operadores de onboarding bancario en la consulta de reglas de negocio, documentación y datos. La aplicación llegó a producción y empezó a ser utilizada por el equipo.
+  en: Developed an AI assistant from scratch, end to end, to help banking onboarding operators consult business rules, documentation and data. The application went live and the team began using it.
+  es: Desarrollé desde cero y de principio a fin un asistente de IA para ayudar a los operadores de onboarding bancario a consultar reglas de negocio, documentación y datos. La aplicación se puso en producción y el equipo comenzó a utilizarla.
 highlights:
   pt:
     - Implementei busca inteligente na documentação com RAG e consultas em linguagem natural a PostgreSQL e MySQL, com indicação de fontes e acesso somente leitura aos dados.
     - Desenvolvi o backend em Python/FastAPI e o frontend em React/TypeScript, com chat, histórico, feedback e painéis administrativos.
     - Preparei a entrega com Docker, Kubernetes e Azure DevOps, com observabilidade no Datadog, controles de custo de IA e avaliações automatizadas da qualidade das respostas.
   en:
-    - Implemented smart documentation search with RAG and natural-language queries over PostgreSQL and MySQL, with source citations and read-only data access.
-    - Developed the backend in Python/FastAPI and the frontend in React/TypeScript, with chat, history, feedback and admin dashboards.
-    - Prepared delivery with Docker, Kubernetes and Azure DevOps, with Datadog observability, AI cost controls and automated evaluations of answer quality.
+    - Implemented intelligent document search with RAG and natural-language queries to PostgreSQL and MySQL, with source references and read-only data access.
+    - Developed the Python/FastAPI backend and React/TypeScript frontend, including chat, conversation history, feedback and administrative dashboards.
+    - Prepared application delivery with Docker, Kubernetes and Azure DevOps, with Datadog observability, AI usage and cost controls and automated AI response evaluations.
   es:
-    - Implementé búsqueda inteligente en la documentación con RAG y consultas en lenguaje natural a PostgreSQL y MySQL, con indicación de fuentes y acceso de solo lectura a los datos.
+    - Implementé búsqueda inteligente en la documentación con RAG y consultas en lenguaje natural a PostgreSQL y MySQL, con referencias a las fuentes y acceso de solo lectura a los datos.
     - Desarrollé el backend en Python/FastAPI y el frontend en React/TypeScript, con chat, historial, feedback y paneles administrativos.
-    - Preparé la entrega con Docker, Kubernetes y Azure DevOps, con observabilidad en Datadog, controles de costos de IA y evaluaciones automatizadas de la calidad de las respuestas.
+    - Preparé el despliegue con Docker, Kubernetes y Azure DevOps, con observabilidad en Datadog, controles de consumo y costos de IA y evaluaciones automatizadas de las respuestas.
 stack:
   - Python
   - FastAPI
