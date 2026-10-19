@@ -2,8 +2,8 @@
 import EmailIcon from 'bootstrap-icons/icons/envelope.svg';
 import LinkedInIcon from 'bootstrap-icons/icons/linkedin.svg';
 import GitHubIcon from 'bootstrap-icons/icons/github.svg';
-import CvIcon from 'bootstrap-icons/icons/file-earmark-arrow-down.svg';
 import Section from '../Section.astro';
+import CvLink from '../CvLink.astro';
 import { profile } from '../../data/profile';
 import { useTranslations, type Locale } from '../../i18n/utils';
 
@@ -41,10 +41,7 @@ const t = useTranslations(locale);
 			</a>
 		</li>
 		<li>
-			<a class="button button-secondary" href={profile.cv[locale]} download>
-				<CvIcon aria-hidden="true" />
-				{t.contact.cv}
-			</a>
+			<CvLink locale={locale} label={t.contact.cv} icon />
 		</li>
 	</ul>
 </Section>

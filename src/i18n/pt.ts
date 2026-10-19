@@ -32,7 +32,7 @@ export const pt = {
 		intro:
 			'Estudante de Engenharia de Software. Construo sistemas backend e aplicações com IA generativa, do levantamento de requisitos até a produção.',
 		ctaContact: 'Entrar em contato',
-		ctaCv: 'Baixar currículo',
+		ctaCv: 'Ver currículo',
 		photoAlt: 'Foto de Rafael El Shafie',
 	},
 	about: {
@@ -79,7 +79,7 @@ export const pt = {
 		email: 'E-mail',
 		linkedin: 'LinkedIn',
 		github: 'GitHub',
-		cv: 'Currículo (PDF)',
+		cv: 'Currículo',
 	},
 	period: {
 		present: 'atual',

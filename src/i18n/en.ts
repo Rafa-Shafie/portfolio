@@ -29,7 +29,7 @@ export const en: Dictionary = {
 		intro:
 			'Software Engineering student. I build backend systems and generative AI applications, from requirements gathering to production.',
 		ctaContact: 'Get in touch',
-		ctaCv: 'Download CV',
+		ctaCv: 'View CV',
 		photoAlt: 'Photo of Rafael El Shafie',
 	},
 	about: {
@@ -76,7 +76,7 @@ export const en: Dictionary = {
 		email: 'Email',
 		linkedin: 'LinkedIn',
 		github: 'GitHub',
-		cv: 'CV (PDF)',
+		cv: 'CV',
 	},
 	period: {
 		present: 'present',

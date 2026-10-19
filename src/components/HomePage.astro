@@ -10,8 +10,8 @@ import Skills from './sections/Skills.astro';
 import Projects from './sections/Projects.astro';
 import Contact from './sections/Contact.astro';
 import Footer from './Footer.astro';
+import CvLink from './CvLink.astro';
 import { skillGroups } from '../data/skills';
-import { profile } from '../data/profile';
 import { useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
@@ -61,9 +61,7 @@ const navLinks = order.filter((id) => show[id]).map((id) => ({ id, label: t.nav[
 					</a>
 				)
 			}
-			<a slot="actions" class="button button-secondary" href={profile.cv[locale]} download>
-				{t.hero.ctaCv}
-			</a>
+			<CvLink slot="actions" locale={locale} label={t.hero.ctaCv} />
 		</Hero>
 		{show.about && <About id="about" locale={locale} />}
 		{show.experience && <Experience id="experience" locale={locale} entries={experiences} />}

@@ -29,7 +29,7 @@ export const es: Dictionary = {
 		intro:
 			'Estudiante de Ingeniería de Software. Desarrollo sistemas backend y aplicaciones con IA generativa, desde el levantamiento de requisitos hasta producción.',
 		ctaContact: 'Contactar',
-		ctaCv: 'Descargar CV',
+		ctaCv: 'Ver CV',
 		photoAlt: 'Foto de Rafael El Shafie',
 	},
 	about: {
@@ -76,7 +76,7 @@ export const es: Dictionary = {
 		email: 'Correo electrónico',
 		linkedin: 'LinkedIn',
 		github: 'GitHub',
-		cv: 'Currículum (PDF)',
+		cv: 'Currículum',
 	},
 	period: {
 		present: 'actualidad',

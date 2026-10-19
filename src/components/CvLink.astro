@@ -1,0 +1,32 @@
+---
+import PdfIcon from 'bootstrap-icons/icons/file-earmark-pdf.svg';
+import { cvFileSize } from '../data/cv';
+import { profile } from '../data/profile';
+import { useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+	locale: Locale;
+	label: string;
+	variant?: 'primary' | 'secondary';
+	icon?: boolean;
+}
+
+const { locale, label, variant = 'secondary', icon = false } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<!-- Abre no visualizador de PDF do navegador, que já oferece baixar e imprimir -->
+<a class={`button button-${variant}`} href={profile.cv[locale]} target="_blank" rel="noopener">
+	{icon && <PdfIcon aria-hidden="true" />}
+	{label}
+	<span class="file-meta">PDF · {cvFileSize(locale)}</span>
+	<span class="visually-hidden">{t.a11y.newTab}</span>
+</a>
+
+<style>
+	.file-meta {
+		font-size: var(--text-sm);
+		font-weight: var(--weight-regular);
+		opacity: 0.8;
+	}
+</style>
