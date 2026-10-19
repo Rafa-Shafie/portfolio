@@ -15,7 +15,8 @@
   },
   "dependencies": {
     "@fontsource/poppins": "^5.3.0",
-    "astro": "^7.4.0"
+    "astro": "^7.4.0",
+    "bootstrap-icons": "^1.13.1"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",

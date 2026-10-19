@@ -1,0 +1,223 @@
+---
+import MenuIcon from 'bootstrap-icons/icons/list.svg';
+import CloseIcon from 'bootstrap-icons/icons/x-lg.svg';
+import { useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+	locale: Locale;
+	links: { id: string; label: string }[];
+}
+
+const { locale, links } = Astro.props;
+const t = useTranslations(locale);
+---
+
+<a class="skip-link" href="#main">{t.a11y.skipToContent}</a>
+
+<header class="site-header">
+	<div class="container header-inner">
+		<a class="logo" href="#top" aria-label={t.a11y.backToTop}>Rafa<span>Shafie</span></a>
+
+		{
+			links.length > 0 && (
+				<>
+					<button
+						class="menu-toggle"
+						type="button"
+						aria-expanded="false"
+						aria-controls="site-nav"
+						data-label-open={t.a11y.openMenu}
+						data-label-close={t.a11y.closeMenu}
+					>
+						<MenuIcon class="icon icon-open" aria-hidden="true" />
+						<CloseIcon class="icon icon-close" aria-hidden="true" />
+						<span class="visually-hidden" data-menu-label>
+							{t.a11y.openMenu}
+						</span>
+					</button>
+
+					<nav id="site-nav" class="site-nav" aria-label={t.a11y.mainNav} data-open="false">
+						<ul>
+							{links.map(({ id, label }) => (
+								<li>
+									<a href={`#${id}`}>{label}</a>
+								</li>
+							))}
+						</ul>
+					</nav>
+				</>
+			)
+		}
+	</div>
+</header>
+
+<script>
+	const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
+	const nav = document.querySelector<HTMLElement>('#site-nav');
+	const label = toggle?.querySelector<HTMLElement>('[data-menu-label]');
+
+	if (toggle && nav && label) {
+		const setOpen = (open: boolean) => {
+			toggle.setAttribute('aria-expanded', String(open));
+			nav.dataset.open = String(open);
+			label.textContent = (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) ?? '';
+		};
+		const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+
+		toggle.addEventListener('click', () => setOpen(!isOpen()));
+
+		// Escolher um destino fecha o menu
+		nav.addEventListener('click', (event) => {
+			if ((event.target as HTMLElement).closest('a')) setOpen(false);
+		});
+
+		// Esc fecha e devolve o foco ao botão
+		document.addEventListener('keydown', (event) => {
+			if (event.key === 'Escape' && isOpen()) {
+				setOpen(false);
+				toggle.focus();
+			}
+		});
+
+		// Clique fora fecha
+		document.addEventListener('click', (event) => {
+			const target = event.target as Node;
+			if (isOpen() && !nav.contains(target) && !toggle.contains(target)) setOpen(false);
+		});
+
+		// Ao passar para o layout de desktop, o estado do menu mobile é descartado
+		matchMedia('(min-width: 48rem)').addEventListener('change', () => setOpen(false));
+	}
+</script>
+
+<style>
+	.skip-link {
+		position: absolute;
+		top: var(--space-2);
+		left: var(--space-2);
+		z-index: 100;
+		padding: var(--space-2) var(--space-4);
+		background-color: var(--color-accent);
+		color: var(--color-on-accent);
+		font-weight: var(--weight-semibold);
+		border-radius: var(--radius-sm);
+		transform: translateY(-200%);
+	}
+
+	.skip-link:focus {
+		transform: none;
+	}
+
+	.site-header {
+		position: sticky;
+		top: 0;
+		z-index: 50;
+		background-color: color-mix(in srgb, var(--color-bg) 85%, transparent);
+		backdrop-filter: blur(8px);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.header-inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-height: var(--header-height);
+		gap: var(--space-4);
+	}
+
+	.logo {
+		color: var(--color-text);
+		font-size: var(--text-xl);
+		font-weight: var(--weight-bold);
+		text-decoration: none;
+	}
+
+	.logo span {
+		color: var(--color-accent);
+	}
+
+	.menu-toggle {
+		display: inline-grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		padding: 0;
+		background: none;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm);
+		color: var(--color-text);
+		cursor: pointer;
+	}
+
+	.icon {
+		width: 1.5rem;
+		height: 1.5rem;
+	}
+
+	.icon-close,
+	.menu-toggle[aria-expanded='true'] .icon-open {
+		display: none;
+	}
+
+	.menu-toggle[aria-expanded='true'] .icon-close {
+		display: block;
+	}
+
+	.site-nav ul {
+		list-style: none;
+		padding: 0;
+	}
+
+	.site-nav a {
+		display: block;
+		color: var(--color-text-muted);
+		font-weight: var(--weight-semibold);
+		text-decoration: none;
+		transition: color var(--duration-fast) ease;
+	}
+
+	.site-nav a:hover {
+		color: var(--color-accent);
+	}
+
+	/* Mobile: o menu é uma gaveta logo abaixo do header */
+	@media (max-width: 47.99rem) {
+		.site-nav {
+			position: absolute;
+			top: 100%;
+			left: 0;
+			right: 0;
+			background-color: var(--color-surface);
+			border-bottom: 1px solid var(--color-border);
+		}
+
+		.site-nav[data-open='false'] {
+			display: none;
+		}
+
+		.site-nav ul {
+			padding-block: var(--space-2);
+		}
+
+		.site-nav a {
+			padding: var(--space-3) var(--space-5);
+			font-size: var(--text-lg);
+		}
+	}
+
+	/* Desktop: links em linha, sem botão */
+	@media (min-width: 48rem) {
+		.menu-toggle {
+			display: none;
+		}
+
+		.site-nav ul {
+			display: flex;
+			gap: var(--space-5);
+		}
+
+		.site-nav a {
+			padding-block: var(--space-2);
+		}
+	}
+</style>
