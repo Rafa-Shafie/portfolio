@@ -35,6 +35,7 @@ export const skillGroups: SkillGroup[] = [
 			{ name: 'Text-to-SQL' },
 			{ name: 'scikit-learn' },
 			{ name: 'Amazon SageMaker' },
+			{ name: 'Amazon Bedrock' },
 		],
 	},
 	{
