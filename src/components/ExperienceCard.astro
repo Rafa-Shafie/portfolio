@@ -5,56 +5,76 @@ import { formatPeriod, localize, useTranslations, type Locale } from '../i18n/ut
 interface Props {
 	experience: CollectionEntry<'experiences'>['data'];
 	locale: Locale;
+	/** Posição na lista ("01"). */
+	index: string;
+	/** Começa aberta (a mais recente). */
+	open?: boolean;
 }
 
-const { experience, locale } = Astro.props;
+const { experience, locale, index, open = false } = Astro.props;
 const t = useTranslations(locale);
 const { company, companyNote, role, start, end, summary, highlights, stack } = experience;
 ---
 
-<article class="card">
-	<header>
-		<p class="period">{formatPeriod(start, end, locale)}</p>
-		<h3>
-			{company}
-			{companyNote && <span class="note">{localize(companyNote, locale)}</span>}
+<!-- Acordeão nativo: abre e fecha sem JavaScript, pelo mouse e pelo teclado -->
+<details class="experience" open={open}>
+	<summary>
+		<span class="index" aria-hidden="true">{index}</span>
+		<h3 class="heading">
+			<span class="company">
+				{company}
+				{companyNote && <span class="note">{localize(companyNote, locale)}</span>}
+			</span>
+			<span class="role">{localize(role, locale)}</span>
 		</h3>
-		<p class="role">{localize(role, locale)}</p>
-	</header>
+		<span class="period">{formatPeriod(start, end, locale)}</span>
+		<span class="toggle" aria-hidden="true"></span>
+	</summary>
 
-	<p class="summary">{localize(summary, locale)}</p>
-
-	<ul class="highlights">
-		{localize(highlights, locale).map((item) => <li>{item}</li>)}
-	</ul>
-
-	<h4 class="visually-hidden">{t.experience.stack}</h4>
-	<ul class="stack">
-		{stack.map((tech) => <li>{tech}</li>)}
-	</ul>
-</article>
+	<div class="body">
+		<p class="summary">{localize(summary, locale)}</p>
+		<ul class="highlights">
+			{localize(highlights, locale).map((item) => <li>{item}</li>)}
+		</ul>
+		<h4 class="visually-hidden">{t.experience.stack}</h4>
+		<ul class="stack">
+			{stack.map((tech) => <li>{tech}</li>)}
+		</ul>
+	</div>
+</details>
 
 <style>
-	.card {
+	.experience {
+		border-top: 1px solid var(--color-border);
+	}
+
+	summary {
 		display: grid;
-		gap: var(--space-4);
-		padding: var(--space-5);
-		background-color: var(--color-surface);
-		border: 1px solid var(--color-border);
-		border-left: 0.25rem solid var(--color-accent);
-		border-radius: var(--radius-md);
+		grid-template-columns: 2.5rem 1fr auto;
+		align-items: center;
+		gap: var(--space-2) var(--space-4);
+		padding-block: var(--space-5);
+		list-style: none;
+		cursor: pointer;
 	}
 
-	.period {
-		color: var(--color-text-muted);
-		font-size: var(--text-sm);
-		font-weight: var(--weight-semibold);
-		text-transform: uppercase;
-		letter-spacing: 0.04em;
+	summary::-webkit-details-marker {
+		display: none;
 	}
 
-	h3 {
+	.index {
+		align-self: start;
+		padding-top: 0.35rem;
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+	}
+
+	.heading {
+		display: grid;
+		gap: var(--space-1);
 		font-size: var(--text-xl);
+		font-weight: var(--weight-semibold);
 	}
 
 	.note {
@@ -68,7 +88,72 @@ const { company, companyNote, role, start, end, summary, highlights, stack } = e
 	}
 
 	.role {
+		color: var(--color-text-muted);
+		font-size: var(--text-base);
+		font-weight: var(--weight-regular);
+	}
+
+	.period {
+		grid-column: 2;
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		text-transform: uppercase;
+	}
+
+	/* Ícone + que vira × ao abrir */
+	.toggle {
+		position: relative;
+		grid-column: 3;
+		grid-row: 1;
+		width: 2.25rem;
+		height: 2.25rem;
+		border: 1px solid var(--color-border);
+		border-radius: 50%;
+		transition: transform var(--duration-base) ease;
+	}
+
+	.toggle::before,
+	.toggle::after {
+		content: '';
+		position: absolute;
+		inset: 50% auto auto 50%;
+		width: 0.875rem;
+		height: 2px;
+		background-color: var(--color-accent);
+		transform: translate(-50%, -50%);
+	}
+
+	.toggle::after {
+		transform: translate(-50%, -50%) rotate(90deg);
+	}
+
+	.experience[open] .toggle {
+		transform: rotate(45deg);
+	}
+
+	summary:hover .company {
 		color: var(--color-accent);
+	}
+
+	.body {
+		display: grid;
+		gap: var(--space-4);
+		padding-bottom: var(--space-6);
+	}
+
+	/* No celular, o complemento da empresa vai para a própria linha, sem o ponto separador */
+	@media (max-width: 59.99rem) {
+		.note {
+			display: block;
+		}
+
+		.note::before {
+			content: none;
+		}
+	}
+
+	.summary {
 		font-weight: var(--weight-semibold);
 	}
 
@@ -96,5 +181,25 @@ const { company, companyNote, role, start, end, summary, highlights, stack } = e
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-full);
 		font-size: var(--text-sm);
+	}
+
+	@media (min-width: 60rem) {
+		summary {
+			grid-template-columns: 2.5rem 1fr auto auto;
+		}
+
+		.period {
+			grid-column: 3;
+			grid-row: 1;
+		}
+
+		.toggle {
+			grid-column: 4;
+		}
+
+		.body {
+			max-width: 52rem;
+			padding-left: calc(2.5rem + var(--space-4));
+		}
 	}
 </style>

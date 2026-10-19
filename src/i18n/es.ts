@@ -69,6 +69,7 @@ export const es: Dictionary = {
 	experience: {
 		label: 'Experiencia',
 		heading: 'Donde el aprendizaje\nse convirtió en resultados.',
+		intro: 'Dos pasantías en BTG Pactual y una base construida en la empresa júnior de la UFRJ.',
 		stack: 'Stack',
 	},
 	education: {

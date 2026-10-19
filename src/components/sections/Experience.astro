@@ -16,11 +16,17 @@ const t = useTranslations(locale);
 ---
 
 <Section id={id} number={number} label={t.experience.label} heading={t.experience.heading}>
+	<p slot="intro">{t.experience.intro}</p>
 	<ol class="list">
 		{
-			entries.map((entry) => (
+			entries.map((entry, i) => (
 				<li>
-					<ExperienceCard experience={entry.data} locale={locale} />
+					<ExperienceCard
+						experience={entry.data}
+						locale={locale}
+						index={String(i + 1).padStart(2, '0')}
+						open={i === 0}
+					/>
 				</li>
 			))
 		}
@@ -29,9 +35,8 @@ const t = useTranslations(locale);
 
 <style>
 	.list {
-		display: grid;
-		gap: var(--space-5);
 		padding: 0;
 		list-style: none;
+		border-bottom: 1px solid var(--color-border);
 	}
 </style>
