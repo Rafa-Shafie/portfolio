@@ -1,0 +1,88 @@
+/**
+ * Textos fixos da interface em português.
+ * O tipo `Dictionary` nasce daqui: os dicionários dos outros idiomas precisam
+ * ter exatamente as mesmas chaves, ou o build quebra.
+ */
+export const pt = {
+	meta: {
+		title: 'Rafael El Shafie | Engenharia de Software, IA Generativa e Backend',
+		description:
+			'Portfólio de Rafael El Shafie, estudante de Engenharia de Software com experiência em backend e IA generativa: RAG, Text-to-SQL, Python e FastAPI.',
+	},
+	a11y: {
+		skipToContent: 'Pular para o conteúdo',
+		openMenu: 'Abrir menu',
+		closeMenu: 'Fechar menu',
+		mainNav: 'Navegação principal',
+		backToTop: 'Rafael El Shafie, voltar ao início',
+		newTab: '(abre em nova aba)',
+	},
+	nav: {
+		about: 'Sobre',
+		experience: 'Experiências',
+		education: 'Formação',
+		skills: 'Habilidades',
+		projects: 'Projetos',
+		contact: 'Contato',
+	},
+	hero: {
+		greeting: 'Olá, eu sou',
+		headline: 'Engenharia de Software · IA Generativa · Backend',
+		intro:
+			'Estudante de Engenharia de Software. Construo sistemas backend e aplicações com IA generativa, do levantamento de requisitos até a produção.',
+		ctaContact: 'Entrar em contato',
+		ctaCv: 'Baixar currículo',
+		photoAlt: 'Foto de Rafael El Shafie',
+	},
+	about: {
+		title: 'Sobre mim',
+		paragraphs: [
+			'Estudo Engenharia de Software na Estácio e venho me especializando em backend e IA generativa.',
+			'No BTG Pactual, desenvolvi do zero um assistente de IA com RAG e Text-to-SQL que entrou em produção e passou a ser usado pela equipe. Antes disso, integrei dados de sistemas diferentes e criei regras de negócio para apoiar decisões de investimento imobiliário.',
+			'Estou em busca de estágio em desenvolvimento backend ou IA.',
+		],
+		languagesTitle: 'Idiomas',
+		languages: [
+			{ name: 'Português', level: 'nativo' },
+			{ name: 'Inglês', level: 'intermediário' },
+			{ name: 'Espanhol', level: 'básico' },
+		],
+	},
+	experience: {
+		title: 'Experiências',
+		stack: 'Stack',
+	},
+	education: {
+		title: 'Formação',
+	},
+	skills: {
+		title: 'Habilidades',
+		groups: {
+			backend: 'Backend',
+			ai: 'IA aplicada',
+			data: 'Dados',
+			frontend: 'Frontend',
+			infra: 'Cloud e DevOps',
+			quality: 'Qualidade',
+		},
+	},
+	projects: {
+		title: 'Projetos',
+	},
+	contact: {
+		title: 'Contato',
+		text: 'Quer conversar sobre uma vaga ou um projeto? O jeito mais rápido de falar comigo é por e-mail ou pelo LinkedIn.',
+		email: 'E-mail',
+		linkedin: 'LinkedIn',
+		github: 'GitHub',
+		cv: 'Currículo (PDF)',
+	},
+	period: {
+		present: 'atual',
+	},
+	footer: {
+		builtWith: 'Feito com Astro.',
+	},
+};
+
+export type Dictionary = typeof pt;

@@ -1,16 +1,19 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { htmlLang, ogLocale, useTranslations, type Locale } from '../i18n/utils';
+
+const locale: Locale = 'pt';
+const t = useTranslations(locale);
 ---
 
 <BaseLayout
-	title="Rafael El Shafie"
-	description="Portfólio de Rafael El Shafie: Engenharia de Software, IA Generativa e Backend."
-	lang="pt-BR"
-	ogLocale="pt_BR"
+	title={t.meta.title}
+	description={t.meta.description}
+	lang={htmlLang[locale]}
+	ogLocale={ogLocale[locale]}
 >
 	<main>
 		<h1>Rafael El Shafie</h1>
-		<p>Engenharia de Software · IA Generativa · Backend</p>
-		<p>Site em construção.</p>
+		<p>{t.hero.headline}</p>
 	</main>
 </BaseLayout>
