@@ -17,6 +17,7 @@ status: production
 art: assistant
 order: 0
 featured: true
+experience: btg-onboarding-ia
 stack:
   - FastAPI
   - RAG
@@ -24,10 +25,27 @@ stack:
   - Kubernetes
   - Datadog
 details:
+  summary:
+    problem:
+      pt: "Parte dos chamados à sustentação do onboarding bancário era de dúvidas operacionais, que não exigiam correção técnica."
+      en: "Part of the tickets sent to the banking onboarding support team were operational questions that needed no technical fix."
+      es: "Parte de los tickets al equipo de soporte del onboarding bancario eran dudas operativas que no requerían una corrección técnica."
+    role:
+      pt: "Desenvolvi de ponta a ponta, com orientação do meu gestor: base de conhecimento, backend, interface, integração com IA e bancos de dados, testes e implantação."
+      en: "I built it end to end, with guidance from my manager: knowledge base, backend, interface, AI and database integration, testing and deployment."
+      es: "Lo desarrollé de principio a fin, con la orientación de mi gestor: base de conocimiento, backend, interfaz, integración con IA y bases de datos, pruebas y despliegue."
+    delivery:
+      pt: "Um assistente de IA com RAG e Text-to-SQL que reúne documentação, orientações e dados autorizados numa conversa."
+      en: "An AI assistant with RAG and Text-to-SQL that brings documentation, guidance and authorized data together in one conversation."
+      es: "Un asistente de IA con RAG y Text-to-SQL que reúne documentación, orientaciones y datos autorizados en una conversación."
+    result:
+      pt: "Em produção em quatro meses, validado pelo time de sustentação e usado pela operação. Reduzir os chamados evitáveis segue como objetivo da solução."
+      en: "In production within four months, validated by the support team and used by operations. Reducing avoidable tickets remains the solution's goal."
+      es: "En producción en cuatro meses, validado por el equipo de soporte y utilizado por la operación. Reducir los tickets evitables sigue siendo el objetivo de la solución."
   intro:
-    pt: "Visão técnica do Atlas, que desenvolvi de ponta a ponta no estágio no BTG Pactual. A experiência, com responsabilidades, decisões e aprendizados, está na seção Experiências."
-    en: "A technical view of Atlas, which I built end to end during my internship at BTG Pactual. The experience itself, with responsibilities, decisions and learnings, is in the Experience section."
-    es: "Visión técnica de Atlas, que desarrollé de principio a fin en mi pasantía en BTG Pactual. La experiencia, con responsabilidades, decisiones y aprendizajes, está en la sección Experiencia."
+    pt: "Visão técnica do Atlas, que desenvolvi de ponta a ponta no estágio no BTG Pactual."
+    en: "A technical view of Atlas, which I built end to end during my internship at BTG Pactual."
+    es: "Visión técnica de Atlas, que desarrollé de principio a fin en mi pasantía en BTG Pactual."
   sections:
     - heading: { pt: "Como uma pergunta é respondida", en: "How a question is answered", es: "Cómo se responde una pregunta" }
       items:

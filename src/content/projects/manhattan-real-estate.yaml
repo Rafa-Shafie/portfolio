@@ -17,6 +17,7 @@ status: delivered
 art: map
 order: 1
 featured: true
+experience: btg-asset-management
 stack:
   - Python
   - SQL
@@ -24,10 +25,27 @@ stack:
   - Databricks
   - RabbitMQ
 details:
+  summary:
+    problem:
+      pt: "Pesquisar imóveis em Manhattan exigia consultar portais separados e comparar anúncios, características e preços à mão."
+      en: "Researching real estate in Manhattan meant checking separate listing sites and comparing listings, features and prices by hand."
+      es: "Investigar inmuebles en Manhattan exigía consultar portales por separado y comparar anuncios, características y precios a mano."
+    role:
+      pt: "Em dupla, reconstruímos boa parte do tratamento dos dados e criamos a camada analítica, as regras de pontuação e as notificações. O dashboard foi a minha parte mais individual."
+      en: "Working in a pair, we rebuilt most of the data processing and created the analytics layer, the scoring rules and the notifications. The dashboard was my most individual part."
+      es: "En pareja, reconstruimos buena parte del tratamiento de los datos y creamos la capa analítica, las reglas de puntuación y las notificaciones. El dashboard fue mi parte más individual."
+    delivery:
+      pt: "Uma base única dos anúncios em Databricks, com pontuação, acompanhamento de eventos, avisos no Microsoft Teams e um dashboard interativo."
+      en: "A single listings base in Databricks, with scoring, event tracking, Microsoft Teams alerts and an interactive dashboard."
+      es: "Una base única de anuncios en Databricks, con puntuación, seguimiento de eventos, avisos en Microsoft Teams y un dashboard interactivo."
+    result:
+      pt: "Apresentado em inglês a quem pediu o projeto, com retorno positivo. A validação foi por comparação manual; não acompanhei a evolução depois do estágio."
+      en: "Presented in English to the person who requested the project, with positive feedback. Validation was done by manual comparison; I did not follow the project after the internship."
+      es: "Presentado en inglés a quien pidió el proyecto, con una respuesta positiva. La validación fue por comparación manual; no seguí la evolución del proyecto después de la pasantía."
   intro:
-    pt: "Visão técnica do Manhattan Real Estate, a solução de dados que desenvolvi em dupla no Summer Job no BTG Pactual. A experiência, com o trabalho em dupla, as decisões e os aprendizados, está na seção Experiências. O projeto pertence ao banco, então não há código nem demonstração públicos."
-    en: "A technical view of Manhattan Real Estate, the data solution I built in a pair during my Summer Job at BTG Pactual. The experience itself, with the pair work, decisions and learnings, is in the Experience section. The project belongs to the bank, so there is no public code or demo."
-    es: "Visión técnica de Manhattan Real Estate, la solución de datos que desarrollé en pareja en el Summer Job en BTG Pactual. La experiencia, con el trabajo en pareja, las decisiones y los aprendizajes, está en la sección Experiencia. El proyecto pertenece al banco, por lo que no hay código ni demostración públicos."
+    pt: "Visão técnica do Manhattan Real Estate, a solução de dados que desenvolvi em dupla no Summer Job no BTG Pactual. O projeto pertence ao banco, então não há código nem demonstração públicos."
+    en: "A technical view of Manhattan Real Estate, the data solution I built in a pair during my Summer Job at BTG Pactual. The project belongs to the bank, so there is no public code or demo."
+    es: "Visión técnica de Manhattan Real Estate, la solución de datos que desarrollé en pareja en el Summer Job en BTG Pactual. El proyecto pertenece al banco, por lo que no hay código ni demostración públicos."
   sections:
     - heading: { pt: "Por que existe", en: "Why it exists", es: "Por qué existe" }
       text:

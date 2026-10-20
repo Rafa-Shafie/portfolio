@@ -47,9 +47,9 @@ stack:
 # ---------------------------------------------------------------------------------------------
 details:
   intro:
-    pt: "Em quatro meses, transformei a ideia do Atlas, um assistente de IA para o onboarding bancário, em uma aplicação em produção, integrando backend, interface, base de conhecimento, consultas controladas e recursos de administração. A solução foi validada pelo time de sustentação e começou a ser usada gradualmente pela operação. Os detalhes técnicos estão no projeto Atlas, na seção Projetos."
-    en: "In four months, I turned the idea of Atlas, an AI assistant for banking onboarding, into an application in production, bringing together backend, interface, knowledge base, controlled queries and admin features. The support team validated the solution and operations started using it gradually. The technical details are in the Atlas project, in the Projects section."
-    es: "En cuatro meses, convertí la idea de Atlas, un asistente de IA para el onboarding bancario, en una aplicación en producción, integrando backend, interfaz, base de conocimiento, consultas controladas y funciones de administración. El equipo de soporte validó la solución y operaciones empezó a utilizarla gradualmente. Los detalles técnicos están en el proyecto Atlas, en la sección Proyectos."
+    pt: "Em quatro meses, transformei a ideia do Atlas, um assistente de IA para o onboarding bancário, em uma aplicação em produção, integrando backend, interface, base de conhecimento, consultas controladas e recursos de administração. A solução foi validada pelo time de sustentação e começou a ser usada gradualmente pela operação."
+    en: "In four months, I turned the idea of Atlas, an AI assistant for banking onboarding, into an application in production, bringing together backend, interface, knowledge base, controlled queries and admin features. The support team validated the solution and operations started using it gradually."
+    es: "En cuatro meses, convertí la idea de Atlas, un asistente de IA para el onboarding bancario, en una aplicación en producción, integrando backend, interfaz, base de conocimiento, consultas controladas y funciones de administración. El equipo de soporte validó la solución y operaciones empezó a utilizarla gradualmente."
   sections:
     - heading: { pt: "O problema", en: "The problem", es: "El problema" }
       text:
