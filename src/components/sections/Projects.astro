@@ -268,12 +268,12 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 	}
 
 	/*
-	 * Hierarquia da galeria: no celular, um cartão por linha; no tablet, dois; no desktop, os trabalhos
-	 * principais (featured) ocupam metade da linha e os outros, um terço. Cartões escondidos pelo
-	 * filtro saem do fluxo (hidden), e a grade se rearruma sozinha.
+	 * Galeria: no celular, um cartão por linha; no tablet, dois; no desktop, três. Cartões escondidos
+	 * pelo filtro saem do fluxo (hidden), e a grade se rearruma sozinha.
 	 *
-	 * As colunas são "finas" de propósito (4 no tablet, 12 no desktop): assim, a sobra da última linha
-	 * é sempre um número par de colunas, e o script acima consegue centralizar essa linha exatamente.
+	 * As colunas são "finas" de propósito (4 no tablet, 6 no desktop, cada cartão ocupando 2): assim, a
+	 * sobra da última linha é sempre um número par de colunas, e o script acima consegue centralizar
+	 * essa linha exatamente.
 	 */
 	.grid {
 		display: grid;
@@ -295,19 +295,7 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 
 	@media (min-width: 64rem) {
 		.grid {
-			grid-template-columns: repeat(12, 1fr);
-		}
-
-		.card {
-			grid-column: span 4;
-		}
-
-		.card.featured {
-			grid-column: span 6;
-		}
-
-		.featured .card-title {
-			font-size: var(--text-2xl);
+			grid-template-columns: repeat(6, 1fr);
 		}
 	}
 
@@ -328,6 +316,26 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 	.card:has(.more:not([hidden])):is(:hover, :focus-within) {
 		transform: translateY(-4px);
 		border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+	}
+
+	/*
+	 * Trabalhos principais (featured): mesmo tamanho dos outros, para a grade ficar igual em qualquer
+	 * filtro; o destaque vem da borda ciano e de um traço mais grosso no topo. O traço é um ::before do
+	 * próprio cartão (que já é a referência de posição), então não atrapalha a área de clique esticada.
+	 */
+	/* Depois do hover e com a mesma força de seletor: no hover, a borda do destaque continua ciano cheio */
+	.card.featured,
+	.card.featured:has(.more):is(:hover, :focus-within) {
+		border-color: var(--color-accent);
+	}
+
+	.card.featured::before {
+		content: '';
+		position: absolute;
+		inset: 0 0 auto;
+		z-index: 1;
+		height: 4px;
+		background-color: var(--color-accent);
 	}
 
 	.card-body {

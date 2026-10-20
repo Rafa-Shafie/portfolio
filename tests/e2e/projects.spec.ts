@@ -65,17 +65,20 @@ test('cada cartão: um só botão, clicável por inteiro, e o foco volta ao fech
 	}
 });
 
-// Hierarquia: na grade de 6 colunas do desktop, destaque ocupa 3 (metade) e os outros, 2 (um terço)
-test('galeria: no desktop, os trabalhos principais ocupam metade da linha', async ({ page }) => {
+// Hierarquia sem mudar o tamanho: o destaque tem a mesma largura dos outros (a grade fica igual em
+// qualquer filtro) e se distingue pela borda ciano e pelo traço no topo
+test('galeria: trabalhos principais com o mesmo tamanho e destaque na borda', async ({ page }) => {
 	await page.setViewportSize({ width: 1440, height: 900 });
-	const width = async (slug: string) =>
-		(await page.locator(`#projects .card:has(#project-${slug})`).boundingBox())!.width;
+	const card = (slug: string) => page.locator(`#projects .card:has(#project-${slug})`);
 	const featured = projects.filter((p) => p.featured);
-	const regular = projects.filter((p) => !p.featured);
+	const [regular] = projects.filter((p) => !p.featured);
 	expect(featured.length, 'há trabalhos em destaque').toBeGreaterThan(0);
 	for (const project of featured) {
-		const ratio = (await width(project.slug)) / (await width(regular[0].slug));
-		expect(ratio, project.slug).toBeCloseTo(1.5, 1);
+		const width = (await card(project.slug).boundingBox())!.width;
+		expect(Math.abs(width - (await card(regular.slug).boundingBox())!.width), project.slug).toBeLessThan(1);
+		expect(await css(card(project.slug), 'border-top-color'), project.slug).not.toBe(
+			await css(card(regular.slug), 'border-top-color'),
+		);
 	}
 });
 
