@@ -24,6 +24,11 @@ export function useTranslations(locale: Locale): Dictionary {
 /** Campo de conteúdo com uma versão por idioma. */
 export type Localized<T> = Record<Locale, T>;
 
+/** Etiqueta que pode ser um nome próprio (igual em todos os idiomas) ou ter uma versão por idioma. */
+export function localizeTerm(term: string | Localized<string>, locale: Locale): string {
+	return typeof term === 'string' ? term : term[locale];
+}
+
 export function localize<T>(value: Localized<T>, locale: Locale): T {
 	return value[locale];
 }

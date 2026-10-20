@@ -4,7 +4,7 @@ import Section from '../Section.astro';
 import ProjectArt from '../ProjectArt.astro';
 import DetailDialog from '../DetailDialog.astro';
 import ArrowIcon from 'bootstrap-icons/icons/arrow-up-right.svg';
-import { localize, useTranslations, type Locale } from '../../i18n/utils';
+import { localize, localizeTerm, useTranslations, type Locale } from '../../i18n/utils';
 
 interface Props {
 	id: string;
@@ -47,6 +47,7 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 			entries.map(({ id: slug, data }, i) => {
 				const dialogId = `project-${slug}`;
 				const title = localize(data.title, locale);
+				const stack = data.stack.map((term) => localizeTerm(term, locale));
 				return (
 					<li class="card" data-category={data.category}>
 						<ProjectArt
@@ -67,7 +68,7 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 							<h3 class="card-title">{title}</h3>
 							<p class="description">{localize(data.description, locale)}</p>
 							<ul class="stack">
-								{data.stack.map((tech) => (
+								{stack.map((tech) => (
 									<li>{tech}</li>
 								))}
 							</ul>
@@ -94,9 +95,12 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 									items: section.items && localize(section.items, locale),
 								}))}
 								groupsHeading={t.projects.details.techDetails}
-								groups={(data.techDetails ?? []).map((g) => ({ label: localize(g.label, locale), items: g.items }))}
+								groups={(data.techDetails ?? []).map((g) => ({
+									label: localize(g.label, locale),
+									items: g.items.map((term) => localizeTerm(term, locale)),
+								}))}
 								tagsHeading={t.projects.details.tech}
-								tags={data.stack}
+								tags={stack}
 								links={[
 									...(data.repo ? [{ label: t.projects.repo, href: data.repo, newTabLabel: t.a11y.newTab }] : []),
 									...(data.demo ? [{ label: t.projects.demo, href: data.demo, newTabLabel: t.a11y.newTab }] : []),

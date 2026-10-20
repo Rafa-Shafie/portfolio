@@ -35,8 +35,14 @@ const detailSections = z.object({
 		.min(1),
 });
 
-/** Tecnologias em detalhe, agrupadas por frente (rótulo traduzível, itens são nomes próprios). */
-const techGroups = z.array(z.object({ label: localized(z.string()), items: z.array(z.string()).min(1) }));
+/**
+ * Etiqueta de tecnologia ou conhecimento: nome próprio ("FastAPI") fica igual em todos os idiomas;
+ * conceito ("Modelagem lógica") vem com uma versão por idioma.
+ */
+const term = z.union([z.string(), localized(z.string())]);
+
+/** Tecnologias em detalhe, agrupadas por frente (rótulo traduzível). */
+const techGroups = z.array(z.object({ label: localized(z.string()), items: z.array(term).min(1) }));
 
 /** Datas do período: o fim, quando existe, não pode vir antes do início. */
 const period = {
@@ -96,13 +102,13 @@ const projects = defineCollection({
 		/** Resumo do cartão, em uma ou duas frases. */
 		description: localized(z.string()),
 		category: z.enum(['ai', 'backend', 'data']),
-		/** Projeto pessoal ou feito numa experiência profissional (mostra a organização). */
-		kind: z.enum(['personal', 'professional']).default('personal'),
+		/** Projeto pessoal, de experiência profissional ou de capacitação (os dois últimos mostram a organização). */
+		kind: z.enum(['personal', 'professional', 'training']).default('personal'),
 		organization: z.string().optional(),
 		status: z.enum(['progress', 'production', 'delivered', 'released']).default('progress'),
 		/** Ilustração própria do projeto; sem ela, usa a ilustração genérica da área. */
-		art: z.enum(['assistant', 'map']).optional(),
-		stack: z.array(z.string()).min(1),
+		art: z.enum(['assistant', 'map', 'model']).optional(),
+		stack: z.array(term).min(1),
 		repo: z.url().optional(),
 		demo: z.url().optional(),
 		order: z.number().int().default(0),

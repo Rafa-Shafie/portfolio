@@ -160,6 +160,7 @@ export const es: Dictionary = {
 		kinds: {
 			personal: 'Proyecto personal',
 			professional: 'Experiencia profesional',
+			training: 'Proyecto de capacitación',
 		},
 		status: {
 			progress: 'En curso',
@@ -171,6 +172,7 @@ export const es: Dictionary = {
 		art: {
 			assistant: 'Pregunta → contexto → respuesta',
 			map: 'Manhattan · NYC',
+			model: 'Entrevistas → modelo de datos',
 		},
 		readMore: 'Ver detalles',
 		count: 'proyectos mostrados',

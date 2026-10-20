@@ -163,6 +163,7 @@ export const pt = {
 		kinds: {
 			personal: 'Projeto pessoal',
 			professional: 'Experiência profissional',
+			training: 'Projeto de capacitação',
 		},
 		status: {
 			progress: 'Em andamento',
@@ -174,6 +175,7 @@ export const pt = {
 		art: {
 			assistant: 'Pergunta → contexto → resposta',
 			map: 'Manhattan · NYC',
+			model: 'Entrevistas → modelo de dados',
 		},
 		readMore: 'Ver detalhes',
 		count: 'projetos exibidos',
