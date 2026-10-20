@@ -14,6 +14,9 @@ lighthouse-report/
 !.env.example
 .vercel/
 
+# Foto original em alta resolução: o site usa a versão recortada (src/assets/rafael.jpg)
+src/assets/foto_perfil.jpg
+
 # Claude Code: briefing e configurações ficam só na máquina (a documentação pública é o README)
 CLAUDE.md
 .claude/settings.local.json
