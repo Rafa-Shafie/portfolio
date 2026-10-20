@@ -92,7 +92,8 @@ const lines = heading.split('\n');
 
 	.section-inverted .section-label {
 		color: var(--color-on-accent);
-		opacity: 0.75;
+		/* 0,9 é o limite para 4,5:1 com texto branco sobre o ciano escuro do tema claro */
+		opacity: 0.9;
 	}
 
 	.section-inverted .section-intro {
