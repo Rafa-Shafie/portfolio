@@ -1,9 +1,24 @@
+/**
+ * Contato e currículo.
+ *
+ * - Copiar e-mail: o teste dá ao navegador permissão de usar a área de transferência
+ *   (`permissions`), clica, lê o que foi copiado e confere a confirmação, que também é anunciada
+ *   ao leitor de tela por uma região role="status".
+ * - Foco visível sobre o bloco de destaque: o anel de foco precisa de 3:1 de contraste contra o
+ *   fundo (WCAG 1.4.11). Calculamos o contraste em vez de comparar com uma cor fixa, então o teste
+ *   vale para os dois temas.
+ * - CV: abre numa aba nova, no visualizador de PDF do navegador, sem forçar download.
+ */
 import { test, expect, css, escape } from './fixtures';
 import { pages, profile } from './content';
 
 const { t } = pages[0];
 
-/** Razão de contraste WCAG entre duas cores `rgb(...)`. */
+/**
+ * Razão de contraste WCAG entre duas cores `rgb(...)`, pela fórmula oficial: a luminância relativa
+ * de cada cor (o quanto ela parece clara ao olho, com mais peso para o verde) e depois
+ * (mais clara + 0,05) / (mais escura + 0,05). Vai de 1:1 (iguais) a 21:1 (preto no branco).
+ */
 function contrast(a: string, b: string) {
 	const luminance = (color: string) => {
 		const [r, g, b] = color.match(/\d+(\.\d+)?/g)!.slice(0, 3).map((v) => {

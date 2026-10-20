@@ -1,5 +1,18 @@
+/**
+ * Cabeçalho: o skip link e o menu.
+ *
+ * - Skip link: o primeiro Tab da página mostra "Pular para o conteúdo". Quem navega pelo teclado
+ *   ou por leitor de tela pula o menu inteiro em vez de passar por todos os links (WCAG 2.4.1).
+ * - Menu do celular: um botão que abre e fecha a lista (padrão "disclosure"). aria-expanded diz ao
+ *   leitor de tela se está aberto; Esc fecha e devolve o foco ao botão, para ninguém se perder.
+ *
+ * `test.describe` agrupa testes, e `test.use` dentro dele muda a configuração só daquele grupo
+ * (aqui, a janela de celular).
+ */
 import { test, expect, clickOutside } from './fixtures';
 import { pages } from './content';
+
+// O dicionário do português: os testes comparam com os textos reais, não com cópias escritas à mão
 
 const { t } = pages[0];
 

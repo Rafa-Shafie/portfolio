@@ -1,3 +1,16 @@
+/**
+ * Tema claro e escuro.
+ *
+ * - Sem escolha salva, o site segue o sistema (colorScheme simula a preferência do sistema operacional).
+ * - O botão troca o tema e salva a escolha no localStorage, que vale para as outras páginas e ao recarregar.
+ * - "Sem flash": a escolha salva é aplicada antes de a página aparecer. Para provar isso, um script
+ *   roda antes de tudo (addInitScript) e anota o tema no instante em que o <body> nasce. Se o tema
+ *   fosse aplicado depois, a página apareceria um instante no tema errado e o teste veria isso.
+ * - Armazenamento bloqueado (modo privado, por exemplo): o botão continua funcionando, só não salva.
+ *
+ * Este arquivo roda só no projeto 'dark' (ver playwright.config.ts): cada teste escolhe o tema do
+ * sistema que precisa.
+ */
 import { test, expect, css } from './fixtures';
 import { pages } from './content';
 

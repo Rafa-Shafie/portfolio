@@ -1,6 +1,10 @@
 /**
  * Dados que os testes comparam com a página: os mesmos dicionários e YAML que o site usa.
  * Assim, adicionar um projeto ou trocar um texto não exige mexer nos testes.
+ *
+ * Por exemplo: em vez de escrever "7 projetos" no teste (e ele quebrar no dia em que entrar o
+ * oitavo), o teste lê os YAML de src/content/projects/ e espera a mesma quantidade na página.
+ * O teste continua pegando o que importa: um projeto publicado que não aparece no site.
  */
 import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
@@ -19,6 +23,8 @@ export const pages = locales.map((locale) => ({
 	t: useTranslations(locale),
 }));
 
+// Formato dos YAML, só com os campos que os testes usam. O schema completo (e a validação de
+// verdade) fica em src/content.config.ts.
 type Term = string | Localized<string>;
 type Details = { draft?: boolean };
 
@@ -40,6 +46,10 @@ interface Experience {
 	details?: Details;
 }
 
+/**
+ * Lê todos os YAML de uma pasta de src/content/. O nome do arquivo (sem .yaml) vira o `slug`, o
+ * mesmo identificador que o site usa nos ids (ex.: atlas.yaml → modal #project-atlas).
+ */
 function readCollection<T>(name: string): T[] {
 	const dir = path.join(import.meta.dirname, '../../src/content', name);
 	return readdirSync(dir)
@@ -59,4 +69,5 @@ export const exploredExperiences = experiences.filter((e) => published(e.details
 /** Projetos que aparecem no filtro de uma área (principal ou `alsoIn`). */
 export const projectsIn = (area: string) => projects.filter((p) => p.category === area || p.alsoIn?.includes(area));
 
+/** Etiqueta no idioma da página: nome próprio ("FastAPI") fica igual; conceito tem uma versão por idioma. */
 export const term = (value: Term, locale: Locale) => (typeof value === 'string' ? value : value[locale]);

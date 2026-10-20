@@ -1,6 +1,24 @@
+/**
+ * Ferramentas compartilhadas pelos testes. Todo arquivo .spec.ts importa `test` e `expect` daqui,
+ * e não direto do '@playwright/test', para ganhar a checagem de erros abaixo.
+ *
+ * Conceitos do Playwright que aparecem nos testes:
+ *   - `page`: uma aba do navegador. page.goto('/') abre a página; page.keyboard.press('Tab') aperta Tab.
+ *   - "locator": uma forma de encontrar elementos, como page.locator('.menu-toggle'). Ele não guarda
+ *     o elemento; procura de novo a cada uso, então continua válido se a página mudar.
+ *   - `expect(locator).toBeVisible()` e parecidos esperam sozinhos (até 5 s) a condição ficar
+ *     verdadeira. Por isso quase não há "espere 1 segundo" nos testes: o expect já espera.
+ *   - `await`: quase tudo no Playwright é assíncrono (conversa com o navegador), então cada passo
+ *     precisa de await para acontecer na ordem certa.
+ */
 import { test as base, expect, type Locator, type Page } from '@playwright/test';
 
-/** `page` que reprova o teste se aparecer erro no console ou exceção de script. */
+/**
+ * `page` que reprova o teste se aparecer erro no console ou exceção de script.
+ * "Fixture" é algo que o Playwright prepara antes do teste e entrega pronto (como `page`). Aqui,
+ * estendemos a `page` padrão: antes do teste, começamos a anotar os erros; `use(page)` roda o teste;
+ * depois dele, conferimos que a lista ficou vazia. Assim, nenhum teste precisa lembrar de checar isso.
+ */
 export const test = base.extend({
 	page: async ({ page }, use) => {
 		const errors: string[] = [];
@@ -15,7 +33,11 @@ export const test = base.extend({
 
 export { expect };
 
-/** Quantos pixels a página passa da largura da janela (0 = sem rolagem horizontal). */
+/**
+ * Quantos pixels a página passa da largura da janela (0 = sem rolagem horizontal).
+ * page.evaluate roda a função dentro do navegador e devolve o resultado para o teste: é a ponte
+ * entre o código do teste (no Node) e o `document` da página.
+ */
 export const horizontalOverflow = (page: Page) =>
 	page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
 

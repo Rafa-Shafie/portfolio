@@ -1,5 +1,15 @@
+/**
+ * Movimento e navegação: a seção ativa no menu e a entrada das seções ao rolar.
+ *
+ * - Seção ativa: o link da seção que está na tela ganha aria-current="true" (o leitor de tela
+ *   anuncia "atual") e um traço visível, porque a cor sozinha não basta (WCAG 1.4.1).
+ * - Entrada das seções: um fade curto ao rolar, que só acontece com JavaScript e sem pedido de
+ *   menos movimento. O que já está na tela ao carregar não anima, para não atrasar a primeira imagem
+ *   da página (o LCP do Lighthouse).
+ */
 import { test, expect, css } from './fixtures';
 
+// Link do menu marcado como seção atual (deve haver no máximo um)
 const current = (page: import('@playwright/test').Page) => page.locator('#site-nav a[aria-current="true"]');
 
 test.describe('seção ativa no menu', () => {

@@ -3,7 +3,16 @@ import { pages, skillGroups } from './content';
 
 const { t } = pages[0];
 
-// Padrão de abas do W3C/APG: setas, Home/End, ativação automática e roving tabindex
+/**
+ * Padrão de abas do W3C/APG (ARIA Authoring Practices Guide): setas, Home/End, ativação automática
+ * e roving tabindex.
+ *
+ * - "Roving tabindex": só a aba ativa tem tabindex="0". As outras ficam com -1 e saem da ordem do
+ *   Tab. Assim, Tab entra na lista de abas uma vez só, e as setas andam entre elas. Sem isso, quem
+ *   usa teclado precisaria apertar Tab seis vezes para passar pelas abas.
+ * - "Ativação automática": a seta já troca o painel, sem precisar de Enter.
+ * - aria-selected marca a aba ativa, e o painel é rotulado pela aba (aria-labelledby).
+ */
 test('abas pelo mouse e pelo teclado', async ({ page }) => {
 	await page.goto('/');
 	const tabs = page.getByRole('tab');
