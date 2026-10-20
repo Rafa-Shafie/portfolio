@@ -1,0 +1,97 @@
+---
+import SunIcon from 'bootstrap-icons/icons/sun.svg';
+import MoonIcon from 'bootstrap-icons/icons/moon-stars.svg';
+import { useTranslations, type Locale } from '../i18n/utils';
+
+interface Props {
+	locale: Locale;
+}
+
+const t = useTranslations(Astro.props.locale);
+---
+
+<!--
+	Alternador de tema: mostra o tema de destino (sol no escuro, lua no claro). Ícone e nome acessível
+	seguem o data-theme da raiz pelo CSS, então já nascem certos. Só aparece com JavaScript, que é
+	quem marca data-theme no <head>.
+-->
+<button class="theme-toggle" type="button" data-theme-toggle>
+	<SunIcon class="icon to-light" aria-hidden="true" />
+	<MoonIcon class="icon to-dark" aria-hidden="true" />
+	<span class="visually-hidden to-light">{t.a11y.themeToLight}</span>
+	<span class="visually-hidden to-dark">{t.a11y.themeToDark}</span>
+</button>
+
+<script>
+	type Theme = 'light' | 'dark';
+
+	const root = document.documentElement;
+	const button = document.querySelector<HTMLButtonElement>('[data-theme-toggle]');
+	const meta = document.querySelector<HTMLMetaElement>('meta[name="theme-color"]');
+	const system = matchMedia('(prefers-color-scheme: light)');
+
+	const saved = (): Theme | null => {
+		try {
+			const value = localStorage.getItem('theme');
+			return value === 'light' || value === 'dark' ? value : null;
+		} catch {
+			return null;
+		}
+	};
+
+	const apply = (theme: Theme) => {
+		root.dataset.theme = theme;
+		// A barra do navegador no celular acompanha o fundo do tema
+		if (meta) meta.content = getComputedStyle(document.body).backgroundColor;
+	};
+
+	button?.addEventListener('click', () => {
+		const next: Theme = root.dataset.theme === 'light' ? 'dark' : 'light';
+		apply(next);
+		try {
+			localStorage.setItem('theme', next);
+		} catch {}
+	});
+
+	// Sem escolha salva, acompanha a troca de tema do sistema
+	system.addEventListener('change', () => {
+		if (!saved()) apply(system.matches ? 'light' : 'dark');
+	});
+</script>
+
+<style>
+	.theme-toggle {
+		display: none;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		padding: 0;
+		background: none;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
+		color: var(--color-text);
+		cursor: pointer;
+		transition:
+			color var(--duration-fast) ease,
+			border-color var(--duration-fast) ease;
+	}
+
+	:global(:root[data-theme]) .theme-toggle {
+		display: inline-grid;
+	}
+
+	.theme-toggle:hover {
+		border-color: var(--color-accent);
+		color: var(--color-accent);
+	}
+
+	.icon {
+		width: 1.25rem;
+		height: 1.25rem;
+	}
+
+	:global(:root[data-theme='light']) .to-light,
+	:global(:root[data-theme='dark']) .to-dark {
+		display: none;
+	}
+</style>

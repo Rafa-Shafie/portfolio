@@ -4,6 +4,7 @@ import CloseIcon from 'bootstrap-icons/icons/x-lg.svg';
 import BrandMark from '../assets/brand/mark.svg';
 import BrandWordmark from '../assets/brand/wordmark.svg';
 import LanguageSwitcher from './LanguageSwitcher.astro';
+import ThemeToggle from './ThemeToggle.astro';
 import { useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
@@ -58,7 +59,10 @@ const t = useTranslations(locale);
 			)
 		}
 
-		<LanguageSwitcher locale={locale} />
+		<div class="header-actions">
+			<LanguageSwitcher locale={locale} />
+			<ThemeToggle locale={locale} />
+		</div>
 	</div>
 </header>
 
@@ -184,6 +188,12 @@ const t = useTranslations(locale);
 		stroke: var(--color-accent);
 	}
 
+	.header-actions {
+		display: flex;
+		align-items: center;
+		gap: var(--space-2);
+	}
+
 	.menu-toggle {
 		display: inline-grid;
 		place-items: center;
@@ -283,7 +293,7 @@ const t = useTranslations(locale);
 			font-size: var(--text-base);
 		}
 
-		.header-inner > :global(.language-switcher) {
+		.header-actions {
 			justify-self: end;
 		}
 	}
