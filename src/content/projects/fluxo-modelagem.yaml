@@ -2,9 +2,9 @@
 # generalizado). Projeto em equipe: verbos de participação. Entrega = documentação e modelagem;
 # a implementação seguiu com outra empresa. Não é projeto de limpeza de dados, ETL ou migração.
 title:
-  pt: "Requisitos e modelagem para um sistema de gestão industrial"
-  en: "Requirements and data modeling for an industrial management system"
-  es: "Requisitos y modelado para un sistema de gestión industrial"
+  pt: "Modelagem de sistema industrial"
+  en: "Industrial system modeling"
+  es: "Modelado de sistema industrial"
 description:
   pt: "Levantamento de requisitos e modelagem de dados para reorganizar o sistema de gestão de uma indústria alimentícia, conectando entrevistas e mapeamento de processos a modelos e necessidades documentadas."
   en: "Requirements gathering and data modeling to reorganize a food manufacturer's management system, connecting interviews and process mapping to documented models and needs."
