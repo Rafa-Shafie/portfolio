@@ -42,10 +42,10 @@ const external = [
 			</a>
 			<button class="card-link" type="button" data-copy={profile.email} hidden>
 				<EmailIcon class="card-icon" aria-hidden="true" />
-				<span class="card-title">{t.contact.email}</span>
+				<!-- O título visível já diz a ação ("Copiar e-mail"); o link mailto acima continua com "E-mail" -->
+				<span class="card-title">{t.contact.copyEmail}</span>
 				<span class="card-hint" data-copy-hint>{profile.email}</span>
 				<CopyIcon class="card-corner" aria-hidden="true" />
-				<span class="visually-hidden"> – {t.contact.copyEmail}</span>
 			</button>
 		</li>
 		{

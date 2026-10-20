@@ -66,11 +66,12 @@ const [captionFirst, captionSecond] = t.hero.portraitCaption.split('\n');
 				loading="eager"
 				fetchpriority="high"
 			/>
+			<!-- Rótulo e etiqueta são opcionais: com texto vazio no dicionário, não aparecem nesse idioma -->
 			<figcaption>
-				<span class="portrait-label">{t.hero.portraitLabel}</span>
+				{t.hero.portraitLabel && <span class="portrait-label">{t.hero.portraitLabel}</span>}
 				<span class="portrait-caption">{captionFirst}<br />{captionSecond}</span>
 			</figcaption>
-			<span class="portrait-tag" aria-hidden="true"><CodeIcon />{t.hero.portraitTag}</span>
+			{t.hero.portraitTag && <span class="portrait-tag" aria-hidden="true"><CodeIcon />{t.hero.portraitTag}</span>}
 			<svg class="spark" viewBox="0 0 24 24" aria-hidden="true">
 				<path d="M12 2c.6 5.4 4.6 9.4 10 10-5.4.6-9.4 4.6-10 10-.6-5.4-4.6-9.4-10-10 5.4-.6 9.4-4.6 10-10z" />
 			</svg>
