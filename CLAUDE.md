@@ -107,7 +107,7 @@ docs/                        auditoria do site antigo, baseline do Lighthouse, c
 
 1. **Revisões do Rafael:** o espanhol do site, antes de divulgar `/es/`; e a foto profissional, quando houver.
    Com a foto nova: `npm run build && npm run screenshots` para atualizar os prints do README.
-2. **Lançamento (por último):** comprar o domínio, apontar na Vercel e atualizar `site` em `astro.config.mjs` (hoje `portfolio-chi-pink-45.vercel.app`). Só depois disso o link vai para o CV, o LinkedIn e o README.
+2. **Lançamento (por último):** comprar o domínio, apontar na Vercel e atualizar `site` em `astro.config.mjs` (hoje `portfolio-chi-pink-45.vercel.app`). Só depois disso o link vai para o CV e o LinkedIn. O README já aponta para o endereço da Vercel (decisão do Rafael em 20/10/2026): trocar lá também quando houver domínio.
 
 ### Fora do v1 (fica para o v2)
 
@@ -253,7 +253,8 @@ Texto pequeno com `opacity` sobre o destaque não passa de 0,9: abaixo disso, o 
   - idioma da raiz em PT;
   - WhatsApp removido, com contato por e-mail e LinkedIn;
   - projetos visíveis já no v1;
-  - um CV por idioma.
+  - um CV por idioma;
+  - o README do GitHub já leva o link da Vercel (`portfolio-chi-pink-45.vercel.app`), que é o link oficial até haver domínio.
 - **Em aberto:**
   - domínio: nome e extensão (ex.: `rafaelshafie.dev` ou `.com.br`), feito por último;
   - renomear o time na Vercel, o "shafies" dos links de preview (opcional).
