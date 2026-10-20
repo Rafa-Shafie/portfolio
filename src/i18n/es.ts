@@ -103,7 +103,7 @@ export const es: Dictionary = {
 		context: {
 			backend: {
 				title: 'Del requisito a la API.',
-				text: 'APIs y reglas de negocio en Python y FastAPI en el asistente de IA de BTG, y en Node.js y TypeScript en el software de gestión de Fluxo. Ahora profundizando en Java y Spring Boot.',
+				text: 'APIs y reglas de negocio en Python y FastAPI en el asistente de IA de BTG, y en Node.js, TypeScript y NestJS en el backend de la capacitación en Fluxo, donde también participé en el levantamiento de requisitos y el modelado de datos para un cliente. Ahora profundizando en Java y Spring Boot.',
 			},
 			ai: {
 				title: 'IA conectada a un problema real.',
@@ -130,6 +130,7 @@ export const es: Dictionary = {
 			languages: 'Lenguajes',
 			frameworks: 'Frameworks',
 			persistence: 'Persistencia',
+			design: 'Requisitos y modelado',
 			integration: 'Integración',
 			applications: 'Aplicaciones',
 			ml: 'Machine learning',

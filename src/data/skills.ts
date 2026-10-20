@@ -31,9 +31,16 @@ export const skillGroups: SkillGroup[] = [
 		id: 'backend',
 		sets: [
 			{ id: 'languages', items: [...s('Python', 'TypeScript', 'JavaScript', 'SQL'), { name: 'Java', learning: true }] },
-			{ id: 'frameworks', items: [...s('FastAPI', 'Node.js'), { name: 'Spring Boot · Spring Data', learning: true }] },
+			{ id: 'frameworks', items: [...s('FastAPI', 'Node.js', 'NestJS'), { name: 'Spring Boot · Spring Data', learning: true }] },
 			{ id: 'persistence', items: s('SQLAlchemy', 'Alembic', 'Prisma') },
 			{ id: 'integration', items: [{ name: { pt: 'APIs REST', en: 'REST APIs', es: 'APIs REST' } }, ...s('RabbitMQ')] },
+			{
+				id: 'design',
+				items: [
+					{ name: { pt: 'Engenharia de requisitos', en: 'Requirements engineering', es: 'Ingeniería de requisitos' } },
+					{ name: { pt: 'Modelagem de dados', en: 'Data modeling', es: 'Modelado de datos' } },
+				],
+			},
 		],
 	},
 	{

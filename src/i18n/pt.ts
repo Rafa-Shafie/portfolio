@@ -106,7 +106,7 @@ export const pt = {
 		context: {
 			backend: {
 				title: 'Do requisito à API.',
-				text: 'APIs e regras de negócio em Python e FastAPI no assistente de IA do BTG, e em Node.js e TypeScript no software de gestão da Fluxo. Hoje, aprofundando Java e Spring Boot.',
+				text: 'APIs e regras de negócio em Python e FastAPI no assistente de IA do BTG, e em Node.js, TypeScript e NestJS no backend da capacitação na Fluxo, onde também participei do levantamento de requisitos e da modelagem de dados para um cliente. Hoje, aprofundando Java e Spring Boot.',
 			},
 			ai: {
 				title: 'IA ligada a um problema real.',
@@ -133,6 +133,7 @@ export const pt = {
 			languages: 'Linguagens',
 			frameworks: 'Frameworks',
 			persistence: 'Persistência',
+			design: 'Requisitos e modelagem',
 			integration: 'Integração',
 			applications: 'Aplicações',
 			ml: 'Machine learning',
