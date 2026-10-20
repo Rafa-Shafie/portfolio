@@ -93,3 +93,54 @@ test.describe('seletor de idioma', () => {
 		});
 	});
 });
+
+test.describe('trocar de idioma mantém o lugar', () => {
+	/** Seção no topo da tela (logo abaixo do header) e a altura dentro dela, de 0 a 1. */
+	const position = (page: import('@playwright/test').Page) =>
+		page.evaluate(() => {
+			const line = document.querySelector('.site-header')!.getBoundingClientRect().bottom;
+			const current = [...document.querySelectorAll<HTMLElement>('main > section[id]:not(#top)')]
+				.filter((section) => section.getBoundingClientRect().top <= line + 1)
+				.at(-1);
+			if (!current) return null;
+			const box = current.getBoundingClientRect();
+			return { id: current.id, progress: (line - box.top) / box.height };
+		});
+
+	test('no meio de uma seção, a página nova abre na mesma seção e na mesma altura', async ({ page }) => {
+		await page.goto('/');
+		// Com as fontes carregadas, o layout para de mudar (antes disso, a mesma rolagem cai em outro ponto)
+		await page.evaluate(() => document.fonts.ready);
+		await page.evaluate(() => {
+			const projects = document.getElementById('projects')!;
+			scrollTo({ top: projects.offsetTop + projects.offsetHeight * 0.4, behavior: 'instant' });
+		});
+		await page.locator('.lang-toggle').click();
+		const before = await position(page);
+		expect(before?.id).toBe('projects');
+
+		await page.locator('.lang-list a[hreflang="en"]').click();
+		await expect(page).toHaveURL(/\/en\/$/);
+
+		await expect.poll(async () => (await position(page))?.id).toBe('projects');
+		const after = await position(page);
+		expect(Math.abs(after!.progress - before!.progress)).toBeLessThan(0.02);
+
+		// Nada do que está na tela fica esperando a animação de entrada
+		const pendingOnScreen = await page.evaluate(() =>
+			[...document.querySelectorAll('.reveal-pending')].filter((el) => {
+				const box = el.getBoundingClientRect();
+				return box.top < innerHeight && box.bottom > 0;
+			}).length,
+		);
+		expect(pendingOnScreen).toBe(0);
+	});
+
+	test('no topo, a página nova abre no topo', async ({ page }) => {
+		await page.goto('/');
+		await page.locator('.lang-toggle').click();
+		await page.locator('.lang-list a[hreflang="es"]').click();
+		await expect(page).toHaveURL(/\/es\/$/);
+		expect(await page.evaluate(() => scrollY)).toBe(0);
+	});
+});
