@@ -116,7 +116,11 @@ const projects = defineCollection({
 		stage: localized(z.string()).optional(),
 		/** Ilustração própria do projeto; sem ela, usa a ilustração genérica da área. */
 		art: z.enum(['assistant', 'map', 'model', 'ledger', 'league', 'voice']).optional(),
-		stack: z.array(term).min(1),
+		/**
+		 * Etiquetas do cartão: as 5 principais, sem par redundante (ex.: NestJS já diz Node.js). Muita
+		 * gente lê só o cartão, então os cartões se complementam; a lista completa fica em techDetails.
+		 */
+		stack: z.array(term).min(1).max(5, 'no máximo 5 etiquetas no cartão; o resto vai para techDetails'),
 		repo: z.url().optional(),
 		demo: z.url().optional(),
 		order: z.number().int().default(0),

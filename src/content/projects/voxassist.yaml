@@ -27,7 +27,6 @@ stack:
   - Spring Boot
   - Spring AI
   - Resilience4j
-  - PostgreSQL
   - Testcontainers
 details:
   intro:

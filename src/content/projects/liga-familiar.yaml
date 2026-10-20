@@ -23,7 +23,6 @@ stack:
   - Spring Boot
   - Spring Data JPA
   - PostgreSQL
-  - Flyway
   - Docker Compose
 details:
   intro:

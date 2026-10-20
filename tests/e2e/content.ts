@@ -38,6 +38,7 @@ interface Project {
 	stack: Term[];
 	repo?: string;
 	details?: Details;
+	techDetails?: unknown[];
 }
 
 interface Experience {

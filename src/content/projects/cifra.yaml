@@ -25,11 +25,8 @@ stack:
   - Java
   - Spring Boot
   - Python
-  - FastAPI
-  - React
-  - PostgreSQL
   - RabbitMQ
-  - Docker
+  - PostgreSQL
 details:
   intro:
     pt: "Um gestor financeiro doméstico com IA, mobile-first (PWA). Cada membro da casa importa o extrato do próprio banco, o sistema categoriza os lançamentos com IA, concilia as transferências entre membros para não contar o mesmo dinheiro duas vezes e mostra para onde vai o dinheiro da casa. O design está concluído; a implementação está começando."

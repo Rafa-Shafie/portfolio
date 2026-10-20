@@ -20,9 +20,7 @@ stack:
   - Python
   - SQL
   - Apache Spark
-  - Pandas
   - Databricks
-  - AWS
   - RabbitMQ
 details:
   intro:

@@ -21,7 +21,6 @@ stack:
   - { pt: "Mapeamento de processos", en: "Process mapping", es: "Mapeo de procesos" }
   - { pt: "Modelagem conceitual", en: "Conceptual modeling", es: "Modelado conceptual" }
   - { pt: "Modelagem lógica", en: "Logical modeling", es: "Modelado lógico" }
-  - { pt: "Histórias de usuário", en: "User stories", es: "Historias de usuario" }
 details:
   intro:
     pt: "Projeto de consultoria desenvolvido em equipe na Fluxo Consultoria para uma indústria alimentícia, a partir de abril de 2024. A entrega foi de análise, documentação e modelagem; a implementação do novo sistema seguiu com outra empresa."

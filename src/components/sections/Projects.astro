@@ -60,6 +60,8 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) =>
 				const title = localize(data.title, locale);
 				const stack = data.stack.map((term) => localizeTerm(term, locale));
 				const stage = data.stage && localize(data.stage, locale);
+				// No modal, com as tecnologias em detalhe, as 5 etiquetas do cartão seriam repetição
+				const modalTags = data.techDetails?.length ? [] : stack;
 				return (
 					<li class="card" data-categories={[data.category, ...(data.alsoIn ?? [])].join(' ')}>
 						<ProjectArt
@@ -122,7 +124,7 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) =>
 									items: g.items.map((term) => localizeTerm(term, locale)),
 								}))}
 								tagsHeading={t.projects.details.tech}
-								tags={stack}
+								tags={modalTags}
 								links={[
 									...(data.repo ? [{ label: t.projects.repo, href: data.repo, newTabLabel: t.a11y.newTab }] : []),
 									...(data.demo ? [{ label: t.projects.demo, href: data.demo, newTabLabel: t.a11y.newTab }] : []),

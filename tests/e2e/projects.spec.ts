@@ -98,6 +98,17 @@ for (const { path, locale } of pages) {
 		}
 	});
 
+	// O cartão mostra só as 5 principais; no modal, a lista completa fica nas tecnologias em detalhe,
+	// sem o bloco de etiquetas soltas (seria a repetição das 5 do cartão)
+	test(`${path}: modal com as tecnologias em detalhe, sem repetir as etiquetas do cartão`, async ({ page }) => {
+		await page.goto(path);
+		for (const project of projects.filter((p) => p.details && p.techDetails?.length)) {
+			const dialog = page.locator(`#project-${project.slug}`);
+			await expect(dialog.locator('.groups'), project.slug).toHaveCount(1);
+			await expect(dialog.locator('.tags'), project.slug).toHaveCount(0);
+		}
+	});
+
 	// O schema exige `stage` em projetos não concluídos; aqui conferimos que ele chega ao cartão e
 	// ao modal, para que ninguém leia o objetivo do produto como funcionalidade pronta
 	test(`${path}: estágio atual no cartão e no modal dos projetos em andamento`, async ({ page }) => {
