@@ -1,7 +1,16 @@
-/* Reset mínimo */
+/*
+ * Estilos globais: valem para a página inteira. O resto do CSS fica no <style> de cada componente,
+ * que o Astro deixa "escopado": as regras de um componente só pegam nos elementos dele, então um
+ * .card de um lugar não briga com o .card de outro.
+ *
+ * Toda cor, tamanho e espaçamento vem dos tokens (variáveis --algo, em tokens.css).
+ */
+
+/* Reset mínimo: tira as diferenças entre navegadores que mais atrapalham */
 *,
 *::before,
 *::after {
+	/* width e height passam a incluir padding e borda: um elemento de 100% não estoura o pai */
 	box-sizing: border-box;
 }
 

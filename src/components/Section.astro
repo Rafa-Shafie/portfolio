@@ -1,4 +1,12 @@
 ---
+/**
+ * Moldura comum das seções: o <section> com id (o destino dos links do menu), o rótulo
+ * "01 / Sobre", o título <h2> e um espaço opcional para a introdução ao lado.
+ *
+ * - aria-labelledby liga a seção ao título: o leitor de tela anuncia "região Experiências".
+ * - <slot /> é onde entra o conteúdo de cada seção; <slot name="intro"> é o texto ao lado do título.
+ * - O script no fim cuida da animação de entrada ao rolar.
+ */
 interface Props {
 	id: string;
 	/** Posição da seção na página ("01"), calculada a partir das seções visíveis. */

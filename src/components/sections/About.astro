@@ -1,7 +1,15 @@
 ---
+/**
+ * Seção "Sobre": a bio e o que você leva para uma equipe. Todo o texto vem do dicionário do idioma.
+ *
+ * As seções usam o componente Section, que monta a parte comum (o rótulo "01 / Sobre", o título e
+ * o espaçamento). Cada seção só preenche o próprio conteúdo.
+ */
 import Section from '../Section.astro';
 import { useTranslations, type Locale } from '../../i18n/utils';
 
+// Props: o que o componente recebe de quem o usa. A interface dá tipo e autocompletar no editor,
+// e o `astro check` reclama se alguém esquecer de passar um campo.
 interface Props {
 	id: string;
 	number: string;

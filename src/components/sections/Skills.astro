@@ -1,4 +1,9 @@
 ---
+/**
+ * Seção "Habilidades": uma aba por área (Backend, IA…), cada uma com o contexto de uso e os itens
+ * por subgrupo. Os itens vêm de src/data/skills.ts; os nomes e os textos, do dicionário.
+ * Sem JavaScript, as áreas aparecem empilhadas; o script no fim do arquivo transforma em abas.
+ */
 import Section from '../Section.astro';
 import type { SkillGroup } from '../../data/skills';
 import { localize, useTranslations, type Locale } from '../../i18n/utils';
@@ -75,6 +80,14 @@ const t = useTranslations(locale);
 </Section>
 
 <script>
+	/*
+	 * Abas das habilidades, no padrão do W3C/APG (ARIA Authoring Practices Guide).
+	 *
+	 * O HTML sai do build como uma lista de blocos empilhados, que funciona sem JavaScript. Este
+	 * script "liga o modo abas": mostra a lista de abas, dá os papéis ARIA (tab, tabpanel) e passa a
+	 * mostrar um painel por vez. Os papéis só entram aqui, e não no HTML, porque um "tabpanel" sem
+	 * abas funcionando confundiria o leitor de tela.
+	 */
 	for (const root of document.querySelectorAll<HTMLElement>('[data-tabs]')) {
 		const tablist = root.querySelector<HTMLElement>('[role="tablist"]');
 		const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
@@ -87,9 +100,12 @@ const t = useTranslations(locale);
 		panels.forEach((panel) => {
 			panel.setAttribute('role', 'tabpanel');
 			panel.setAttribute('aria-labelledby', panel.dataset.tab ?? '');
+			// O painel entra na ordem do Tab: depois das abas, o próximo Tab vai para o conteúdo
 			panel.tabIndex = 0;
 		});
 
+		// Ativa uma aba. "Roving tabindex": só a aba ativa fica com tabindex 0 (alcançável pelo Tab);
+		// as outras ficam com -1, e quem anda entre elas são as setas.
 		const select = (tab: HTMLButtonElement, focus = false) => {
 			tabs.forEach((t) => {
 				const active = t === tab;
@@ -119,6 +135,7 @@ const t = useTranslations(locale);
 				End: last,
 			}[event.key];
 			if (next === undefined) return;
+			// Impede o comportamento padrão da tecla (Home e End rolariam a página inteira)
 			event.preventDefault();
 			select(tabs[next], true);
 		});

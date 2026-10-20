@@ -1,4 +1,11 @@
 ---
+/**
+ * A página inteira, igual nos três idiomas: as rotas (src/pages/) só passam o `locale`.
+ *
+ * Aqui o conteúdo é buscado e organizado; cada seção recebe pronto o que precisa mostrar.
+ * getCollection lê os YAML de src/content/ já validados pelo schema (src/content.config.ts), então
+ * os dados chegam com o formato garantido.
+ */
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Header from './Header.astro';
@@ -24,7 +31,8 @@ const { locale } = Astro.props;
 const t = useTranslations(locale);
 
 type Dated = { id: string; data: { start?: string } };
-// Sem data de início (em andamento, no próprio ritmo) vai para o fim
+// Ordena por data de início ("2026-06" < "2026-10" funciona como texto, por isso o formato AAAA-MM).
+// Sem data de início (em andamento, no próprio ritmo) vai para o fim; empate desempata pelo nome do arquivo.
 const byStart = (a: Dated, b: Dated) =>
 	(a.data.start ?? '9999').localeCompare(b.data.start ?? '9999') || a.id.localeCompare(b.id);
 
@@ -49,6 +57,7 @@ const show: Partial<Record<SectionId, boolean>> = {
 	contact: true,
 };
 
+// Ordem das seções no menu e na página (a ordem em que aparecem no HTML abaixo é a mesma)
 const order: SectionId[] = ['about', 'experience', 'projects', 'skills', 'education', 'contact'];
 const visible = order.filter((id) => show[id]);
 const navLinks = visible.map((id) => ({ id, label: t.nav[id] }));

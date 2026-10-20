@@ -1,4 +1,13 @@
 ---
+/**
+ * Seção "Projetos": os filtros por área e a grade de cartões, um por YAML em src/content/projects/.
+ *
+ * Padrão de clique do cartão: o cartão inteiro é clicável, mas existe um botão só ("Ver
+ * detalhes"). O ::after do botão é esticado por cima do cartão (position: absolute; inset: 0), e
+ * o anel de foco aparece no cartão com .card:has(.more:focus-visible), ou seja, "o cartão que tem
+ * o botão focado pelo teclado". Nenhum elemento entre o botão e o cartão pode
+ * ter `position` ou `transform`: ele viraria a referência do ::after, e a área de clique encolheria.
+ */
 import type { CollectionEntry } from 'astro:content';
 import Section from '../Section.astro';
 import ProjectArt from '../ProjectArt.astro';
@@ -126,6 +135,13 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) =>
 </Section>
 
 <script>
+	/*
+	 * Filtros dos projetos. Este <script> roda no navegador (diferente do frontmatter, que roda no
+	 * build). O Astro junta e minifica os scripts dos componentes num arquivo só.
+	 *
+	 * Os filtros nascem com `hidden` no HTML: sem JavaScript eles não funcionariam, então nem
+	 * aparecem, e todos os projetos ficam à vista. O script é quem os mostra.
+	 */
 	const group = document.querySelector<HTMLElement>('[data-project-filters]');
 	const status = document.querySelector<HTMLElement>('[data-project-count]');
 	const cards = [...document.querySelectorAll<HTMLElement>('#projects .card')];
@@ -134,18 +150,23 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) =>
 		group.hidden = false;
 		const buttons = [...group.querySelectorAll<HTMLButtonElement>('[data-filter]')];
 
+		// Um ouvinte só no grupo, em vez de um por botão ("delegação de eventos"): o clique sobe do botão
+		// até o grupo, e closest() descobre qual botão foi clicado (mesmo clicando no texto dentro dele)
 		group.addEventListener('click', (event) => {
 			const button = (event.target as HTMLElement).closest<HTMLButtonElement>('[data-filter]');
 			if (!button) return;
 			const filter = button.dataset.filter;
+			// aria-pressed: o leitor de tela anuncia qual filtro está ligado
 			buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
 			let shown = 0;
+			// Cada cartão leva as áreas em data-categories ("backend ai"); esconde os que não têm a área
 			cards.forEach((card) => {
 				const match = filter === 'all' || (card.dataset.categories ?? '').split(' ').includes(filter ?? '');
 				card.hidden = !match;
 				if (match) shown++;
 			});
-			// Anuncia quantos projetos ficaram visíveis
+			// Anuncia quantos projetos ficaram visíveis. O parágrafo tem role="status": o leitor de tela lê
+			// sozinho quando o texto muda, sem tirar o foco do botão (é uma "live region")
 			status.textContent = `${shown} ${status.dataset.label ?? ''}`;
 		});
 	}

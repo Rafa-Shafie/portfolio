@@ -1,4 +1,8 @@
 ---
+/**
+ * Um item da lista de formação: instituição, curso e período. Sem datas (o Kumon, no próprio
+ * ritmo), mostra "em andamento"; sem fim, "atual" (ver formatPeriod em src/i18n/utils.ts).
+ */
 import type { CollectionEntry } from 'astro:content';
 import { formatPeriod, localize, useTranslations, type Locale } from '../i18n/utils';
 

@@ -117,7 +117,19 @@ const titleId = `${id}-title`;
 </dialog>
 
 <script>
+	/*
+	 * Abre e fecha os modais ("Explorar a experiência" e "Ver detalhes" dos projetos).
+	 *
+	 * O <dialog> nativo com showModal() já faz o trabalho pesado de acessibilidade: prende o foco
+	 * dentro do modal, fecha com Esc, deixa o resto da página inerte (nem clicável nem lido pelo
+	 * leitor de tela) e escurece o fundo (::backdrop). O script só liga botões ao modal certo e
+	 * devolve o foco a quem abriu.
+	 *
+	 * Este script aparece uma vez na página, mesmo com dez modais: o Astro inclui o <script> de um
+	 * componente uma vez só, por mais que ele seja usado várias vezes.
+	 */
 	// Um único conjunto de listeners para todos os modais da página
+	// `opener` lembra qual botão abriu o modal, para devolver o foco a ele no fechamento
 	let opener: HTMLElement | null = null;
 
 	document.addEventListener('click', (event) => {
@@ -138,11 +150,13 @@ const titleId = `${id}-title`;
 			return;
 		}
 
-		// Clique no fundo escurecido (fora da caixa) fecha
+		// Clique no fundo escurecido (fora da caixa) fecha. O fundo faz parte do próprio <dialog>, então o
+		// alvo do clique é o dialog; um clique na caixa teria como alvo algo dentro dela.
 		if (target instanceof HTMLDialogElement && target.open) target.close();
 	});
 
-	// Ao fechar (botão, Esc ou fundo), o foco volta para quem abriu
+	// Ao fechar (botão, Esc ou fundo), o foco volta para quem abriu. Sem isso, quem usa teclado ou
+	// leitor de tela voltaria para o topo da página e perderia o lugar.
 	for (const dialog of document.querySelectorAll<HTMLDialogElement>('dialog.detail-dialog')) {
 		dialog.addEventListener('close', () => {
 			opener?.focus();

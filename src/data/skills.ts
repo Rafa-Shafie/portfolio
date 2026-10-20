@@ -1,7 +1,15 @@
+/**
+ * Habilidades por área (as abas da seção) e por subgrupo dentro de cada área.
+ * Os nomes das abas e dos subgrupos vêm do dicionário de cada idioma; aqui ficam só os itens.
+ */
 import type { Dictionary } from '../i18n/pt';
 import type { Localized } from '../i18n/utils';
 
-/** O nome de cada aba e o contexto de uso vêm do dicionário (`skills.groups` e `skills.context`). */
+/**
+ * O nome de cada aba e o contexto de uso vêm do dicionário (`skills.groups` e `skills.context`).
+ * `keyof` transforma as chaves do dicionário num tipo: GroupId só aceita 'backend', 'ai', 'data'…
+ * Um id digitado errado aqui, ou uma área sem texto no dicionário, quebra o `astro check`.
+ */
 type GroupId = keyof Dictionary['skills']['groups'];
 /** O rótulo de cada subgrupo vem do dicionário (`skills.sets`). */
 type SetId = keyof Dictionary['skills']['sets'];
@@ -23,6 +31,7 @@ export interface SkillGroup {
 	sets: SkillSet[];
 }
 
+// Atalho para listas de nomes próprios: s('Python', 'SQL') vira [{ name: 'Python' }, { name: 'SQL' }]
 const s = (...names: string[]): Skill[] => names.map((name) => ({ name }));
 
 // Itens do CV de out/2026 (fonte de verdade), agrupados por tipo dentro de cada área.

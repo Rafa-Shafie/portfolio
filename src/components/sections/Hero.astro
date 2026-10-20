@@ -1,4 +1,15 @@
 ---
+/**
+ * Hero: o topo da página, com o nome (o único <h1>), o headline, os botões e o retrato.
+ *
+ * - <Picture> do Astro gera, no build, a foto em formatos modernos (AVIF e WebP, com JPEG de
+ *   reserva) e em vários tamanhos. O navegador escolhe o menor arquivo que serve para a tela dele.
+ *   É uma das razões do 100 em Performance: a foto é a maior imagem da página.
+ * - Os botões chegam por <slot name="actions">: quem usa o Hero (o HomePage) decide quais botões
+ *   entram. "Slot" é o espaço onde o componente pai encaixa conteúdo próprio.
+ * - Ícones SVG importados viram componentes (<LocationIcon />): o desenho entra direto no HTML,
+ *   sem requisição extra, e herda a cor do texto.
+ */
 import { Picture } from 'astro:assets';
 import LocationIcon from 'bootstrap-icons/icons/geo-alt.svg';
 import CodeIcon from 'bootstrap-icons/icons/code-slash.svg';

@@ -1,4 +1,13 @@
 ---
+/**
+ * Página da raiz (/), em português.
+ *
+ * No Astro, cada arquivo em src/pages/ vira uma rota: este vira /index.html. A página em si é a
+ * mesma nos três idiomas, por isso ela só chama o HomePage com o idioma; o conteúdo todo está lá.
+ *
+ * O bloco entre os `---` é o "frontmatter": código que roda no build (não no navegador) e prepara
+ * o que o HTML abaixo usa.
+ */
 import HomePage from '../components/HomePage.astro';
 import { defaultLocale } from '../i18n/utils';
 ---
