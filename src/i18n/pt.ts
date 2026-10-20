@@ -163,6 +163,7 @@ export const pt = {
 			delivery: 'Entrega e operação',
 			python: 'Python',
 			javascript: 'JavaScript',
+			audits: 'Acessibilidade e desempenho',
 		},
 	},
 	projects: {

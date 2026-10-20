@@ -149,6 +149,7 @@ export const es: Dictionary = {
 			delivery: 'Despliegue y operación',
 			python: 'Python',
 			javascript: 'JavaScript',
+			audits: 'Accesibilidad y rendimiento',
 		},
 	},
 	projects: {

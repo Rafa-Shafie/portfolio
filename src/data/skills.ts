@@ -71,7 +71,7 @@ export const skillGroups: SkillGroup[] = [
 	{
 		id: 'frontend',
 		sets: [
-			{ id: 'web', items: s('TypeScript', 'JavaScript', 'HTML5', 'CSS3') },
+			{ id: 'web', items: s('TypeScript', 'JavaScript', 'HTML5', 'CSS3', 'Astro') },
 			{ id: 'react', items: s('React', 'TanStack Query', 'Zustand', 'Vite') },
 		],
 	},
@@ -80,7 +80,7 @@ export const skillGroups: SkillGroup[] = [
 		sets: [
 			{ id: 'containers', items: s('Docker', 'Kubernetes') },
 			{ id: 'cloud', items: s('AWS (S3, EC2, RDS, Secrets Manager, ECR)') },
-			{ id: 'delivery', items: s('Azure DevOps', 'Git/GitHub', 'Datadog') },
+			{ id: 'delivery', items: s('Azure DevOps', 'Git/GitHub', 'GitHub Actions', 'Vercel', 'Datadog') },
 		],
 	},
 	{
@@ -88,6 +88,8 @@ export const skillGroups: SkillGroup[] = [
 		sets: [
 			{ id: 'python', items: s('pytest', 'Hypothesis') },
 			{ id: 'javascript', items: s('Vitest', 'Playwright') },
+			// Usados neste portfólio: axe confere WCAG nos testes e o Lighthouse barra o CI abaixo da nota mínima
+			{ id: 'audits', items: s('WCAG 2.2', 'axe-core', 'Lighthouse') },
 		],
 	},
 ];
