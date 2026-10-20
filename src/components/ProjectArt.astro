@@ -22,6 +22,7 @@ interface Props {
 const { category, variant, uid, code, caption } = Astro.props;
 const gridId = `grid-${uid}`;
 
+// Desenhos genéricos ficam reduzidos (scale 0.74) para não encostar nos rótulos dos cantos
 // Genérico (IA): rede de nós
 const nodes = [
 	[60, 50],
@@ -112,7 +113,7 @@ const pins = [
 
 		{
 			!variant && category === 'ai' && (
-				<g>
+				<g transform="translate(160 92) scale(0.74) translate(-160 -90)">
 					{edges.map(([a, b]) => (
 						<line x1={nodes[a][0]} y1={nodes[a][1]} x2={nodes[b][0]} y2={nodes[b][1]} class="line" />
 					))}
@@ -125,7 +126,7 @@ const pins = [
 
 		{
 			!variant && category === 'backend' && (
-				<g>
+				<g transform="translate(160 92) scale(0.74) translate(-160 -90)">
 					{[0, 1, 2].map((i) => (
 						<rect x={90 - i * 14} y={40 + i * 34} width="140" height="34" rx="6" class={i === 1 ? 'core-ring' : 'node'} />
 					))}
@@ -137,7 +138,7 @@ const pins = [
 
 		{
 			!variant && category === 'data' && (
-				<g>
+				<g transform="translate(160 92) scale(0.74) translate(-160 -90)">
 					{bars.map((h, i) => (
 						<rect x={44 + i * 34} y={150 - h} width="20" height={h} rx="3" class={i === 5 ? 'accent-fill' : 'node'} />
 					))}
