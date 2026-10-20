@@ -100,7 +100,8 @@ async function readablePlaces(buffer) {
 	walk((await doc.getOutline()) ?? []);
 	places.push({ where: 'nos marcadores', text: titles.join(' | ') });
 	const { info, metadata } = await doc.getMetadata();
-	places.push({ where: 'nos metadados', text: JSON.stringify(info) + JSON.stringify(metadata?.getAll() ?? {}) });
+	// XMP inteiro em texto (o pdf.js não tem getAll); vazio quando o PDF não tem XMP
+	places.push({ where: 'nos metadados', text: JSON.stringify(info) + (metadata?.getRaw() ?? '') });
 	await doc.destroy();
 	return places;
 }
