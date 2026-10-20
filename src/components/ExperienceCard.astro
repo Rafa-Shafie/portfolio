@@ -188,6 +188,7 @@ const hasDetails = details && isPublished(details);
 	}
 
 	.body {
+		position: relative;
 		display: grid;
 		gap: var(--space-6);
 		padding-bottom: var(--space-6);
@@ -250,6 +251,10 @@ const hasDetails = details && isPublished(details);
 		background-color: var(--color-surface);
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-md);
+		/* Sem transform aqui: ele viraria o bloco de referência da área de clique esticada do botão */
+		transition:
+			border-color var(--duration-base) ease,
+			box-shadow var(--duration-base) ease;
 	}
 
 	.outcome-icon {
@@ -295,16 +300,45 @@ const hasDetails = details && isPublished(details);
 		transition: transform var(--duration-base) ease;
 	}
 
-	.explore:hover {
+	/* Área de clique esticada: todo o conteúdo aberto abre os detalhes, com um só botão de verdade */
+	.explore::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+	}
+
+	/* Conteúdo clicável (com JS): a borda do painel acende e a seta anda */
+	.body:has(.explore:not([hidden])):hover .outcome,
+	.body:has(.explore:focus-visible) .outcome {
+		border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+		box-shadow: 0 0 0 1px color-mix(in srgb, var(--color-accent) 25%, transparent);
+	}
+
+	.body:hover .explore,
+	.explore:focus-visible {
 		color: var(--color-accent);
 	}
 
-	.explore:hover .explore-arrow {
+	.body:hover .explore-arrow,
+	.explore:focus-visible .explore-arrow {
 		transform: translateX(4px);
 	}
 
+	/* O anel de foco contorna toda a área clicável */
+	.explore:focus-visible {
+		outline: none;
+	}
+
+	.body:has(.explore:focus-visible) {
+		outline: 3px solid var(--color-focus);
+		outline-offset: 3px;
+		border-radius: var(--radius-sm);
+	}
+
 	@media (prefers-reduced-motion: reduce) {
-		.explore:hover .explore-arrow {
+		.body:hover .explore-arrow,
+		.explore:focus-visible .explore-arrow {
 			transform: none;
 		}
 	}
