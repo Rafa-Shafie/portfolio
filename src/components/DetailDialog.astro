@@ -5,11 +5,19 @@
  * pelos botões [data-dialog-open], fechar ao clicar fora e devolver o foco a quem abriu.
  */
 import CloseIcon from 'bootstrap-icons/icons/x-lg.svg';
+import ArrowIcon from 'bootstrap-icons/icons/arrow-right.svg';
 
 interface Section {
 	heading: string;
 	text?: string;
 	items?: string[];
+}
+
+/** Bloco de links para outros modais (experiência ↔ projeto). `id` é o id do outro <dialog>. */
+interface Related {
+	heading: string;
+	text: string;
+	links: { label: string; id: string }[];
 }
 
 interface Props {
@@ -19,6 +27,9 @@ interface Props {
 	eyebrow?: string;
 	/** Linha abaixo do título (cargo, período…). */
 	meta?: string;
+	/** Resumo no topo (problema, participação, entrega, resultado), antes da abertura. */
+	summaryHeading?: string;
+	summary?: { label: string; text: string }[];
 	/** Parágrafo de abertura, antes das seções. */
 	intro?: string;
 	sections: Section[];
@@ -28,13 +39,32 @@ interface Props {
 	groupsHeading?: string;
 	groups?: { label: string; items: string[] }[];
 	links?: { label: string; href: string; newTabLabel: string }[];
+	related?: Related;
 	note?: string;
 	closeLabel: string;
 	/** Marca visível de rascunho (só aparece no dev e no preview). */
 	draftLabel?: string;
 }
 
-const { id, title, eyebrow, meta, intro, sections, tagsHeading, tags = [], groupsHeading, groups = [], links = [], note, closeLabel, draftLabel } = Astro.props;
+const {
+	id,
+	title,
+	eyebrow,
+	meta,
+	summaryHeading,
+	summary = [],
+	intro,
+	sections,
+	tagsHeading,
+	tags = [],
+	groupsHeading,
+	groups = [],
+	links = [],
+	related,
+	note,
+	closeLabel,
+	draftLabel,
+} = Astro.props;
 const titleId = `${id}-title`;
 ---
 
@@ -51,6 +81,22 @@ const titleId = `${id}-title`;
 				<CloseIcon aria-hidden="true" />
 			</button>
 		</header>
+
+		{
+			summary.length > 0 && (
+				<section class="summary">
+					<h3 class="block-title">{summaryHeading}</h3>
+					<dl class="summary-list">
+						{summary.map(({ label, text }) => (
+							<div class="summary-item">
+								<dt>{label}</dt>
+								<dd>{text}</dd>
+							</div>
+						))}
+					</dl>
+				</section>
+			)
+		}
 
 		{intro && <p class="intro">{intro}</p>}
 
@@ -100,6 +146,26 @@ const titleId = `${id}-title`;
 		}
 
 		{
+			related && related.links.length > 0 && (
+				<section class="block">
+					<h3 class="block-title">{related.heading}</h3>
+					<p class="block-text">{related.text}</p>
+					{/* Link de verdade (#id do outro modal): o script fecha este modal e abre o outro */}
+					<ul class="related">
+						{related.links.map(({ label, id: target }) => (
+							<li>
+								<a href={`#${target}`} data-dialog-link>
+									{label}
+									<ArrowIcon aria-hidden="true" />
+								</a>
+							</li>
+						))}
+					</ul>
+				</section>
+			)
+		}
+
+		{
 			links.length > 0 && (
 				<p class="links">
 					{links.map(({ label, href, newTabLabel }) => (
@@ -131,16 +197,49 @@ const titleId = `${id}-title`;
 	// Um único conjunto de listeners para todos os modais da página
 	// `opener` lembra qual botão abriu o modal, para devolver o foco a ele no fechamento
 	let opener: HTMLElement | null = null;
+	// Na troca de um modal para outro (links "Experiência relacionada"), o fechamento do primeiro não
+	// devolve o foco: ele só volta ao botão de origem quando o último modal fechar
+	let switching = false;
+
+	const dialogFor = (id: string) => {
+		const element = id ? document.getElementById(id) : null;
+		return element instanceof HTMLDialogElement && element.classList.contains('detail-dialog') ? element : null;
+	};
+
+	// O endereço acompanha o modal aberto (…/#project-atlas), então dá para copiar e mandar o link.
+	// replaceState troca o endereço sem criar entrada no histórico: o Voltar do navegador continua
+	// voltando de página, em vez de virar um "fechar modal" escondido.
+	const setHash = (id: string | null) =>
+		history.replaceState(history.state, '', id ? `#${id}` : location.pathname + location.search);
+
+	const open = (dialog: HTMLDialogElement) => {
+		dialog.showModal();
+		setHash(dialog.id);
+	};
 
 	document.addEventListener('click', (event) => {
 		const target = event.target as HTMLElement;
 
 		const openButton = target.closest<HTMLElement>('[data-dialog-open]');
 		if (openButton) {
-			const dialog = document.getElementById(openButton.dataset.dialogOpen ?? '');
-			if (dialog instanceof HTMLDialogElement) {
+			const dialog = dialogFor(openButton.dataset.dialogOpen ?? '');
+			if (dialog) {
 				opener = openButton;
-				dialog.showModal();
+				open(dialog);
+			}
+			return;
+		}
+
+		// Link para outro modal: fecha este e abre o outro, sem rolar a página até o cartão dele
+		const link = target.closest<HTMLAnchorElement>('a[data-dialog-link]');
+		if (link) {
+			const next = dialogFor(link.hash.slice(1));
+			const current = link.closest('dialog');
+			if (next && current) {
+				event.preventDefault();
+				switching = true;
+				current.close();
+				open(next);
 			}
 			return;
 		}
@@ -159,6 +258,12 @@ const titleId = `${id}-title`;
 	// leitor de tela voltaria para o topo da página e perderia o lugar.
 	for (const dialog of document.querySelectorAll<HTMLDialogElement>('dialog.detail-dialog')) {
 		dialog.addEventListener('close', () => {
+			// Tira o #id do endereço, a não ser que ele já aponte para o próximo modal (troca)
+			if (location.hash === `#${dialog.id}`) setHash(null);
+			if (switching) {
+				switching = false;
+				return;
+			}
 			opener?.focus();
 			opener = null;
 		});
@@ -166,6 +271,17 @@ const titleId = `${id}-title`;
 
 	// Os botões que abrem modais só aparecem com JavaScript
 	for (const button of document.querySelectorAll<HTMLElement>('[data-dialog-open]')) button.hidden = false;
+
+	// Quem chega por um link com #id de modal já o vê aberto. Ao fechar, o foco vai para o botão do
+	// cartão daquele modal, como se a pessoa o tivesse aberto dali.
+	const openFromHash = () => {
+		const dialog = dialogFor(decodeURIComponent(location.hash.slice(1)));
+		if (!dialog || dialog.open || document.querySelector('dialog.detail-dialog[open]')) return;
+		opener = document.querySelector<HTMLElement>(`[data-dialog-open="${dialog.id}"]`);
+		open(dialog);
+	};
+	openFromHash();
+	addEventListener('hashchange', openFromHash);
 </script>
 
 <style>
@@ -184,6 +300,29 @@ const titleId = `${id}-title`;
 	.detail-dialog::backdrop {
 		background-color: var(--color-backdrop);
 		backdrop-filter: blur(4px);
+	}
+
+	/*
+	 * Abertura suave: o modal surge com opacidade e um deslocamento mínimo. @starting-style define o
+	 * "antes" da transição para um elemento que acabou de aparecer (o dialog sai de display: none). O
+	 * fechamento é imediato. Com menos movimento pedido, o global.css zera a duração.
+	 */
+	.detail-dialog[open],
+	.detail-dialog[open]::backdrop {
+		transition:
+			opacity 200ms ease,
+			translate 200ms ease;
+	}
+
+	@starting-style {
+		.detail-dialog[open] {
+			opacity: 0;
+			translate: 0 0.75rem;
+		}
+
+		.detail-dialog[open]::backdrop {
+			opacity: 0;
+		}
 	}
 
 	.dialog-inner {
@@ -262,6 +401,63 @@ const titleId = `${id}-title`;
 		line-height: 1.6;
 	}
 
+	/* Resumo: quatro respostas curtas num quadro, em duas colunas quando há espaço */
+	.summary {
+		display: grid;
+		gap: var(--space-4);
+		padding: var(--space-5);
+		background-color: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-left: 3px solid var(--color-accent);
+		border-radius: var(--radius-sm);
+	}
+
+	.summary-list {
+		display: grid;
+		gap: var(--space-4) var(--space-6);
+	}
+
+	.summary-item dt {
+		font-weight: var(--weight-semibold);
+	}
+
+	.summary-item dd {
+		margin-top: var(--space-1);
+		color: var(--color-text-muted);
+		font-size: var(--text-base);
+		line-height: 1.55;
+	}
+
+	.related {
+		display: grid;
+		gap: var(--space-2);
+		padding: 0;
+		list-style: none;
+	}
+
+	.related a {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		min-height: 2.75rem;
+		color: var(--color-text);
+		font-weight: var(--weight-semibold);
+		text-decoration: underline;
+		text-decoration-color: var(--color-accent);
+		text-underline-offset: 0.25em;
+	}
+
+	.related svg {
+		width: 1rem;
+		height: 1rem;
+		color: var(--color-accent);
+		transition: translate var(--duration-fast) ease;
+	}
+
+	.related a:hover svg {
+		translate: 3px 0;
+	}
+
 	.groups {
 		display: grid;
 		gap: var(--space-3);
@@ -333,6 +529,10 @@ const titleId = `${id}-title`;
 		.group {
 			grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
 			align-items: baseline;
+		}
+
+		.summary-list {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
 		}
 	}
 </style>

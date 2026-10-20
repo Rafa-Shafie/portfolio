@@ -6,6 +6,17 @@ export const es: Dictionary = {
 		description:
 			'Portafolio de Rafael El Shafie, estudiante de Ingeniería de Software con experiencia en backend e IA generativa: RAG, Text-to-SQL, Python y FastAPI.',
 	},
+	dialog: {
+		summary: 'Resumen',
+		problem: 'Problema',
+		role: 'Mi participación',
+		delivery: 'Entrega',
+		result: 'Resultado',
+		relatedExperience: 'Experiencia relacionada',
+		relatedExperienceText: 'Las responsabilidades, decisiones y aprendizajes están en el relato de la experiencia.',
+		relatedProjects: 'Proyectos de esta experiencia',
+		relatedProjectsText: 'La visión técnica, con arquitectura y tecnologías, está en los detalles de cada proyecto.',
+	},
 	a11y: {
 		skipToContent: 'Saltar al contenido',
 		openMenu: 'Abrir menú',

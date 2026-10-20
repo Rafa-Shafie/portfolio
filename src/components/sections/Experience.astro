@@ -6,16 +6,24 @@
 import type { CollectionEntry } from 'astro:content';
 import Section from '../Section.astro';
 import ExperienceCard from '../ExperienceCard.astro';
-import { useTranslations, type Locale } from '../../i18n/utils';
+import { localize, useTranslations, type Locale } from '../../i18n/utils';
 
 interface Props {
 	id: string;
 	number: string;
 	locale: Locale;
 	entries: CollectionEntry<'experiences'>[];
+	/** Projetos publicados, para os links "Projetos desta experiência" dos modais. */
+	projects: CollectionEntry<'projects'>[];
 }
 
-const { id, number, locale, entries } = Astro.props;
+const { id, number, locale, entries, projects } = Astro.props;
+
+// Projetos com modal que apontam para esta experiência (campo `experience` no YAML do projeto)
+const projectsOf = (slug: string) =>
+	projects
+		.filter((p) => p.data.experience?.id === slug && p.data.details)
+		.map((p) => ({ id: p.id, title: localize(p.data.title, locale) }));
 const t = useTranslations(locale);
 ---
 
@@ -31,6 +39,7 @@ const t = useTranslations(locale);
 						index={String(i + 1).padStart(2, '0')}
 						open={i === 0}
 						slug={entry.id}
+						projects={projectsOf(entry.id)}
 					/>
 				</li>
 			))
