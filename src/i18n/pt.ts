@@ -9,6 +9,18 @@ export const pt = {
 		description:
 			'Portfólio de Rafael El Shafie, estudante de Engenharia de Software com experiência em backend e IA generativa: RAG, Text-to-SQL, Python e FastAPI.',
 	},
+	/** Modais de detalhe: resumo no topo e links entre experiência e projeto. */
+	dialog: {
+		summary: 'Resumo',
+		problem: 'Problema',
+		role: 'Minha participação',
+		delivery: 'Entrega',
+		result: 'Resultado',
+		relatedExperience: 'Experiência relacionada',
+		relatedExperienceText: 'Responsabilidades, decisões e aprendizados estão no relato da experiência.',
+		relatedProjects: 'Projetos desta experiência',
+		relatedProjectsText: 'A visão técnica, com arquitetura e tecnologias, está nos detalhes de cada projeto.',
+	},
 	a11y: {
 		skipToContent: 'Pular para o conteúdo',
 		openMenu: 'Abrir menu',

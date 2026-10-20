@@ -82,8 +82,8 @@ const number = (id: SectionId) => String(visible.indexOf(id) + 1).padStart(2, '0
 		</Hero>
 		<Trajectory locale={locale} />
 		{show.about && <About id="about" number={number('about')} locale={locale} />}
-		{show.experience && <Experience id="experience" number={number('experience')} locale={locale} entries={experiences} />}
-		{show.projects && <Projects id="projects" number={number('projects')} locale={locale} entries={projects} />}
+		{show.experience && <Experience id="experience" number={number('experience')} locale={locale} entries={experiences} projects={projects} />}
+		{show.projects && <Projects id="projects" number={number('projects')} locale={locale} entries={projects} experiences={experiences} />}
 		{show.skills && <Skills id="skills" number={number('skills')} locale={locale} groups={skillGroups} />}
 		{show.education && <Education id="education" number={number('education')} locale={locale} entries={education} />}
 		{show.contact && <Contact id="contact" number={number('contact')} locale={locale} />}

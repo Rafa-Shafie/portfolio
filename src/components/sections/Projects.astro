@@ -13,6 +13,8 @@ import Section from '../Section.astro';
 import ProjectArt from '../ProjectArt.astro';
 import DetailDialog from '../DetailDialog.astro';
 import ArrowIcon from 'bootstrap-icons/icons/arrow-up-right.svg';
+import { isPublished } from '../../data/drafts';
+import { localizeDetails } from '../../data/details';
 import { localize, localizeTerm, useTranslations, type Locale } from '../../i18n/utils';
 
 interface Props {
@@ -20,9 +22,11 @@ interface Props {
 	number: string;
 	locale: Locale;
 	entries: CollectionEntry<'projects'>[];
+	/** Para o link "Experiência relacionada" de cada modal. */
+	experiences: CollectionEntry<'experiences'>[];
 }
 
-const { id, number, locale, entries } = Astro.props;
+const { id, number, locale, entries, experiences } = Astro.props;
 const t = useTranslations(locale);
 
 // Só mostra filtros das áreas que têm projeto
@@ -62,8 +66,15 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 				const stage = data.stage && localize(data.stage, locale);
 				// No modal, com as tecnologias em detalhe, as 5 etiquetas do cartão seriam repetição
 				const modalTags = data.techDetails?.length ? [] : stack;
+				// Link para o modal da experiência, só se ela tiver o modal publicado
+				const experience = experiences.find((e) => e.id === data.experience?.id);
+				const relatedExperience = experience && isPublished(experience.data.details) && {
+					heading: t.dialog.relatedExperience,
+					text: t.dialog.relatedExperienceText,
+					links: [{ label: `${localize(experience.data.role, locale)} · ${experience.data.company}`, id: `experience-${experience.id}` }],
+				};
 				return (
-					<li class="card" data-categories={[data.category, ...(data.alsoIn ?? [])].join(' ')}>
+					<li class:list={['card', { featured: data.featured }]} data-categories={[data.category, ...(data.alsoIn ?? [])].join(' ')}>
 						<ProjectArt
 							category={data.category}
 							variant={data.art}
@@ -112,12 +123,8 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 								eyebrow={[data.organization ?? t.projects.kinds[data.kind], t.projects.status[data.status]].join(' · ')}
 								title={title}
 								meta={stage}
-								intro={data.details.intro && localize(data.details.intro, locale)}
-								sections={data.details.sections.map((section) => ({
-									heading: localize(section.heading, locale),
-									text: section.text && localize(section.text, locale),
-									items: section.items && localize(section.items, locale),
-								}))}
+								summaryHeading={t.dialog.summary}
+								{...localizeDetails(data.details, locale)}
 								groupsHeading={t.projects.details.techDetails}
 								groups={(data.techDetails ?? []).map((g) => ({
 									label: localize(g.label, locale),
@@ -129,6 +136,7 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 									...(data.repo ? [{ label: t.projects.repo, href: data.repo, newTabLabel: t.a11y.newTab }] : []),
 									...(data.demo ? [{ label: t.projects.demo, href: data.demo, newTabLabel: t.a11y.newTab }] : []),
 								]}
+								related={relatedExperience || undefined}
 								closeLabel={t.a11y.closeDetails}
 								draftLabel={data.draft ? t.a11y.draft : undefined}
 							/>
@@ -207,12 +215,41 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 		color: var(--color-on-accent);
 	}
 
+	/*
+	 * Hierarquia da galeria: no celular, uma coluna; no tablet, duas; no desktop, seis colunas, com os
+	 * trabalhos principais (featured) ocupando metade da linha e os outros, um terço. Cartões escondidos
+	 * pelo filtro saem do fluxo (hidden), e a grade se rearruma sozinha.
+	 */
 	.grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+		grid-template-columns: 1fr;
 		gap: var(--space-5);
 		padding: 0;
 		list-style: none;
+	}
+
+	@media (min-width: 40rem) {
+		.grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 64rem) {
+		.grid {
+			grid-template-columns: repeat(6, 1fr);
+		}
+
+		.card {
+			grid-column: span 2;
+		}
+
+		.card.featured {
+			grid-column: span 3;
+		}
+
+		.featured .card-title {
+			font-size: var(--text-2xl);
+		}
 	}
 
 	.card {
@@ -373,6 +410,7 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 	/* Projeto único: o cartão ocupa a largura toda, com a ilustração ao lado do texto */
 	@media (min-width: 60rem) {
 		.card:only-child {
+			grid-column: 1 / -1;
 			flex-direction: row;
 		}
 

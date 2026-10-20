@@ -1,4 +1,4 @@
-import { defineCollection } from 'astro:content';
+import { defineCollection, reference } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { locales, type Locale } from './i18n/utils';
@@ -23,6 +23,18 @@ function localized<T extends z.ZodType>(schema: T) {
  */
 const detailSections = z.object({
 	draft: z.boolean().default(false),
+	/**
+	 * Resumo no topo do modal, para quem tem 30 segundos: o problema, a minha participação, o que foi
+	 * entregue e o resultado. O relato completo continua logo abaixo.
+	 */
+	summary: z
+		.object({
+			problem: localized(z.string()),
+			role: localized(z.string()),
+			delivery: localized(z.string()),
+			result: localized(z.string()),
+		})
+		.optional(),
 	intro: localized(z.string()).optional(),
 	sections: z
 		.array(
@@ -124,6 +136,13 @@ const projects = defineCollection({
 		repo: z.url().optional(),
 		demo: z.url().optional(),
 		order: z.number().int().default(0),
+		/**
+		 * Experiência em que o projeto foi feito (nome do arquivo em experiences/). Os dois modais ganham
+		 * links um para o outro; um nome errado quebra o build.
+		 */
+		experience: reference('experiences').optional(),
+		/** Trabalho principal: na galeria, o cartão ocupa metade da linha (os outros, um terço). */
+		featured: z.boolean().default(false),
 		details: detailSections.optional(),
 		techDetails: techGroups.optional(),
 	})

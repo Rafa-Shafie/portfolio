@@ -11,6 +11,7 @@ import DetailDialog from './DetailDialog.astro';
 import OutcomeIcon from 'bootstrap-icons/icons/arrow-up-right.svg';
 import ArrowIcon from 'bootstrap-icons/icons/arrow-right.svg';
 import { isPublished } from '../data/drafts';
+import { localizeDetails } from '../data/details';
 import { formatPeriod, localize, useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
@@ -22,9 +23,11 @@ interface Props {
 	open?: boolean;
 	/** Identificador do arquivo (para o id do modal). */
 	slug: string;
+	/** Projetos feitos nesta experiência (já no idioma da página), para os links do modal. */
+	projects?: { id: string; title: string }[];
 }
 
-const { experience, locale, index, open = false, slug } = Astro.props;
+const { experience, locale, index, open = false, slug, projects = [] } = Astro.props;
 const t = useTranslations(locale);
 const { company, companyNote, role, start, end, summary, highlights, stack, outcome, details } = experience;
 const period = formatPeriod(start, end, locale);
@@ -94,14 +97,15 @@ const hasDetails = details && isPublished(details);
 			eyebrow={company}
 			title={localize(role, locale)}
 			meta={period}
-			intro={details.intro && localize(details.intro, locale)}
-			sections={details.sections.map((section) => ({
-				heading: localize(section.heading, locale),
-				text: section.text && localize(section.text, locale),
-				items: section.items && localize(section.items, locale),
-			}))}
+			summaryHeading={t.dialog.summary}
+			{...localizeDetails(details, locale)}
 			tagsHeading={t.experience.details.tech}
 			tags={stack}
+			related={{
+				heading: t.dialog.relatedProjects,
+				text: t.dialog.relatedProjectsText,
+				links: projects.map(({ id, title }) => ({ label: title, id: `project-${id}` })),
+			}}
 			note={t.experience.details.note}
 			closeLabel={t.a11y.closeDetails}
 			draftLabel={details.draft ? t.a11y.draft : undefined}

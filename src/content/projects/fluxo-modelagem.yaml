@@ -15,6 +15,7 @@ organization: Fluxo Consultoria
 status: delivered
 art: model
 order: 3
+experience: fluxo-consultoria
 stack:
   - { pt: "Engenharia de requisitos", en: "Requirements engineering", es: "Ingeniería de requisitos" }
   - { pt: "Entrevistas com usuários", en: "User interviews", es: "Entrevistas con usuarios" }

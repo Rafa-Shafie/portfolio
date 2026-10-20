@@ -47,9 +47,9 @@ stack:
 # ---------------------------------------------------------------------------------------------
 details:
   intro:
-    pt: "Participei, em dupla, do desenvolvimento do Manhattan Real Estate, uma solução de dados para apoiar a análise de imóveis em Manhattan. Trabalhamos nas camadas de tratamento e análise em Databricks, integrando fontes, conciliando anúncios e construindo regras de pontuação e monitoramento, e eu construí o dashboard interativo. Os detalhes técnicos estão no projeto, na seção Projetos."
-    en: "Working in a pair, I helped build Manhattan Real Estate, a data solution to support the analysis of properties in Manhattan. We worked on the processing and analysis layers in Databricks, integrating sources, reconciling listings and building scoring and monitoring rules, and I built the interactive dashboard. The technical details are in the project, in the Projects section."
-    es: "Participé, en pareja, en el desarrollo de Manhattan Real Estate, una solución de datos para apoyar el análisis de inmuebles en Manhattan. Trabajamos en las capas de tratamiento y análisis en Databricks, integrando fuentes, conciliando anuncios y construyendo reglas de puntuación y monitoreo, y yo construí el dashboard interactivo. Los detalles técnicos están en el proyecto, en la sección Proyectos."
+    pt: "Participei, em dupla, do desenvolvimento do Manhattan Real Estate, uma solução de dados para apoiar a análise de imóveis em Manhattan. Trabalhamos nas camadas de tratamento e análise em Databricks, integrando fontes, conciliando anúncios e construindo regras de pontuação e monitoramento, e eu construí o dashboard interativo."
+    en: "Working in a pair, I helped build Manhattan Real Estate, a data solution to support the analysis of properties in Manhattan. We worked on the processing and analysis layers in Databricks, integrating sources, reconciling listings and building scoring and monitoring rules, and I built the interactive dashboard."
+    es: "Participé, en pareja, en el desarrollo de Manhattan Real Estate, una solución de datos para apoyar el análisis de inmuebles en Manhattan. Trabajamos en las capas de tratamiento y análisis en Databricks, integrando fuentes, conciliando anuncios y construyendo reglas de puntuación y monitoreo, y yo construí el dashboard interactivo."
   sections:
     - heading: { pt: "A demanda", en: "The request", es: "La demanda" }
       text:
