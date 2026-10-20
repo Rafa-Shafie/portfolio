@@ -17,6 +17,33 @@ function localized<T extends z.ZodType>(schema: T) {
 	return z.object(shape);
 }
 
+/**
+ * Detalhes exibidos no modal (experiências e projetos): um resumo opcional e seções livres, cada
+ * uma com texto e/ou lista. Com draft: true, só aparece no dev e no preview.
+ */
+const detailSections = z.object({
+	draft: z.boolean().default(false),
+	intro: localized(z.string()).optional(),
+	sections: z
+		.array(
+			z.object({
+				heading: localized(z.string()),
+				text: localized(z.string()).optional(),
+				items: localized(z.array(z.string()).min(1)).optional(),
+			}),
+		)
+		.min(1),
+});
+
+/**
+ * Etiqueta de tecnologia ou conhecimento: nome próprio ("FastAPI") fica igual em todos os idiomas;
+ * conceito ("Modelagem lógica") vem com uma versão por idioma.
+ */
+const term = z.union([z.string(), localized(z.string())]);
+
+/** Tecnologias em detalhe, agrupadas por frente (rótulo traduzível). */
+const techGroups = z.array(z.object({ label: localized(z.string()), items: z.array(term).min(1) }));
+
 /** Datas do período: o fim, quando existe, não pode vir antes do início. */
 const period = {
 	start: yearMonth,
@@ -35,8 +62,15 @@ const experiences = defineCollection({
 			...period,
 			/** Frase de impacto, em uma ou duas linhas. */
 			summary: localized(z.string()),
-			highlights: localized(z.array(z.string()).min(2).max(3)),
+			highlights: localized(z.array(z.string()).min(2).max(4)),
 			stack: z.array(z.string()).min(1),
+			/** Frase de resultado do painel "Entrega & aprendizado", ao lado dos destaques. */
+			outcome: localized(z.string()).optional(),
+			/**
+			 * Detalhes do "Explorar a experiência" (modal). Mais profundo que o CV, mas sem nomes de
+			 * sistemas internos, dados de clientes ou números não divulgados.
+			 */
+			details: detailSections.optional(),
 		})
 		.refine(endAfterStart, { message: 'end não pode ser anterior a start', path: ['end'] }),
 });
@@ -58,16 +92,30 @@ const education = defineCollection({
 		}),
 });
 
-// Vazia no v1: a seção e o link do menu só aparecem quando houver ao menos um projeto.
+// Cada projeto aparece na seção (com filtro por área) e abre um modal de detalhes.
+// Com draft: true, só aparece no dev e no preview; a seção some quando não há projeto publicado.
 const projects = defineCollection({
 	loader: glob({ pattern: '**/*.yaml', base: './src/content/projects' }),
 	schema: z.object({
+		draft: z.boolean().default(false),
 		title: localized(z.string()),
+		/** Resumo do cartão, em uma ou duas frases. */
 		description: localized(z.string()),
-		stack: z.array(z.string()).min(1),
+		category: z.enum(['ai', 'backend', 'data']),
+		/** Outras áreas em que o projeto também aparece no filtro (ex.: Backend que também é IA). */
+		alsoIn: z.array(z.enum(['ai', 'backend', 'data'])).optional(),
+		/** Projeto pessoal, de experiência profissional ou de capacitação (os dois últimos mostram a organização). */
+		kind: z.enum(['personal', 'professional', 'training']).default('personal'),
+		organization: z.string().optional(),
+		status: z.enum(['planned', 'progress', 'production', 'delivered', 'released']).default('progress'),
+		/** Ilustração própria do projeto; sem ela, usa a ilustração genérica da área. */
+		art: z.enum(['assistant', 'map', 'model', 'ledger', 'league', 'voice']).optional(),
+		stack: z.array(term).min(1),
 		repo: z.url().optional(),
 		demo: z.url().optional(),
 		order: z.number().int().default(0),
+		details: detailSections.optional(),
+		techDetails: techGroups.optional(),
 	}),
 });
 

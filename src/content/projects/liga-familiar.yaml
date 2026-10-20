@@ -1,0 +1,100 @@
+# Liga Familiar Gamificada: projeto pessoal em andamento (fatia 1). Repositório público.
+# Privacidade: sem os nomes dos membros da família.
+title:
+  pt: "Liga Familiar Gamificada"
+  en: "Liga Familiar Gamificada"
+  es: "Liga Familiar Gamificada"
+description:
+  pt: "Gerenciador de tarefas domésticas no estilo RPG: cada membro da família ganha pontos ao concluir tarefas e acompanha sua evolução num placar. Roda localmente no Wi-Fi da casa, sem custo."
+  en: "An RPG-style household chore manager: each family member earns points for completed chores and follows their progress on a leaderboard. It runs locally on the home Wi-Fi, at no cost."
+  es: "Gestor de tareas domésticas al estilo RPG: cada miembro de la familia gana puntos al completar tareas y sigue su evolución en un marcador. Funciona localmente en el Wi-Fi de la casa, sin costo."
+category: backend
+kind: personal
+status: progress
+art: league
+order: 5
+repo: https://github.com/Rafa-Shafie/familia-liga-gamificada
+stack:
+  - Java 21
+  - Spring Boot
+  - Spring Data JPA
+  - PostgreSQL
+  - Flyway
+  - Docker Compose
+details:
+  intro:
+    pt: "Um gerenciador de tarefas domésticas no estilo RPG, feito para os quatro membros da minha família usarem de verdade e darem feedback. Tudo roda localmente no Wi-Fi da casa, sem custo, e cada decisão importante fica registrada em um ADR."
+    en: "An RPG-style household chore manager, built for the four members of my family to actually use and give feedback on. Everything runs locally on the home Wi-Fi, at no cost, and every important decision is recorded in an ADR."
+    es: "Un gestor de tareas domésticas al estilo RPG, hecho para que los cuatro miembros de mi familia lo usen de verdad y den feedback. Todo funciona localmente en el Wi-Fi de la casa, sin costo, y cada decisión importante queda registrada en un ADR."
+  sections:
+    - heading: { pt: "Por que existe", en: "Why it exists", es: "Por qué existe" }
+      text:
+        pt: "Dois motivos com o mesmo peso. O uso real: quatro pessoas vão usar o sistema em casa e dizer o que funciona. E o portfólio de backend: mostrar software rodando, com decisões bem justificadas, Clean Architecture e Java moderno, o que diz mais do que uma arquitetura elaborada que ninguém usa."
+        en: "Two equally important reasons. Real use: four people will use the system at home and tell me what works. And a backend portfolio: showing running software, with well-justified decisions, Clean Architecture and modern Java, which says more than an elaborate architecture nobody uses."
+        es: "Dos motivos con el mismo peso. El uso real: cuatro personas van a usar el sistema en casa y decir qué funciona. Y el portafolio de backend: mostrar software funcionando, con decisiones bien justificadas, Clean Architecture y Java moderno, lo que dice más que una arquitectura elaborada que nadie usa."
+    - heading: { pt: "O que já funciona", en: "What already works", es: "Lo que ya funciona" }
+      items:
+        pt:
+          - "Docker Compose com PostgreSQL (healthcheck, volume nomeado e credenciais num .env fora do Git), e o Spring Boot só sobe depois que o banco está saudável."
+          - "Dockerfile com Java 21 (Eclipse Temurin)."
+          - "ADR-001: deploy local com custo zero, no Windows no MVP e num Raspberry Pi depois."
+          - "ADR-002: sem autenticação no início; os membros são identificados por um enum."
+          - "ADR-003: um modelo de tarefas em três camadas, estacionado até haver dados reais de uso."
+        en:
+          - "Docker Compose with PostgreSQL (healthcheck, named volume and credentials in a .env kept out of Git), with Spring Boot starting only once the database is healthy."
+          - "A Java 21 (Eclipse Temurin) Dockerfile."
+          - "ADR-001: zero-cost local deployment, on Windows for the MVP and on a Raspberry Pi later."
+          - "ADR-002: no authentication at first; members are identified by an enum."
+          - "ADR-003: a three-layer task model, parked until there is real usage data."
+        es:
+          - "Docker Compose con PostgreSQL (healthcheck, volumen con nombre y credenciales en un .env fuera de Git), y Spring Boot solo arranca cuando la base de datos está saludable."
+          - "Dockerfile con Java 21 (Eclipse Temurin)."
+          - "ADR-001: despliegue local con costo cero, en Windows para el MVP y en una Raspberry Pi después."
+          - "ADR-002: sin autenticación al principio; los miembros se identifican con un enum."
+          - "ADR-003: un modelo de tareas en tres capas, estacionado hasta que haya datos reales de uso."
+    - heading: { pt: "A fatia atual", en: "The current slice", es: "La porción actual" }
+      text:
+        pt: "Registrar que um membro concluiu uma tarefa e ver a pontuação subir na tela, passando por banco, domínio, endpoint e interface. Antes da primeira migration com Flyway, falta fechar uma decisão de design: com os membros num enum, o que vai para a tabela? E, ao concluir uma tarefa, o sistema grava o saldo atualizado ou o evento que gerou o ponto?"
+        en: "Recording that a member completed a chore and seeing their score go up on screen, end to end through database, domain, endpoint and interface. Before the first Flyway migration, one design decision is still open: with members in an enum, what goes into the table? And when a chore is completed, does the system store the updated balance or the event that earned the points?"
+        es: "Registrar que un miembro completó una tarea y ver subir la puntuación en la pantalla, pasando por la base de datos, el dominio, el endpoint y la interfaz. Antes de la primera migration con Flyway, falta cerrar una decisión de diseño: con los miembros en un enum, ¿qué va a la tabla? Y, al completar una tarea, ¿el sistema guarda el saldo actualizado o el evento que generó el punto?"
+    - heading: { pt: "Próximas fatias", en: "Next slices", es: "Próximas porciones" }
+      text:
+        pt: "Cada fatia termina em algo que a família consegue usar, e o roteiro deve mudar com o uso real depois da primeira:"
+        en: "Each slice ends in something the family can use, and the plan is expected to change with real use after the first one:"
+        es: "Cada porción termina en algo que la familia puede usar, y el plan debe cambiar con el uso real después de la primera:"
+      items:
+        pt:
+          - "Catálogo de tarefas com seus valores em pontos."
+          - "Ranking entre os membros, com filtro por período."
+          - "Níveis e progressão visível."
+          - "Tarefas recorrentes e reset de períodos com @Scheduled."
+          - "Vencedores da semana, do mês e do ano, com histórico."
+          - "Migração para o Raspberry Pi com o mesmo docker-compose.yml, sem alterações."
+          - "README, diagrama do modelo de dados em Mermaid e ADRs consolidados."
+        en:
+          - "A chore catalog with point values."
+          - "A leaderboard between members, filterable by period."
+          - "Levels and visible progression."
+          - "Recurring chores and period resets with @Scheduled."
+          - "Winners of the week, month and year, with history."
+          - "Moving to the Raspberry Pi with the same docker-compose.yml, unchanged."
+          - "README, a Mermaid data model diagram and consolidated ADRs."
+        es:
+          - "Catálogo de tareas con su valor en puntos."
+          - "Ranking entre los miembros, con filtro por período."
+          - "Niveles y progresión visible."
+          - "Tareas recurrentes y reinicio de períodos con @Scheduled."
+          - "Ganadores de la semana, del mes y del año, con historial."
+          - "Migración a la Raspberry Pi con el mismo docker-compose.yml, sin cambios."
+          - "README, diagrama del modelo de datos en Mermaid y ADRs consolidados."
+techDetails:
+  - label: { pt: "Backend", en: "Backend", es: "Backend" }
+    items: ["Java 21", "Spring Boot 3", "Spring Data JPA", "@Scheduled", "Maven"]
+  - label: { pt: "Dados", en: "Data", es: "Datos" }
+    items: ["PostgreSQL", "Flyway"]
+  - label: { pt: "Interface", en: "Interface", es: "Interfaz" }
+    items: ["HTML5", "Tailwind CSS", "Alpine.js"]
+  - label: { pt: "Infraestrutura", en: "Infrastructure", es: "Infraestructura" }
+    items: ["Docker", "Docker Compose", "Windows", "Raspberry Pi"]
+  - label: { pt: "Decisões", en: "Decisions", es: "Decisiones" }
+    items: ["ADRs", "Clean Architecture"]

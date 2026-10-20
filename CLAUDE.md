@@ -144,15 +144,15 @@ public/           cv/ (PT e EN), favicon, imagem Open Graph
 ## 10. Conteúdo do v1 (fonte: currículo de out/2026)
 - **Headline:** Engenharia de Software · IA Generativa · Back-end.
 - **Experiências**, da mais recente para a mais antiga. Cada card mostra empresa, cargo, período, frase de impacto, 2–3 destaques e stack.
-  - **BTG Pactual** — Estagiário (Short Job), IT Onboarding & IA — jun–out/2026. Assistente de IA construído do zero (RAG + Text-to-SQL), em produção e usado pela equipe.
-  - **BTG Pactual** — Estagiário (Summer Job), IT Asset Management & Funds — jan–fev/2026. Integração de dados de dois sistemas e sistema de pontuação para sinalizar oportunidades de investimento imobiliário.
-  - **Fluxo Consultoria** (Empresa Júnior, UFRJ) — Consultor de Projetos — jan–ago/2024. Software de gestão em Node.js/TypeScript, do levantamento de requisitos à entrega.
+  - **BTG Pactual** — Estagiário (Short Job), IT Onboarding & IA — jun–out/2026. Assistente de IA (Atlas) construído do zero (RAG + Text-to-SQL) para tirar dúvidas operacionais e evitar chamados à sustentação; em produção em quatro meses e usado pela equipe.
+  - **BTG Pactual** — Estagiário (Summer Job), IT Asset Management & Funds — jan–fev/2026. Manhattan Real Estate, em dupla: tratamento e camada analítica em Databricks, correspondência de imóveis entre portais, pontuação e monitoramento com notificações no Teams, dashboard em Databricks e apresentação em inglês.
+  - **Fluxo Consultoria** (Empresa Júnior, UFRJ) — Consultor de Projetos — jan–ago/2024. Backend de gestão em NestJS/TypeScript como projeto de capacitação (em equipe); requisitos e modelagem de dados para um cliente da indústria; grupo de melhoria da área de tecnologia; apoio financeiro, recrutamento e orientação de trainees.
 - **Formação:**
   - Estácio, Engenharia de Software, 2025–2028.
   - PUC-Rio, IA e Ciência de Dados na Nuvem, 2026.
   - Santander Open Academy + AWS, 2026 até hoje.
 - **Skills (recorte do CV):**
-  - Back-end: Python, FastAPI, PostgreSQL, APIs REST, Java/Spring (em formação).
+  - Back-end: Python, FastAPI, Node.js/NestJS, PostgreSQL, APIs REST, Java/Spring (em formação); engenharia de requisitos e modelagem de dados.
   - IA: LLMs, RAG, Text-to-SQL.
   - Dados: Pandas, Spark, Databricks.
   - Front-end: TypeScript, React.

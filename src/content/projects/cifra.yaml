@@ -1,0 +1,96 @@
+# Cifra: projeto pessoal. Fase de design concluída, implementação começando (Fase 0).
+# Privacidade: sem nomes nem casos reais da família; o repositório, quando existir, não terá
+# nenhum extrato real (a demo pública usa só dados sintéticos).
+title:
+  pt: "Cifra"
+  en: "Cifra"
+  es: "Cifra"
+description:
+  pt: "Gestor financeiro doméstico mobile-first que importa os extratos de cada membro da casa, categoriza com IA e concilia as transferências internas para eliminar a dupla contagem."
+  en: "A mobile-first household finance manager that imports each family member's bank statements, categorizes them with AI and reconciles internal transfers to avoid double counting."
+  es: "Gestor financiero doméstico mobile-first que importa los extractos de cada miembro de la casa, los categoriza con IA y concilia las transferencias internas para eliminar el doble conteo."
+category: backend
+alsoIn: [ai]
+kind: personal
+status: progress
+art: ledger
+order: 4
+stack:
+  - Java
+  - Spring Boot
+  - Python
+  - FastAPI
+  - React
+  - PostgreSQL
+  - RabbitMQ
+  - Docker
+details:
+  intro:
+    pt: "Um gestor financeiro doméstico com IA, mobile-first (PWA). Cada membro da casa importa o extrato do próprio banco, o sistema categoriza os lançamentos com IA, concilia as transferências entre membros para não contar o mesmo dinheiro duas vezes e mostra para onde vai o dinheiro da casa. O design está concluído; a implementação está começando."
+    en: "An AI-powered, mobile-first (PWA) household finance manager. Each family member imports their own bank statement, the system categorizes transactions with AI, reconciles transfers between members so the same money is not counted twice, and shows where the household's money is going. The design is done; implementation is just starting."
+    es: "Un gestor financiero doméstico con IA, mobile-first (PWA). Cada miembro de la casa importa el extracto de su propio banco, el sistema categoriza los movimientos con IA, concilia las transferencias entre miembros para no contar el mismo dinero dos veces y muestra adónde va el dinero de la casa. El diseño está terminado; la implementación está empezando."
+  sections:
+    - heading: { pt: "Por que existe", en: "Why it exists", es: "Por qué existe" }
+      text:
+        pt: "Em casa, ninguém sabia quanto a família ganha e gasta. O dinheiro entra por várias pessoas, sai por várias outras, passa por cartões que um usa e outro paga e circula por Pix. Somar os extratos gera dupla contagem, e categorizar à mão não passa do segundo mês. O projeto também é a minha forma de aprender fazendo: pensado para ser usado por cinco pessoas da família, ele obriga a resolver o que projeto de tutorial nunca enfrenta, como adoção, usabilidade no celular, backup e privacidade."
+        en: "At home, nobody knew how much the family earns and spends. Money comes in through several people, goes out through several others, moves through cards one person uses and another pays, and circulates via Pix. Adding up the statements double counts, and categorizing by hand never lasts past the second month. The project is also how I learn by doing: designed to be used by five family members, it forces me to solve what tutorial projects never face, such as adoption, mobile usability, backups and privacy."
+        es: "En casa, nadie sabía cuánto gana y gasta la familia. El dinero entra por varias personas, sale por varias otras, pasa por tarjetas que uno usa y otro paga y circula por Pix. Sumar los extractos genera doble conteo, y categorizar a mano no pasa del segundo mes. El proyecto también es mi forma de aprender haciendo: pensado para que lo usen cinco personas de la familia, obliga a resolver lo que un proyecto de tutorial nunca enfrenta, como adopción, usabilidad en el celular, backups y privacidad."
+    - heading: { pt: "Onde está agora", en: "Where it stands", es: "Dónde está ahora" }
+      text:
+        pt: "Ainda não há software rodando: o que está pronto é o design. O modelo de domínio, a parte mais difícil de errar, já está definido: quatro tipos de movimento, pagador e responsável, pessoas rastreadas e não rastreadas, contas com restrição de uso e a natureza de cada lançamento. Também estão definidos a arquitetura, os limites de escopo e um roadmap de dez fases, cada uma com um entregável que a família consegue usar."
+        en: "There is no running software yet: what is ready is the design. The domain model, the hardest part to get wrong, is already defined: four movement types, payer and responsible person, tracked and untracked people, accounts with usage restrictions and the nature of each transaction. The architecture, scope limits and a ten-phase roadmap are defined too, each phase ending in something the family can use."
+        es: "Todavía no hay software funcionando: lo que está listo es el diseño. El modelo de dominio, la parte más difícil de equivocar, ya está definido: cuatro tipos de movimiento, pagador y responsable, personas rastreadas y no rastreadas, cuentas con restricción de uso y la naturaleza de cada movimiento. También están definidos la arquitectura, los límites de alcance y un roadmap de diez fases, cada una con un entregable que la familia puede usar."
+    - heading: { pt: "O caminho até lá", en: "The road ahead", es: "El camino por delante" }
+      items:
+        pt:
+          - "Esqueleto e domínio: Spring Boot, PostgreSQL, migrations e Docker, importação de CSV, camadas limpas, um value object para dinheiro e testes."
+          - "Categorização com IA: um serviço Python/FastAPI sem estado, com o modelo de linguagem atrás de uma porta, saída validada contra uma lista fechada de categorias e cache por estabelecimento."
+          - "Conciliação: importação idempotente com deduplicação e o casamento da saída de um membro com a entrada de outro por valor, data e janela de tempo; os casos duvidosos vão para uma fila de confirmação."
+          - "Painel: React mobile-first instalável como PWA, com evolução mensal, receita, despesa e investimento, correção de categoria e lançamento manual rápido."
+          - "Autenticação e visibilidade: Spring Security e JWT; o agregado da casa é visível para todos, o detalhe só para o dono."
+          - "Depois: perfil e metas derivadas do histórico, exportação em PDF e Markdown, mensageria com RabbitMQ, leitura de extratos em PDF, chat com os dados por function calling e voz."
+        en:
+          - "Skeleton and domain: Spring Boot, PostgreSQL, migrations and Docker, CSV import, clean layers, a money value object and tests."
+          - "AI categorization: a stateless Python/FastAPI service, with the language model behind a port, output validated against a closed list of categories and a per-merchant cache."
+          - "Reconciliation: idempotent import with deduplication, matching one member's outgoing transfer with another member's incoming one by amount, date and time window; uncertain cases go to a confirmation queue."
+          - "Dashboard: mobile-first React installable as a PWA, with monthly trends, income, expenses and investments, category fixes and quick manual entries."
+          - "Authentication and visibility: Spring Security and JWT; household totals are visible to everyone, details only to their owner."
+          - "Later: a profile and goals derived from history, PDF and Markdown export, RabbitMQ messaging, PDF statement parsing, chatting with the data through function calling, and voice."
+        es:
+          - "Esqueleto y dominio: Spring Boot, PostgreSQL, migrations y Docker, importación de CSV, capas limpias, un value object para el dinero y pruebas."
+          - "Categorización con IA: un servicio Python/FastAPI sin estado, con el modelo de lenguaje detrás de un puerto, salida validada contra una lista cerrada de categorías y caché por comercio."
+          - "Conciliación: importación idempotente con deduplicación y el emparejamiento de la salida de un miembro con la entrada de otro por valor, fecha y ventana de tiempo; los casos dudosos van a una cola de confirmación."
+          - "Panel: React mobile-first instalable como PWA, con evolución mensual, ingresos, gastos e inversiones, corrección de categoría y registro manual rápido."
+          - "Autenticación y visibilidad: Spring Security y JWT; el agregado de la casa es visible para todos, el detalle solo para su dueño."
+          - "Después: perfil y metas derivadas del historial, exportación en PDF y Markdown, mensajería con RabbitMQ, lectura de extractos en PDF, chat con los datos mediante function calling y voz."
+    - heading: { pt: "Princípios do projeto", en: "Project principles", es: "Principios del proyecto" }
+      items:
+        pt:
+          - "A IA entra como enriquecimento, nunca como portão: o sistema funciona sem ela."
+          - "No chat com os dados, um conjunto fechado de ferramentas, sem SQL livre, e números sempre vindos do banco."
+          - "Backup automático do banco é requisito, não melhoria."
+          - "Dois ambientes: o da família, com dados reais, e uma demo na nuvem só com dados sintéticos; o repositório público não terá nenhum extrato real."
+          - "OpenAPI, Actuator, logs estruturados com correlation ID e segredos em variáveis de ambiente desde o início."
+        en:
+          - "AI is an enhancement, never a gate: the system works without it."
+          - "When chatting with the data, a closed set of tools, no free-form SQL, and numbers always coming from the database."
+          - "Automatic database backups are a requirement, not an improvement."
+          - "Two environments: the family's, with real data, and a cloud demo with synthetic data only; the public repository will contain no real statements."
+          - "OpenAPI, Actuator, structured logs with a correlation ID and secrets in environment variables from day one."
+        es:
+          - "La IA entra como enriquecimiento, nunca como barrera: el sistema funciona sin ella."
+          - "En el chat con los datos, un conjunto cerrado de herramientas, sin SQL libre, y números siempre provenientes de la base de datos."
+          - "El backup automático de la base de datos es un requisito, no una mejora."
+          - "Dos entornos: el de la familia, con datos reales, y una demo en la nube solo con datos sintéticos; el repositorio público no tendrá ningún extracto real."
+          - "OpenAPI, Actuator, logs estructurados con correlation ID y secretos en variables de entorno desde el inicio."
+techDetails:
+  - label: { pt: "Núcleo (backend)", en: "Core (backend)", es: "Núcleo (backend)" }
+    items: ["Java", "Spring Boot", "Spring Data JPA", "Spring Security", "JWT"]
+  - label: { pt: "Serviço de IA", en: "AI service", es: "Servicio de IA" }
+    items: ["Python", "FastAPI", "Ollama", "Claude"]
+  - label: { pt: "Interface", en: "Interface", es: "Interfaz" }
+    items: ["React", "PWA"]
+  - label: { pt: "Dados e mensageria", en: "Data and messaging", es: "Datos y mensajería" }
+    items: ["PostgreSQL", "RabbitMQ", "CSV", "PDFBox"]
+  - label: { pt: "Infraestrutura", en: "Infrastructure", es: "Infraestructura" }
+    items: ["Docker", "Docker Compose", "Raspberry Pi", "Cloudflare Tunnel"]

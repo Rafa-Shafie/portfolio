@@ -1,0 +1,568 @@
+---
+/**
+ * Ilustração do cartão de projeto (decorativa, sem fingir ser print de tela).
+ * Projetos podem ter um desenho próprio (`variant`); sem ele, entra o desenho genérico da área.
+ * As cores vêm dos tokens, então acompanham o tema. No hover do cartão, o desenho ganha movimento
+ * (desligado para quem prefere menos movimento).
+ */
+import CodeIcon from 'bootstrap-icons/icons/code-slash.svg';
+import PinIcon from 'bootstrap-icons/icons/geo-alt.svg';
+import DiagramIcon from 'bootstrap-icons/icons/diagram-3.svg';
+import WalletIcon from 'bootstrap-icons/icons/wallet2.svg';
+import TrophyIcon from 'bootstrap-icons/icons/trophy.svg';
+import MicIcon from 'bootstrap-icons/icons/mic.svg';
+
+interface Props {
+	category: 'ai' | 'backend' | 'data';
+	variant?: 'assistant' | 'map' | 'model' | 'ledger' | 'league' | 'voice';
+	/** Torna o id do padrão de grade único na página. */
+	uid: string;
+	/** Rótulo do canto, ex.: "IA / 01". */
+	code: string;
+	/** Legenda do rodapé da ilustração. */
+	caption?: string;
+}
+
+const { category, variant, uid, code, caption } = Astro.props;
+const gridId = `grid-${uid}`;
+
+// Desenhos genéricos ficam reduzidos (scale 0.74) para não encostar nos rótulos dos cantos
+// Genérico (IA): rede de nós
+const nodes = [
+	[60, 50],
+	[60, 130],
+	[160, 40],
+	[160, 90],
+	[160, 140],
+	[260, 60],
+	[260, 120],
+];
+const edges = [
+	[0, 2], [0, 3], [1, 3], [1, 4], [2, 5], [3, 5], [3, 6], [4, 6], [0, 4], [2, 6],
+];
+// Genérico (Dados): barras
+const bars = [40, 70, 55, 95, 80, 120, 105];
+
+// Atlas: pergunta → classificação → documentos e dados → resposta
+const flows = ['M70 92H90', 'M134 92H146V56H162', 'M146 92V128H162', 'M208 56H230V92H250', 'M208 128H230V92'];
+
+// Mapa: quarteirões de Manhattan, com alguns anúncios marcados
+const blocks = Array.from({ length: 24 }, (_, i) => ({ x: 25 + (i % 6) * 46, y: 29 + Math.floor(i / 6) * 32, tone: i % 5 }));
+const pins = [
+	[1, 1],
+	[3, 2],
+	[4, 0],
+].map(([col, row]) => [25 + col * 46 + 20, 29 + row * 32 + 13]);
+
+// Modelagem: três entidades ligadas (diagrama entidade-relacionamento), a do meio em destaque
+const entities = [
+	{ x: 22, y: 58, core: false },
+	{ x: 123, y: 36, core: true },
+	{ x: 224, y: 72, core: false },
+];
+const relations = ['M96 89H110V67H123', 'M197 67H211V103H224'];
+
+/** Estrela de quatro pontas (o "brilho" da IA), centrada em (cx, cy). */
+const sparkle = (cx: number, cy: number, r: number) =>
+	`M${cx} ${cy - r}Q${cx + 2} ${cy - 2} ${cx + r} ${cy}Q${cx + 2} ${cy + 2} ${cx} ${cy + r}Q${cx - 2} ${cy + 2} ${cx - r} ${cy}Q${cx - 2} ${cy - 2} ${cx} ${cy - r}Z`;
+
+// Cifra: extratos de cada pessoa, transferência conciliada entre dois deles e a visão da casa
+const statements = [36, 76, 116];
+const ledgerFlows = ['M103 70H130V90H168', 'M82 130H130V90'];
+const donut = { cx: 200, cy: 90, r: 30 };
+const circumference = 2 * Math.PI * donut.r;
+
+// Liga: placar com quatro membros, o primeiro em destaque
+const ranking = [150, 118, 92, 64];
+const star = Array.from({ length: 10 }, (_, i) => {
+	const angle = (Math.PI / 5) * i - Math.PI / 2;
+	const r = i % 2 === 0 ? 16 : 7;
+	return `${(262 + r * Math.cos(angle)).toFixed(1)},${(66 + r * Math.sin(angle)).toFixed(1)}`;
+}).join(' ');
+
+// VoxAssist: onda de voz → IA → balão de resposta
+const wave = [10, 22, 34, 18, 40, 26, 14, 30, 12];
+---
+
+<div class="art" aria-hidden="true">
+	<svg class="drawing" viewBox="0 0 320 180" focusable="false">
+		<defs>
+			<pattern id={gridId} width="20" height="20" patternUnits="userSpaceOnUse">
+				<path d="M20 0H0V20" class="grid" />
+			</pattern>
+		</defs>
+		<!-- A grade passa da área do desenho: preenche o espaço extra em cartões mais largos ou altos -->
+		<rect x="-1000" y="-1000" width="2320" height="2180" fill={`url(#${gridId})`} />
+
+		{
+			variant === 'assistant' && (
+				<g>
+					<circle cx="112" cy="92" r="62" class="ring" />
+					<circle cx="112" cy="92" r="38" class="ring" />
+					{flows.map((d) => (
+						<path d={d} class="line" />
+					))}
+					{flows.map((d) => (
+						<path d={d} class="flow" />
+					))}
+
+					<rect x="18" y="70" width="52" height="44" rx="6" class="node" />
+					<path d="M28 83H58M28 92H54M28 101H46" class="text-line" />
+
+					<g class="core">
+						<circle cx="112" cy="92" r="22" class="core-ring" />
+						<path d="M112 79Q114 90 125 92Q114 94 112 105Q110 94 99 92Q110 90 112 79Z" class="accent-fill" />
+					</g>
+
+					<rect x="162" y="40" width="46" height="32" rx="5" class="node" />
+					<path d="M170 50H198M170 57H194M170 64H186" class="text-line" />
+
+					<path d="M162 118V136A23 5 0 0 0 208 136V118" class="node" />
+					<ellipse cx="185" cy="118" rx="23" ry="5" class="node" />
+					<path d="M162 127A23 5 0 0 0 208 127" class="text-line" />
+
+					<rect x="250" y="68" width="54" height="48" rx="6" class="node" />
+					<path d="M259 80H294M259 88H288" class="text-line" />
+					<rect x="259" y="99" width="20" height="7" rx="3.5" class="accent-fill" />
+				</g>
+			)
+		}
+
+		{
+			variant === 'map' && (
+				<g transform="translate(168 84) rotate(-19) scale(0.82) translate(-160 -90)">
+					{blocks.map(({ x, y, tone }) => (
+						<rect x={x} y={y} width="40" height="26" rx="2" class={`block tone-${tone}`} />
+					))}
+					{pins.map(([x, y], i) => (
+						<g>
+							<circle cx={x} cy={y} r="9" class="pin-halo" style={`animation-delay: ${i * 0.4}s`} />
+							<circle cx={x} cy={y} r="3.5" class="accent-fill" />
+						</g>
+					))}
+				</g>
+			)
+		}
+
+		{
+			variant === 'model' && (
+				<g transform="translate(160 90) scale(0.86) translate(-160 -88)">
+					{relations.map((d) => (
+						<path d={d} class="line" />
+					))}
+					{relations.map((d) => (
+						<path d={d} class="flow" />
+					))}
+					{/* Cardinalidade: traço do lado "um", pé de galinha do lado "muitos" */}
+					<path d="M118 62V72M202 62V72M102 89L96 84M102 89L96 94M218 103L224 98M218 103L224 108" class="text-line" />
+					{entities.map(({ x, y, core }) => (
+						<g class={core ? 'core' : undefined}>
+							<rect x={x} y={y} width="74" height="62" rx="5" class={core ? 'core-ring' : 'node'} />
+							<path d={`M${x} ${y + 15}H${x + 74}`} class={core ? 'accent-line thin' : 'text-line'} />
+							<path d={`M${x + 9} ${y + 8}H${x + 40}`} class="text-line" />
+							<circle cx={x + 11} cy={y + 26} r="2.4" class="accent-fill" />
+							<path d={`M${x + 18} ${y + 26}H${x + 60}M${x + 18} ${y + 38}H${x + 52}M${x + 18} ${y + 50}H${x + 58}`} class="text-line" />
+						</g>
+					))}
+				</g>
+			)
+		}
+
+		{
+			variant === 'ledger' && (
+				<g>
+					{ledgerFlows.map((d) => (
+						<path d={d} class="line" />
+					))}
+					{ledgerFlows.map((d) => (
+						<path d={d} class="flow" />
+					))}
+					{statements.map((y) => (
+						<g>
+							<rect x="22" y={y} width="60" height="28" rx="4" class="node" />
+							<path d={`M30 ${y + 10}H58M30 ${y + 18}H50`} class="text-line" />
+						</g>
+					))}
+					{/* Transferência entre dois membros conciliada: conta uma vez só */}
+					<path d="M82 50H96V90H82" class="text-line" />
+					<g class="core">
+						<circle cx="96" cy="70" r="8" class="core-ring" />
+						<path d="M92 68H100M92 72H100" class="accent-line thin" />
+					</g>
+					<circle cx={donut.cx} cy={donut.cy} r={donut.r} class="donut-base" />
+					<circle
+						cx={donut.cx}
+						cy={donut.cy}
+						r={donut.r}
+						class="donut-muted"
+						stroke-dasharray={`${circumference * 0.3} ${circumference}`}
+						stroke-dashoffset={-circumference * 0.42}
+						transform={`rotate(-90 ${donut.cx} ${donut.cy})`}
+					/>
+					<circle
+						cx={donut.cx}
+						cy={donut.cy}
+						r={donut.r}
+						class="donut-accent"
+						stroke-dasharray={`${circumference * 0.38} ${circumference}`}
+						transform={`rotate(-90 ${donut.cx} ${donut.cy})`}
+					/>
+					{[70, 90, 110].map((y, i) => (
+						<g>
+							<rect x="250" y={y - 3} width="6" height="6" rx="1" class={i === 0 ? 'accent-fill' : 'node'} />
+							<path d={`M262 ${y}H${296 - i * 8}`} class="text-line" />
+						</g>
+					))}
+				</g>
+			)
+		}
+
+		{
+			variant === 'league' && (
+				<g>
+					{ranking.map((width, i) => (
+						<g>
+							<circle cx="44" cy={48 + i * 26} r="8" class={i === 0 ? 'core-ring' : 'node'} />
+							<rect x="60" y={42 + i * 26} width={width} height="12" rx="6" class={i === 0 ? 'accent-fill bar' : 'node bar'} />
+						</g>
+					))}
+					<g class="core">
+						<polygon points={star} class="accent-fill" />
+					</g>
+					<path d="M248 98H276M252 108H272" class="text-line" />
+				</g>
+			)
+		}
+
+		{
+			variant === 'voice' && (
+				<g>
+					{['M100 90H126', 'M170 90H204'].map((d) => (
+						<path d={d} class="line" />
+					))}
+					{['M100 90H126', 'M170 90H204'].map((d) => (
+						<path d={d} class="flow" />
+					))}
+					{wave.map((h, i) => (
+						<rect x={24 + i * 8} y={90 - h / 2} width="4" height={h} rx="2" class="wave accent-fill" style={`animation-delay: ${i * 0.08}s`} />
+					))}
+					<g class="core">
+						<circle cx="148" cy="90" r="22" class="core-ring" />
+						<path d={sparkle(148, 90, 12)} class="accent-fill" />
+					</g>
+					<path d="M214 62H290A10 10 0 0 1 300 72V102A10 10 0 0 1 290 112H232L218 124V112H214A10 10 0 0 1 204 102V72A10 10 0 0 1 214 62Z" class="node" />
+					<path d="M216 78H284M216 88H276M216 98H260" class="text-line" />
+				</g>
+			)
+		}
+
+		{
+			!variant && category === 'ai' && (
+				<g transform="translate(160 92) scale(0.74) translate(-160 -90)">
+					{edges.map(([a, b]) => (
+						<line x1={nodes[a][0]} y1={nodes[a][1]} x2={nodes[b][0]} y2={nodes[b][1]} class="line" />
+					))}
+					{nodes.map(([x, y], i) => (
+						<circle cx={x} cy={y} r={i === 3 ? 9 : 6} class={i === 3 ? 'accent-fill' : 'node'} />
+					))}
+				</g>
+			)
+		}
+
+		{
+			!variant && category === 'backend' && (
+				<g transform="translate(160 92) scale(0.74) translate(-160 -90)">
+					{[0, 1, 2].map((i) => (
+						<rect x={90 - i * 14} y={40 + i * 34} width="140" height="34" rx="6" class={i === 1 ? 'core-ring' : 'node'} />
+					))}
+					<path d="M250 60 l20 30 -20 30" class="accent-line" />
+					<path d="M48 60 l-20 30 20 30" class="accent-line" />
+				</g>
+			)
+		}
+
+		{
+			!variant && category === 'data' && (
+				<g transform="translate(160 92) scale(0.74) translate(-160 -90)">
+					{bars.map((h, i) => (
+						<rect x={44 + i * 34} y={150 - h} width="20" height={h} rx="3" class={i === 5 ? 'accent-fill' : 'node'} />
+					))}
+					<polyline points={bars.map((h, i) => `${54 + i * 34},${140 - h}`).join(' ')} class="accent-line" />
+				</g>
+			)
+		}
+	</svg>
+
+	<span class="code">{code}</span>
+	{caption && <span class="caption">{caption}</span>}
+	{
+		variant === 'map' ? (
+			<PinIcon class="signal" />
+		) : variant === 'model' ? (
+			<DiagramIcon class="signal" />
+		) : variant === 'ledger' ? (
+			<WalletIcon class="signal" />
+		) : variant === 'league' ? (
+			<TrophyIcon class="signal" />
+		) : variant === 'voice' ? (
+			<MicIcon class="signal" />
+		) : (
+			<CodeIcon class="signal" />
+		)
+	}
+</div>
+
+<style>
+	.art {
+		position: relative;
+		aspect-ratio: 16 / 9;
+		max-height: 18rem;
+		overflow: hidden;
+		background-color: var(--color-bg);
+	}
+
+	.drawing {
+		position: absolute;
+		inset: 0;
+		width: 100%;
+		height: 100%;
+		overflow: hidden;
+	}
+
+	.code,
+	.caption {
+		position: absolute;
+		left: var(--space-5);
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		letter-spacing: 0.14em;
+		line-height: 1.3;
+		text-transform: uppercase;
+	}
+
+	.code {
+		top: var(--space-4);
+	}
+
+	/* Não passa por baixo do ícone do canto; em cartões estreitos quebra para cima */
+	.caption {
+		right: calc(var(--space-5) + 1.75rem);
+		bottom: var(--space-4);
+	}
+
+	/* Celular: ilustração mais alta, para a legenda poder quebrar em duas linhas sem cobrir o desenho
+	   (os rótulos não diminuem: mínimo de 13px em caixa alta) */
+	@media (max-width: 30rem) {
+		.art {
+			aspect-ratio: 4 / 3;
+		}
+
+		/* Ícone sobe para o canto de cima e a legenda ganha a largura toda */
+		.caption {
+			right: var(--space-5);
+		}
+
+		.signal {
+			top: var(--space-4);
+			bottom: auto;
+		}
+	}
+
+	.signal {
+		position: absolute;
+		right: var(--space-5);
+		bottom: var(--space-4);
+		width: 1rem;
+		height: 1rem;
+		color: var(--color-text-muted);
+	}
+
+	.grid {
+		fill: none;
+		stroke: var(--color-border);
+		stroke-width: 0.5;
+		opacity: 0.6;
+	}
+
+	.ring {
+		fill: none;
+		stroke: var(--color-border);
+		stroke-width: 1;
+		opacity: 0.7;
+	}
+
+	.line {
+		fill: none;
+		stroke: var(--color-border);
+		stroke-width: 1.5;
+	}
+
+	.node {
+		fill: var(--color-surface);
+		stroke: var(--color-text-muted);
+		stroke-width: 1.5;
+	}
+
+	.text-line {
+		fill: none;
+		stroke: var(--color-text-muted);
+		stroke-width: 1.5;
+		stroke-linecap: round;
+		opacity: 0.7;
+	}
+
+	.core-ring {
+		fill: var(--color-surface);
+		stroke: var(--color-accent);
+		stroke-width: 2;
+	}
+
+	.accent-fill {
+		fill: var(--color-accent);
+	}
+
+	.accent-line {
+		fill: none;
+		stroke: var(--color-accent);
+		stroke-width: 2.5;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.thin {
+		stroke-width: 1.5;
+	}
+
+	.donut-base,
+	.donut-muted,
+	.donut-accent {
+		fill: none;
+		stroke-width: 10;
+	}
+
+	.donut-base {
+		stroke: var(--color-border);
+	}
+
+	.donut-muted {
+		stroke: var(--color-text-muted);
+		opacity: 0.6;
+	}
+
+	.donut-accent {
+		stroke: var(--color-accent);
+	}
+
+	.bar,
+	.wave {
+		transform-box: fill-box;
+	}
+
+	.bar {
+		transform-origin: left center;
+		transition: transform var(--duration-base) ease;
+	}
+
+	.wave {
+		transform-origin: center;
+	}
+
+	/* Fluxo: tracejado ciano que corre pelas ligações quando o cartão está em foco ou sob o mouse */
+	.flow {
+		fill: none;
+		stroke: var(--color-accent);
+		stroke-width: 1.5;
+		stroke-dasharray: 3 6;
+		opacity: 0;
+		transition: opacity var(--duration-base) ease;
+	}
+
+	.core {
+		transform-box: fill-box;
+		transform-origin: center;
+		transition: transform var(--duration-base) ease;
+	}
+
+	.block {
+		fill: var(--color-surface);
+		stroke: var(--color-border);
+		stroke-width: 1;
+	}
+
+	.tone-1 {
+		opacity: 0.7;
+	}
+
+	.tone-3 {
+		opacity: 0.55;
+	}
+
+	.pin-halo {
+		fill: var(--color-accent);
+		opacity: 0.18;
+		transform-box: fill-box;
+		transform-origin: center;
+	}
+
+	:global(.card:is(:hover, :focus-within)) .flow {
+		opacity: 0.9;
+		animation: flow 0.9s linear infinite;
+	}
+
+	:global(.card:is(:hover, :focus-within)) .core {
+		transform: scale(1.08);
+	}
+
+	:global(.card:is(:hover, :focus-within)) .pin-halo {
+		animation: pulse 1.6s ease-out infinite;
+	}
+
+	:global(.card:is(:hover, :focus-within)) .wave {
+		animation: speak 0.7s ease-in-out infinite alternate;
+	}
+
+	/* Placar: as barras crescem um pouco, como pontos entrando */
+	:global(.card:is(:hover, :focus-within)) .bar {
+		transform: scaleX(1.08);
+	}
+
+	@keyframes speak {
+		from {
+			transform: scaleY(1);
+		}
+		to {
+			transform: scaleY(0.45);
+		}
+	}
+
+	@keyframes flow {
+		to {
+			stroke-dashoffset: -9;
+		}
+	}
+
+	@keyframes pulse {
+		from {
+			opacity: 0.35;
+			transform: scale(0.6);
+		}
+		to {
+			opacity: 0;
+			transform: scale(1.8);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		:global(.card:is(:hover, :focus-within)) .flow,
+		:global(.card:is(:hover, :focus-within)) .pin-halo,
+		:global(.card:is(:hover, :focus-within)) .wave {
+			animation: none;
+		}
+
+		:global(.card:is(:hover, :focus-within)) .core,
+		:global(.card:is(:hover, :focus-within)) .bar {
+			transform: none;
+		}
+	}
+</style>

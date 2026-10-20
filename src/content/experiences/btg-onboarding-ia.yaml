@@ -6,9 +6,9 @@ role:
 start: 2026-06
 end: 2026-10
 summary:
-  pt: Desenvolvi do zero e de ponta a ponta um assistente de IA para apoiar operadores de onboarding bancário na consulta de regras de negócio, documentação e dados. A aplicação entrou em produção e começou a ser utilizada pela equipe.
-  en: Developed an AI assistant from scratch, end to end, to help banking onboarding operators consult business rules, documentation and data. The application went live and the team began using it.
-  es: Desarrollé desde cero y de principio a fin un asistente de IA para ayudar a los operadores de onboarding bancario a consultar reglas de negocio, documentación y datos. La aplicación se puso en producción y el equipo comenzó a utilizarla.
+  pt: Desenvolvi do zero e de ponta a ponta um assistente de IA para apoiar operadores de onboarding bancário em dúvidas operacionais, evitando chamados desnecessários à equipe de sustentação. Em quatro meses, a aplicação entrou em produção e passou a ser usada pela equipe.
+  en: Built an AI assistant from scratch, end to end, to help banking onboarding operators with operational questions and avoid unnecessary tickets to the support team. Within four months, the application went live and the team started using it.
+  es: Desarrollé desde cero y de principio a fin un asistente de IA para ayudar a los operadores de onboarding bancario con dudas operativas, evitando tickets innecesarios al equipo de soporte. En cuatro meses, la aplicación entró en producción y el equipo empezó a usarla.
 highlights:
   pt:
     - Implementei busca inteligente na documentação com RAG e consultas em linguagem natural a PostgreSQL e MySQL, com indicação de fontes e acesso somente leitura aos dados.
@@ -22,6 +22,10 @@ highlights:
     - Implementé búsqueda inteligente en la documentación con RAG y consultas en lenguaje natural a PostgreSQL y MySQL, con referencias a las fuentes y acceso de solo lectura a los datos.
     - Desarrollé el backend en Python/FastAPI y el frontend en React/TypeScript, con chat, historial, feedback y paneles administrativos.
     - Preparé el despliegue con Docker, Kubernetes y Azure DevOps, con observabilidad en Datadog, controles de consumo y costos de IA y evaluaciones automatizadas de las respuestas.
+outcome:
+  pt: "O assistente entrou em produção em quatro meses e passou a ser usado pela equipe."
+  en: "The assistant went live within four months and the team started using it."
+  es: "El asistente entró en producción en cuatro meses y el equipo empezó a usarlo."
 stack:
   - Python
   - FastAPI
@@ -35,3 +39,69 @@ stack:
   - Kubernetes
   - Azure DevOps
   - Datadog
+
+# ---------------------------------------------------------------------------------------------
+# Detalhes do "Explorar a experiência" (modal). Nível acordado com Rafael: nome Atlas liberado
+# (divulgado publicamente), sem números da bateria interna, sem nomes de fornecedores internos.
+# A visão técnica do Atlas fica em src/content/projects/atlas.yaml.
+# ---------------------------------------------------------------------------------------------
+details:
+  intro:
+    pt: "Em quatro meses, transformei a ideia do Atlas, um assistente de IA para o onboarding bancário, em uma aplicação em produção, integrando backend, interface, base de conhecimento, consultas controladas e recursos de administração. A solução foi validada pelo time de sustentação e começou a ser usada gradualmente pela operação. Os detalhes técnicos estão no projeto Atlas, na seção Projetos."
+    en: "In four months, I turned the idea of Atlas, an AI assistant for banking onboarding, into an application in production, bringing together backend, interface, knowledge base, controlled queries and admin features. The support team validated the solution and operations started using it gradually. The technical details are in the Atlas project, in the Projects section."
+    es: "En cuatro meses, convertí la idea de Atlas, un asistente de IA para el onboarding bancario, en una aplicación en producción, integrando backend, interfaz, base de conocimiento, consultas controladas y funciones de administración. El equipo de soporte validó la solución y operaciones empezó a utilizarla gradualmente. Los detalles técnicos están en el proyecto Atlas, en la sección Proyectos."
+  sections:
+    - heading: { pt: "O problema", en: "The problem", es: "El problema" }
+      text:
+        pt: "Atuei na sustentação de tecnologia da área de onboarding, que apoia a operação na abertura de contas e na atualização cadastral. Parte dos chamados recebidos era sobre dúvidas de uso ou de orientação operacional, que não exigiam correção técnica. A proposta era reunir documentação, orientações e informações autorizadas em uma conversa, para a operação esclarecer dúvidas antes de abrir um chamado e a sustentação se concentrar nos casos que exigiam investigação."
+        en: "I worked on technology support for the onboarding area, which helps operations open accounts and update customer records. Part of the tickets we received were usage questions or operational guidance that did not require a technical fix. The goal was to bring documentation, guidance and authorized information together in a conversation, so operations could clear up questions before opening a ticket and support could focus on the cases that needed investigation."
+        es: "Trabajé en el soporte tecnológico del área de onboarding, que apoya a operaciones en la apertura de cuentas y la actualización de datos de clientes. Parte de los tickets recibidos eran dudas de uso u orientación operativa que no requerían una corrección técnica. La propuesta era reunir documentación, orientaciones e información autorizada en una conversación, para que operaciones resolviera sus dudas antes de abrir un ticket y el soporte se concentrara en los casos que requerían investigación."
+    - heading: { pt: "Minha responsabilidade", en: "My responsibility", es: "Mi responsabilidad" }
+      text:
+        pt: "Quando cheguei, havia a ideia da solução. Conduzi o desenvolvimento de ponta a ponta, com orientação do meu gestor: entendimento do domínio, base de conhecimento, arquitetura, backend, interface, integração com IA e bancos de dados, testes, observabilidade e implantação. Mais adiante, outra estagiária passou a contribuir com o projeto, e participei da orientação dela e da organização do trabalho em conjunto."
+        en: "When I joined, there was the idea for the solution. I led the development end to end, with guidance from my manager: understanding the domain, the knowledge base, architecture, backend, interface, AI and database integration, testing, observability and deployment. Later, another intern joined the project, and I helped guide her and organize our work together."
+        es: "Cuando llegué, existía la idea de la solución. Conduje el desarrollo de principio a fin, con la orientación de mi gestor: comprensión del dominio, base de conocimiento, arquitectura, backend, interfaz, integración con IA y bases de datos, pruebas, observabilidad y despliegue. Más adelante, otra pasante se sumó al proyecto, y participé en su orientación y en la organización del trabajo conjunto."
+    - heading: { pt: "Decisões que fizeram diferença", en: "Decisions that made a difference", es: "Decisiones que marcaron la diferencia" }
+      items:
+        pt:
+          - "Comecei com uma base de documentos Markdown, em vez de um banco vetorial externo, para concentrar a primeira entrega na estrutura do conhecimento e no funcionamento da aplicação dentro do prazo."
+          - "Quando os testes mostraram que os limites de contexto prejudicavam a qualidade, e o consumo indicava margem no orçamento, introduzi uma etapa em que o modelo de linguagem seleciona as fontes relevantes entre os candidatos da busca por palavras-chave. Foi um dos principais avanços do projeto."
+          - "Testei delegar mais etapas do processamento à IA: o custo subiu e a qualidade caiu. Mantive uma combinação de lógica de aplicação, consultas estruturadas e geração de linguagem, conforme a necessidade de cada etapa."
+          - "Para consultas recorrentes, criei templates SQL parametrizados em vez de gerar uma nova consulta a cada pergunta, com execução somente leitura nas bases operacionais."
+        en:
+          - "I started with a base of Markdown documents instead of an external vector database, to focus the first delivery on structuring the knowledge and getting the application working within the deadline."
+          - "When tests showed that context limits were hurting quality, and usage showed room in the budget, I added a step in which the language model selects the relevant sources among the keyword-search candidates. It was one of the project's main breakthroughs."
+          - "I tested handing more processing steps to the AI: cost went up and quality went down. I kept a combination of application logic, structured queries and language generation, according to what each step needed."
+          - "For recurring queries, I built parameterized SQL templates instead of generating a new query for every question, with read-only execution on operational databases."
+        es:
+          - "Empecé con una base de documentos Markdown en lugar de una base de datos vectorial externa, para concentrar la primera entrega en estructurar el conocimiento y en el funcionamiento de la aplicación dentro del plazo."
+          - "Cuando las pruebas mostraron que los límites de contexto perjudicaban la calidad, y el consumo indicaba margen en el presupuesto, introduje una etapa en la que el modelo de lenguaje selecciona las fuentes relevantes entre los candidatos de la búsqueda por palabras clave. Fue uno de los principales avances del proyecto."
+          - "Probé delegar más etapas del procesamiento a la IA: el costo subió y la calidad bajó. Mantuve una combinación de lógica de aplicación, consultas estructuradas y generación de lenguaje, según lo que necesitaba cada etapa."
+          - "Para consultas recurrentes, creé plantillas SQL parametrizadas en lugar de generar una consulta nueva para cada pregunta, con ejecución de solo lectura en las bases operativas."
+    - heading: { pt: "O que entreguei", en: "What I delivered", es: "Lo que entregué" }
+      items:
+        pt:
+          - "Base de conhecimento padronizada, com categorias, metadados e referências cruzadas, e verificações de consistência para encontrar referências quebradas, duplicações e lacunas."
+          - "Chat com histórico, feedback estruturado e respostas exibidas progressivamente, além de painéis de administração, acompanhamento de consumo e revisão de conhecimento."
+          - "Autenticação corporativa, controle de acesso, cuidados com informações sensíveis nos logs, limites de consumo de IA e observabilidade das etapas no Datadog."
+          - "Testes de backend, interface e integração, conjuntos de perguntas de referência para avaliar as respostas e entrega com Docker, Kubernetes e Azure DevOps, de desenvolvimento a produção."
+        en:
+          - "A standardized knowledge base with categories, metadata and cross-references, plus consistency checks to catch broken references, duplicates and gaps."
+          - "A chat with history, structured feedback and progressively displayed answers, plus admin dashboards, usage tracking and knowledge review."
+          - "Corporate authentication, access control, care with sensitive information in logs, AI usage limits and Datadog observability for each step."
+          - "Backend, interface and integration tests, reference question sets to evaluate answers, and delivery with Docker, Kubernetes and Azure DevOps, from development to production."
+        es:
+          - "Base de conocimiento estandarizada, con categorías, metadatos y referencias cruzadas, y verificaciones de consistencia para encontrar referencias rotas, duplicados y vacíos."
+          - "Chat con historial, feedback estructurado y respuestas mostradas de forma progresiva, además de paneles de administración, seguimiento del consumo y revisión del conocimiento."
+          - "Autenticación corporativa, control de acceso, cuidado con la información sensible en los logs, límites de consumo de IA y observabilidad de cada etapa en Datadog."
+          - "Pruebas de backend, interfaz e integración, conjuntos de preguntas de referencia para evaluar las respuestas y despliegue con Docker, Kubernetes y Azure DevOps, de desarrollo a producción."
+    - heading: { pt: "Resultado", en: "Outcome", es: "Resultado" }
+      text:
+        pt: "Em uma bateria interna de casos, os ajustes na seleção de documentos e na composição do contexto ampliaram de forma expressiva tanto as perguntas respondidas quanto as respostas corretas. O time de atendimento da sustentação validou o assistente com situações da rotina, e ele foi entregue em produção. Acompanhei o início do uso pela operação até o fim do estágio; a redução de chamados evitáveis segue como objetivo da solução."
+        en: "In an internal set of test cases, the changes to document selection and context composition substantially increased both the questions answered and the correct answers. The support team validated the assistant with everyday situations, and it was delivered to production. I followed its early adoption by operations until the end of my internship; reducing avoidable tickets remains the solution's goal."
+        es: "En una batería interna de casos, los ajustes en la selección de documentos y en la composición del contexto ampliaron de forma notable tanto las preguntas respondidas como las respuestas correctas. El equipo de atención del soporte validó el asistente con situaciones de la rutina, y se entregó en producción. Acompañé el inicio de su uso por parte de operaciones hasta el final de mi pasantía; la reducción de tickets evitables sigue siendo el objetivo de la solución."
+    - heading: { pt: "O que aprendi", en: "What I learned", es: "Lo que aprendí" }
+      text:
+        pt: "A qualidade de uma solução com IA depende das decisões em torno do modelo: quais informações ele recebe, como os dados são consultados, como o contexto é preservado e como os resultados são avaliados. Também aprendi a documentar decisões e organizar o trabalho para que outras pessoas pudessem contribuir no mesmo repositório."
+        en: "The quality of an AI solution depends on the decisions around the model: what information it receives, how data is queried, how context is preserved and how results are evaluated. I also learned to document decisions and organize the work so others could contribute to the same repository."
+        es: "La calidad de una solución con IA depende de las decisiones alrededor del modelo: qué información recibe, cómo se consultan los datos, cómo se preserva el contexto y cómo se evalúan los resultados. También aprendí a documentar decisiones y organizar el trabajo para que otras personas pudieran contribuir en el mismo repositorio."

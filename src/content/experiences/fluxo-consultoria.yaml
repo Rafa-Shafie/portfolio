@@ -10,27 +10,80 @@ role:
 start: 2024-01
 end: 2024-08
 summary:
-  pt: Na Coordenação de Tecnologia, desenvolvi em equipe um software de gestão em Node.js e TypeScript, do levantamento de requisitos à entrega.
-  en: In the Technology Coordination team, developed a management application in Node.js and TypeScript, from requirements gathering to delivery.
-  es: En la Coordinación de Tecnología, desarrollé en equipo un software de gestión en Node.js y TypeScript, desde la recopilación de requisitos hasta la entrega.
+  pt: Atuei em tecnologia, consultoria e operações internas da empresa júnior, do backend construído em equipe na capacitação à modelagem de dados para um cliente da indústria.
+  en: Worked across technology, consulting and internal operations at the junior enterprise, from a backend built as a team during training to data modeling for an industrial client.
+  es: Trabajé en tecnología, consultoría y operaciones internas de la empresa júnior, desde el backend construido en equipo en la capacitación hasta el modelado de datos para un cliente de la industria.
 highlights:
   pt:
-    - Realizei visitas técnicas e entrevistei funcionários de uma fábrica alimentícia para levantar requisitos e mapear processos; participei da remodelagem dos dados e do desenho do fluxo de um novo sistema para a fábrica.
-    - Apoiei rotinas de contas a pagar e conciliação bancária na Diretoria Administrativo-Financeira.
-    - Conduzi entrevistas e dinâmicas no processo seletivo e orientei novos trainees.
+    - Desenvolvi em equipe, como projeto de capacitação no onboarding, o backend de um sistema de gestão com Node.js, TypeScript, NestJS, PostgreSQL e Prisma.
+    - Para reorganizar o sistema de uma indústria alimentícia, participei de entrevistas, do mapeamento de processos, do levantamento de requisitos e da modelagem conceitual e lógica dos dados.
+    - Participei do grupo de melhoria da área de tecnologia, discutindo gargalos e a reorganização da equipe para uma atuação full stack.
+    - Apoiei contas a pagar, reembolsos e conciliação bancária, participei do recrutamento e orientei trainees, esclarecendo dúvidas e avaliando entregas.
   en:
-    - Visited a food factory and interviewed employees to gather requirements and map processes; helped redesign its data model and the new system's data flow.
-    - Supported accounts payable and bank reconciliation in the Administration and Finance department.
-    - Conducted interviews and group exercises during recruiting and mentored new trainees.
+    - Built, as a team, the backend of a management system as an onboarding training project, with Node.js, TypeScript, NestJS, PostgreSQL and Prisma.
+    - To reorganize a food manufacturer's system, took part in interviews, process mapping, requirements gathering and conceptual and logical data modeling.
+    - Joined the working group to improve the technology area, discussing bottlenecks and reorganizing the team toward full stack work.
+    - Supported accounts payable, reimbursements and bank reconciliation, took part in recruiting and mentored trainees, answering questions and reviewing their work.
   es:
-    - Realicé visitas técnicas y entrevisté a empleados de una fábrica de alimentos para recopilar requisitos y mapear procesos; participé en el rediseño del modelo de datos y del flujo de un nuevo sistema para la fábrica.
-    - Apoyé las tareas de cuentas por pagar y conciliación bancaria en la Dirección Administrativa y Financiera.
-    - Realicé entrevistas y dinámicas de grupo en el proceso de selección y orienté a los nuevos trainees.
+    - Desarrollé en equipo, como proyecto de capacitación en el onboarding, el backend de un sistema de gestión con Node.js, TypeScript, NestJS, PostgreSQL y Prisma.
+    - Para reorganizar el sistema de una industria alimentaria, participé en entrevistas, en el mapeo de procesos, en el levantamiento de requisitos y en el modelado conceptual y lógico de los datos.
+    - Participé en el grupo de mejora del área de tecnología, discutiendo cuellos de botella y la reorganización del equipo hacia una actuación full stack.
+    - Apoyé las cuentas por pagar, los reembolsos y la conciliación bancaria, participé en el reclutamiento y orienté a trainees, resolviendo dudas y evaluando sus entregas.
+outcome:
+  pt: "Do primeiro backend construído em equipe à modelagem de dados para um cliente da indústria."
+  en: "From my first team-built backend to data modeling for an industrial client."
+  es: "Del primer backend construido en equipo al modelado de datos para un cliente de la industria."
 stack:
   - Node.js
   - TypeScript
+  - NestJS
+  - PostgreSQL
   - Prisma
-  - SQLite
   - Git
   - Scrum
   - Kanban
+
+# ---------------------------------------------------------------------------------------------
+# Detalhes do "Explorar a experiência" (modal). Fonte: relato do Rafael sobre a Fluxo.
+# - O backend (capacitação) e a modelagem (cliente) são projetos distintos, ambos em equipe:
+#   verbos de participação, sem autoria individual de módulos ou modelos.
+# - Cliente generalizado como "indústria alimentícia"; a implementação seguiu com outra empresa.
+# - Apoio administrativo-financeiro, grupo de melhoria e orientação de trainees não são cargos.
+# - Os projetos ficam em src/content/projects/fluxo-*.yaml.
+# ---------------------------------------------------------------------------------------------
+details:
+  intro:
+    pt: "Na Fluxo, participei de atividades de tecnologia, projetos para clientes e operações internas. Contribuí para um backend de gestão desenvolvido em equipe durante a capacitação e, depois, para o levantamento de requisitos e a modelagem de dados de uma indústria alimentícia. Também participei de um grupo de melhoria da área de tecnologia, apoiei contas a pagar e conciliação bancária e atuei em recrutamento e orientação de trainees. Os dois projetos estão na seção Projetos."
+    en: "At Fluxo, I took part in technology work, client projects and internal operations. I contributed to a management backend built as a team during training and, later, to requirements gathering and data modeling for a food manufacturer. I also joined a working group to improve the technology area, supported accounts payable and bank reconciliation, and worked on recruiting and mentoring trainees. Both projects are in the Projects section."
+    es: "En Fluxo, participé en actividades de tecnología, proyectos para clientes y operaciones internas. Contribuí a un backend de gestión desarrollado en equipo durante la capacitación y, después, al levantamiento de requisitos y el modelado de datos de una industria alimentaria. También participé en un grupo de mejora del área de tecnología, apoyé las cuentas por pagar y la conciliación bancaria y trabajé en reclutamiento y orientación de trainees. Los dos proyectos están en la sección Proyectos."
+  sections:
+    - heading: { pt: "Aprender construindo em equipe", en: "Learning by building as a team", es: "Aprender construyendo en equipo" }
+      text:
+        pt: "Entrei em janeiro de 2024 e comecei pela capacitação da empresa júnior. A entrega final era um software de gestão desenvolvido em equipe: contribuí em diferentes partes do backend, com Node.js, TypeScript, NestJS, PostgreSQL e Prisma. Foi a minha primeira experiência de construir software em conjunto e de conhecer a organização de uma aplicação backend. O projeto foi concluído como atividade de formação, por volta de março, e não chegou a ser usado em operação."
+        en: "I joined in January 2024 and started with the junior enterprise's training program. The final assignment was a management application built as a team: I contributed to different parts of the backend, with Node.js, TypeScript, NestJS, PostgreSQL and Prisma. It was my first experience building software together with others and learning how a backend application is organized. The project was completed as a training activity, around March, and was never used in operation."
+        es: "Entré en enero de 2024 y empecé por la capacitación de la empresa júnior. La entrega final era un software de gestión desarrollado en equipo: contribuí en distintas partes del backend, con Node.js, TypeScript, NestJS, PostgreSQL y Prisma. Fue mi primera experiencia construyendo software en conjunto y conociendo la organización de una aplicación backend. El proyecto se concluyó como actividad de formación, alrededor de marzo, y no llegó a usarse en operación."
+    - heading: { pt: "Consultoria: entender a rotina antes de modelar", en: "Consulting: understanding the routine before modeling", es: "Consultoría: entender la rutina antes de modelar" }
+      text:
+        pt: "Depois da capacitação, passei a atuar como Consultor de Projetos. Em um trabalho para uma indústria alimentícia, o sistema de gestão tinha crescido aos poucos e acumulado funcionalidades que já não eram usadas. Participei de visitas à fábrica, entrevistas e reuniões com funcionários: preparei perguntas, registrei respostas e contribuí para o mapeamento dos processos. A partir disso, a equipe construiu do zero a documentação e a modelagem de dados, e eu participei das diferentes etapas. A implementação do novo sistema seguiu com outra empresa."
+        en: "After training, I started working as a Project Consultant. In a project for a food manufacturer, the management system had grown piece by piece and piled up features that were no longer used. I took part in factory visits, interviews and meetings with employees: I prepared questions, recorded answers and contributed to mapping the processes. From there, the team built the documentation and the data model from scratch, and I took part in each stage. Another company took on the implementation of the new system."
+        es: "Después de la capacitación, pasé a trabajar como Consultor de Proyectos. En un trabajo para una industria alimentaria, el sistema de gestión había crecido poco a poco y acumulado funcionalidades que ya no se usaban. Participé en visitas a la fábrica, entrevistas y reuniones con empleados: preparé preguntas, registré respuestas y contribuí al mapeo de los procesos. A partir de eso, el equipo construyó desde cero la documentación y el modelado de datos, y participé en las distintas etapas. La implementación del nuevo sistema quedó a cargo de otra empresa."
+    - heading: { pt: "A área de tecnologia por dentro", en: "The technology area from the inside", es: "El área de tecnología por dentro" }
+      text:
+        pt: "Integrei um grupo de trabalho, organizado em torno de um OKR, para discutir melhorias na área de tecnologia da Fluxo, analisando gargalos e pontos fortes e ouvindo outros membros. Entre os encaminhamentos estiveram a reorganização da divisão entre backend e frontend em direção a uma atuação full stack, preservando a frente de design, e o apoio à formação técnica com cursos da Full Cycle. Essa participação ampliou minha visão sobre como a organização das pessoas e do aprendizado influencia o que uma equipe consegue construir."
+        en: "I joined a working group, organized around an OKR, to discuss improvements to Fluxo's technology area, analyzing bottlenecks and strengths and listening to other members. Its outcomes included reorganizing the split between backend and frontend toward full stack work, while keeping a dedicated design track, and supporting technical training with Full Cycle courses. It broadened my view of how the way people and learning are organized shapes what a team can build."
+        es: "Integré un grupo de trabajo, organizado en torno a un OKR, para discutir mejoras en el área de tecnología de Fluxo, analizando cuellos de botella y fortalezas y escuchando a otros miembros. Entre las medidas estuvieron la reorganización de la división entre backend y frontend hacia una actuación full stack, manteniendo el frente de diseño, y el apoyo a la formación técnica con cursos de Full Cycle. Esa participación amplió mi visión sobre cómo la organización de las personas y del aprendizaje influye en lo que un equipo logra construir."
+    - heading: { pt: "Rotinas administrativo-financeiras", en: "Administrative and financial routines", es: "Rutinas administrativo-financieras" }
+      text:
+        pt: "Na Diretoria Administrativo-Financeira, apoiei e executei tarefas de contas a pagar, incluindo reembolsos, e de conciliação bancária, com reuniões diárias para acompanhar o andamento e organizar os próximos passos. Usei ferramentas como Conta Azul, Asaas, Podio, Caju e Google Sheets. Foi o meu contato com as rotinas que sustentam o funcionamento de uma organização."
+        en: "In the Administration and Finance department, I supported and carried out accounts payable tasks, including reimbursements, and bank reconciliation, with daily meetings to track progress and plan next steps. I used tools such as Conta Azul, Asaas, Podio, Caju and Google Sheets. It was my first contact with the routines that keep an organization running."
+        es: "En la Dirección Administrativo-Financiera, apoyé y ejecuté tareas de cuentas por pagar, incluidos reembolsos, y de conciliación bancaria, con reuniones diarias para seguir el avance y organizar los próximos pasos. Usé herramientas como Conta Azul, Asaas, Podio, Caju y Google Sheets. Fue mi contacto con las rutinas que sostienen el funcionamiento de una organización."
+    - heading: { pt: "Recrutamento e orientação", en: "Recruiting and mentoring", es: "Reclutamiento y orientación" }
+      text:
+        pt: "Participei de entrevistas e dinâmicas do processo seletivo, conduzindo perguntas, acompanhando candidatos e registrando observações a partir de roteiros e planilhas de avaliação. Depois, passei a orientar novos trainees, tirando dúvidas sobre as atividades e a empresa e avaliando suas entregas: uma forma de compartilhar o que eu tinha aprendido na minha própria formação."
+        en: "I took part in recruiting interviews and group exercises, asking questions, observing candidates and taking notes based on interview guides and evaluation sheets. Later, I started mentoring new trainees, answering questions about their tasks and the company and reviewing their work: a way to pass on what I had learned in my own training."
+        es: "Participé en entrevistas y dinámicas del proceso de selección, haciendo preguntas, acompañando a los candidatos y registrando observaciones a partir de guiones y planillas de evaluación. Después, pasé a orientar a nuevos trainees, resolviendo dudas sobre las actividades y la empresa y evaluando sus entregas: una forma de compartir lo que había aprendido en mi propia formación."
+    - heading: { pt: "O que levei dessa experiência", en: "What I took from it", es: "Lo que me llevé de esta experiencia" }
+      text:
+        pt: "Em oito meses, com frentes que muitas vezes aconteciam ao mesmo tempo, aproximei desenvolvimento de software, necessidades de usuários, processos internos e colaboração. O backend da capacitação foi a minha primeira construção em equipe; o projeto da indústria mostrou a importância de investigar a rotina antes de definir um sistema; e as atividades internas ampliaram meu contato com diferentes responsabilidades dentro de uma organização."
+        en: "Over eight months, with fronts that often ran at the same time, I brought together software development, user needs, internal processes and collaboration. The training backend was my first team build; the manufacturer project showed me why you investigate the routine before defining a system; and the internal work widened my exposure to different responsibilities within an organization."
+        es: "En ocho meses, con frentes que muchas veces ocurrían al mismo tiempo, acerqué desarrollo de software, necesidades de usuarios, procesos internos y colaboración. El backend de la capacitación fue mi primera construcción en equipo; el proyecto de la industria mostró la importancia de investigar la rutina antes de definir un sistema; y las actividades internas ampliaron mi contacto con distintas responsabilidades dentro de una organización."

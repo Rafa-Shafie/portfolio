@@ -1,0 +1,92 @@
+# VoxAssist API (nome provisório): projeto final planejado para o bootcamp DIO · Itaú.
+# Ainda sem código; o plano é a visão do produto, a stack e as fases. OpenFeign fica de fora até
+# a decisão ser tomada.
+title:
+  pt: "VoxAssist API"
+  en: "VoxAssist API"
+  es: "VoxAssist API"
+description:
+  pt: "API REST em Spring Boot que recebe áudio ou texto, transcreve a fala, interpreta a intenção com um modelo de linguagem e responde em texto ou voz, tratando a IA como dependência externa: cara, lenta e sujeita a falhas."
+  en: "A Spring Boot REST API that takes audio or text, transcribes speech, interprets intent with a language model and answers in text or voice, treating AI as an external dependency: expensive, slow and prone to failure."
+  es: "API REST en Spring Boot que recibe audio o texto, transcribe la voz, interpreta la intención con un modelo de lenguaje y responde en texto o voz, tratando la IA como una dependencia externa: cara, lenta y propensa a fallar."
+category: backend
+alsoIn: [ai]
+kind: training
+organization: Bootcamp DIO · Itaú
+status: planned
+art: voice
+order: 6
+stack:
+  - Java 21
+  - Spring Boot
+  - Spring AI
+  - Resilience4j
+  - PostgreSQL
+  - Testcontainers
+details:
+  intro:
+    pt: "Uma API REST em Spring Boot que recebe áudio ou texto, transcreve a fala, interpreta a intenção com um modelo de linguagem e responde em texto ou voz, guardando o histórico de cada conversa. É o meu projeto final do bootcamp DIO · Itaú, ainda em planejamento, pensado para ir além da entrega: algo que eu consiga defender linha por linha numa entrevista técnica."
+    en: "A Spring Boot REST API that takes audio or text, transcribes speech, interprets intent with a language model and answers in text or voice, keeping the history of each conversation. It is my final project for the DIO · Itaú bootcamp, still being planned, and meant to go beyond the assignment: something I can defend line by line in a technical interview."
+    es: "Una API REST en Spring Boot que recibe audio o texto, transcribe la voz, interpreta la intención con un modelo de lenguaje y responde en texto o voz, guardando el historial de cada conversación. Es mi proyecto final del bootcamp DIO · Itaú, todavía en planificación, pensado para ir más allá de la entrega: algo que pueda defender línea por línea en una entrevista técnica."
+  sections:
+    - heading: { pt: "A ideia central", en: "The core idea", es: "La idea central" }
+      text:
+        pt: "Integrar um modelo de linguagem numa API qualquer pessoa faz em uma tarde. O objetivo aqui é integrar IA de forma resiliente, testável e com custo controlado, tratando o modelo como ele é: uma dependência externa cara, lenta e que pode falhar. O pipeline de áudio, transcrição, modelo e voz é o pretexto para exercitar arquitetura, padrões de projeto, segurança, testes e observabilidade num só sistema."
+        en: "Anyone can plug a language model into an API in an afternoon. The goal here is to integrate AI in a resilient, testable and cost-controlled way, treating the model as what it is: an expensive, slow external dependency that can fail. The audio, transcription, model and voice pipeline is the excuse to practice architecture, design patterns, security, testing and observability in a single system."
+        es: "Integrar un modelo de lenguaje en una API lo hace cualquiera en una tarde. El objetivo aquí es integrar la IA de forma resiliente, testeable y con costo controlado, tratando el modelo como lo que es: una dependencia externa cara, lenta y que puede fallar. El pipeline de audio, transcripción, modelo y voz es el pretexto para ejercitar arquitectura, patrones de diseño, seguridad, pruebas y observabilidad en un solo sistema."
+    - heading: { pt: "Plano de construção", en: "Build plan", es: "Plan de construcción" }
+      items:
+        pt:
+          - "Fundação: projeto Maven, PostgreSQL com Docker Compose, perfis de desenvolvimento e teste e health check com Actuator."
+          - "Esqueleto sem IA: endpoint de texto com DTOs em record, Bean Validation e erros centralizados com ProblemDetail, com um assistente falso por trás de uma interface."
+          - "Persistência: conversas e mensagens com JPA, migrations com Flyway e testes de integração com Testcontainers."
+          - "Modelo de verdade com Spring AI: system prompt, janela de histórico, limite de tokens e validação da resposta, trocando o assistente falso sem mexer no controller."
+          - "Transcrição de áudio com Whisper, com limites de tamanho, duração e formato; resposta em voz como opcional."
+          - "Resiliência com Resilience4j: timeout, retry com backoff exponencial, circuit breaker e uma resposta de contingência em vez de erro 500."
+          - "Segurança e custo: Spring Security com JWT e limite de requisições por usuário."
+          - "Observabilidade e entrega: logs estruturados com correlation ID, métricas de latência e de tokens, OpenAPI, Docker, deploy e um vídeo de demonstração."
+        en:
+          - "Foundation: Maven project, PostgreSQL with Docker Compose, development and test profiles and an Actuator health check."
+          - "Skeleton without AI: a text endpoint with record DTOs, Bean Validation and centralized errors with ProblemDetail, backed by a fake assistant behind an interface."
+          - "Persistence: conversations and messages with JPA, Flyway migrations and Testcontainers integration tests."
+          - "The real model with Spring AI: system prompt, history window, token limit and response validation, swapping out the fake assistant without touching the controller."
+          - "Audio transcription with Whisper, with size, duration and format limits; spoken answers as an option."
+          - "Resilience with Resilience4j: timeouts, retries with exponential backoff, a circuit breaker and a graceful fallback instead of a 500 error."
+          - "Security and cost: Spring Security with JWT and per-user rate limiting."
+          - "Observability and delivery: structured logs with a correlation ID, latency and token metrics, OpenAPI, Docker, deployment and a demo video."
+        es:
+          - "Base: proyecto Maven, PostgreSQL con Docker Compose, perfiles de desarrollo y prueba y health check con Actuator."
+          - "Esqueleto sin IA: endpoint de texto con DTOs en record, Bean Validation y errores centralizados con ProblemDetail, con un asistente falso detrás de una interfaz."
+          - "Persistencia: conversaciones y mensajes con JPA, migrations con Flyway y pruebas de integración con Testcontainers."
+          - "El modelo real con Spring AI: system prompt, ventana de historial, límite de tokens y validación de la respuesta, reemplazando el asistente falso sin tocar el controller."
+          - "Transcripción de audio con Whisper, con límites de tamaño, duración y formato; respuesta en voz como opción."
+          - "Resiliencia con Resilience4j: timeout, retry con backoff exponencial, circuit breaker y una respuesta de contingencia en lugar de un error 500."
+          - "Seguridad y costo: Spring Security con JWT y límite de solicitudes por usuario."
+          - "Observabilidad y entrega: logs estructurados con correlation ID, métricas de latencia y de tokens, OpenAPI, Docker, despliegue y un video de demostración."
+    - heading: { pt: "Regras desde o início", en: "Ground rules", es: "Reglas desde el inicio" }
+      items:
+        pt:
+          - "Nunca registrar em log o áudio nem o conteúdo das mensagens dos usuários."
+          - "Numa API de IA, abuso não é só um problema de segurança: é custo. Por isso o limite de requisições entra junto com a autenticação."
+          - "Cada extra, como RAG, streaming ou tool calling, só entra se justificar a complexidade."
+        en:
+          - "Never log audio or the content of users' messages."
+          - "In an AI API, abuse is not only a security problem: it costs money. That is why rate limiting comes together with authentication."
+          - "Each extra, such as RAG, streaming or tool calling, only goes in if it is worth the complexity."
+        es:
+          - "Nunca registrar en logs el audio ni el contenido de los mensajes de los usuarios."
+          - "En una API de IA, el abuso no es solo un problema de seguridad: es costo. Por eso el límite de solicitudes entra junto con la autenticación."
+          - "Cada extra, como RAG, streaming o tool calling, solo entra si justifica la complejidad."
+techDetails:
+  - label: { pt: "Backend", en: "Backend", es: "Backend" }
+    items: ["Java 21", "Spring Boot", "Spring Security", "Bean Validation", "Actuator"]
+  - label: { pt: "IA", en: "AI", es: "IA" }
+    items: ["Spring AI", "Whisper", "TTS"]
+  - label: { pt: "Resiliência", en: "Resilience", es: "Resiliencia" }
+    items: ["Resilience4j"]
+  - label: { pt: "Dados", en: "Data", es: "Datos" }
+    items: ["PostgreSQL", "Flyway", "Spring Data JPA"]
+  - label: { pt: "Testes", en: "Testing", es: "Pruebas" }
+    items: ["JUnit 5", "Mockito", "MockMvc", "Testcontainers"]
+  - label: { pt: "Entrega", en: "Delivery", es: "Entrega" }
+    items: ["springdoc-openapi", "Maven", "Docker", "Docker Compose"]

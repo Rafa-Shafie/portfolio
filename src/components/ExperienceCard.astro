@@ -1,5 +1,9 @@
 ---
 import type { CollectionEntry } from 'astro:content';
+import DetailDialog from './DetailDialog.astro';
+import OutcomeIcon from 'bootstrap-icons/icons/arrow-up-right.svg';
+import ArrowIcon from 'bootstrap-icons/icons/arrow-right.svg';
+import { isPublished } from '../data/drafts';
 import { formatPeriod, localize, useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
@@ -9,11 +13,16 @@ interface Props {
 	index: string;
 	/** Começa aberta (a mais recente). */
 	open?: boolean;
+	/** Identificador do arquivo (para o id do modal). */
+	slug: string;
 }
 
-const { experience, locale, index, open = false } = Astro.props;
+const { experience, locale, index, open = false, slug } = Astro.props;
 const t = useTranslations(locale);
-const { company, companyNote, role, start, end, summary, highlights, stack } = experience;
+const { company, companyNote, role, start, end, summary, highlights, stack, outcome, details } = experience;
+const period = formatPeriod(start, end, locale);
+const dialogId = `experience-${slug}`;
+const hasDetails = details && isPublished(details);
 ---
 
 <!-- Acordeão nativo: abre e fecha sem JavaScript, pelo mouse e pelo teclado -->
@@ -27,21 +36,63 @@ const { company, companyNote, role, start, end, summary, highlights, stack } = e
 			</span>
 			<span class="role">{localize(role, locale)}</span>
 		</h3>
-		<span class="period">{formatPeriod(start, end, locale)}</span>
+		<span class="period">{period}</span>
 		<span class="toggle" aria-hidden="true"></span>
 	</summary>
 
 	<div class="body">
-		<p class="summary">{localize(summary, locale)}</p>
-		<ul class="highlights">
-			{localize(highlights, locale).map((item) => <li>{item}</li>)}
-		</ul>
-		<h4 class="visually-hidden">{t.experience.stack}</h4>
-		<ul class="stack">
-			{stack.map((tech) => <li>{tech}</li>)}
-		</ul>
+		<div class="content">
+			<p class="summary">{localize(summary, locale)}</p>
+			<ul class="highlights">
+				{localize(highlights, locale).map((item) => <li>{item}</li>)}
+			</ul>
+			<h4 class="visually-hidden">{t.experience.stack}</h4>
+			<ul class="stack">
+				{stack.map((tech) => <li>{tech}</li>)}
+			</ul>
+		</div>
+
+		<!-- Painel "Entrega & aprendizado": o resultado em uma frase e o caminho para os detalhes -->
+		{
+			(outcome || hasDetails) && (
+				<div class="outcome">
+					<OutcomeIcon class="outcome-icon" aria-hidden="true" />
+					<p class="outcome-label">{t.experience.outcome}</p>
+					{outcome && <p class="outcome-text">{localize(outcome, locale)}</p>}
+					{hasDetails && (
+						<button class="explore" type="button" data-dialog-open={dialogId} aria-haspopup="dialog" hidden>
+							{t.experience.explore}
+							<span class="visually-hidden">: {company}, {localize(role, locale)}</span>
+							<ArrowIcon class="explore-arrow" aria-hidden="true" />
+						</button>
+					)}
+				</div>
+			)
+		}
 	</div>
 </details>
+
+{
+	hasDetails && details && (
+		<DetailDialog
+			id={dialogId}
+			eyebrow={company}
+			title={localize(role, locale)}
+			meta={period}
+			intro={details.intro && localize(details.intro, locale)}
+			sections={details.sections.map((section) => ({
+				heading: localize(section.heading, locale),
+				text: section.text && localize(section.text, locale),
+				items: section.items && localize(section.items, locale),
+			}))}
+			tagsHeading={t.experience.details.tech}
+			tags={stack}
+			note={t.experience.details.note}
+			closeLabel={t.a11y.closeDetails}
+			draftLabel={details.draft ? t.a11y.draft : undefined}
+		/>
+	)
+}
 
 <style>
 	.experience {
@@ -138,8 +189,14 @@ const { company, companyNote, role, start, end, summary, highlights, stack } = e
 
 	.body {
 		display: grid;
-		gap: var(--space-4);
+		gap: var(--space-6);
 		padding-bottom: var(--space-6);
+	}
+
+	.content {
+		display: grid;
+		align-content: start;
+		gap: var(--space-4);
 	}
 
 	/* No celular, o complemento da empresa vai para a própria linha, sem o ponto separador */
@@ -183,6 +240,109 @@ const { company, companyNote, role, start, end, summary, highlights, stack } = e
 		font-size: var(--text-sm);
 	}
 
+	.outcome {
+		position: relative;
+		display: grid;
+		align-self: start;
+		align-content: start;
+		justify-items: start;
+		gap: var(--space-3);
+		padding: var(--space-6);
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		transition:
+			transform var(--duration-base) ease,
+			border-color var(--duration-base) ease;
+	}
+
+	.outcome-icon {
+		width: 1.25rem;
+		height: 1.25rem;
+		margin-bottom: var(--space-2);
+		color: var(--color-accent);
+	}
+
+	.outcome-label {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.outcome-text {
+		font-size: var(--text-lg);
+		font-weight: var(--weight-regular);
+		line-height: 1.4;
+	}
+
+	/* Link de texto com seta, no lugar do botão cheio */
+	.explore {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3);
+		min-height: 2.75rem;
+		margin-top: var(--space-1);
+		padding: 0;
+		background: none;
+		border: 0;
+		color: var(--color-text);
+		font-weight: var(--weight-semibold);
+		cursor: pointer;
+		transition: color var(--duration-fast) ease;
+	}
+
+	.explore-arrow {
+		width: 1rem;
+		height: 1rem;
+		transition: transform var(--duration-base) ease;
+	}
+
+	/* Área de clique esticada: o painel inteiro abre os detalhes, com um só botão de verdade */
+	.explore::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+	}
+
+	/* Painel clicável (com JS): sobe um pouco, a borda acende e a seta anda */
+	.outcome:has(.explore:not([hidden])):hover,
+	.outcome:has(.explore:focus-visible) {
+		transform: translateY(-3px);
+		border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+	}
+
+	.outcome:hover .explore,
+	.explore:focus-visible {
+		color: var(--color-accent);
+	}
+
+	.outcome:hover .explore-arrow,
+	.explore:focus-visible .explore-arrow {
+		transform: translateX(4px);
+	}
+
+	/* O anel de foco contorna o painel, que é a área clicável */
+	.explore:focus-visible {
+		outline: none;
+	}
+
+	.outcome:has(.explore:focus-visible) {
+		outline: 3px solid var(--color-focus);
+		outline-offset: 3px;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.outcome:has(.explore:not([hidden])):hover,
+		.outcome:has(.explore:focus-visible),
+		.outcome:hover .explore-arrow,
+		.explore:focus-visible .explore-arrow {
+			transform: none;
+		}
+	}
+
 	@media (min-width: 60rem) {
 		summary {
 			grid-template-columns: 2.5rem 1fr auto auto;
@@ -197,8 +357,10 @@ const { company, companyNote, role, start, end, summary, highlights, stack } = e
 			grid-column: 4;
 		}
 
+		/* Destaques à esquerda, painel de resultado à direita */
 		.body {
-			max-width: 52rem;
+			grid-template-columns: minmax(0, 1fr) minmax(16rem, 23rem);
+			gap: var(--space-7);
 			padding-left: calc(2.5rem + var(--space-4));
 		}
 	}
