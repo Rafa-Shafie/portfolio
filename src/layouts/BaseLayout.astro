@@ -32,6 +32,25 @@ const ogImageUrl = new URL(`/og/${locale}.png`, Astro.site);
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 		<meta name="theme-color" content="#0b1117" />
+
+		<!--
+			Tema antes da primeira pintura (sem flash): a escolha salva ou, sem ela, a do sistema.
+			Inline e síncrono de propósito; as cores repetem --color-bg de tokens.css.
+		-->
+		<script is:inline>
+			(() => {
+				const root = document.documentElement;
+				let theme = null;
+				try {
+					theme = localStorage.getItem('theme');
+				} catch {}
+				if (theme !== 'light' && theme !== 'dark') {
+					theme = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+				}
+				root.dataset.theme = theme;
+				document.querySelector('meta[name="theme-color"]').content = theme === 'light' ? '#f8fafc' : '#0b1117';
+			})();
+		</script>
 		<meta name="generator" content={Astro.generator} />
 
 		<!-- Pré-carrega os pesos do texto e dos títulos; o 600 vem sob demanda -->

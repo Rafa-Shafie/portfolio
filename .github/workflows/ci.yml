@@ -38,6 +38,10 @@ jobs:
       - name: e2e tests
         run: npx playwright test
 
+      # Nota mínima nas 3 rotas, mobile e desktop (scripts/check-lighthouse.mjs, Chromium do Playwright)
+      - name: Lighthouse
+        run: npm run lighthouse
+
       - name: upload Playwright report
         if: ${{ failure() }}
         uses: actions/upload-artifact@v7
@@ -45,3 +49,13 @@ jobs:
           name: playwright-report
           path: playwright-report/
           retention-days: 14
+          if-no-files-found: ignore
+
+      - name: upload Lighthouse reports
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: lighthouse-report
+          path: lighthouse-report/
+          retention-days: 14
+          if-no-files-found: ignore

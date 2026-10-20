@@ -12,6 +12,8 @@ export const es: Dictionary = {
 		closeMenu: 'Cerrar menú',
 		mainNav: 'Navegación principal',
 		language: 'Idioma',
+		themeToLight: 'Activar tema claro',
+		themeToDark: 'Activar tema oscuro',
 		backToTop: 'volver al inicio',
 		newTab: '(se abre en una pestaña nueva)',
 		closeDetails: 'Cerrar detalles',

@@ -35,7 +35,51 @@ const lines = heading.split('\n');
 	</div>
 </section>
 
+<script>
+	// Revelação discreta ao rolar: só com JavaScript e sem pedido de menos movimento. O que já está
+	// na tela ao carregar (o topo, ou a seção de um link com #âncora) aparece direto, sem animar.
+	if (matchMedia('(prefers-reduced-motion: no-preference)').matches && 'IntersectionObserver' in window) {
+		const observer = new IntersectionObserver(
+			(entries) => {
+				for (const entry of entries) {
+					if (!entry.isIntersecting) continue;
+					entry.target.classList.remove('reveal-pending');
+					observer.unobserve(entry.target);
+				}
+			},
+			{ rootMargin: '0px 0px -10% 0px' },
+		);
+		for (const container of document.querySelectorAll<HTMLElement>('.section > .container')) {
+			if (container.getBoundingClientRect().top < innerHeight) continue;
+			container.classList.add('reveal', 'reveal-pending');
+			observer.observe(container);
+		}
+	}
+</script>
+
 <style>
+	/*
+	 * Só opacidade e um deslocamento curto; termina sem transform (ver o padrão de clique dos cartões).
+	 * A transição vale só para aparecer: ao marcar como pendente, a seção some na hora.
+	 */
+	.reveal:not(.reveal-pending) {
+		transition:
+			opacity 600ms ease-out,
+			transform 600ms ease-out;
+	}
+
+	.reveal-pending {
+		opacity: 0;
+		transform: translateY(1rem);
+	}
+
+	@media print {
+		.reveal-pending {
+			opacity: 1;
+			transform: none;
+		}
+	}
+
 	.section {
 		padding-block: var(--space-section);
 	}
@@ -92,7 +136,8 @@ const lines = heading.split('\n');
 
 	.section-inverted .section-label {
 		color: var(--color-on-accent);
-		opacity: 0.75;
+		/* 0,9 é o limite para 4,5:1 com texto branco sobre o ciano escuro do tema claro */
+		opacity: 0.9;
 	}
 
 	.section-inverted .section-intro {

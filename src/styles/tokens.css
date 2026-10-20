@@ -1,25 +1,35 @@
 /*
- * Design tokens — tema escuro.
- * Toda cor, tamanho e espaçamento do site vem daqui. A Fase 3 adiciona a
- * paleta clara redefinindo só as variáveis de cor.
+ * Design tokens.
+ * Toda cor, tamanho e espaçamento do site vem daqui. Cada cor é declarada uma vez, com
+ * light-dark(claro, escuro): o tema ativo é o `color-scheme` da raiz.
+ *   - sem escolha salva (e sem JavaScript): segue a preferência do sistema;
+ *   - com escolha: o script inline do <head> marca data-theme="light" ou "dark".
  *
- * Contraste (WCAG 2.2) conferido:
- *   texto / fundo        16,1:1    texto-secundário / fundo     7,7:1
- *   texto / superfície   14,9:1    texto-secundário / superfície 7,2:1
- *   destaque / fundo     13,4:1    texto-sobre-destaque / destaque 13,4:1
+ * Contraste (WCAG 2.2) conferido:          escuro    claro
+ *   texto / fundo                          16,1:1    17,1:1
+ *   texto / superfície                     14,9:1    17,9:1
+ *   texto secundário / fundo                7,7:1     7,2:1
+ *   texto secundário / superfície           7,2:1     7,6:1
+ *   destaque / fundo                       13,4:1     5,1:1
+ *   texto sobre destaque / destaque        13,4:1     5,4:1
+ * O ciano #12efff teria ~1,4:1 sobre branco: no claro, o destaque é um ciano escuro.
  */
 :root {
-	color-scheme: dark;
+	color-scheme: dark light;
 
 	/* cores */
-	--color-bg: #0b1117;
-	--color-surface: #111a22;
-	--color-border: #2a3946;
-	--color-text: #e6edf3;
-	--color-text-muted: #9aa7b4;
-	--color-accent: #12efff;
-	--color-on-accent: #0b1117;
+	--color-bg: light-dark(#f8fafc, #0b1117);
+	--color-surface: light-dark(#ffffff, #111a22);
+	--color-border: light-dark(#cbd5e1, #2a3946);
+	--color-text: light-dark(#0f172a, #e6edf3);
+	--color-text-muted: light-dark(#475569, #9aa7b4);
+	--color-accent: light-dark(#0e7490, #12efff);
+	--color-on-accent: light-dark(#ffffff, #0b1117);
 	--color-focus: var(--color-accent);
+	/* fundo atrás dos modais e sombras: no claro, mais leves e no tom do texto */
+	--color-backdrop: light-dark(rgb(15 23 42 / 0.5), rgb(5 9 12 / 0.75));
+	--shadow-color: light-dark(rgb(15 23 42 / 0.12), rgb(0 0 0 / 0.5));
+	--shadow-color-strong: light-dark(rgb(15 23 42 / 0.18), rgb(0 0 0 / 0.6));
 
 	/* tipografia — o Astro injeta --font-poppins com a fonte e os fallbacks */
 	--font-sans: var(--font-poppins, system-ui, sans-serif);
@@ -68,4 +78,28 @@
 	/* movimento */
 	--duration-fast: 150ms;
 	--duration-base: 250ms;
+}
+
+:root[data-theme='light'] {
+	color-scheme: light;
+}
+
+:root[data-theme='dark'] {
+	color-scheme: dark;
+}
+
+/* Navegador sem light-dark() (anterior a 2024): fica no tema escuro de sempre */
+@supports not (color: light-dark(#fff, #000)) {
+	:root {
+		--color-bg: #0b1117;
+		--color-surface: #111a22;
+		--color-border: #2a3946;
+		--color-text: #e6edf3;
+		--color-text-muted: #9aa7b4;
+		--color-accent: #12efff;
+		--color-on-accent: #0b1117;
+		--color-backdrop: rgb(5 9 12 / 0.75);
+		--shadow-color: rgb(0 0 0 / 0.5);
+		--shadow-color-strong: rgb(0 0 0 / 0.6);
+	}
 }

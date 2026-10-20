@@ -15,6 +15,8 @@ export const pt = {
 		closeMenu: 'Fechar menu',
 		mainNav: 'Navegação principal',
 		language: 'Idioma',
+		themeToLight: 'Ativar tema claro',
+		themeToDark: 'Ativar tema escuro',
 		backToTop: 'voltar ao início',
 		newTab: '(abre em nova aba)',
 		closeDetails: 'Fechar detalhes',
