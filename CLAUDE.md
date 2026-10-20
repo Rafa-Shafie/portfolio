@@ -156,7 +156,7 @@ Texto pequeno com `opacity` sobre o destaque não passa de 0,9: abaixo disso, o 
   - nunca usar nem publicar links de edição do Canva.
 - **Confidencialidade (combinado com o Rafael):**
   - Nomes que podem aparecer: **Atlas** e **Manhattan Real Estate**, ambos divulgados publicamente.
-  - **Nenhum número de avaliação interna.** A bateria de 200 casos e os ~185 acertos ficam fora do site e do CV publicado.
+  - **Nenhum número de avaliação interna** (tamanho da bateria de testes, taxa de acerto) no site, no CV publicado ou neste repositório, que é público.
   - Autenticação descrita como "corporativa (SSO)"; ferramentas internas do banco ficam genéricas.
   - O cliente da Fluxo aparece como "indústria alimentícia", nunca pelo nome.
   - O dashboard do Summer Job foi **construído** pelo Rafael em Databricks, a partir de uma base existente, e não "desenhado"; um colega o levou depois para a ferramenta do banco.
