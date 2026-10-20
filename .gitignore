@@ -14,7 +14,8 @@ lighthouse-report/
 !.env.example
 .vercel/
 
-# configurações locais do Claude Code
+# Claude Code: briefing e configurações ficam só na máquina (a documentação pública é o README)
+CLAUDE.md
 .claude/settings.local.json
 
 # sistema

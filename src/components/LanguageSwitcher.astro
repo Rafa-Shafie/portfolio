@@ -41,6 +41,29 @@ const t = useTranslations(locale);
 	const button = root?.querySelector<HTMLButtonElement>('.lang-toggle');
 	const list = root?.querySelector<HTMLUListElement>('.lang-list');
 
+	/*
+	 * Trocar de idioma mantém o lugar: guarda a seção que está no topo da tela e a altura dentro dela
+	 * (em proporção, porque o texto muda de tamanho entre idiomas). A página nova restaura a posição
+	 * num script inline no fim do <body> (BaseLayout.astro). No hero, nada é guardado e ela abre no topo.
+	 * Sem #âncora no link de propósito: o navegador voltaria a rolar até o começo da seção.
+	 */
+	list?.addEventListener('click', (event) => {
+		const link = (event.target as HTMLElement).closest<HTMLAnchorElement>('a');
+		if (!link || link.getAttribute('aria-current') === 'page') return;
+		const line = document.querySelector('.site-header')?.getBoundingClientRect().bottom ?? 0;
+		const current = [...document.querySelectorAll<HTMLElement>('main > section[id]:not(#top)')]
+			.filter((section) => section.getBoundingClientRect().top <= line + 1)
+			.at(-1);
+		if (!current) return;
+		const box = current.getBoundingClientRect();
+		try {
+			sessionStorage.setItem(
+				'language-switch-position',
+				JSON.stringify({ id: current.id, progress: (line - box.top) / box.height }),
+			);
+		} catch {}
+	});
+
 	if (root && button && list) {
 		const setOpen = (open: boolean) => {
 			button.setAttribute('aria-expanded', String(open));
