@@ -8,9 +8,11 @@
   },
   "scripts": {
     "dev": "astro dev",
+    "prebuild": "node scripts/check-cv.mjs",
     "build": "astro build --force",
     "preview": "astro preview",
     "check": "astro check",
+    "check:cv": "node scripts/check-cv.mjs",
     "brand": "node scripts/generate-brand.mjs",
     "astro": "astro"
   },
@@ -26,6 +28,7 @@
     "@astrojs/check": "^0.9.10",
     "@fontsource/itim": "^5.3.0",
     "opentype.js": "2.0.0",
+    "pdfjs-dist": "5.7.284",
     "typescript": "^6.0.3"
   }
 }
