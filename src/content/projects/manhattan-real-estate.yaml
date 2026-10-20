@@ -53,6 +53,7 @@ details:
         en: "Researching properties meant checking portals one by one and comparing prices, features and locations by hand. The solution organizes this information into a common base, supports exploring the listings and highlights events that deserve a closer look."
         es: "Buscar inmuebles exigía consultar los portales por separado y comparar a mano precios, características y ubicación. La solución organiza esa información en una base común, apoya la exploración de los anuncios y destaca eventos que merecen un análisis más detallado."
     - heading: { pt: "Dados em três camadas", en: "Data in three layers", es: "Datos en tres capas" }
+      diagram: manhattan-pipeline
       text:
         pt: "O processamento segue a arquitetura Medallion, em Databricks, com Apache Spark, Python e SQL, e Pandas em análises pontuais. A ingestão já existia; o trabalho se concentrou em reconstruir grande parte da camada prata e em criar a camada ouro e as saídas analíticas."
         en: "Processing follows the Medallion architecture in Databricks, with Apache Spark, Python and SQL, and Pandas for one-off analyses. Ingestion already existed; the work focused on rebuilding most of the silver layer and creating the gold layer and the analytical outputs."

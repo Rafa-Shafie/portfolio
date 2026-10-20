@@ -48,6 +48,7 @@ details:
     es: "Visión técnica de Atlas, que desarrollé de principio a fin en mi pasantía en BTG Pactual."
   sections:
     - heading: { pt: "Como uma pergunta é respondida", en: "How a question is answered", es: "Cómo se responde una pregunta" }
+      diagram: atlas-flow
       items:
         pt:
           - "Classificação: a pergunta é identificada como conceitual ou sobre uma situação específica, combinando regras e modelos treinados com scikit-learn e LightGBM."
