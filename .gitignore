@@ -3,6 +3,10 @@ node_modules/
 dist/
 .astro/
 
+# testes de ponta a ponta (Playwright)
+test-results/
+playwright-report/
+
 # ambiente e deploy
 .env
 .env.*
