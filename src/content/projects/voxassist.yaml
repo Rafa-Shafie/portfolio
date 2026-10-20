@@ -1,6 +1,8 @@
 # VoxAssist API (nome provisório): projeto final planejado para o bootcamp DIO · Itaú.
 # Ainda sem código; o plano é a visão do produto, a stack e as fases. OpenFeign fica de fora até
 # a decisão ser tomada.
+# Rascunho até existir a primeira funcionalidade: aparece no dev e no preview, nunca em produção.
+draft: true
 title:
   pt: "VoxAssist API"
   en: "VoxAssist API"
