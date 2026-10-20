@@ -79,6 +79,30 @@ test('galeria: no desktop, os trabalhos principais ocupam metade da linha', asyn
 	}
 });
 
+// Última linha centralizada: em todo filtro, a folga à esquerda dela é igual à folga à direita
+// (um cartão sozinho fica no meio; dois ficam sob os vãos dos três de cima)
+for (const [device, width] of [
+	['desktop', 1440],
+	['tablet', 800],
+] as const) {
+	test(`galeria (${device}): a última linha fica centralizada em todos os filtros`, async ({ page }) => {
+		await page.setViewportSize({ width, height: 900 });
+		const grid = page.locator('#projects ul.grid');
+		for (const filter of ['all', ...areas]) {
+			await page.locator(`[data-filter="${filter}"]`).click();
+			const box = (await grid.boundingBox())!;
+			const cards = await page
+				.locator('#projects .card:visible')
+				.evaluateAll((els) => els.map((el) => el.getBoundingClientRect()).map(({ top, left, right }) => ({ top, left, right })));
+			const lastTop = Math.max(...cards.map((c) => c.top));
+			const last = cards.filter((c) => Math.abs(c.top - lastTop) < 1);
+			const leftGap = Math.min(...last.map((c) => c.left)) - box.x;
+			const rightGap = box.x + box.width - Math.max(...last.map((c) => c.right));
+			expect(Math.abs(leftGap - rightGap), `filtro ${filter}`).toBeLessThan(2);
+		}
+	});
+}
+
 test('repositórios abrem em nova aba, com rel seguro', async ({ page }) => {
 	for (const project of projects.filter((p) => p.repo)) {
 		const link = page.locator(`#project-${project.slug} a[href="${project.repo}"]`);
