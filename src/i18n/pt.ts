@@ -34,7 +34,7 @@ export const pt = {
 		status: 'Aberto a estágios e projetos',
 		headline: 'Engenharia de Software · IA Generativa · Backend',
 		intro:
-			'Estudante de Engenharia de Software com experiência no BTG Pactual, onde desenvolvi um assistente de IA entregue em produção. Meu foco é desenvolvimento backend e IA aplicada.',
+			'Estudante de Engenharia de Software. Desenvolvo sistemas backend e aplicações com IA generativa, do levantamento de requisitos até a produção.',
 		highlightLabel: 'Último trabalho',
 		highlight: 'Atlas, assistente de IA que construí do zero no BTG Pactual e que está em produção.',
 		ctaProjects: 'Ver projetos',
@@ -43,7 +43,7 @@ export const pt = {
 		location: 'Rio de Janeiro, Brasil',
 		// Vazios de propósito: em português, a moldura da foto mostra só a legenda
 		portraitLabel: '',
-		portraitCaption: 'Curioso por sistemas.\nAtento a quem usa.',
+		portraitCaption: 'Curioso por sistemas.\nPensando em quem usa.',
 		portraitTag: '',
 	},
 	trajectory: {
@@ -60,9 +60,10 @@ export const pt = {
 		heading: 'Engenharia em formação.\nExperiência na prática.',
 		bioTitle: 'Quem sou',
 		paragraphs: [
-			'Na Fluxo Consultoria, empresa júnior da UFRJ, tive minha primeira experiência desenvolvendo software em equipe. Hoje, curso Engenharia de Software na Estácio, com foco em backend e IA aplicada.',
-			'No BTG Pactual, desenvolvi do zero um assistente de IA com RAG e Text-to-SQL que entrou em produção e passou a ser usado pela equipe. Antes disso, integrei dados de sistemas diferentes e criei regras de negócio para apoiar decisões de investimento imobiliário.',
-			'Estou em busca de estágio em desenvolvimento backend ou IA.',
+			'Sou estudante de Engenharia de Software na Estácio, com foco em desenvolvimento backend e IA aplicada.',
+			'Minha primeira experiência desenvolvendo software em equipe foi na Fluxo Consultoria, empresa júnior da UFRJ. Lá, também participei de um projeto de levantamento de requisitos e modelagem de dados.',
+			'Na primeira passagem pelo BTG Pactual, participei do Manhattan Real Estate, trabalhando no tratamento de dados e na construção de um dashboard para análise de imóveis. Na segunda, desenvolvi do zero o Atlas, um assistente de IA para o onboarding bancário que entrou em produção e passou a ser usado pela equipe.',
+			'Busco uma oportunidade de estágio em desenvolvimento backend ou IA e estou aberto a projetos freelance.',
 		],
 		contributionsTitle: 'O que levo para uma equipe',
 		contributions: [
@@ -99,7 +100,7 @@ export const pt = {
 		nowTag: 'Em evolução',
 		now: [
 			{ title: 'Backend com Java', text: 'Java, orientação a objetos e Spring Boot no bootcamp DIO · Itaú.' },
-			{ title: 'Engenharia de IA', text: 'Estudo recuperação de contexto, avaliação de respostas e integração de modelos de linguagem, conectando esses temas à experiência com o assistente do BTG.' },
+			{ title: 'Engenharia de IA', text: 'Agentes e sistemas multiagentes com LangGraph, protocolos como MCP e observabilidade de aplicações com LLMs.' },
 			{ title: 'Inglês', text: 'Estudo contínuo no Kumon, com foco em leitura, gramática e ampliação de vocabulário.' },
 		],
 		listTitle: 'Formação e cursos',
@@ -132,7 +133,7 @@ export const pt = {
 			},
 			frontend: {
 				title: 'Interfaces para quem usa.',
-				text: 'Frontend em React e TypeScript do assistente de IA do BTG: chat, histórico, feedback e painéis administrativos.',
+				text: 'Frontend em React e TypeScript do assistente de IA do BTG: chat, histórico, feedback e painéis administrativos. Também construí este portfólio em Astro, com três idiomas, tema claro e escuro e acessibilidade testada a cada mudança.',
 			},
 			infra: {
 				title: 'Do código à produção.',
@@ -145,7 +146,7 @@ export const pt = {
 		},
 		sets: {
 			languages: 'Linguagens',
-			frameworks: 'Frameworks e ambientes de execução',
+			frameworks: 'Frameworks',
 			persistence: 'Persistência',
 			design: 'Requisitos e modelagem',
 			integration: 'Integração',
@@ -207,8 +208,8 @@ export const pt = {
 	},
 	contact: {
 		label: 'Contato',
-		heading: 'Vamos conversar sobre oportunidades?',
-		text: 'Estou disponível para conversar sobre estágios em backend ou IA e projetos de desenvolvimento. Você pode entrar em contato por e-mail ou pelo LinkedIn.',
+		heading: 'Vamos construir\nalgo útil?',
+		text: 'Quer conversar sobre uma vaga ou um projeto? O jeito mais rápido de falar comigo é por e-mail ou pelo LinkedIn.',
 		email: 'E-mail',
 		linkedin: 'LinkedIn',
 		github: 'GitHub',
