@@ -8,9 +8,12 @@ import { spawn } from 'node:child_process';
 import { mkdirSync } from 'node:fs';
 import { chromium } from '@playwright/test';
 
+// Porta própria, para não colidir com os testes (4173) nem com o Lighthouse (4174)
 const port = 4175;
 const base = `http://localhost:${port}`;
 const outDir = 'docs/screenshots';
+// Tamanhos de tela. No celular, deviceScaleFactor 2 imita uma tela "retina": a imagem sai com o
+// dobro de pixels e fica nítida no README. isMobile e hasTouch fazem o site se comportar como num celular.
 const views = {
 	desktop: { viewport: { width: 1280, height: 800 } },
 	mobile: { viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true },
@@ -33,9 +36,12 @@ try {
 
 	for (const theme of ['dark', 'light']) {
 		for (const [name, options] of Object.entries(views)) {
+			// Um "contexto" é como uma janela anônima nova. colorScheme escolhe o tema pela preferência do
+			// sistema; reducedMotion evita capturar uma seção no meio da animação de entrada.
 			const context = await browser.newContext({ ...options, colorScheme: theme, reducedMotion: 'reduce' });
 			const page = await context.newPage();
 			await page.goto(base + '/');
+			// Espera a Poppins carregar, senão o print sairia com a fonte do sistema
 			await page.evaluate(() => document.fonts.ready);
 			const path = `${outDir}/${name}-${theme}.jpg`;
 			await page.screenshot({ path, type: 'jpeg', quality: 85 });

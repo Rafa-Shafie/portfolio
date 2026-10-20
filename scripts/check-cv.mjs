@@ -7,6 +7,16 @@
  * dentro de streams comprimidos (onde fica, por exemplo, a árvore de acessibilidade).
  *
  * Uso: node scripts/check-cv.mjs [pasta]   (padrão: public/cv)
+ *
+ * Como o build é barrado: o npm roda o script "prebuild" do package.json antes do "build". Se este
+ * script terminar com process.exit(1) (código diferente de 0 = erro), o npm para ali e o build nem
+ * começa. Vale na sua máquina, no CI e na Vercel, que não publica um build que falhou.
+ *
+ * Um pouco de como um PDF guarda texto, para entender as funções abaixo:
+ *   - strings literais aparecem entre parênteses: (Rafael El Shafie), com escapes como \( e \n;
+ *   - strings hexadecimais aparecem entre < >: <FEFF0052...> (FEFF no início = texto em UTF-16);
+ *   - partes grandes do arquivo ficam em "streams" (entre `stream` e `endstream`), quase sempre
+ *     comprimidas com Flate, o mesmo algoritmo do zip. Por isso o inflateSync do Node.
  */
 import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
@@ -16,7 +26,12 @@ import { getDocument } from 'pdfjs-dist/legacy/build/pdf.mjs';
 const dir = resolve(process.argv[2] ?? 'public/cv');
 const files = ['pt', 'en', 'es'].map((locale) => `rafael-el-shafie-cv-${locale}.pdf`);
 
-// Celular brasileiro: +55 opcional, DDD, 9 e oito dígitos, com ou sem separadores
+// Celular brasileiro: +55 opcional, DDD, 9 e oito dígitos, com ou sem separadores.
+// Lendo a expressão regular por partes:
+//   (?:\+?\s*55[\s.-]*)?   "+55 " opcional (o ? no fim torna o grupo inteiro opcional)
+//   \(?\b[1-9]{2}\)?        DDD de dois dígitos, com ou sem parênteses
+//   [\s.-]*9                separador opcional e o 9 do celular
+//   [\s.-]?\d{4}[\s.-]?\d{4} os oito dígitos, com separador opcional no meio
 const PHONE = /(?:\+?\s*55[\s.-]*)?\(?\b[1-9]{2}\)?[\s.-]*9[\s.-]?\d{4}[\s.-]?\d{4}\b/;
 const PHONE_LINK = /\btel:|wa\.me|api\.whatsapp\.com/i;
 
@@ -106,6 +121,7 @@ async function readablePlaces(buffer) {
 	return places;
 }
 
+// Conta os problemas em vez de parar no primeiro: o log mostra tudo o que precisa ser corrigido de uma vez
 let failures = 0;
 const fail = (message) => {
 	failures++;
@@ -155,6 +171,7 @@ for (const file of files) {
 	if (failures === before) console.log('  ✓ sem telefone');
 }
 
+// Código de saída 1 = falha: é isso que faz o npm interromper o build (ver o topo do arquivo)
 if (failures > 0) {
 	console.error('\nCurrículo bloqueado: corrija os itens acima (telefone: remova no Canva, exporte de novo e substitua o PDF).');
 	process.exit(1);
