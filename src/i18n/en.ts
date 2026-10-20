@@ -163,6 +163,7 @@ export const en: Dictionary = {
 			training: 'Training project',
 		},
 		status: {
+			planned: 'Planned',
 			progress: 'In progress',
 			production: 'In production',
 			delivered: 'Delivered',
@@ -173,6 +174,9 @@ export const en: Dictionary = {
 			assistant: 'Question → context → answer',
 			map: 'Manhattan · NYC',
 			model: 'Interviews → data model',
+			ledger: 'Statements → household view',
+			league: 'Chores → points → ranking',
+			voice: 'Voice → AI → answer',
 		},
 		readMore: 'See details',
 		count: 'projects shown',

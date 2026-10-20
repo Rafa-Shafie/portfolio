@@ -17,7 +17,9 @@ const { id, number, locale, entries } = Astro.props;
 const t = useTranslations(locale);
 
 // Só mostra filtros das áreas que têm projeto
-const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.some((e) => e.data.category === c));
+const categories = (['ai', 'backend', 'data'] as const).filter((c) =>
+	entries.some((e) => e.data.category === c || e.data.alsoIn?.includes(c)),
+);
 ---
 
 <Section id={id} number={number} label={t.projects.label} heading={t.projects.heading}>
@@ -49,7 +51,7 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 				const title = localize(data.title, locale);
 				const stack = data.stack.map((term) => localizeTerm(term, locale));
 				return (
-					<li class="card" data-category={data.category}>
+					<li class="card" data-categories={[data.category, ...(data.alsoIn ?? [])].join(' ')}>
 						<ProjectArt
 							category={data.category}
 							variant={data.art}
@@ -132,7 +134,7 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 			buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
 			let shown = 0;
 			cards.forEach((card) => {
-				const match = filter === 'all' || card.dataset.category === filter;
+				const match = filter === 'all' || (card.dataset.categories ?? '').split(' ').includes(filter ?? '');
 				card.hidden = !match;
 				if (match) shown++;
 			});

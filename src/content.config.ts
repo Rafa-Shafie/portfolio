@@ -102,12 +102,14 @@ const projects = defineCollection({
 		/** Resumo do cartão, em uma ou duas frases. */
 		description: localized(z.string()),
 		category: z.enum(['ai', 'backend', 'data']),
+		/** Outras áreas em que o projeto também aparece no filtro (ex.: Backend que também é IA). */
+		alsoIn: z.array(z.enum(['ai', 'backend', 'data'])).optional(),
 		/** Projeto pessoal, de experiência profissional ou de capacitação (os dois últimos mostram a organização). */
 		kind: z.enum(['personal', 'professional', 'training']).default('personal'),
 		organization: z.string().optional(),
-		status: z.enum(['progress', 'production', 'delivered', 'released']).default('progress'),
+		status: z.enum(['planned', 'progress', 'production', 'delivered', 'released']).default('progress'),
 		/** Ilustração própria do projeto; sem ela, usa a ilustração genérica da área. */
-		art: z.enum(['assistant', 'map', 'model']).optional(),
+		art: z.enum(['assistant', 'map', 'model', 'ledger', 'league', 'voice']).optional(),
 		stack: z.array(term).min(1),
 		repo: z.url().optional(),
 		demo: z.url().optional(),

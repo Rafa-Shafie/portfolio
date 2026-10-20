@@ -166,6 +166,7 @@ export const pt = {
 			training: 'Projeto de capacitação',
 		},
 		status: {
+			planned: 'Em planejamento',
 			progress: 'Em andamento',
 			production: 'Em produção',
 			delivered: 'Entregue',
@@ -176,6 +177,9 @@ export const pt = {
 			assistant: 'Pergunta → contexto → resposta',
 			map: 'Manhattan · NYC',
 			model: 'Entrevistas → modelo de dados',
+			ledger: 'Extratos → visão da casa',
+			league: 'Tarefas → pontos → ranking',
+			voice: 'Voz → IA → resposta',
 		},
 		readMore: 'Ver detalhes',
 		count: 'projetos exibidos',
