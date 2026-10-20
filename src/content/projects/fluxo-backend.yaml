@@ -1,0 +1,84 @@
+# Backend de um sistema de gestão: projeto de capacitação em equipe no onboarding da Fluxo
+# Consultoria. Funcionalidades vêm da leitura do código entregue; o projeto não foi testado,
+# integrado nem usado em operação (não apresentar como produção). Sem link público.
+title:
+  pt: "Backend de sistema de gestão"
+  en: "Management system backend"
+  es: "Backend de sistema de gestión"
+description:
+  pt: "Backend de um sistema de gestão desenvolvido em equipe durante a capacitação na Fluxo Consultoria, com cadastros, registros financeiros, produtos, pedidos e eventos."
+  en: "The backend of a management system built as a team during training at Fluxo Consultoria, covering user records, financial accounts, products, orders and events."
+  es: "Backend de un sistema de gestión desarrollado en equipo durante la capacitación en Fluxo Consultoria, con registros de usuarios, cuentas financieras, productos, pedidos y eventos."
+category: backend
+kind: training
+organization: Fluxo Consultoria
+status: delivered
+order: 3
+stack:
+  - Node.js
+  - TypeScript
+  - NestJS
+  - PostgreSQL
+  - Prisma
+  - JWT
+  - Swagger/OpenAPI
+details:
+  intro:
+    pt: "Projeto de capacitação desenvolvido em equipe durante o onboarding na Fluxo Consultoria, concluído por volta de março de 2024. Foi uma entrega de formação: a aplicação não chegou a ser testada, integrada ou usada em operação, e o código não é público."
+    en: "A training project built as a team during onboarding at Fluxo Consultoria, completed around March 2024. It was a learning assignment: the application was never tested, integrated or used in operation, and the code is not public."
+    es: "Proyecto de capacitación desarrollado en equipo durante el onboarding en Fluxo Consultoria, concluido alrededor de marzo de 2024. Fue una entrega de formación: la aplicación no llegó a probarse, integrarse ni usarse en operación, y el código no es público."
+  sections:
+    - heading: { pt: "Objetivo", en: "Goal", es: "Objetivo" }
+      text:
+        pt: "Construir o backend de um software de gestão como entrega final da capacitação, colocando em prática conceitos de desenvolvimento backend e de trabalho em equipe. Contribuí em diferentes partes da aplicação, junto com os demais integrantes."
+        en: "To build the backend of a management application as the final training assignment, putting backend development and teamwork concepts into practice. I contributed to different parts of the application alongside the other team members."
+        es: "Construir el backend de un software de gestión como entrega final de la capacitación, poniendo en práctica conceptos de desarrollo backend y de trabajo en equipo. Contribuí en distintas partes de la aplicación, junto con los demás integrantes."
+    - heading: { pt: "O que o código contempla", en: "What the code covers", es: "Qué contempla el código" }
+      text:
+        pt: "A aplicação foi organizada em módulos, controllers, services e DTOs, com acesso aos dados pelo Prisma. O código entregue contempla:"
+        en: "The application was organized into modules, controllers, services and DTOs, with data access through Prisma. The delivered code covers:"
+        es: "La aplicación se organizó en módulos, controllers, services y DTOs, con acceso a los datos mediante Prisma. El código entregado contempla:"
+      items:
+        pt:
+          - "Cadastro e manutenção de usuários, funcionários e gestores."
+          - "Cadastro, consulta, atualização e exclusão de contas financeiras."
+          - "Gestão de produtos e pedidos, com relacionamentos entre os registros."
+          - "Cadastro e manutenção de eventos."
+          - "Login com emissão de token JWT e verificação de permissões por perfil."
+          - "Senhas guardadas com hash (bcrypt)."
+          - "Documentação das operações com Swagger/OpenAPI."
+          - "Modelagem relacional, com a evolução do banco feita por migrations."
+        en:
+          - "Creating and managing users, employees and managers."
+          - "Creating, reading, updating and deleting financial accounts."
+          - "Managing products and orders, with relationships between records."
+          - "Creating and managing events."
+          - "Login issuing a JWT token, with role-based permission checks."
+          - "Passwords stored as hashes (bcrypt)."
+          - "API operations documented with Swagger/OpenAPI."
+          - "A relational model, with database changes managed through migrations."
+        es:
+          - "Registro y mantenimiento de usuarios, empleados y gestores."
+          - "Registro, consulta, actualización y eliminación de cuentas financieras."
+          - "Gestión de productos y pedidos, con relaciones entre los registros."
+          - "Registro y mantenimiento de eventos."
+          - "Login con emisión de token JWT y verificación de permisos por perfil."
+          - "Contraseñas guardadas con hash (bcrypt)."
+          - "Documentación de las operaciones con Swagger/OpenAPI."
+          - "Modelado relacional, con la evolución de la base de datos mediante migrations."
+    - heading: { pt: "Aprendizado", en: "What I learned", es: "Aprendizaje" }
+      text:
+        pt: "O principal valor foi praticar o desenvolvimento de um backend em equipe: a organização da aplicação, a persistência relacional e os mecanismos de autenticação e de documentação da API."
+        en: "The main value was practicing building a backend as a team: how the application is organized, relational persistence, and the authentication and API documentation mechanisms."
+        es: "El principal valor fue practicar el desarrollo de un backend en equipo: la organización de la aplicación, la persistencia relacional y los mecanismos de autenticación y de documentación de la API."
+techDetails:
+  - label: { pt: "Backend", en: "Backend", es: "Backend" }
+    items: ["Node.js", "TypeScript", "NestJS", { pt: "APIs REST", en: "REST APIs", es: "APIs REST" }]
+  - label: { pt: "Organização do código", en: "Code organization", es: "Organización del código" }
+    items: [{ pt: "Módulos", en: "Modules", es: "Módulos" }, "Controllers", "Services", "DTOs"]
+  - label: { pt: "Persistência", en: "Persistence", es: "Persistencia" }
+    items: ["PostgreSQL", "SQL", "Prisma", "Migrations"]
+  - label: { pt: "Autenticação", en: "Authentication", es: "Autenticación" }
+    items: ["JWT", "bcrypt", { pt: "Permissões por perfil", en: "Role-based permissions", es: "Permisos por perfil" }]
+  - label: { pt: "Documentação e colaboração", en: "Documentation and collaboration", es: "Documentación y colaboración" }
+    items: ["Swagger/OpenAPI", "Git"]

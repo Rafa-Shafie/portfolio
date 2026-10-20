@@ -1,0 +1,85 @@
+# Requisitos e modelagem de dados para uma indústria alimentícia (cliente da Fluxo Consultoria,
+# generalizado). Projeto em equipe: verbos de participação. Entrega = documentação e modelagem;
+# a implementação seguiu com outra empresa. Não é projeto de limpeza de dados, ETL ou migração.
+title:
+  pt: "Requisitos e modelagem para um sistema de gestão industrial"
+  en: "Requirements and data modeling for an industrial management system"
+  es: "Requisitos y modelado para un sistema de gestión industrial"
+description:
+  pt: "Levantamento de requisitos e modelagem de dados para reorganizar o sistema de gestão de uma indústria alimentícia, conectando entrevistas e mapeamento de processos a modelos e necessidades documentadas."
+  en: "Requirements gathering and data modeling to reorganize a food manufacturer's management system, connecting interviews and process mapping to documented models and needs."
+  es: "Levantamiento de requisitos y modelado de datos para reorganizar el sistema de gestión de una industria alimentaria, conectando entrevistas y mapeo de procesos con modelos y necesidades documentadas."
+category: data
+kind: professional
+organization: Fluxo Consultoria
+status: delivered
+art: model
+order: 2
+stack:
+  - { pt: "Engenharia de requisitos", en: "Requirements engineering", es: "Ingeniería de requisitos" }
+  - { pt: "Entrevistas com usuários", en: "User interviews", es: "Entrevistas con usuarios" }
+  - { pt: "Mapeamento de processos", en: "Process mapping", es: "Mapeo de procesos" }
+  - { pt: "Modelagem conceitual", en: "Conceptual modeling", es: "Modelado conceptual" }
+  - { pt: "Modelagem lógica", en: "Logical modeling", es: "Modelado lógico" }
+  - { pt: "Histórias de usuário", en: "User stories", es: "Historias de usuario" }
+details:
+  intro:
+    pt: "Projeto de consultoria desenvolvido em equipe na Fluxo Consultoria para uma indústria alimentícia, a partir de abril de 2024. A entrega foi de análise, documentação e modelagem; a implementação do novo sistema seguiu com outra empresa."
+    en: "A consulting project carried out as a team at Fluxo Consultoria for a food manufacturer, starting around April 2024. The delivery was analysis, documentation and data modeling; another company took on the implementation of the new system."
+    es: "Proyecto de consultoría desarrollado en equipo en Fluxo Consultoria para una industria alimentaria, a partir de abril de 2024. La entrega fue de análisis, documentación y modelado; la implementación del nuevo sistema quedó a cargo de otra empresa."
+  sections:
+    - heading: { pt: "O problema", en: "The problem", es: "El problema" }
+      text:
+        pt: "O sistema existente tinha acumulado funcionalidades ao longo do tempo e precisava ter a sua organização revista. Parte dos recursos já não era usada, e o trabalho exigia entender como os funcionários realmente operavam antes de propor uma nova estrutura. O objetivo foi identificar as necessidades relevantes, reorganizar a representação das informações e documentar uma base para o novo sistema."
+        en: "The existing system had piled up features over time and its organization needed a review. Some features were no longer used, and the work required understanding how employees actually operated before proposing a new structure. The goal was to identify the relevant needs, reorganize how information was represented and document a foundation for the new system."
+        es: "El sistema existente había acumulado funcionalidades con el tiempo y necesitaba revisar su organización. Parte de los recursos ya no se usaba, y el trabajo exigía entender cómo operaban realmente los empleados antes de proponer una nueva estructura. El objetivo fue identificar las necesidades relevantes, reorganizar la representación de la información y documentar una base para el nuevo sistema."
+    - heading: { pt: "Como o trabalho foi feito", en: "How the work was done", es: "Cómo se hizo el trabajo" }
+      text:
+        pt: "Participei de visitas à fábrica, entrevistas técnicas, conversas e reuniões com funcionários, preparando perguntas, registrando as respostas e contribuindo para o mapeamento dos processos. Com base nesse levantamento, construímos do zero a documentação e a modelagem, relacionando o que ouvimos nas entrevistas aos conceitos, relacionamentos e funcionalidades que o sistema deveria contemplar."
+        en: "I took part in factory visits, technical interviews, conversations and meetings with employees, preparing questions, recording answers and contributing to process mapping. Based on that groundwork, we built the documentation and the data model from scratch, linking what we heard in the interviews to the concepts, relationships and features the system should cover."
+        es: "Participé en visitas a la fábrica, entrevistas técnicas, conversaciones y reuniones con empleados, preparando preguntas, registrando las respuestas y contribuyendo al mapeo de los procesos. Con base en ese levantamiento, construimos desde cero la documentación y el modelado, relacionando lo que escuchamos en las entrevistas con los conceptos, relaciones y funcionalidades que el sistema debía contemplar."
+    - heading: { pt: "Entregas", en: "Deliverables", es: "Entregas" }
+      items:
+        pt:
+          - "Modelagem conceitual dos elementos e relacionamentos do negócio."
+          - "Modelagem lógica com entidades, atributos, chaves e relações."
+          - "Histórias de usuário para organizar as necessidades funcionais."
+          - "Documentação das informações de diferentes frentes: estoque, produção, comercial, faturamento, pessoas e financeiro."
+        en:
+          - "A conceptual model of the business elements and their relationships."
+          - "A logical model with entities, attributes, keys and relations."
+          - "User stories to organize the functional needs."
+          - "Documentation of information across different areas: inventory, production, sales, billing, people and finance."
+        es:
+          - "Modelado conceptual de los elementos y relaciones del negocio."
+          - "Modelado lógico con entidades, atributos, claves y relaciones."
+          - "Historias de usuario para organizar las necesidades funcionales."
+          - "Documentación de la información de distintos frentes: inventario, producción, comercial, facturación, personas y finanzas."
+    - heading: { pt: "Aprendizado", en: "What I learned", es: "Aprendizaje" }
+      text:
+        pt: "O projeto reforçou a importância de ouvir os usuários e entender seus processos antes de propor funcionalidades ou estruturas de dados. Também ampliou minha experiência em transformar o que aparece em entrevistas em requisitos e modelos capazes de orientar uma etapa posterior de desenvolvimento."
+        en: "The project reinforced how important it is to listen to users and understand their processes before proposing features or data structures. It also deepened my experience in turning what comes up in interviews into requirements and models that can guide a later development stage."
+        es: "El proyecto reforzó la importancia de escuchar a los usuarios y entender sus procesos antes de proponer funcionalidades o estructuras de datos. También amplió mi experiencia en convertir lo que surge en las entrevistas en requisitos y modelos capaces de orientar una etapa posterior de desarrollo."
+techDetails:
+  - label: { pt: "Levantamento", en: "Discovery", es: "Levantamiento" }
+    items:
+      - { pt: "Visitas técnicas", en: "Site visits", es: "Visitas técnicas" }
+      - { pt: "Entrevistas com usuários", en: "User interviews", es: "Entrevistas con usuarios" }
+      - { pt: "Mapeamento de processos", en: "Process mapping", es: "Mapeo de procesos" }
+  - label: { pt: "Modelagem de dados", en: "Data modeling", es: "Modelado de datos" }
+    items:
+      - { pt: "Modelagem conceitual", en: "Conceptual modeling", es: "Modelado conceptual" }
+      - { pt: "Modelagem lógica", en: "Logical modeling", es: "Modelado lógico" }
+  - label: { pt: "Requisitos", en: "Requirements", es: "Requisitos" }
+    items:
+      - { pt: "Engenharia de requisitos", en: "Requirements engineering", es: "Ingeniería de requisitos" }
+      - { pt: "Histórias de usuário", en: "User stories", es: "Historias de usuario" }
+      - { pt: "Documentação", en: "Documentation", es: "Documentación" }
+  - label: { pt: "Áreas cobertas", en: "Areas covered", es: "Áreas cubiertas" }
+    items:
+      - { pt: "Estoque", en: "Inventory", es: "Inventario" }
+      - { pt: "Produção", en: "Production", es: "Producción" }
+      - { pt: "Comercial", en: "Sales", es: "Comercial" }
+      - { pt: "Faturamento", en: "Billing", es: "Facturación" }
+      - { pt: "Pessoas", en: "People", es: "Personas" }
+      - { pt: "Financeiro", en: "Finance", es: "Finanzas" }
