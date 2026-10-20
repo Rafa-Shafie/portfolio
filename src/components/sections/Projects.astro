@@ -77,9 +77,16 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) =>
 							{data.details && (
 								<p class="card-foot">
 									{/* Um só botão de verdade; a área de clique dele se estende pelo cartão inteiro */}
-									<button class="more" type="button" data-dialog-open={dialogId} aria-haspopup="dialog" hidden>
+									{/* aria-label começa pelo texto visível (WCAG 2.5.3) e diz de qual projeto é */}
+									<button
+										class="more"
+										type="button"
+										data-dialog-open={dialogId}
+										aria-haspopup="dialog"
+										aria-label={`${t.projects.readMore}: ${title}`}
+										hidden
+									>
 										{t.projects.readMore}
-										<span class="visually-hidden">: {title}</span>
 									</button>
 									<ArrowIcon class="arrow" aria-hidden="true" />
 								</p>

@@ -59,10 +59,18 @@ const hasDetails = details && isPublished(details);
 					<OutcomeIcon class="outcome-icon" aria-hidden="true" />
 					<p class="outcome-label">{t.experience.outcome}</p>
 					{outcome && <p class="outcome-text">{localize(outcome, locale)}</p>}
+					{/* aria-label começa pelo texto visível (WCAG 2.5.3); um span oculto no lugar dele
+					    ganharia um espaço antes dos dois-pontos, por ter position: absolute */}
 					{hasDetails && (
-						<button class="explore" type="button" data-dialog-open={dialogId} aria-haspopup="dialog" hidden>
+						<button
+							class="explore"
+							type="button"
+							data-dialog-open={dialogId}
+							aria-haspopup="dialog"
+							aria-label={`${t.experience.explore}: ${company}, ${localize(role, locale)}`}
+							hidden
+						>
 							{t.experience.explore}
-							<span class="visually-hidden">: {company}, {localize(role, locale)}</span>
 							<ArrowIcon class="explore-arrow" aria-hidden="true" />
 						</button>
 					)}
