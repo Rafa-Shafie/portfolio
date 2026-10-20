@@ -32,7 +32,9 @@ export const es: Dictionary = {
 		headline: 'Ingeniería de Software · IA Generativa · Backend',
 		intro:
 			'Estudiante de Ingeniería de Software. Desarrollo sistemas backend y aplicaciones con IA generativa, desde el levantamiento de requisitos hasta producción.',
-		ctaContact: 'Contactar',
+		highlightLabel: 'Último trabajo',
+		highlight: 'Atlas, un asistente de IA que construí desde cero en BTG Pactual y que está en producción.',
+		ctaProjects: 'Ver proyectos',
 		ctaCv: 'Ver CV',
 		photoAlt: 'Foto de Rafael El Shafie',
 		location: 'Río de Janeiro, Brasil',

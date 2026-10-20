@@ -35,7 +35,9 @@ export const pt = {
 		headline: 'Engenharia de Software · IA Generativa · Backend',
 		intro:
 			'Estudante de Engenharia de Software. Construo sistemas backend e aplicações com IA generativa, do levantamento de requisitos até a produção.',
-		ctaContact: 'Entrar em contato',
+		highlightLabel: 'Último trabalho',
+		highlight: 'Atlas, assistente de IA que construí do zero no BTG Pactual e que está em produção.',
+		ctaProjects: 'Ver projetos',
 		ctaCv: 'Ver currículo',
 		photoAlt: 'Foto de Rafael El Shafie',
 		location: 'Rio de Janeiro, Brasil',

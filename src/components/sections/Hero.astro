@@ -43,6 +43,12 @@ const [captionFirst, captionSecond] = t.hero.portraitCaption.split('\n');
 				}
 			</p>
 			<p class="intro">{t.hero.intro}</p>
+			<!-- A prova da frase acima: a entrega mais forte, já na primeira tela. O ": " escondido faz o
+			     leitor de tela ler "Último trabalho: Atlas…" (o rótulo fica numa linha própria só no visual) -->
+			<p class="highlight">
+				<span class="highlight-label">{t.hero.highlightLabel}</span><span class="visually-hidden">: </span>
+				{t.hero.highlight}
+			</p>
 			<div class="actions">
 				<slot name="actions" />
 			</div>
@@ -133,6 +139,24 @@ const [captionFirst, captionSecond] = t.hero.portraitCaption.split('\n');
 		max-width: 34rem;
 		margin-top: var(--space-4);
 		color: var(--color-text-muted);
+	}
+
+	/* Mesmo traço ciano do estágio dos projetos: "isto é um fato concreto" */
+	.highlight {
+		max-width: 34rem;
+		margin-top: var(--space-5);
+		padding-left: var(--space-4);
+		border-left: 2px solid var(--color-accent);
+	}
+
+	.highlight-label {
+		display: block;
+		margin-bottom: var(--space-1);
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
 	}
 
 	.actions {

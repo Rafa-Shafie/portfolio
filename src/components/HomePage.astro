@@ -70,9 +70,11 @@ const number = (id: SectionId) => String(visible.indexOf(id) + 1).padStart(2, '0
 	<main id="main">
 		<Hero locale={locale}>
 			{
-				show.contact && (
-					<a slot="actions" class="button button-primary" href="#contact">
-						{t.hero.ctaContact}
+				// Para quem acabou de chegar, o próximo passo natural é ver o trabalho; o contato continua
+				// no menu e na seção final
+				show.projects && (
+					<a slot="actions" class="button button-primary" href="#projects">
+						{t.hero.ctaProjects}
 					</a>
 				)
 			}
