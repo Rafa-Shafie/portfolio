@@ -10,22 +10,25 @@ role:
 start: 2024-01
 end: 2024-08
 summary:
-  pt: Na área de tecnologia, desenvolvi em equipe o backend de um sistema de gestão durante a capacitação e participei do levantamento de requisitos e da modelagem de dados para uma indústria alimentícia.
-  en: In the technology area, built a management system backend as a team during training and took part in requirements gathering and data modeling for a food manufacturer.
-  es: En el área de tecnología, desarrollé en equipo el backend de un sistema de gestión durante la capacitación y participé en el levantamiento de requisitos y el modelado de datos para una industria alimentaria.
+  pt: Atuei em tecnologia, consultoria e operações internas da empresa júnior, do backend construído em equipe na capacitação à modelagem de dados para um cliente da indústria.
+  en: Worked across technology, consulting and internal operations at the junior enterprise, from a backend built as a team during training to data modeling for an industrial client.
+  es: Trabajé en tecnología, consultoría y operaciones internas de la empresa júnior, desde el backend construido en equipo en la capacitación hasta el modelado de datos para un cliente de la industria.
 highlights:
   pt:
-    - Realizei visitas técnicas e entrevistei funcionários de uma fábrica alimentícia para levantar requisitos e mapear processos; participei da remodelagem dos dados e do desenho do fluxo de um novo sistema para a fábrica.
-    - Apoiei rotinas de contas a pagar e conciliação bancária na Diretoria Administrativo-Financeira.
-    - Conduzi entrevistas e dinâmicas no processo seletivo e orientei novos trainees.
+    - Desenvolvi em equipe, como projeto de capacitação no onboarding, o backend de um sistema de gestão com Node.js, TypeScript, NestJS, PostgreSQL e Prisma.
+    - Para reorganizar o sistema de uma indústria alimentícia, participei de entrevistas, do mapeamento de processos, do levantamento de requisitos e da modelagem conceitual e lógica dos dados.
+    - Participei do grupo de melhoria da área de tecnologia, discutindo gargalos e a reorganização da equipe para uma atuação full stack.
+    - Apoiei contas a pagar, reembolsos e conciliação bancária, participei do recrutamento e orientei trainees, esclarecendo dúvidas e avaliando entregas.
   en:
-    - Visited a food factory and interviewed employees to gather requirements and map processes; helped redesign its data model and the new system's data flow.
-    - Supported accounts payable and bank reconciliation in the Administration and Finance department.
-    - Conducted interviews and group exercises during recruiting and mentored new trainees.
+    - Built, as a team, the backend of a management system as an onboarding training project, with Node.js, TypeScript, NestJS, PostgreSQL and Prisma.
+    - To reorganize a food manufacturer's system, took part in interviews, process mapping, requirements gathering and conceptual and logical data modeling.
+    - Joined the working group to improve the technology area, discussing bottlenecks and reorganizing the team toward full stack work.
+    - Supported accounts payable, reimbursements and bank reconciliation, took part in recruiting and mentored trainees, answering questions and reviewing their work.
   es:
-    - Realicé visitas técnicas y entrevisté a empleados de una fábrica de alimentos para recopilar requisitos y mapear procesos; participé en el rediseño del modelo de datos y del flujo de un nuevo sistema para la fábrica.
-    - Apoyé las tareas de cuentas por pagar y conciliación bancaria en la Dirección Administrativa y Financiera.
-    - Realicé entrevistas y dinámicas de grupo en el proceso de selección y orienté a los nuevos trainees.
+    - Desarrollé en equipo, como proyecto de capacitación en el onboarding, el backend de un sistema de gestión con Node.js, TypeScript, NestJS, PostgreSQL y Prisma.
+    - Para reorganizar el sistema de una industria alimentaria, participé en entrevistas, en el mapeo de procesos, en el levantamiento de requisitos y en el modelado conceptual y lógico de los datos.
+    - Participé en el grupo de mejora del área de tecnología, discutiendo cuellos de botella y la reorganización del equipo hacia una actuación full stack.
+    - Apoyé las cuentas por pagar, los reembolsos y la conciliación bancaria, participé en el reclutamiento y orienté a trainees, resolviendo dudas y evaluando sus entregas.
 outcome:
   pt: "Do primeiro backend construído em equipe à modelagem de dados para um cliente da indústria."
   en: "From my first team-built backend to data modeling for an industrial client."

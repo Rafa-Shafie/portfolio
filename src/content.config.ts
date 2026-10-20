@@ -62,7 +62,7 @@ const experiences = defineCollection({
 			...period,
 			/** Frase de impacto, em uma ou duas linhas. */
 			summary: localized(z.string()),
-			highlights: localized(z.array(z.string()).min(2).max(3)),
+			highlights: localized(z.array(z.string()).min(2).max(4)),
 			stack: z.array(z.string()).min(1),
 			/** Frase de resultado do painel "Entrega & aprendizado", ao lado dos destaques. */
 			outcome: localized(z.string()).optional(),
