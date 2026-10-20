@@ -108,6 +108,12 @@ const projects = defineCollection({
 		kind: z.enum(['personal', 'professional', 'training']).default('personal'),
 		organization: z.string().optional(),
 		status: z.enum(['planned', 'progress', 'production', 'delivered', 'released']).default('progress'),
+		/**
+		 * Onde o projeto está agora, em uma linha curta (ex.: "Design concluído · implementação inicial").
+		 * Obrigatório em planejamento ou em andamento: o card descreve o objetivo do produto, e esta
+		 * linha deixa claro o que já existe, para ninguém ler o objetivo como funcionalidade pronta.
+		 */
+		stage: localized(z.string()).optional(),
 		/** Ilustração própria do projeto; sem ela, usa a ilustração genérica da área. */
 		art: z.enum(['assistant', 'map', 'model', 'ledger', 'league', 'voice']).optional(),
 		stack: z.array(term).min(1),
@@ -116,6 +122,10 @@ const projects = defineCollection({
 		order: z.number().int().default(0),
 		details: detailSections.optional(),
 		techDetails: techGroups.optional(),
+	})
+	.refine((project) => !['planned', 'progress'].includes(project.status) || project.stage, {
+		message: 'projeto em planejamento ou em andamento precisa de stage',
+		path: ['stage'],
 	}),
 });
 

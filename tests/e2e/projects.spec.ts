@@ -97,4 +97,19 @@ for (const { path, locale } of pages) {
 			expect(tags, project.slug).toEqual(project.stack.map((value) => term(value, locale)));
 		}
 	});
+
+	// O schema exige `stage` em projetos não concluídos; aqui conferimos que ele chega ao cartão e
+	// ao modal, para que ninguém leia o objetivo do produto como funcionalidade pronta
+	test(`${path}: estágio atual no cartão e no modal dos projetos em andamento`, async ({ page }) => {
+		await page.goto(path);
+		for (const project of projects) {
+			const card = page.locator('#projects .card').filter({ has: page.getByRole('heading', { name: project.title[locale], exact: true }) });
+			if (!project.stage) {
+				await expect(card.locator('.stage'), project.slug).toHaveCount(0);
+				continue;
+			}
+			await expect(card.locator('.stage'), project.slug).toHaveText(project.stage[locale]);
+			await expect(page.locator(`#project-${project.slug} .meta`), project.slug).toHaveText(project.stage[locale]);
+		}
+	});
 }

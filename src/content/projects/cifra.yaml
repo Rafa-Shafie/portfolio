@@ -15,6 +15,10 @@ category: backend
 alsoIn: [ai]
 kind: personal
 status: progress
+stage:
+  pt: "Design concluído · implementação inicial"
+  en: "Design complete · early implementation"
+  es: "Diseño concluido · implementación inicial"
 art: ledger
 order: 4
 stack:

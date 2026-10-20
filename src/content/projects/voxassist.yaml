@@ -16,6 +16,10 @@ alsoIn: [ai]
 kind: training
 organization: Bootcamp DIO · Itaú
 status: planned
+stage:
+  pt: "Em planejamento · funcionalidades propostas"
+  en: "In planning · proposed features"
+  es: "En planificación · funcionalidades propuestas"
 art: voice
 order: 6
 stack:
