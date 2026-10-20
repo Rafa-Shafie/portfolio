@@ -101,9 +101,9 @@ const projects = defineCollection({
 		title: localized(z.string()),
 		/** Resumo do cartão, em uma ou duas frases. */
 		description: localized(z.string()),
-		category: z.enum(['ai', 'backend', 'data']),
+		category: z.enum(['ai', 'backend', 'data', 'frontend']),
 		/** Outras áreas em que o projeto também aparece no filtro (ex.: Backend que também é IA). */
-		alsoIn: z.array(z.enum(['ai', 'backend', 'data'])).optional(),
+		alsoIn: z.array(z.enum(['ai', 'backend', 'data', 'frontend'])).optional(),
 		/** Projeto pessoal, de experiência profissional ou de capacitação (os dois últimos mostram a organização). */
 		kind: z.enum(['personal', 'professional', 'training']).default('personal'),
 		organization: z.string().optional(),
@@ -115,7 +115,7 @@ const projects = defineCollection({
 		 */
 		stage: localized(z.string()).optional(),
 		/** Ilustração própria do projeto; sem ela, usa a ilustração genérica da área. */
-		art: z.enum(['assistant', 'map', 'model', 'ledger', 'league', 'voice']).optional(),
+		art: z.enum(['assistant', 'map', 'model', 'ledger', 'league', 'voice', 'site']).optional(),
 		/**
 		 * Etiquetas do cartão: as 5 principais, sem par redundante (ex.: NestJS já diz Node.js). Muita
 		 * gente lê só o cartão, então os cartões se complementam; a lista completa fica em techDetails.

@@ -26,7 +26,7 @@ const { id, number, locale, entries } = Astro.props;
 const t = useTranslations(locale);
 
 // Só mostra filtros das áreas que têm projeto
-const categories = (['ai', 'backend', 'data'] as const).filter((c) =>
+const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =>
 	entries.some((e) => e.data.category === c || e.data.alsoIn?.includes(c)),
 );
 ---

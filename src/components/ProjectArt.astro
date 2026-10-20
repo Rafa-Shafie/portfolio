@@ -11,10 +11,11 @@ import DiagramIcon from 'bootstrap-icons/icons/diagram-3.svg';
 import WalletIcon from 'bootstrap-icons/icons/wallet2.svg';
 import TrophyIcon from 'bootstrap-icons/icons/trophy.svg';
 import MicIcon from 'bootstrap-icons/icons/mic.svg';
+import WindowIcon from 'bootstrap-icons/icons/window.svg';
 
 interface Props {
-	category: 'ai' | 'backend' | 'data';
-	variant?: 'assistant' | 'map' | 'model' | 'ledger' | 'league' | 'voice';
+	category: 'ai' | 'backend' | 'data' | 'frontend';
+	variant?: 'assistant' | 'map' | 'model' | 'ledger' | 'league' | 'voice' | 'site';
 	/** Torna o id do padrão de grade único na página. */
 	uid: string;
 	/** Rótulo do canto, ex.: "IA / 01". */
@@ -82,6 +83,10 @@ const star = Array.from({ length: 10 }, (_, i) => {
 
 // VoxAssist: onda de voz → IA → balão de resposta
 const wave = [10, 22, 34, 18, 40, 26, 14, 30, 12];
+
+// Portfólio (e genérico de Frontend): este site em miniatura, numa janela de navegador
+const site = variant === 'site' || (!variant && category === 'frontend');
+const siteCards = [50, 125, 200];
 ---
 
 <div class="art" aria-hidden="true">
@@ -257,6 +262,46 @@ const wave = [10, 22, 34, 18, 40, 26, 14, 30, 12];
 		}
 
 		{
+			site && (
+				<g transform="translate(160 91) scale(0.74) translate(-160 -90)">
+					{/* Janela: barra com os três pontos, endereço, seletor de idioma e alternador de tema */}
+					<rect x="34" y="22" width="252" height="136" rx="8" class="node" />
+					<path d="M34 40H286" class="line" />
+					{[46, 56, 66].map((x) => (
+						<circle cx={x} cy="31" r="2.5" class="text-line" />
+					))}
+					<rect x="82" y="26" width="120" height="10" rx="5" class="block" />
+					<rect x="226" y="26" width="22" height="10" rx="5" class="block" />
+					<g class="core">
+						<circle cx="266" cy="31" r="5.5" class="core-ring" />
+						<path d="M266 26.5A4.5 4.5 0 0 1 266 35.5Z" class="accent-fill" />
+					</g>
+
+					{/* Hero: nome, headline em destaque, texto e os dois botões */}
+					<path d="M50 58H124" class="accent-line" />
+					<path d="M50 70H136M50 79H128M50 88H112" class="text-line" />
+					<rect x="50" y="97" width="34" height="10" rx="5" class="accent-fill" />
+					<rect x="90" y="97" width="34" height="10" rx="5" class="block" />
+
+					{/* Retrato na moldura inclinada */}
+					<g transform="rotate(3 226 78)">
+						<rect x="200" y="50" width="52" height="58" rx="4" class="node" />
+						<rect x="205" y="55" width="42" height="36" rx="2" class="block" />
+						<path d="M207 99H236" class="text-line" />
+					</g>
+
+					{/* Cartões de projeto */}
+					{siteCards.map((x, i) => (
+						<g>
+							<rect x={x} y="118" width="70" height="28" rx="4" class={i === 0 ? 'core-ring' : 'block'} />
+							<path d={`M${x + 8} ${127}H${x + 44}M${x + 8} ${136}H${x + 56}`} class="text-line" />
+						</g>
+					))}
+				</g>
+			)
+		}
+
+		{
 			!variant && category === 'ai' && (
 				<g transform="translate(160 92) scale(0.74) translate(-160 -90)">
 					{edges.map(([a, b]) => (
@@ -306,6 +351,8 @@ const wave = [10, 22, 34, 18, 40, 26, 14, 30, 12];
 			<TrophyIcon class="signal" />
 		) : variant === 'voice' ? (
 			<MicIcon class="signal" />
+		) : site ? (
+			<WindowIcon class="signal" />
 		) : (
 			<CodeIcon class="signal" />
 		)

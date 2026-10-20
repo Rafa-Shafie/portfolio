@@ -14,7 +14,7 @@ kind: professional
 organization: Fluxo Consultoria
 status: delivered
 art: model
-order: 2
+order: 3
 stack:
   - { pt: "Engenharia de requisitos", en: "Requirements engineering", es: "Ingeniería de requisitos" }
   - { pt: "Entrevistas com usuários", en: "User interviews", es: "Entrevistas con usuarios" }

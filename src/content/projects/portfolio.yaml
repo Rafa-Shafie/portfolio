@@ -1,0 +1,101 @@
+# Portfólio profissional: este site. Projeto pessoal de frontend, publicado e com repositório público.
+# Rascunho até o Rafael revisar os textos (inclusive a seção sobre o uso do Claude Code).
+draft: true
+title:
+  pt: "Portfólio profissional"
+  en: "Professional portfolio"
+  es: "Portafolio profesional"
+description:
+  pt: "Este site: portfólio estático em três idiomas, com tema claro e escuro, acessibilidade WCAG AA e testes automatizados a cada mudança."
+  en: "This website: a static portfolio in three languages, with light and dark themes, WCAG AA accessibility and automated tests on every change."
+  es: "Este sitio: portafolio estático en tres idiomas, con tema claro y oscuro, accesibilidad WCAG AA y pruebas automatizadas en cada cambio."
+category: frontend
+kind: personal
+status: released
+art: site
+order: 2
+repo: https://github.com/Rafa-Shafie/portfolio
+stack:
+  - Astro
+  - TypeScript
+  - HTML
+  - CSS
+  - Playwright
+details:
+  intro:
+    pt: "Este site é um projeto: um portfólio estático que reescrevi do zero a partir de uma auditoria da versão antiga. O código é público, e tudo o que está descrito aqui pode ser conferido no próprio site."
+    en: "This website is a project: a static portfolio I rewrote from scratch after auditing the old version. The code is public, and everything described here can be checked on the site itself."
+    es: "Este sitio es un proyecto: un portafolio estático que reescribí desde cero a partir de una auditoría de la versión anterior. El código es público, y todo lo descrito aquí se puede comprobar en el propio sitio."
+  sections:
+    - heading: { pt: "Por que reescrevi", en: "Why I rewrote it", es: "Por qué lo reescribí" }
+      text:
+        pt: "A versão antiga, em HTML e CSS puro, tinha bugs visíveis, contraste abaixo do mínimo e textos fixos no código. A auditoria mostrou que tema, idiomas e conteúdo como dados tocariam quase todas as linhas, então reescrevi aproveitando o conteúdo e a identidade visual."
+        en: "The old version, in plain HTML and CSS, had visible bugs, contrast below the minimum and text hard-coded in the markup. The audit showed that themes, languages and content as data would touch almost every line, so I rewrote it, keeping the content and the visual identity."
+        es: "La versión anterior, en HTML y CSS puro, tenía errores visibles, contraste por debajo del mínimo y textos fijos en el código. La auditoría mostró que tema, idiomas y contenido como datos tocarían casi todas las líneas, así que la reescribí aprovechando el contenido y la identidad visual."
+    - heading: { pt: "O que o visitante encontra", en: "What visitors get", es: "Lo que encuentra el visitante" }
+      items:
+        pt:
+          - "Três idiomas, cada um com a própria rota e o próprio HTML, indexável e sem texto trocando depois de carregar."
+          - "Tema claro e escuro: segue o sistema e guarda a escolha, sem piscar ao carregar."
+          - "Filtros de projetos, abas de habilidades, modais de detalhe e a seção atual marcada no menu."
+          - "Sem JavaScript, nada quebra: as abas viram blocos e todos os projetos aparecem."
+        en:
+          - "Three languages, each with its own route and HTML: indexable, with no text swapping after load."
+          - "Light and dark themes: follows the system and remembers the choice, with no flash on load."
+          - "Project filters, skill tabs, detail dialogs and the current section highlighted in the menu."
+          - "Without JavaScript nothing breaks: tabs become stacked blocks and every project is shown."
+        es:
+          - "Tres idiomas, cada uno con su propia ruta y su propio HTML: indexable y sin textos que cambian después de cargar."
+          - "Tema claro y oscuro: sigue el sistema y guarda la elección, sin parpadeo al cargar."
+          - "Filtros de proyectos, pestañas de habilidades, ventanas de detalle y la sección actual marcada en el menú."
+          - "Sin JavaScript, nada se rompe: las pestañas se convierten en bloques y aparecen todos los proyectos."
+    - heading: { pt: "Decisões técnicas", en: "Technical decisions", es: "Decisiones técnicas" }
+      items:
+        pt:
+          - "Astro com saída estática: zero JavaScript por padrão, só scripts pequenos onde há interação."
+          - "Conteúdo em YAML validado por schema: um campo ou uma tradução faltando quebra o build, não a produção."
+          - "Cores como tokens com light-dark(): cada cor é declarada uma vez para os dois temas."
+          - "Componentes nativos e acessíveis: <dialog> nos modais, <details> no acordeão e abas no padrão do W3C."
+        en:
+          - "Astro with static output: zero JavaScript by default, only small scripts where there is interaction."
+          - "Content in schema-validated YAML: a missing field or translation breaks the build, not production."
+          - "Colors as tokens with light-dark(): each color is declared once for both themes."
+          - "Native, accessible components: <dialog> for dialogs, <details> for the accordion and tabs following the W3C pattern."
+        es:
+          - "Astro con salida estática: cero JavaScript por defecto, solo scripts pequeños donde hay interacción."
+          - "Contenido en YAML validado por schema: un campo o una traducción que falte rompe el build, no la producción."
+          - "Colores como tokens con light-dark(): cada color se declara una sola vez para los dos temas."
+          - "Componentes nativos y accesibles: <dialog> en las ventanas, <details> en el acordeón y pestañas según el patrón del W3C."
+    - heading: { pt: "Como verifico", en: "How I verify it", es: "Cómo lo verifico" }
+      items:
+        pt:
+          - "Testes Playwright de comportamento, teclado, idiomas e layout a cada push, nos dois temas."
+          - "axe com as regras WCAG 2.2 A e AA, incluindo modais e menu do celular."
+          - "Lighthouse no CI com nota mínima: hoje, 100 nas quatro categorias, no celular e no desktop."
+          - "Uma verificação no build que bloqueia a publicação se um currículo tiver dados pessoais que não devem ir ao ar."
+        en:
+          - "Playwright tests for behavior, keyboard, languages and layout on every push, in both themes."
+          - "axe with the WCAG 2.2 A and AA rules, including dialogs and the mobile menu."
+          - "Lighthouse in CI with a minimum score: currently 100 in all four categories, on mobile and desktop."
+          - "A build check that blocks publishing if a CV contains personal data that should not go live."
+        es:
+          - "Pruebas Playwright de comportamiento, teclado, idiomas y diseño en cada push, en los dos temas."
+          - "axe con las reglas WCAG 2.2 A y AA, incluidos las ventanas y el menú del celular."
+          - "Lighthouse en el CI con nota mínima: hoy, 100 en las cuatro categorías, en celular y escritorio."
+          - "Una verificación en el build que bloquea la publicación si un currículum tiene datos personales que no deben publicarse."
+    - heading: { pt: "Como foi construído", en: "How it was built", es: "Cómo se construyó" }
+      text:
+        pt: "Usei o Claude Code como par de programação. Eu definia o que construir, revisava cada mudança e decidia o que entrava; os testes no CI conferem o resultado a cada push."
+        en: "I used Claude Code as a pair programmer. I defined what to build, reviewed every change and decided what went in; CI tests check the result on every push."
+        es: "Usé Claude Code como compañero de programación. Yo definía qué construir, revisaba cada cambio y decidía qué entraba; las pruebas del CI comprueban el resultado en cada push."
+techDetails:
+  - label: { pt: "Base", en: "Foundation", es: "Base" }
+    items: ["Astro", "TypeScript", "Content collections", "Zod"]
+  - label: { pt: "Interface", en: "Interface", es: "Interfaz" }
+    items: ["HTML", "CSS", "light-dark()", "<dialog>"]
+  - label: { pt: "Imagens e SEO", en: "Images and SEO", es: "Imágenes y SEO" }
+    items: ["astro:assets", "satori", "sharp", "Sitemap", "hreflang"]
+  - label: { pt: "Qualidade", en: "Quality", es: "Calidad" }
+    items: ["Playwright", "axe-core", "Lighthouse"]
+  - label: { pt: "Entrega", en: "Delivery", es: "Despliegue" }
+    items: ["GitHub Actions", "Vercel"]

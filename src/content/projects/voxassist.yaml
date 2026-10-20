@@ -21,7 +21,7 @@ stage:
   en: "In planning · proposed features"
   es: "En planificación · funcionalidades propuestas"
 art: voice
-order: 6
+order: 7
 stack:
   - Java 21
   - Spring Boot

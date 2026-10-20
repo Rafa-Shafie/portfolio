@@ -162,6 +162,7 @@ export const es: Dictionary = {
 			ai: 'IA',
 			backend: 'Backend',
 			data: 'Datos',
+			frontend: 'Frontend',
 		},
 		kinds: {
 			personal: 'Proyecto personal',
@@ -183,6 +184,7 @@ export const es: Dictionary = {
 			ledger: 'Extractos → visión del hogar',
 			league: 'Tareas → puntos → ranking',
 			voice: 'Voz → IA → respuesta',
+			site: 'Contenido → 3 idiomas → 2 temas',
 		},
 		readMore: 'Ver detalles',
 		count: 'proyectos mostrados',

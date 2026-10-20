@@ -176,6 +176,7 @@ export const pt = {
 			ai: 'IA',
 			backend: 'Backend',
 			data: 'Dados',
+			frontend: 'Frontend',
 		},
 		kinds: {
 			personal: 'Projeto pessoal',
@@ -197,6 +198,7 @@ export const pt = {
 			ledger: 'Extratos → visão da casa',
 			league: 'Tarefas → pontos → ranking',
 			voice: 'Voz → IA → resposta',
+			site: 'Conteúdo → 3 idiomas → 2 temas',
 		},
 		readMore: 'Ver detalhes',
 		count: 'projetos exibidos',
