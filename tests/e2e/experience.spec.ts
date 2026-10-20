@@ -1,4 +1,4 @@
-import { test, expect, clickAt, css, focusableCount, labelled } from './fixtures';
+import { test, expect, clickAt, css, focusableCount, labelled, stableBox } from './fixtures';
 import { exploredExperiences, pages } from './content';
 
 const { t } = pages[0];
@@ -102,20 +102,20 @@ test('hover levanta só o painel, não os destaques', async ({ page }) => {
 	const outcome = first.locator('.outcome');
 	await first.locator('.highlights').scrollIntoViewIfNeeded();
 
-	const highlights = (await first.locator('.highlights').boundingBox())!;
+	const highlights = await stableBox(first.locator('.highlights'));
 	await page.mouse.move(highlights.x + 40, highlights.y + 10);
 	await page.waitForTimeout(400);
 	expect(await css(outcome, 'transform')).toBe('none');
 
-	const box = (await outcome.boundingBox())!;
+	const box = await stableBox(outcome);
 	await page.mouse.move(box.x + 30, box.y + 30);
 	await expect.poll(() => css(outcome, 'transform')).not.toBe('none');
 });
 
 test('desktop: painel à direita do texto', async ({ page }) => {
 	const first = page.locator('#experience details').first();
-	const outcome = (await first.locator('.outcome').boundingBox())!;
-	const content = (await first.locator('.content').boundingBox())!;
+	const outcome = await stableBox(first.locator('.outcome'));
+	const content = await stableBox(first.locator('.content'));
 	expect(outcome.x).toBeGreaterThan(content.x + content.width - 1);
 });
 
@@ -126,8 +126,8 @@ test.describe('celular', () => {
 		const first = page.locator('#experience details').first();
 		const outcome = first.locator('.outcome');
 		await outcome.scrollIntoViewIfNeeded();
-		const box = (await outcome.boundingBox())!;
-		const content = (await first.locator('.content').boundingBox())!;
+		const box = await stableBox(outcome);
+		const content = await stableBox(first.locator('.content'));
 		expect(box.y).toBeGreaterThanOrEqual(content.y + content.height - 1);
 
 		await page.touchscreen.tap(box.x + box.width / 2, box.y + 20);
