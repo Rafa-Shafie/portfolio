@@ -124,6 +124,8 @@ const projects = defineCollection({
 		repo: z.url().optional(),
 		demo: z.url().optional(),
 		order: z.number().int().default(0),
+		/** Trabalho principal: na galeria, o cartão ocupa metade da linha (os outros, um terço). */
+		featured: z.boolean().default(false),
 		details: detailSections.optional(),
 		techDetails: techGroups.optional(),
 	})

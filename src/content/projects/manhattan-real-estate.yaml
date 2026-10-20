@@ -16,6 +16,7 @@ organization: BTG Pactual
 status: delivered
 art: map
 order: 1
+featured: true
 stack:
   - Python
   - SQL

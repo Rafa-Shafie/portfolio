@@ -63,7 +63,7 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 				// No modal, com as tecnologias em detalhe, as 5 etiquetas do cartão seriam repetição
 				const modalTags = data.techDetails?.length ? [] : stack;
 				return (
-					<li class="card" data-categories={[data.category, ...(data.alsoIn ?? [])].join(' ')}>
+					<li class:list={['card', { featured: data.featured }]} data-categories={[data.category, ...(data.alsoIn ?? [])].join(' ')}>
 						<ProjectArt
 							category={data.category}
 							variant={data.art}
@@ -207,12 +207,41 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 		color: var(--color-on-accent);
 	}
 
+	/*
+	 * Hierarquia da galeria: no celular, uma coluna; no tablet, duas; no desktop, seis colunas, com os
+	 * trabalhos principais (featured) ocupando metade da linha e os outros, um terço. Cartões escondidos
+	 * pelo filtro saem do fluxo (hidden), e a grade se rearruma sozinha.
+	 */
 	.grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
+		grid-template-columns: 1fr;
 		gap: var(--space-5);
 		padding: 0;
 		list-style: none;
+	}
+
+	@media (min-width: 40rem) {
+		.grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (min-width: 64rem) {
+		.grid {
+			grid-template-columns: repeat(6, 1fr);
+		}
+
+		.card {
+			grid-column: span 2;
+		}
+
+		.card.featured {
+			grid-column: span 3;
+		}
+
+		.featured .card-title {
+			font-size: var(--text-2xl);
+		}
 	}
 
 	.card {
@@ -373,6 +402,7 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 	/* Projeto único: o cartão ocupa a largura toda, com a ilustração ao lado do texto */
 	@media (min-width: 60rem) {
 		.card:only-child {
+			grid-column: 1 / -1;
 			flex-direction: row;
 		}
 

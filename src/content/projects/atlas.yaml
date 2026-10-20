@@ -16,6 +16,7 @@ organization: BTG Pactual
 status: production
 art: assistant
 order: 0
+featured: true
 stack:
   - FastAPI
   - RAG

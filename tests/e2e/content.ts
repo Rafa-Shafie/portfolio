@@ -35,6 +35,7 @@ interface Project {
 	category: string;
 	alsoIn?: string[];
 	stage?: Localized<string>;
+	featured?: boolean;
 	stack: Term[];
 	repo?: string;
 	details?: Details;
