@@ -71,27 +71,23 @@ const lines = heading.split('\n');
 	/* Bloco invertido: a seção inteira com fundo de destaque, de borda a borda.
 	   Texto e foco ficam escuros (o contorno ciano sumiria aqui) */
 	.section-inverted {
-		padding-bottom: var(--space-7);
+		padding-block: clamp(3.5rem, 2.5rem + 3vw, 5rem) var(--space-7);
 		background-color: var(--color-accent);
 		color: var(--color-on-accent);
 	}
 
-	/* O contato fecha a página com o mesmo peso do nome no hero */
+	/* O contato fecha a página com destaque, mas abaixo do nome no hero */
 	.section-inverted .section-title {
-		margin-top: var(--space-4);
-		/* Mesmo teto do nome no hero, com piso menor: "¿Construimos" não cabia em 320px */
-		font-size: clamp(2.25rem, 1.25rem + 5vw, 5.25rem);
+		margin-top: var(--space-3);
+		/* Piso de 2.25rem: "¿Construimos" precisa caber em 320px */
+		font-size: clamp(2.25rem, 1.5rem + 2.6vw, 3.75rem);
 		font-weight: var(--weight-bold);
 		letter-spacing: -0.035em;
 		line-height: 0.98;
 	}
 
 	.section-inverted .section-head {
-		margin-bottom: var(--space-8);
-	}
-
-	.section-inverted .section-intro {
-		font-size: var(--text-lg);
+		margin-bottom: var(--space-6);
 	}
 
 	.section-inverted .section-label {
