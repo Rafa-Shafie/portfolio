@@ -26,7 +26,7 @@ export const pages = locales.map((locale) => ({
 // Formato dos YAML, só com os campos que os testes usam. O schema completo (e a validação de
 // verdade) fica em src/content.config.ts.
 type Term = string | Localized<string>;
-type Details = { draft?: boolean; summary?: Record<string, Localized<string>> };
+type Details = { draft?: boolean; summary?: Record<string, Localized<string>>; sections?: { diagram?: string }[] };
 
 interface Project {
 	slug: string;

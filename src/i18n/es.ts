@@ -6,6 +6,53 @@ export const es: Dictionary = {
 		description:
 			'Portafolio de Rafael El Shafie, estudiante de Ingeniería de Software con experiencia en backend e IA generativa: RAG, Text-to-SQL, Python y FastAPI.',
 	},
+	diagrams: {
+		label: 'Diagrama ilustrativo',
+		atlas: {
+			caption: 'el camino de una pregunta en Atlas',
+			steps: [
+				{ title: 'Pregunta', text: 'en lenguaje natural' },
+				{ title: 'Clasificación', text: 'conceptual o sobre un caso específico' },
+				{ title: 'Recuperación', text: 'búsqueda textual en los documentos' },
+				{ title: 'Selección', text: 'el modelo elige las fuentes relevantes' },
+				{ title: 'Respuesta', text: 'generada con ese contexto, de forma progresiva' },
+			],
+			note: 'Caso específico: plantillas SQL consultan los datos en modo de solo lectura, y el resultado también entra en el contexto. Sin el identificador, el asistente lo solicita antes de continuar.',
+			examplesTitle: 'Ejemplos con preguntas inventadas',
+			examples: [
+				{
+					question: '¿Cómo funciona la actualización de datos de un cliente?',
+					route: ['Conceptual', 'Documentos', 'Respuesta'],
+				},
+				{
+					question: '¿Cuál es la situación del registro de este cliente?',
+					route: ['Caso específico', 'Pide el identificador', 'Consulta SQL', 'Respuesta'],
+				},
+			],
+		},
+		manhattan: {
+			caption: 'del anuncio al dashboard, en la arquitectura Medallion',
+			steps: [
+				{ title: 'Fuentes', text: 'Zillow y StreetEasy' },
+				{ title: 'Bronce', text: 'ingesta de los anuncios', tag: 'ya existía' },
+				{ title: 'Plata', text: 'tratamiento y conciliación de las fuentes' },
+				{ title: 'Oro', text: 'capa analítica' },
+				{ title: 'Salidas', text: 'puntuación, avisos en Teams y dashboard' },
+			],
+		},
+		modeling: {
+			caption: 'del levantamiento al modelo de datos',
+			steps: [
+				{ title: 'Visitas y entrevistas', text: 'con quienes usan el sistema' },
+				{ title: 'Procesos', text: 'mapeo de la rutina de trabajo' },
+				{ title: 'Requisitos', text: 'necesidades e historias de usuario' },
+				{ title: 'Modelo conceptual', text: 'elementos y relaciones del negocio' },
+				{ title: 'Modelo lógico', text: 'entidades, atributos y claves' },
+			],
+			areasTitle: 'Áreas cubiertas',
+			areas: ['Inventario', 'Producción', 'Ventas', 'Facturación', 'Personas', 'Finanzas'],
+		},
+	},
 	dialog: {
 		summary: 'Resumen',
 		problem: 'Problema',

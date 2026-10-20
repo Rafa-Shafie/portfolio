@@ -24,6 +24,7 @@ export function localizeDetails(details: Details, locale: Locale) {
 			heading: localize(section.heading, locale),
 			text: section.text && localize(section.text, locale),
 			items: section.items && localize(section.items, locale),
+			diagram: section.diagram,
 		})),
 	};
 }

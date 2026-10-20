@@ -6,11 +6,15 @@
  */
 import CloseIcon from 'bootstrap-icons/icons/x-lg.svg';
 import ArrowIcon from 'bootstrap-icons/icons/arrow-right.svg';
+import Diagram, { type DiagramName } from './Diagram.astro';
+import type { Locale } from '../i18n/utils';
 
 interface Section {
 	heading: string;
 	text?: string;
 	items?: string[];
+	/** Diagrama ilustrativo, desenhado antes do texto da seção. */
+	diagram?: DiagramName;
 }
 
 /** Bloco de links para outros modais (experiência ↔ projeto). `id` é o id do outro <dialog>. */
@@ -22,6 +26,8 @@ interface Related {
 
 interface Props {
 	id: string;
+	/** Idioma da página (para os rótulos dos diagramas). */
+	locale: Locale;
 	title: string;
 	/** Linha pequena acima do título (empresa, área…). */
 	eyebrow?: string;
@@ -48,6 +54,7 @@ interface Props {
 
 const {
 	id,
+	locale,
 	title,
 	eyebrow,
 	meta,
@@ -101,9 +108,10 @@ const titleId = `${id}-title`;
 		{intro && <p class="intro">{intro}</p>}
 
 		{
-			sections.map(({ heading, text, items }) => (
+			sections.map(({ heading, text, items, diagram }) => (
 				<section class="block">
 					<h3 class="block-title">{heading}</h3>
+					{diagram && <Diagram name={diagram} locale={locale} />}
 					{text && <p class="block-text">{text}</p>}
 					{items && (
 						<ul class="block-list">
@@ -276,8 +284,16 @@ const titleId = `${id}-title`;
 	// cartão daquele modal, como se a pessoa o tivesse aberto dali.
 	const openFromHash = () => {
 		const dialog = dialogFor(decodeURIComponent(location.hash.slice(1)));
-		if (!dialog || dialog.open || document.querySelector('dialog.detail-dialog[open]')) return;
-		opener = document.querySelector<HTMLElement>(`[data-dialog-open="${dialog.id}"]`);
+		if (!dialog || dialog.open) return;
+		// Com outro modal aberto (o #id mudou no endereço), troca de um para o outro, como nos links
+		// "Experiência relacionada"; o foco continua voltando para o botão de origem
+		const current = document.querySelector<HTMLDialogElement>('dialog.detail-dialog[open]');
+		if (current) {
+			switching = true;
+			current.close();
+		} else {
+			opener = document.querySelector<HTMLElement>(`[data-dialog-open="${dialog.id}"]`);
+		}
 		open(dialog);
 	};
 	openFromHash();

@@ -120,6 +120,7 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 						{data.details && (
 							<DetailDialog
 								id={dialogId}
+								locale={locale}
 								eyebrow={[data.organization ?? t.projects.kinds[data.kind], t.projects.status[data.status]].join(' · ')}
 								title={title}
 								meta={stage}

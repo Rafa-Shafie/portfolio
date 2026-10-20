@@ -42,6 +42,8 @@ const detailSections = z.object({
 				heading: localized(z.string()),
 				text: localized(z.string()).optional(),
 				items: localized(z.array(z.string()).min(1)).optional(),
+				/** Diagrama ilustrativo da seção (Diagram.astro), antes do texto. Nome errado quebra o build. */
+				diagram: z.enum(['atlas-flow', 'manhattan-pipeline', 'modeling-method']).optional(),
 			}),
 		)
 		.min(1),
