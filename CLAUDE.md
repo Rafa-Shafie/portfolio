@@ -34,6 +34,7 @@
 | Imagens | `astro:assets` (`<Picture>`); OG gerado no build com satori + sharp | Formatos modernos no tamanho certo; uma imagem Open Graph por idioma. |
 | Modais | `<dialog>` nativo com `showModal()` | Foco preso, Esc e inércia do fundo de graça. |
 | Currículo | PDFs em `public/cv/` + guarda `scripts/check-cv.mjs` (pdfjs-dist) | Ver seção 8 (privacidade). |
+| Testes | Playwright (`@playwright/test`) sobre o build de produção, no CI | Comportamento, teclado, i18n, layout e melhoria progressiva conferidos a cada push. |
 | Deploy | Vercel integrada ao GitHub | Deploy a cada push na `main`, preview por PR. |
 
 ## 5. Arquitetura
@@ -59,6 +60,7 @@ src/
 └── styles/                  tokens.css, global.css
 public/cv/                   rafael-el-shafie-cv-{pt,en,es}.pdf (nomes fixos: o site aponta para eles)
 scripts/                     generate-brand.mjs (marca), check-cv.mjs (guarda do CV, roda no prebuild)
+tests/e2e/                   specs Playwright; content.ts lê os mesmos dicionários e YAML do site
 docs/                        auditoria do site antigo, baseline do Lighthouse, curriculo.md (como trocar o CV)
 ```
 
@@ -87,22 +89,22 @@ docs/                        auditoria do site antigo, baseline do Lighthouse, c
   - habilidades com contexto de uso;
   - conteúdo alinhado ao CV de out/2026;
   - guarda automática do CV.
+- **Testes no repositório:** as verificações Playwright que viviam fora do Git viraram a suíte `tests/e2e/`, que roda no CI depois do build. Contagens e textos vêm dos YAML e dicionários, então adicionar conteúdo não quebra os testes.
 
 ### Próximos passos (em ordem)
 
-1. **Testes no repositório:** mover para o projeto as verificações Playwright que hoje vivem fora do Git e rodá-las no CI.
-2. **Fase 3 — Tema claro e alternador:**
+1. **Fase 3 — Tema claro e alternador:**
    - paleta clara em tokens;
    - alternador que começa pela preferência do sistema e salva a escolha;
    - script inline no `<head>` que aplica o tema antes de a página aparecer;
    - contraste AA conferido em tudo (ilustrações, contato, logos, modais).
-3. **Fase 4 — Qualidade e acabamento:**
+2. **Fase 4 — Qualidade e acabamento:**
    - axe e Lighthouse no CI, com nota mínima;
    - seção ativa no menu;
    - animações discretas com `prefers-reduced-motion`;
    - README final com decisões e o antes e depois do Lighthouse.
-4. **Revisões do Rafael:** o espanhol do site, antes de divulgar `/es/`; e a foto profissional, quando houver.
-5. **Lançamento (por último):** comprar o domínio, apontar na Vercel e atualizar `site` em `astro.config.mjs` (hoje `portfolio-chi-pink-45.vercel.app`). Só depois disso o link vai para o CV e o LinkedIn.
+3. **Revisões do Rafael:** o espanhol do site, antes de divulgar `/es/`; e a foto profissional, quando houver.
+4. **Lançamento (por último):** comprar o domínio, apontar na Vercel e atualizar `site` em `astro.config.mjs` (hoje `portfolio-chi-pink-45.vercel.app`). Só depois disso o link vai para o CV e o LinkedIn.
 
 ### Fora do v1 (fica para o v2)
 
@@ -164,7 +166,7 @@ docs/                        auditoria do site antigo, baseline do Lighthouse, c
 | Espanhol com erro | Revisão do Rafael antes de divulgar `/es/` |
 | Link divulgado antes do domínio | O domínio é o último passo, antes de o link ir para o CV e o LinkedIn |
 | Telefone vazar num CV novo | Guarda no `prebuild` bloqueia o deploy |
-| Perder as verificações manuais | Mover os testes Playwright para o repositório (próximo passo 1) |
+| Regressão de comportamento ou acessibilidade | Suíte Playwright em `tests/e2e/` roda no CI a cada push e PR |
 | Divergência entre canais | Alinhar LinkedIn e README do GitHub junto com cada mudança de CV |
 
 ## 10. Conteúdo (fonte: currículo de out/2026)
@@ -221,6 +223,7 @@ docs/                        auditoria do site antigo, baseline do Lighthouse, c
   - `npm run dev`: desenvolvimento;
   - `npm run build`: build, que roda antes a guarda do CV;
   - `npm run check`: `astro check`;
+  - `npm run test:e2e`: build + testes Playwright (`npm run test:e2e:ui` abre o modo visual). Na primeira vez, `npx playwright install chromium`;
   - `npm run check:cv`: só a guarda do CV;
   - `npm run brand`: regenera a marca.
 - **Trocar o currículo:** ver [docs/curriculo.md](docs/curriculo.md). Os nomes dos arquivos são fixos, e os IDs do Canva e o idioma do PDF devem ser conferidos.
