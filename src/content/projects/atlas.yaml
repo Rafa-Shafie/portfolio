@@ -14,6 +14,7 @@ category: ai
 kind: professional
 organization: BTG Pactual
 status: production
+art: assistant
 order: 0
 stack:
   - Python

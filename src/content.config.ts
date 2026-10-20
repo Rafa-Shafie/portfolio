@@ -97,7 +97,9 @@ const projects = defineCollection({
 		/** Projeto pessoal ou feito numa experiência profissional (mostra a organização). */
 		kind: z.enum(['personal', 'professional']).default('personal'),
 		organization: z.string().optional(),
-		status: z.enum(['progress', 'production', 'released']).default('progress'),
+		status: z.enum(['progress', 'production', 'delivered', 'released']).default('progress'),
+		/** Ilustração própria do projeto; sem ela, usa a ilustração genérica da área. */
+		art: z.enum(['assistant', 'map']).optional(),
 		stack: z.array(z.string()).min(1),
 		repo: z.url().optional(),
 		demo: z.url().optional(),

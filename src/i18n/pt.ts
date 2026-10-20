@@ -166,7 +166,13 @@ export const pt = {
 		status: {
 			progress: 'Em andamento',
 			production: 'Em produção',
+			delivered: 'Entregue',
 			released: 'Publicado',
+		},
+		/** Legendas das ilustrações (decorativas). */
+		art: {
+			assistant: 'Pergunta → contexto → resposta',
+			map: 'Manhattan · NYC',
 		},
 		readMore: 'Ver detalhes',
 		count: 'projetos exibidos',

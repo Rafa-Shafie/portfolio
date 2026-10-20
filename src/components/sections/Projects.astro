@@ -3,6 +3,7 @@ import type { CollectionEntry } from 'astro:content';
 import Section from '../Section.astro';
 import ProjectArt from '../ProjectArt.astro';
 import DetailDialog from '../DetailDialog.astro';
+import ArrowIcon from 'bootstrap-icons/icons/arrow-up-right.svg';
 import { localize, useTranslations, type Locale } from '../../i18n/utils';
 
 interface Props {
@@ -43,21 +44,26 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 
 	<ul class="grid">
 		{
-			entries.map(({ id: slug, data }) => {
+			entries.map(({ id: slug, data }, i) => {
 				const dialogId = `project-${slug}`;
 				const title = localize(data.title, locale);
 				return (
 					<li class="card" data-category={data.category}>
-						<ProjectArt category={data.category} uid={slug} />
+						<ProjectArt
+							category={data.category}
+							variant={data.art}
+							uid={slug}
+							code={`${t.projects.categories[data.category]} / ${String(i + 1).padStart(2, '0')}`}
+							caption={data.art && t.projects.art[data.art]}
+						/>
 						<div class="card-body">
 							<p class="card-meta">
+								<span class="kind">
+									{data.organization ? `${t.projects.kinds[data.kind]} · ${data.organization}` : t.projects.kinds[data.kind]}
+								</span>
 								<span class="status">{t.projects.status[data.status]}</span>
-								<span class="category">{t.projects.categories[data.category]}</span>
 							</p>
 							{data.draft && <p class="draft">{t.a11y.draft}</p>}
-							<p class="kind">
-								{data.organization ? `${t.projects.kinds[data.kind]} · ${data.organization}` : t.projects.kinds[data.kind]}
-							</p>
 							<h3 class="card-title">{title}</h3>
 							<p class="description">{localize(data.description, locale)}</p>
 							<ul class="stack">
@@ -66,11 +72,14 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 								))}
 							</ul>
 							{data.details && (
-								<button class="more" type="button" data-dialog-open={dialogId} aria-haspopup="dialog" hidden>
-									{t.projects.readMore}
-									<span class="visually-hidden">: {title}</span>
-									<span aria-hidden="true">→</span>
-								</button>
+								<p class="card-foot">
+									{/* Um só botão de verdade; a área de clique dele se estende pelo cartão inteiro */}
+									<button class="more" type="button" data-dialog-open={dialogId} aria-haspopup="dialog" hidden>
+										{t.projects.readMore}
+										<span class="visually-hidden">: {title}</span>
+									</button>
+									<ArrowIcon class="arrow" aria-hidden="true" />
+								</p>
 							)}
 						</div>
 						{data.details && (
@@ -160,24 +169,35 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 
 	.grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(min(100%, 22rem), 1fr));
 		gap: var(--space-5);
 		padding: 0;
 		list-style: none;
 	}
 
 	.card {
-		display: grid;
-		grid-template-rows: auto 1fr;
+		position: relative;
+		display: flex;
+		flex-direction: column;
 		overflow: hidden;
 		background-color: var(--color-surface);
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-md);
+		transition:
+			transform var(--duration-base) ease,
+			border-color var(--duration-base) ease;
+	}
+
+	/* Cartão clicável (com JS): sobe um pouco e a borda acende */
+	.card:has(.more:not([hidden])):is(:hover, :focus-within) {
+		transform: translateY(-4px);
+		border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
 	}
 
 	.card-body {
-		display: grid;
-		align-content: start;
+		display: flex;
+		flex: 1;
+		flex-direction: column;
 		gap: var(--space-3);
 		padding: var(--space-5);
 		border-top: 1px solid var(--color-border);
@@ -187,11 +207,14 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
-		gap: var(--space-2);
+		gap: var(--space-2) var(--space-4);
 		font-family: var(--font-mono);
 		font-size: var(--text-label);
-		text-transform: uppercase;
-		letter-spacing: 0.08em;
+		letter-spacing: 0.06em;
+	}
+
+	.kind {
+		color: var(--color-text-muted);
 	}
 
 	.status {
@@ -209,12 +232,8 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 		background-color: var(--color-accent);
 	}
 
-	.category {
-		color: var(--color-text-muted);
-	}
-
 	.draft {
-		justify-self: start;
+		align-self: start;
 		padding: var(--space-1) var(--space-3);
 		border: 1px dashed var(--color-accent);
 		border-radius: var(--radius-full);
@@ -223,12 +242,8 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 		font-size: var(--text-label);
 	}
 
-	.kind {
-		color: var(--color-text-muted);
-		font-size: var(--text-sm);
-	}
-
 	.card-title {
+		margin-top: var(--space-2);
 		font-size: var(--text-xl);
 		font-weight: var(--weight-semibold);
 	}
@@ -242,6 +257,7 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-2);
+		margin-bottom: var(--space-4);
 		padding: 0;
 		list-style: none;
 	}
@@ -253,47 +269,87 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 		font-size: var(--text-sm);
 	}
 
+	/* Rodapé "Ver detalhes ↗", sempre colado à base do cartão */
+	.card-foot {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-top: auto;
+		padding-top: var(--space-3);
+		border-top: 1px solid var(--color-border);
+	}
+
+	.more {
+		min-height: 2.75rem;
+		padding: 0;
+		background: none;
+		border: 0;
+		color: var(--color-text);
+		font-weight: var(--weight-semibold);
+		cursor: pointer;
+	}
+
+	/* Área de clique esticada: cobre o cartão inteiro sem virar um botão gigante para o leitor de tela */
+	.more::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+	}
+
+	/* O anel de foco vai para o cartão todo, que é a área clicável */
+	.more:focus-visible {
+		outline: none;
+	}
+
+	.card:has(.more:focus-visible) {
+		outline: 3px solid var(--color-focus);
+		outline-offset: 3px;
+	}
+
+	.arrow {
+		width: 1rem;
+		height: 1rem;
+		color: var(--color-text-muted);
+		transition:
+			transform var(--duration-base) ease,
+			color var(--duration-base) ease;
+	}
+
+	.card:is(:hover, :focus-within) .arrow {
+		color: var(--color-accent);
+		transform: translate(2px, -2px);
+	}
+
 	/* Projeto único: o cartão ocupa a largura toda, com a ilustração ao lado do texto */
 	@media (min-width: 60rem) {
-		.grid:has(> .card:only-child) {
-			grid-template-columns: minmax(0, 1fr);
+		.card:only-child {
+			flex-direction: row;
 		}
 
-		.card:only-child {
-			grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-			grid-template-rows: auto;
+		.card:only-child > :global(.art) {
+			flex: 1 1 0;
+			aspect-ratio: auto;
+			max-height: none;
 		}
 
 		.card:only-child .card-body {
-			align-content: center;
+			flex: 1.15 1 0;
+			justify-content: center;
 			padding: var(--space-7);
 			border-top: 0;
 			border-left: 1px solid var(--color-border);
 		}
 
-		.card:only-child :global(.art) {
-			height: 100%;
-			object-fit: cover;
+		.card:only-child .card-foot {
+			margin-top: 0;
 		}
 	}
 
-	.more {
-		display: inline-flex;
-		align-items: center;
-		gap: var(--space-2);
-		justify-self: start;
-		min-height: 2.75rem;
-		margin-top: var(--space-2);
-		padding: 0;
-		background: none;
-		border: 0;
-		color: var(--color-accent);
-		font-weight: var(--weight-semibold);
-		cursor: pointer;
-	}
-
-	.more:hover {
-		text-decoration: underline;
-		text-underline-offset: 0.2em;
+	@media (prefers-reduced-motion: reduce) {
+		.card:has(.more:not([hidden])):is(:hover, :focus-within),
+		.card:is(:hover, :focus-within) .arrow {
+			transform: none;
+		}
 	}
 </style>

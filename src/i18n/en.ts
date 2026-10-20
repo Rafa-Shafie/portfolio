@@ -163,7 +163,13 @@ export const en: Dictionary = {
 		status: {
 			progress: 'In progress',
 			production: 'In production',
+			delivered: 'Delivered',
 			released: 'Released',
+		},
+		/** Legendas das ilustrações (decorativas). */
+		art: {
+			assistant: 'Question → context → answer',
+			map: 'Manhattan · NYC',
 		},
 		readMore: 'See details',
 		count: 'projects shown',
