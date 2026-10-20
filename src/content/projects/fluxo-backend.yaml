@@ -13,15 +13,13 @@ category: backend
 kind: training
 organization: Fluxo Consultoria
 status: delivered
-order: 3
+order: 4
 stack:
-  - Node.js
-  - TypeScript
   - NestJS
+  - TypeScript
   - PostgreSQL
   - Prisma
   - JWT
-  - Swagger/OpenAPI
 details:
   intro:
     pt: "Projeto de capacitação desenvolvido em equipe durante o onboarding na Fluxo Consultoria, concluído por volta de março de 2024. Foi uma entrega de formação: a aplicação não chegou a ser testada, integrada ou usada em operação, e o código não é público."

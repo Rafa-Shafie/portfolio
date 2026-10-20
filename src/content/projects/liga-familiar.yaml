@@ -11,15 +11,18 @@ description:
 category: backend
 kind: personal
 status: progress
+stage:
+  pt: "Infraestrutura pronta · primeira funcionalidade em desenvolvimento"
+  en: "Infrastructure ready · first feature in development"
+  es: "Infraestructura lista · primera funcionalidad en desarrollo"
 art: league
-order: 5
+order: 6
 repo: https://github.com/Rafa-Shafie/familia-liga-gamificada
 stack:
   - Java 21
   - Spring Boot
   - Spring Data JPA
   - PostgreSQL
-  - Flyway
   - Docker Compose
 details:
   intro:

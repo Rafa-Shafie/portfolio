@@ -26,7 +26,7 @@ const { id, number, locale, entries } = Astro.props;
 const t = useTranslations(locale);
 
 // Só mostra filtros das áreas que têm projeto
-const categories = (['ai', 'backend', 'data'] as const).filter((c) =>
+const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =>
 	entries.some((e) => e.data.category === c || e.data.alsoIn?.includes(c)),
 );
 ---
@@ -59,6 +59,9 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) =>
 				const dialogId = `project-${slug}`;
 				const title = localize(data.title, locale);
 				const stack = data.stack.map((term) => localizeTerm(term, locale));
+				const stage = data.stage && localize(data.stage, locale);
+				// No modal, com as tecnologias em detalhe, as 5 etiquetas do cartão seriam repetição
+				const modalTags = data.techDetails?.length ? [] : stack;
 				return (
 					<li class="card" data-categories={[data.category, ...(data.alsoIn ?? [])].join(' ')}>
 						<ProjectArt
@@ -77,6 +80,8 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) =>
 							</p>
 							{data.draft && <p class="draft">{t.a11y.draft}</p>}
 							<h3 class="card-title">{title}</h3>
+							{/* Estágio atual logo abaixo do título, antes da descrição (que fala do objetivo) */}
+							{stage && <p class="stage">{stage}</p>}
 							<p class="description">{localize(data.description, locale)}</p>
 							<ul class="stack">
 								{stack.map((tech) => (
@@ -106,6 +111,7 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) =>
 								id={dialogId}
 								eyebrow={[data.organization ?? t.projects.kinds[data.kind], t.projects.status[data.status]].join(' · ')}
 								title={title}
+								meta={stage}
 								intro={data.details.intro && localize(data.details.intro, locale)}
 								sections={data.details.sections.map((section) => ({
 									heading: localize(section.heading, locale),
@@ -118,7 +124,7 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) =>
 									items: g.items.map((term) => localizeTerm(term, locale)),
 								}))}
 								tagsHeading={t.projects.details.tech}
-								tags={stack}
+								tags={modalTags}
 								links={[
 									...(data.repo ? [{ label: t.projects.repo, href: data.repo, newTabLabel: t.a11y.newTab }] : []),
 									...(data.demo ? [{ label: t.projects.demo, href: data.demo, newTabLabel: t.a11y.newTab }] : []),
@@ -280,6 +286,15 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) =>
 		margin-top: var(--space-2);
 		font-size: var(--text-xl);
 		font-weight: var(--weight-semibold);
+	}
+
+	/* Estágio atual: traço ciano à esquerda, para se destacar da descrição sem competir com o título */
+	.stage {
+		padding-left: var(--space-3);
+		border-left: 2px solid var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		line-height: 1.5;
 	}
 
 	.description {

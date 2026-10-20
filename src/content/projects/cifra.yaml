@@ -1,6 +1,8 @@
 # Cifra: projeto pessoal. Fase de design concluída, implementação começando (Fase 0).
 # Privacidade: sem nomes nem casos reais da família; o repositório, quando existir, não terá
 # nenhum extrato real (a demo pública usa só dados sintéticos).
+# Rascunho até existir uma V0 com código: aparece no dev e no preview da Vercel, nunca em produção.
+draft: true
 title:
   pt: "Cifra"
   en: "Cifra"
@@ -13,17 +15,18 @@ category: backend
 alsoIn: [ai]
 kind: personal
 status: progress
+stage:
+  pt: "Design concluído · implementação inicial"
+  en: "Design complete · early implementation"
+  es: "Diseño concluido · implementación inicial"
 art: ledger
-order: 4
+order: 5
 stack:
   - Java
   - Spring Boot
   - Python
-  - FastAPI
-  - React
-  - PostgreSQL
   - RabbitMQ
-  - Docker
+  - PostgreSQL
 details:
   intro:
     pt: "Um gestor financeiro doméstico com IA, mobile-first (PWA). Cada membro da casa importa o extrato do próprio banco, o sistema categoriza os lançamentos com IA, concilia as transferências entre membros para não contar o mesmo dinheiro duas vezes e mostra para onde vai o dinheiro da casa. O design está concluído; a implementação está começando."

@@ -34,9 +34,11 @@ interface Project {
 	title: Localized<string>;
 	category: string;
 	alsoIn?: string[];
+	stage?: Localized<string>;
 	stack: Term[];
 	repo?: string;
 	details?: Details;
+	techDetails?: unknown[];
 }
 
 interface Experience {

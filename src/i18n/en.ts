@@ -32,7 +32,9 @@ export const en: Dictionary = {
 		headline: 'Software Engineering · Generative AI · Backend',
 		intro:
 			'Software Engineering student. I build backend systems and generative AI applications, from requirements gathering to production.',
-		ctaContact: 'Get in touch',
+		highlightLabel: 'Latest work',
+		highlight: 'Atlas, an AI assistant I built from scratch at BTG Pactual, now in production.',
+		ctaProjects: 'View projects',
 		ctaCv: 'View CV',
 		photoAlt: 'Photo of Rafael El Shafie',
 		location: 'Rio de Janeiro, Brazil',
@@ -147,6 +149,7 @@ export const en: Dictionary = {
 			delivery: 'Delivery and operations',
 			python: 'Python',
 			javascript: 'JavaScript',
+			audits: 'Accessibility and performance',
 		},
 	},
 	projects: {
@@ -159,6 +162,7 @@ export const en: Dictionary = {
 			ai: 'AI',
 			backend: 'Backend',
 			data: 'Data',
+			frontend: 'Frontend',
 		},
 		kinds: {
 			personal: 'Personal project',
@@ -180,6 +184,7 @@ export const en: Dictionary = {
 			ledger: 'Statements → household view',
 			league: 'Chores → points → ranking',
 			voice: 'Voice → AI → answer',
+			site: 'Content → 3 languages → 2 themes',
 		},
 		readMore: 'See details',
 		count: 'projects shown',

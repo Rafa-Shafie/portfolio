@@ -1,6 +1,8 @@
 # VoxAssist API (nome provisório): projeto final planejado para o bootcamp DIO · Itaú.
 # Ainda sem código; o plano é a visão do produto, a stack e as fases. OpenFeign fica de fora até
 # a decisão ser tomada.
+# Rascunho até existir a primeira funcionalidade: aparece no dev e no preview, nunca em produção.
+draft: true
 title:
   pt: "VoxAssist API"
   en: "VoxAssist API"
@@ -14,14 +16,17 @@ alsoIn: [ai]
 kind: training
 organization: Bootcamp DIO · Itaú
 status: planned
+stage:
+  pt: "Em planejamento · funcionalidades propostas"
+  en: "In planning · proposed features"
+  es: "En planificación · funcionalidades propuestas"
 art: voice
-order: 6
+order: 7
 stack:
   - Java 21
   - Spring Boot
   - Spring AI
   - Resilience4j
-  - PostgreSQL
   - Testcontainers
 details:
   intro:

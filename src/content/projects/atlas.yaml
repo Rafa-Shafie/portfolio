@@ -17,17 +17,10 @@ status: production
 art: assistant
 order: 0
 stack:
-  - Python
   - FastAPI
-  - React
-  - TypeScript
-  - PostgreSQL
-  - MySQL
   - RAG
   - Text-to-SQL
-  - Docker
   - Kubernetes
-  - Azure DevOps
   - Datadog
 details:
   intro:
