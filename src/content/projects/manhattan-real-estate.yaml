@@ -1,11 +1,11 @@
-# Solução de dados para análise de imóveis em Manhattan, desenvolvida em dupla no Summer Job no
-# BTG Pactual. Visão técnica; a experiência (trabalho em dupla, decisões, aprendizados) fica em
+# Manhattan Real Estate: solução de dados para análise de imóveis em Manhattan, desenvolvida em
+# dupla no Summer Job no BTG Pactual (nome do projeto confirmado pelo Rafael para uso público). Visão técnica; a experiência (trabalho em dupla, decisões, aprendizados) fica em
 # src/content/experiences/btg-asset-management.yaml. Projeto do banco: sem código nem demo
 # públicos, ferramenta de visualização generalizada, sem métricas (não houve medição).
 title:
-  pt: "Dados para análise de imóveis em Manhattan"
-  en: "Data for Manhattan real estate analysis"
-  es: "Datos para el análisis de inmuebles en Manhattan"
+  pt: "Manhattan Real Estate"
+  en: "Manhattan Real Estate"
+  es: "Manhattan Real Estate"
 description:
   pt: "Solução de dados que reúne anúncios de imóveis em Manhattan de fontes diferentes para facilitar comparações e destacar possíveis oportunidades, com pontuação, acompanhamento de mudanças, notificações e um dashboard interativo."
   en: "A data solution that brings together Manhattan property listings from different sources to make comparisons easier and highlight potential opportunities, with scoring, change tracking, notifications and an interactive dashboard."
@@ -26,9 +26,9 @@ stack:
   - RabbitMQ
 details:
   intro:
-    pt: "Visão técnica da solução de dados que desenvolvi em dupla no Summer Job no BTG Pactual. A experiência, com o trabalho em dupla, as decisões e os aprendizados, está na seção Experiências. O projeto pertence ao banco, então não há código nem demonstração públicos."
-    en: "A technical view of the data solution I built in a pair during my Summer Job at BTG Pactual. The experience itself, with the pair work, decisions and learnings, is in the Experience section. The project belongs to the bank, so there is no public code or demo."
-    es: "Visión técnica de la solución de datos que desarrollé en pareja en el Summer Job en BTG Pactual. La experiencia, con el trabajo en pareja, las decisiones y los aprendizajes, está en la sección Experiencia. El proyecto pertenece al banco, por lo que no hay código ni demostración públicos."
+    pt: "Visão técnica do Manhattan Real Estate, a solução de dados que desenvolvi em dupla no Summer Job no BTG Pactual. A experiência, com o trabalho em dupla, as decisões e os aprendizados, está na seção Experiências. O projeto pertence ao banco, então não há código nem demonstração públicos."
+    en: "A technical view of Manhattan Real Estate, the data solution I built in a pair during my Summer Job at BTG Pactual. The experience itself, with the pair work, decisions and learnings, is in the Experience section. The project belongs to the bank, so there is no public code or demo."
+    es: "Visión técnica de Manhattan Real Estate, la solución de datos que desarrollé en pareja en el Summer Job en BTG Pactual. La experiencia, con el trabajo en pareja, las decisiones y los aprendizajes, está en la sección Experiencia. El proyecto pertenece al banco, por lo que no hay código ni demostración públicos."
   sections:
     - heading: { pt: "Por que existe", en: "Why it exists", es: "Por qué existe" }
       text:
@@ -99,9 +99,9 @@ details:
           - "Reaparición de anuncios, comparada con su información anterior."
     - heading: { pt: "Dashboard", en: "Dashboard", es: "Dashboard" }
       text:
-        pt: "Desenhei e construí o dashboard a partir de um template, numa ferramenta interna de visualização. A ideia é partir de uma visão geral e refinar a pesquisa até um anúncio específico:"
-        en: "I designed and built the dashboard from a template, in an internal visualization tool. The idea is to start from an overview and narrow the search down to a specific listing:"
-        es: "Diseñé y construí el dashboard a partir de un template, en una herramienta interna de visualización. La idea es partir de una visión general y refinar la búsqueda hasta un anuncio específico:"
+        pt: "Construí o dashboard em Databricks, inspirado no design de um dashboard que já existia e com vários recursos novos; depois, um colega o levou para a ferramenta de visualização própria do banco. A ideia é partir de uma visão geral e refinar a pesquisa até um anúncio específico:"
+        en: "I built the dashboard in Databricks, drawing on the design of an existing dashboard and adding several new features; a colleague later carried it over to the bank's own visualization tool. The idea is to start from an overview and narrow the search down to a specific listing:"
+        es: "Construí el dashboard en Databricks, inspirado en el diseño de un dashboard que ya existía y con varios recursos nuevos; después, un compañero lo llevó a la herramienta de visualización propia del banco. La idea es partir de una visión general y refinar la búsqueda hasta un anuncio específico:"
       items:
         pt:
           - "Filtros por tempo de anúncio, pontuação, preço por pé quadrado, desvio em relação à média regional e categoria do imóvel."
