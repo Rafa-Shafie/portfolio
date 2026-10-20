@@ -1,0 +1,111 @@
+# Atlas: assistente de IA desenvolvido no estágio (Short Job) no BTG Pactual.
+# Visão técnica; a experiência (responsabilidades, decisões, aprendizados) fica em
+# src/content/experiences/btg-onboarding-ia.yaml. Nome Atlas divulgado publicamente por Rafael
+# e pela equipe. Sem números da bateria interna e sem nomes de fornecedores internos.
+title:
+  pt: "Atlas"
+  en: "Atlas"
+  es: "Atlas"
+description:
+  pt: "Assistente de IA para o onboarding bancário, em produção: reúne documentação, orientações e dados autorizados para a operação esclarecer dúvidas antes de abrir um chamado."
+  en: "AI assistant for banking onboarding, in production: it brings documentation, guidance and authorized data together so operations can clear up questions before opening a ticket."
+  es: "Asistente de IA para el onboarding bancario, en producción: reúne documentación, orientaciones y datos autorizados para que operaciones resuelva sus dudas antes de abrir un ticket."
+category: ai
+kind: professional
+organization: BTG Pactual
+status: production
+order: 0
+stack:
+  - Python
+  - FastAPI
+  - React
+  - TypeScript
+  - PostgreSQL
+  - MySQL
+  - RAG
+  - Text-to-SQL
+  - Docker
+  - Kubernetes
+  - Azure DevOps
+  - Datadog
+details:
+  intro:
+    pt: "Visão técnica do Atlas, que desenvolvi de ponta a ponta no estágio no BTG Pactual. A experiência, com responsabilidades, decisões e aprendizados, está na seção Experiências."
+    en: "A technical view of Atlas, which I built end to end during my internship at BTG Pactual. The experience itself, with responsibilities, decisions and learnings, is in the Experience section."
+    es: "Visión técnica de Atlas, que desarrollé de principio a fin en mi pasantía en BTG Pactual. La experiencia, con responsabilidades, decisiones y aprendizajes, está en la sección Experiencia."
+  sections:
+    - heading: { pt: "Como uma pergunta é respondida", en: "How a question is answered", es: "Cómo se responde una pregunta" }
+      items:
+        pt:
+          - "Classificação: a pergunta é identificada como conceitual ou sobre uma situação específica, combinando regras e modelos treinados com scikit-learn e LightGBM."
+          - "Recuperação: uma busca textual (BM25 e TF-IDF) levanta documentos candidatos, aproveitando as relações entre eles."
+          - "Seleção: o modelo de linguagem analisa a pergunta e os cabeçalhos estruturados dos documentos e escolhe as fontes relevantes."
+          - "Dados: quando a pergunta exige, templates SQL parametrizados consultam PostgreSQL ou MySQL em modo somente leitura; se faltar um identificador, o assistente pede antes de prosseguir."
+          - "Resposta: o conteúdo selecionado vira o contexto da geração, exibida progressivamente na interface."
+        en:
+          - "Classification: the question is identified as conceptual or about a specific case, combining rules with models trained with scikit-learn and LightGBM."
+          - "Retrieval: a text search (BM25 and TF-IDF) finds candidate documents, taking advantage of the links between them."
+          - "Selection: the language model analyzes the question and the documents' structured headers and picks the relevant sources."
+          - "Data: when needed, parameterized SQL templates query PostgreSQL or MySQL in read-only mode; if an identifier is missing, the assistant asks for it first."
+          - "Answer: the selected content becomes the generation context, streamed progressively to the interface."
+        es:
+          - "Clasificación: la pregunta se identifica como conceptual o sobre un caso específico, combinando reglas y modelos entrenados con scikit-learn y LightGBM."
+          - "Recuperación: una búsqueda textual (BM25 y TF-IDF) obtiene documentos candidatos, aprovechando las relaciones entre ellos."
+          - "Selección: el modelo de lenguaje analiza la pregunta y los encabezados estructurados de los documentos y elige las fuentes relevantes."
+          - "Datos: cuando hace falta, plantillas SQL parametrizadas consultan PostgreSQL o MySQL en modo de solo lectura; si falta un identificador, el asistente lo solicita antes de continuar."
+          - "Respuesta: el contenido seleccionado se convierte en el contexto de la generación, que se muestra de forma progresiva en la interfaz."
+    - heading: { pt: "Base de conhecimento", en: "Knowledge base", es: "Base de conocimiento" }
+      text:
+        pt: "Documentos em Markdown com metadados em YAML, cobrindo regras de negócio, funcionalidades, fluxos operacionais, glossário, entidades, mapeamentos de dados e resolução de situações conhecidas. Verificações automáticas apontam referências quebradas, duplicações e lacunas, e a criação assistida transforma texto livre em um documento padronizado, revisado antes da publicação."
+        en: "Markdown documents with YAML metadata, covering business rules, features, operational flows, a glossary, entities, data mappings and how to resolve known situations. Automated checks flag broken references, duplicates and gaps, and assisted authoring turns free text into a standardized document, reviewed before publishing."
+        es: "Documentos en Markdown con metadatos en YAML, que cubren reglas de negocio, funcionalidades, flujos operativos, glosario, entidades, mapeos de datos y resolución de situaciones conocidas. Verificaciones automáticas señalan referencias rotas, duplicados y vacíos, y la creación asistida convierte texto libre en un documento estandarizado, revisado antes de publicarse."
+    - heading: { pt: "Conversas com contexto", en: "Context-aware conversations", es: "Conversaciones con contexto" }
+      text:
+        pt: "Uma pergunta de explicação não dispara uma consulta só porque há um identificador no histórico, mudanças de assunto são reconhecidas e resultados vazios ou incompletos são apresentados com clareza. Assim, a pessoa usa linguagem natural sem precisar conhecer a estrutura dos sistemas consultados."
+        en: "An explanation question does not trigger a query just because there is an identifier in the history, topic changes are recognized, and empty or incomplete results are presented clearly. People use natural language without needing to know how the queried systems are structured."
+        es: "Una pregunta de explicación no dispara una consulta solo porque hay un identificador en el historial, los cambios de tema se reconocen y los resultados vacíos o incompletos se presentan con claridad. Así, la persona usa lenguaje natural sin necesidad de conocer la estructura de los sistemas consultados."
+    - heading: { pt: "Aplicação e operação", en: "Application and operations", es: "Aplicación y operación" }
+      items:
+        pt:
+          - "Backend em FastAPI, com Pydantic, SQLAlchemy e migrações versionadas com Alembic; a persistência da aplicação (conversas, feedback, configurações) fica separada das fontes consultadas, que permanecem somente leitura."
+          - "Interface em React com TypeScript, React Router, TanStack Query e Zustand, com respostas em streaming e estados de erro e sessão."
+          - "Autenticação corporativa (SSO), autorização validada no backend e cuidados com informações sensíveis em logs."
+          - "Registro de tokens, estimativa de custo, limites de consumo e perfis de modelo para equilibrar capacidade e orçamento."
+          - "Observabilidade no Datadog das etapas de recuperação, consultas e chamadas aos modelos."
+          - "Editor visual de procedimentos com execução controlada, para caminhos de resposta definidos por etapas e condições."
+        en:
+          - "FastAPI backend with Pydantic, SQLAlchemy and versioned Alembic migrations; the application's own storage (conversations, feedback, settings) is kept apart from the queried sources, which stay read-only."
+          - "React and TypeScript interface with React Router, TanStack Query and Zustand, streaming answers and handling error and session states."
+          - "Corporate authentication (SSO), authorization enforced in the backend and care with sensitive information in logs."
+          - "Token logging, cost estimates, usage limits and model profiles to balance capability and budget."
+          - "Datadog observability for retrieval, queries and model calls."
+          - "A visual procedure editor with controlled execution, for answer paths defined by steps and conditions."
+        es:
+          - "Backend en FastAPI con Pydantic, SQLAlchemy y migraciones versionadas con Alembic; la persistencia de la aplicación (conversaciones, feedback, configuraciones) está separada de las fuentes consultadas, que siguen siendo de solo lectura."
+          - "Interfaz en React con TypeScript, React Router, TanStack Query y Zustand, con respuestas en streaming y estados de error y sesión."
+          - "Autenticación corporativa (SSO), autorización validada en el backend y cuidado con la información sensible en los logs."
+          - "Registro de tokens, estimación de costos, límites de consumo y perfiles de modelo para equilibrar capacidad y presupuesto."
+          - "Observabilidad en Datadog de las etapas de recuperación, consultas y llamadas a los modelos."
+          - "Editor visual de procedimientos con ejecución controlada, para caminos de respuesta definidos por etapas y condiciones."
+    - heading: { pt: "Qualidade e entrega", en: "Quality and delivery", es: "Calidad y despliegue" }
+      text:
+        pt: "Testes de backend, interface e integração, mais conjuntos de perguntas de referência para acompanhar a recuperação de contexto, a qualidade das respostas e regressões. Entrega com Docker, Kubernetes e pipelines no Azure DevOps, passando por desenvolvimento, homologação e produção."
+        en: "Backend, interface and integration tests, plus reference question sets to track context retrieval, answer quality and regressions. Delivery with Docker, Kubernetes and Azure DevOps pipelines, through development, staging and production."
+        es: "Pruebas de backend, interfaz e integración, además de conjuntos de preguntas de referencia para seguir la recuperación de contexto, la calidad de las respuestas y las regresiones. Despliegue con Docker, Kubernetes y pipelines en Azure DevOps, pasando por desarrollo, homologación y producción."
+techDetails:
+  - label: { pt: "Backend e persistência", en: "Backend and persistence", es: "Backend y persistencia" }
+    items: ["Python", "FastAPI", "Pydantic", "SQLAlchemy", "Alembic"]
+  - label: { pt: "Recuperação e contexto", en: "Retrieval and context", es: "Recuperación y contexto" }
+    items: ["BM25", "TF-IDF", "Reranking (LLM)", "Markdown", "YAML"]
+  - label: { pt: "Classificação de perguntas", en: "Question classification", es: "Clasificación de preguntas" }
+    items: ["scikit-learn", "LightGBM"]
+  - label: { pt: "Dados", en: "Data", es: "Datos" }
+    items: ["PostgreSQL", "MySQL", "Text-to-SQL"]
+  - label: { pt: "Interface", en: "Interface", es: "Interfaz" }
+    items: ["React", "TypeScript", "React Router", "TanStack Query", "Zustand", "SSE"]
+  - label: { pt: "Qualidade", en: "Quality", es: "Calidad" }
+    items: ["pytest", "Hypothesis", "Vitest", "Testing Library", "Playwright"]
+  - label: { pt: "Entrega e operação", en: "Delivery and operations", es: "Despliegue y operación" }
+    items: ["Docker", "Kubernetes", "Azure DevOps", "Datadog"]
+  - label: { pt: "Desenvolvimento", en: "Development", es: "Desarrollo" }
+    items: ["Git", "Azure Repos", "GitHub Copilot"]
