@@ -37,33 +37,52 @@ stack:
   - Scrum
 
 # ---------------------------------------------------------------------------------------------
-# Detalhes do "Explorar a experiência" (modal). TEMPLATE A PREENCHER.
-# - Pode ir além do CV, mas sem nomes de sistemas internos, dados de clientes ou números não
-#   divulgados. Na dúvida, descreva em termos gerais ("um sistema interno de cadastro").
-# - intro: um parágrafo de abertura. sections: quantas seções quiser, cada uma com heading e
-#   text (parágrafo) e/ou items (lista). Os títulos abaixo são só sugestões.
-# - Enquanto draft for true, isto só aparece no `npm run dev` e no preview da Vercel.
-#   Quando o texto estiver pronto nos 3 idiomas, apague a linha `draft: true`.
+# Detalhes do "Explorar a experiência" (modal). Fonte: relato do Rafael sobre o Summer Job.
+# Nível de confidencialidade: ferramenta de visualização generalizada ("ferramenta interna"),
+# sem regras proprietárias detalhadas e sem métricas (não houve medição de ganho ou adoção).
+# Validação manual e retorno positivo da apresentação são o resultado relatado.
+# A visão técnica fica em src/content/projects/imoveis-manhattan.yaml.
 # ---------------------------------------------------------------------------------------------
 details:
-  draft: true
   intro:
-    pt: "A PREENCHER: resumo da experiência em 2 ou 3 frases."
-    en: "TO FILL IN: two or three sentences summarizing the experience."
-    es: "POR COMPLETAR: resumen de la experiencia en 2 o 3 frases."
+    pt: "Participei, em dupla, do desenvolvimento de uma solução de dados para apoiar a análise de imóveis em Manhattan. Trabalhamos nas camadas de tratamento e análise em Databricks, integrando fontes, conciliando anúncios e construindo regras de pontuação e monitoramento, e eu desenhei e construí o dashboard interativo. Os detalhes técnicos estão no projeto, na seção Projetos."
+    en: "Working in a pair, I helped build a data solution to support the analysis of properties in Manhattan. We worked on the processing and analysis layers in Databricks, integrating sources, reconciling listings and building scoring and monitoring rules, and I designed and built the interactive dashboard. The technical details are in the project, in the Projects section."
+    es: "Participé, en pareja, en el desarrollo de una solución de datos para apoyar el análisis de inmuebles en Manhattan. Trabajamos en las capas de tratamiento y análisis en Databricks, integrando fuentes, conciliando anuncios y construyendo reglas de puntuación y monitoreo, y yo diseñé y construí el dashboard interactivo. Los detalles técnicos están en el proyecto, en la sección Proyectos."
   sections:
-    - heading: { pt: "O problema", en: "The problem", es: "El problema" }
+    - heading: { pt: "A demanda", en: "The request", es: "La demanda" }
       text:
-        pt: "A PREENCHER: contexto e problema, em termos gerais."
-        en: "TO FILL IN: context and problem, in general terms."
-        es: "POR COMPLETAR: contexto y problema, en términos generales."
-    - heading: { pt: "O que fiz", en: "What I did", es: "Lo que hice" }
+        pt: "A pesquisa de imóveis em Manhattan era feita manualmente em diferentes portais, comparando anúncios, características e preços. O objetivo era reunir essas informações em uma visão organizada, que facilitasse a exploração dos dados e sinalizasse situações relevantes, como novos anúncios bem pontuados, diferenças de preço e mudanças na disponibilidade dos imóveis."
+        en: "Property research in Manhattan was done by hand across different portals, comparing listings, features and prices. The goal was to bring this information together into an organized view that made the data easier to explore and flagged relevant situations, such as new high-scoring listings, price differences and changes in availability."
+        es: "La búsqueda de inmuebles en Manhattan se hacía manualmente en distintos portales, comparando anuncios, características y precios. El objetivo era reunir esa información en una visión organizada, que facilitara la exploración de los datos y señalara situaciones relevantes, como nuevos anuncios bien puntuados, diferencias de precio y cambios en la disponibilidad de los inmuebles."
+    - heading: { pt: "Minha contribuição e o trabalho em dupla", en: "My contribution and working in a pair", es: "Mi contribución y el trabajo en pareja" }
+      text:
+        pt: "Desenvolvi o projeto com outro estagiário, com orientação da equipe. A ingestão dos dados já existia, junto com um rascunho da camada de tratamento: reconstruímos grande parte dessa camada e desenvolvemos a preparação para análise, as regras de negócio e as saídas da solução. Trabalhávamos lado a lado, dividindo tarefas pelo conhecimento e pelo interesse de cada um e decidindo juntos. Minha responsabilidade mais individual foi o dashboard: partindo de um template existente, fiz o desenho e a construção na ferramenta interna de visualização do banco."
+        en: "I built the project with another intern, guided by the team. Data ingestion already existed, along with a draft of the processing layer: we rebuilt most of that layer and developed the analysis preparation, the business rules and the solution's outputs. We worked side by side, splitting tasks by each one's knowledge and interests and making decisions together. My most individual responsibility was the dashboard: starting from an existing template, I designed and built it in the bank's internal visualization tool."
+        es: "Desarrollé el proyecto con otro pasante, con la orientación del equipo. La ingesta de datos ya existía, junto con un borrador de la capa de tratamiento: reconstruimos gran parte de esa capa y desarrollamos la preparación para el análisis, las reglas de negocio y las salidas de la solución. Trabajábamos codo a codo, repartiendo las tareas según el conocimiento y el interés de cada uno y decidiendo juntos. Mi responsabilidad más individual fue el dashboard: a partir de un template existente, lo diseñé y lo construí en la herramienta interna de visualización del banco."
+    - heading: { pt: "Decisões que fizeram diferença", en: "Decisions that made a difference", es: "Decisiones que marcaron la diferencia" }
       items:
-        pt: ["A PREENCHER: uma contribuição concreta.", "A PREENCHER: uma decisão ou desafio e como foi resolvido."]
-        en: ["TO FILL IN: a concrete contribution.", "TO FILL IN: a decision or challenge and how it was solved."]
-        es: ["POR COMPLETAR: una contribución concreta.", "POR COMPLETAR: una decisión o desafío y cómo se resolvió."]
+        pt:
+          - "Concentrar as fontes: de três portais avaliados, ficamos com Zillow e StreetEasy, porque o terceiro trazia informações menos adequadas ao recorte e prejudicava os filtros."
+          - "Ajustar o escopo: refinamos as categorias de imóveis ao interesse de quem pediu o projeto, mantendo o recorte em Manhattan."
+          - "Conciliar sem perder confiabilidade: uma fonte completava a outra quando possível, divergências seguiam uma regra de prioridade e registros sem qualidade suficiente saíam da análise."
+          - "Acompanhar mudanças: guardamos registros anteriores para identificar imóveis que saíam de uma fonte e voltavam a ser anunciados, comparando principalmente o preço."
+        en:
+          - "Focus the sources: of the three portals we evaluated, we kept Zillow and StreetEasy, because the third one carried information less suited to the scope and hurt the filters."
+          - "Adjust the scope: we narrowed the property categories to what the requester was interested in, keeping the focus on Manhattan."
+          - "Reconcile without losing reliability: one source filled in the other where possible, conflicts followed a priority rule and records without enough quality were left out of the analysis."
+          - "Track changes: we kept previous records to spot properties that left a source and were listed again, mainly comparing prices."
+        es:
+          - "Concentrar las fuentes: de los tres portales evaluados, nos quedamos con Zillow y StreetEasy, porque el tercero tenía información menos adecuada al alcance y perjudicaba los filtros."
+          - "Ajustar el alcance: refinamos las categorías de inmuebles según el interés de quien solicitó el proyecto, manteniendo el foco en Manhattan."
+          - "Conciliar sin perder confiabilidad: una fuente completaba a la otra cuando era posible, las divergencias seguían una regla de prioridad y los registros sin calidad suficiente quedaban fuera del análisis."
+          - "Seguir los cambios: guardamos registros anteriores para identificar inmuebles que salían de una fuente y volvían a anunciarse, comparando principalmente el precio."
+    - heading: { pt: "Resultado", en: "Outcome", es: "Resultado" }
+      text:
+        pt: "Apresentamos o projeto em inglês a quem o pediu, usando o dashboard para demonstrar o funcionamento e os resultados. Recebemos elogios na apresentação, e o retorno positivo também chegou aos nossos gestores. A entrega centralizou informações antes consultadas em fontes diferentes e facilitou a comparação. Não acompanhei a evolução do projeto depois do estágio."
+        en: "We presented the project in English to its requester, using the dashboard to show how it worked and what it found. The presentation was praised, and the positive feedback also reached our managers. The delivery brought together information previously looked up in different sources and made comparisons easier. I did not follow the project after the internship ended."
+        es: "Presentamos el proyecto en inglés a quien lo solicitó, usando el dashboard para mostrar su funcionamiento y sus resultados. Recibimos elogios en la presentación, y la valoración positiva también llegó a nuestros gestores. La entrega centralizó información que antes se consultaba en fuentes distintas y facilitó la comparación. No seguí la evolución del proyecto después de la pasantía."
     - heading: { pt: "O que aprendi", en: "What I learned", es: "Lo que aprendí" }
       text:
-        pt: "A PREENCHER: resultado e aprendizados."
-        en: "TO FILL IN: outcome and learnings."
-        es: "POR COMPLETAR: resultado y aprendizajes."
+        pt: "Reforcei Python e SQL e tive contato prático com Spark e Databricks, arquitetura Medallion, recursos de AWS e um fluxo de notificações com mensageria. Aprendi que mais dados nem sempre melhoram a análise: foi preciso escolher fontes, ajustar o escopo e tratar divergências para chegar a uma visão coerente. O trabalho em dupla e a apresentação em inglês reforçaram minha capacidade de discutir decisões e de explicar uma solução técnica pela sua utilidade para o negócio."
+        en: "I strengthened my Python and SQL and got hands-on experience with Spark and Databricks, the Medallion architecture, AWS resources and a messaging-based notification flow. I learned that more data does not always mean better analysis: we had to choose sources, adjust the scope and handle conflicts to reach a coherent view. Working in a pair and presenting in English strengthened my ability to discuss decisions and to explain a technical solution through its value to the business."
+        es: "Reforcé Python y SQL y tuve contacto práctico con Spark y Databricks, la arquitectura Medallion, recursos de AWS y un flujo de notificaciones con mensajería. Aprendí que más datos no siempre mejoran el análisis: fue necesario elegir fuentes, ajustar el alcance y tratar divergencias para llegar a una visión coherente. El trabajo en pareja y la presentación en inglés reforzaron mi capacidad de discutir decisiones y de explicar una solución técnica por su utilidad para el negocio."
