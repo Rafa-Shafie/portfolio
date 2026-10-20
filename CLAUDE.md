@@ -1,7 +1,7 @@
 # Portfólio v1 — Rafael El Shafie
 
 > Origem: briefing de handoff de 18/10/2026, baseado na auditoria `docs/AUDITORIA-PORTFOLIO.md` do site antigo e no currículo de out/2026.
-> **Atualizado em 20/10/2026**, com o estado real do projeto: Fases 0–2, redesign e conteúdo aprofundado concluídos.
+> **Atualizado em 20/10/2026**, com o estado real do projeto: Fases 0–3, redesign, conteúdo aprofundado e testes no repositório concluídos.
 
 ## 1. Nome e pitch
 
@@ -28,7 +28,7 @@
 | Framework | **Astro 7**, saída estática | Site de conteúdo: zero JS por padrão, HTML estático por idioma, content collections e i18n nativos. |
 | Linguagem | TypeScript | Conteúdo e dicionários tipados: o build quebra se faltar campo ou tradução. |
 | Estilo | CSS puro com tokens (`src/styles/tokens.css`), `<style>` escopado por componente | O tema vira troca de tokens. Sem framework CSS. |
-| Interatividade | Scripts pequenos em TS (menu, idioma, abas, filtros, modais, copiar e-mail) | Nada justifica React no v1. |
+| Interatividade | Scripts pequenos em TS (menu, idioma, tema, abas, filtros, modais, copiar e-mail) | Nada justifica React no v1. |
 | Fontes | Poppins self-hosted (fonts API do Astro, só latin); marca em Itim convertida em SVG | A marca (RS + RafaShafie) é gerada por `npm run brand` com opentype.js: centralização exata, sem fonte extra. |
 | Ícones | `bootstrap-icons` (SVG importado como componente); logos oficiais em SVG monocromático | Sem CDN; ícone decorativo leva `aria-hidden`. |
 | Imagens | `astro:assets` (`<Picture>`); OG gerado no build com satori + sharp | Formatos modernos no tamanho certo; uma imagem Open Graph por idioma. |
@@ -52,7 +52,7 @@ src/
 │   ├── cv.ts                tamanho do PDF lido no build ("PDF · 93 kB")
 │   └── drafts.ts            regra dos rascunhos (draft: true)
 ├── i18n/                    pt.ts (tipo Dictionary), en.ts, es.ts, utils.ts (localize, rotas, datas)
-├── components/              Header, LanguageSwitcher, Section, ExperienceCard, DetailDialog,
+├── components/              Header, LanguageSwitcher, ThemeToggle, Section, ExperienceCard, DetailDialog,
 │   │                        ProjectArt, CvLink, EducationItem, Footer, HomePage
 │   └── sections/            Hero, Trajectory, About, Experience, Projects, Skills, Education, Contact
 ├── layouts/BaseLayout.astro <head>, SEO, canonical, hreflang, OG por idioma
@@ -90,21 +90,21 @@ docs/                        auditoria do site antigo, baseline do Lighthouse, c
   - conteúdo alinhado ao CV de out/2026;
   - guarda automática do CV.
 - **Testes no repositório:** as verificações Playwright que viviam fora do Git viraram a suíte `tests/e2e/`, que roda no CI depois do build. Contagens e textos vêm dos YAML e dicionários, então adicionar conteúdo não quebra os testes.
+- **Fase 3 — Tema claro e alternador:**
+  - cores em `light-dark()` nos tokens; sem JS, o site segue o sistema;
+  - script inline no `<head>` aplica a escolha salva antes da primeira pintura (sem flash);
+  - botão sol/lua no header, ao lado do idioma, com a escolha salva em `localStorage`;
+  - a suíte roda nos dois temas (projetos `dark` e `light`), com o axe conferindo contraste AA nos 3 idiomas, nos modais e no seletor.
 
 ### Próximos passos (em ordem)
 
-1. **Fase 3 — Tema claro e alternador:**
-   - paleta clara em tokens;
-   - alternador que começa pela preferência do sistema e salva a escolha;
-   - script inline no `<head>` que aplica o tema antes de a página aparecer;
-   - contraste AA conferido em tudo (ilustrações, contato, logos, modais).
-2. **Fase 4 — Qualidade e acabamento:**
-   - axe e Lighthouse no CI, com nota mínima;
+1. **Fase 4 — Qualidade e acabamento:**
+   - axe completo (hoje só a regra de contraste) e Lighthouse no CI, com nota mínima;
    - seção ativa no menu;
    - animações discretas com `prefers-reduced-motion`;
    - README final com decisões e o antes e depois do Lighthouse.
-3. **Revisões do Rafael:** o espanhol do site, antes de divulgar `/es/`; e a foto profissional, quando houver.
-4. **Lançamento (por último):** comprar o domínio, apontar na Vercel e atualizar `site` em `astro.config.mjs` (hoje `portfolio-chi-pink-45.vercel.app`). Só depois disso o link vai para o CV e o LinkedIn.
+2. **Revisões do Rafael:** o espanhol do site, antes de divulgar `/es/`; e a foto profissional, quando houver.
+3. **Lançamento (por último):** comprar o domínio, apontar na Vercel e atualizar `site` em `astro.config.mjs` (hoje `portfolio-chi-pink-45.vercel.app`). Só depois disso o link vai para o CV e o LinkedIn.
 
 ### Fora do v1 (fica para o v2)
 
@@ -127,8 +127,9 @@ docs/                        auditoria do site antigo, baseline do Lighthouse, c
 8. **Um botão por cartão, com a área de clique esticada.** Envolver o cartão inteiro num botão faria o leitor de tela anunciar o cartão todo como nome do botão.
 9. **Rascunhos só em preview.** Dá para revisar conteúdo incompleto num link real sem risco de ele chegar à produção.
 10. **A guarda do CV roda no `prebuild`, não só no CI.** A Vercel publica direto do push, sem esperar o CI. Rodando dentro do build, a guarda barra o deploy de verdade.
+11. **Tema com `light-dark()` e `color-scheme`.** Cada cor é declarada uma vez. Sem escolha salva, quem decide é o sistema, mesmo sem JavaScript; o script do `<head>` só fixa o `data-theme`, e por ser síncrono não há flash. Navegador sem `light-dark()` fica no escuro.
 
-### Tokens de partida (contraste AA conferido; ajustar na Fase 3)
+### Tokens de cor (em `src/styles/tokens.css`; contraste AA conferido pelo axe nos dois temas)
 
 | Token | Escuro | Claro |
 |---|---|---|
@@ -136,6 +137,9 @@ docs/                        auditoria do site antigo, baseline do Lighthouse, c
 | Texto | `#E6EDF3` | `#0F172A` |
 | Texto secundário | `#9AA7B4` | `#475569` |
 | Destaque | `#12EFFF` | `#0E7490` |
+| Texto sobre destaque | `#0B1117` | `#FFFFFF` |
+
+Texto pequeno com `opacity` sobre o destaque não passa de 0,9: abaixo disso, o claro cai de 4,5:1.
 
 ## 8. Requisitos não funcionais
 
