@@ -41,7 +41,7 @@ export const pt = {
 		ctaCv: 'Ver currículo',
 		photoAlt: 'Foto de Rafael El Shafie',
 		location: 'Rio de Janeiro, Brasil',
-		// Vazios de propósito: em português, a moldura da foto mostra só a legenda
+		// Vazios de propósito: nos três idiomas, a moldura da foto mostra só a legenda
 		portraitLabel: '',
 		portraitCaption: 'Curioso por sistemas.\nPensando em quem usa.',
 		portraitTag: '',

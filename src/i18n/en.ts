@@ -28,7 +28,7 @@ export const en: Dictionary = {
 		contact: 'Contact',
 	},
 	hero: {
-		status: 'Open to internship opportunities',
+		status: 'Open to internships and projects',
 		headline: 'Software Engineering · Generative AI · Backend',
 		intro:
 			'Software Engineering student. I build backend systems and generative AI applications, from requirements gathering to production.',
@@ -38,12 +38,12 @@ export const en: Dictionary = {
 		ctaCv: 'View CV',
 		photoAlt: 'Photo of Rafael El Shafie',
 		location: 'Rio de Janeiro, Brazil',
-		portraitLabel: 'People before code',
-		portraitCaption: 'Curious by nature.\nAlways growing as a developer.',
-		portraitTag: 'Always learning',
+		portraitLabel: '',
+		portraitCaption: 'Curious about systems.\nThinking of the people who use them.',
+		portraitTag: '',
 	},
 	trajectory: {
-		label: 'Experience and education that shaped my journey',
+		label: 'Experience and education',
 		captions: {
 			btg: 'Technology & AI',
 			fluxo: 'UFRJ Junior Enterprise',
@@ -56,15 +56,25 @@ export const en: Dictionary = {
 		heading: 'Studying engineering.\nBuilding real experience.',
 		bioTitle: 'Who I am',
 		paragraphs: [
-			"I study Software Engineering at Estácio and I'm specializing in backend and generative AI.",
-			'At BTG Pactual, I built from scratch an AI assistant with RAG and Text-to-SQL that went into production and is now used by the team. Before that, I integrated data from different systems and created business rules to support real estate investment decisions.',
-			"I'm looking for an internship in backend development or AI.",
+			"I'm a Software Engineering student at Estácio, focused on backend development and applied AI.",
+			"My first experience developing software as part of a team was at Fluxo Consultoria, UFRJ's junior enterprise. There, I also took part in a requirements gathering and data modeling project.",
+			'During my first internship at BTG Pactual, I worked on Manhattan Real Estate, handling data processing and building a dashboard for real estate analysis. In the second, I built Atlas from scratch: an AI assistant for banking onboarding that went into production and is now used by the team.',
+			"I'm looking for an internship in backend development or AI, and I'm open to freelance projects.",
 		],
 		contributionsTitle: 'What I bring to a team',
 		contributions: [
-			{ title: 'Build with context', text: 'Understand the business need before turning requirements into code.' },
-			{ title: 'Connect technology and people', text: 'Organize information, document decisions and collaborate with the people using the solution.' },
-			{ title: 'Learn and put it into practice', text: 'Explore tools, test ideas and improve through feedback.' },
+			{
+				title: 'Understand before implementing',
+				text: "At Fluxo, I took part in interviews and site visits to turn users' routines into requirements and data models.",
+			},
+			{
+				title: 'Share knowledge',
+				text: 'I document decisions and organize information to make collaboration and continuity easier. I also have experience mentoring colleagues and trainees.',
+			},
+			{
+				title: 'Experiment with judgment',
+				text: 'On the AI assistant at BTG, I compared approaches and evaluated answer quality and AI usage to decide which changes to keep.',
+			},
 		],
 	},
 	experience: {
@@ -82,19 +92,19 @@ export const en: Dictionary = {
 	education: {
 		label: 'Education',
 		heading: 'Learn. Build.\nRepeat.',
-		intro: 'What I am focusing on at the moment.',
+		intro: 'My education, the courses I have completed and what I am studying now.',
 		nowTag: 'Growing',
 		now: [
 			{ title: 'Backend with Java', text: 'Java, object-oriented programming and Spring Boot in the DIO · Itaú bootcamp.' },
-			{ title: 'AI engineering', text: 'LLM applications, context retrieval and response evaluation.' },
-			{ title: 'English', text: 'Ongoing study at Kumon, currently at level M.' },
+			{ title: 'AI engineering', text: 'Agents and multi-agent systems with LangGraph, protocols such as MCP and observability for LLM applications.' },
+			{ title: 'English', text: 'Ongoing study at Kumon, focused on reading, grammar and building vocabulary.' },
 		],
 		listTitle: 'Education and courses',
 	},
 	skills: {
 		label: 'Skills',
 		heading: 'Tools for\nsolving problems.',
-		intro: 'Knowledge built through work, courses and practice. My main focus is backend and AI.',
+		intro: 'Hands-on experience in backend, AI and data, with complementary knowledge of interfaces, testing and infrastructure.',
 		learning: 'learning',
 		groups: {
 			backend: 'Backend',
@@ -107,7 +117,7 @@ export const en: Dictionary = {
 		context: {
 			backend: {
 				title: 'From requirement to API.',
-				text: 'APIs and business rules in Python and FastAPI for the AI assistant at BTG, and in Node.js, TypeScript and NestJS for the training backend at Fluxo, where I also took part in requirements gathering and data modeling for a client. Now going deeper into Java and Spring Boot.',
+				text: "I developed APIs and business rules with Python and FastAPI at BTG Pactual and contributed to a NestJS backend in the Fluxo training program. Now I'm going deeper into Java and Spring Boot.",
 			},
 			ai: {
 				title: 'AI tied to a real problem.',
@@ -115,19 +125,19 @@ export const en: Dictionary = {
 			},
 			data: {
 				title: 'Data that supports decisions.',
-				text: "Integrating and matching datasets with Spark and Databricks in BTG's real estate analysis, and PostgreSQL and MySQL as the source for the assistant's natural-language queries.",
+				text: 'In the BTG real estate project, I worked on data processing and reconciliation with Spark and Databricks. In the AI assistant, I integrated queries to PostgreSQL and MySQL.',
 			},
 			frontend: {
 				title: 'Interfaces for the people using them.',
-				text: "React and TypeScript frontend for BTG's AI assistant: chat, history, feedback and admin dashboards.",
+				text: "React and TypeScript frontend for BTG's AI assistant: chat, history, feedback and admin dashboards. I also built this portfolio in Astro, with three languages, light and dark themes and accessibility tested on every change.",
 			},
 			infra: {
 				title: 'From code to production.',
-				text: "Delivery with Docker, Kubernetes and Azure DevOps and Datadog observability for BTG's assistant; AWS services in the real estate project and the PUC-Rio course.",
+				text: "I prepared the AI assistant's delivery with Docker, Kubernetes and Azure DevOps, including monitoring in Datadog. I used AWS services in the real estate project and in the PUC-Rio hands-on activities.",
 			},
 			quality: {
 				title: 'Confidence to change.',
-				text: "Automated tests and AI response evaluations to catch failures after changes in BTG's assistant.",
+				text: 'I wrote automated backend, interface and integration tests. For the AI assistant, I used reference questions to evaluate answers and track the effect of changes.',
 			},
 		},
 		sets: {
@@ -207,7 +217,7 @@ export const en: Dictionary = {
 		githubHint: 'My repositories',
 		copyEmail: 'Copy email',
 		copied: 'Email copied.',
-		copyFailed: "Couldn't copy. Please use the address above.",
+		copyFailed: "Couldn't copy the email. Please try again.",
 	},
 	period: {
 		present: 'present',

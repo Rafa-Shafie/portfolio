@@ -28,7 +28,7 @@ export const es: Dictionary = {
 		contact: 'Contacto',
 	},
 	hero: {
-		status: 'Abierto a oportunidades de pasantía',
+		status: 'Abierto a pasantías y proyectos',
 		headline: 'Ingeniería de Software · IA Generativa · Backend',
 		intro:
 			'Estudiante de Ingeniería de Software. Desarrollo sistemas backend y aplicaciones con IA generativa, desde el levantamiento de requisitos hasta producción.',
@@ -38,12 +38,12 @@ export const es: Dictionary = {
 		ctaCv: 'Ver CV',
 		photoAlt: 'Foto de Rafael El Shafie',
 		location: 'Río de Janeiro, Brasil',
-		portraitLabel: 'Las personas antes que el código',
-		portraitCaption: 'Curioso por naturaleza.\nDesarrollador en evolución.',
-		portraitTag: 'Aprendizaje continuo',
+		portraitLabel: '',
+		portraitCaption: 'Curioso por los sistemas.\nPensando en quienes los usan.',
+		portraitTag: '',
 	},
 	trajectory: {
-		label: 'Experiencia y formación que forman parte de mi historia',
+		label: 'Experiencia y formación',
 		captions: {
 			btg: 'Tecnología e IA',
 			fluxo: 'Empresa Júnior · UFRJ',
@@ -56,15 +56,25 @@ export const es: Dictionary = {
 		heading: 'Ingeniería en formación.\nExperiencia en la práctica.',
 		bioTitle: 'Quién soy',
 		paragraphs: [
-			'Estudio Ingeniería de Software en Estácio y me estoy especializando en backend e IA generativa.',
-			'En BTG Pactual, desarrollé desde cero un asistente de IA con RAG y Text-to-SQL que llegó a producción y empezó a ser utilizado por el equipo. Antes, integré datos de distintos sistemas y creé reglas de negocio para apoyar decisiones de inversión inmobiliaria.',
-			'Busco una pasantía en desarrollo backend o IA.',
+			'Soy estudiante de Ingeniería de Software en Estácio, con foco en desarrollo backend e IA aplicada.',
+			'Mi primera experiencia desarrollando software en equipo fue en Fluxo Consultoria, la empresa júnior de la UFRJ. Allí también participé en un proyecto de levantamiento de requisitos y modelado de datos.',
+			'En mi primera pasantía en BTG Pactual, participé en Manhattan Real Estate, trabajando en el tratamiento de datos y en la construcción de un dashboard para el análisis de inmuebles. En la segunda, desarrollé desde cero Atlas, un asistente de IA para el onboarding bancario que llegó a producción y empezó a ser utilizado por el equipo.',
+			'Busco una pasantía en desarrollo backend o IA y estoy abierto a proyectos freelance.',
 		],
 		contributionsTitle: 'Lo que aporto a un equipo',
 		contributions: [
-			{ title: 'Construir con contexto', text: 'Entender la necesidad del negocio antes de convertir requisitos en código.' },
-			{ title: 'Conectar tecnología y personas', text: 'Organizar información, documentar decisiones y colaborar con quienes utilizan la solución.' },
-			{ title: 'Aprender y ponerlo en práctica', text: 'Explorar herramientas, probar ideas y evolucionar a partir del feedback.' },
+			{
+				title: 'Entender antes de implementar',
+				text: 'En Fluxo, participé en entrevistas y visitas técnicas para convertir la rutina de los usuarios en requisitos y modelos de datos.',
+			},
+			{
+				title: 'Compartir conocimiento',
+				text: 'Documento decisiones y organizo información para facilitar la colaboración y la continuidad del trabajo. También tengo experiencia orientando a compañeros y trainees.',
+			},
+			{
+				title: 'Experimentar con criterio',
+				text: 'En el asistente de IA de BTG, comparé enfoques y evalué la calidad de las respuestas y el consumo de IA para decidir qué cambios mantener.',
+			},
 		],
 	},
 	experience: {
@@ -82,19 +92,19 @@ export const es: Dictionary = {
 	education: {
 		label: 'Formación',
 		heading: 'Aprender. Construir.\nRepetir.',
-		intro: 'En qué estoy centrando mi atención ahora.',
+		intro: 'Mi formación, los cursos que completé y lo que estoy estudiando ahora.',
 		nowTag: 'En evolución',
 		now: [
 			{ title: 'Backend con Java', text: 'Java, programación orientada a objetos y Spring Boot en el bootcamp DIO · Itaú.' },
-			{ title: 'Ingeniería de IA', text: 'Aplicaciones con LLMs, recuperación de contexto y evaluación de respuestas.' },
-			{ title: 'Inglés', text: 'Estudio continuo en Kumon, actualmente en el nivel M.' },
+			{ title: 'Ingeniería de IA', text: 'Agentes y sistemas multiagente con LangGraph, protocolos como MCP y observabilidad de aplicaciones con LLMs.' },
+			{ title: 'Inglés', text: 'Estudio continuo en Kumon, con foco en lectura, gramática y ampliación de vocabulario.' },
 		],
 		listTitle: 'Formación y cursos',
 	},
 	skills: {
 		label: 'Habilidades',
 		heading: 'Herramientas para\nresolver problemas.',
-		intro: 'Conocimientos construidos entre experiencias, cursos y práctica. Mi foco de profundización es backend e IA.',
+		intro: 'Experiencia práctica en backend, IA y datos, con conocimientos complementarios en interfaces, pruebas e infraestructura.',
 		learning: 'en formación',
 		groups: {
 			backend: 'Backend',
@@ -107,7 +117,7 @@ export const es: Dictionary = {
 		context: {
 			backend: {
 				title: 'Del requisito a la API.',
-				text: 'APIs y reglas de negocio en Python y FastAPI en el asistente de IA de BTG, y en Node.js, TypeScript y NestJS en el backend de la capacitación en Fluxo, donde también participé en el levantamiento de requisitos y el modelado de datos para un cliente. Ahora profundizando en Java y Spring Boot.',
+				text: 'Desarrollé APIs y reglas de negocio con Python y FastAPI en BTG Pactual y contribuí a un backend en NestJS en la capacitación de Fluxo. Hoy profundizo mis conocimientos en Java y Spring Boot.',
 			},
 			ai: {
 				title: 'IA conectada a un problema real.',
@@ -115,19 +125,19 @@ export const es: Dictionary = {
 			},
 			data: {
 				title: 'Datos que ayudan a decidir.',
-				text: 'Integración y cruce de bases con Spark y Databricks en el análisis inmobiliario de BTG, y PostgreSQL y MySQL como fuente de las consultas en lenguaje natural del asistente.',
+				text: 'En el proyecto inmobiliario de BTG, trabajé en el tratamiento y la conciliación de datos con Spark y Databricks. En el asistente de IA, integré consultas a PostgreSQL y MySQL.',
 			},
 			frontend: {
 				title: 'Interfaces para quienes las usan.',
-				text: 'Frontend en React y TypeScript del asistente de IA de BTG: chat, historial, feedback y paneles administrativos.',
+				text: 'Frontend en React y TypeScript del asistente de IA de BTG: chat, historial, feedback y paneles administrativos. También construí este portafolio en Astro, con tres idiomas, tema claro y oscuro y accesibilidad probada en cada cambio.',
 			},
 			infra: {
 				title: 'Del código a producción.',
-				text: 'Despliegue con Docker, Kubernetes y Azure DevOps y observabilidad en Datadog en el asistente de BTG; servicios de AWS en el proyecto inmobiliario y en el curso de la PUC-Rio.',
+				text: 'Preparé el despliegue del asistente de IA con Docker, Kubernetes y Azure DevOps, incluido el monitoreo en Datadog. Utilicé servicios de AWS en el proyecto inmobiliario y en las actividades prácticas de la PUC-Rio.',
 			},
 			quality: {
 				title: 'Confianza para cambiar.',
-				text: 'Pruebas automatizadas y evaluaciones de las respuestas de IA para detectar fallos tras los cambios en el asistente de BTG.',
+				text: 'Desarrollé pruebas automatizadas de backend, interfaz e integración. Para el asistente de IA, usé preguntas de referencia para evaluar las respuestas y seguir el efecto de los cambios.',
 			},
 		},
 		sets: {
@@ -207,7 +217,7 @@ export const es: Dictionary = {
 		githubHint: 'Mis repositorios',
 		copyEmail: 'Copiar correo',
 		copied: 'Correo copiado.',
-		copyFailed: 'No se pudo copiar. Usa la dirección de arriba.',
+		copyFailed: 'No se pudo copiar el correo. Inténtalo de nuevo.',
 	},
 	period: {
 		present: 'actualidad',
