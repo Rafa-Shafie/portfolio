@@ -6,6 +6,7 @@ dist/
 # testes de ponta a ponta (Playwright)
 test-results/
 playwright-report/
+lighthouse-report/
 
 # ambiente e deploy
 .env
