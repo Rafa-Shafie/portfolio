@@ -61,8 +61,5 @@ export const css = (locator: Locator, property: string) =>
 /** Texto literal dentro de uma RegExp. */
 export const escape = (text: string) => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-/**
- * Nome acessível "Rótulo: complemento". O complemento vem num span só para leitores de tela, e a
- * quebra de linha antes dele no HTML vira um espaço antes dos dois-pontos.
- */
-export const labelled = (label: string, rest: string) => new RegExp(`^${escape(label)} ?: ${escape(rest)}$`);
+/** Nome acessível "Rótulo: complemento" (o complemento vem num span só para leitores de tela). */
+export const labelled = (label: string, rest: string) => `${label}: ${rest}`;
