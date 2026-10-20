@@ -1,7 +1,7 @@
 # Portfólio v1 — Rafael El Shafie
 
 > Origem: briefing de handoff de 18/10/2026, baseado na auditoria `docs/AUDITORIA-PORTFOLIO.md` do site antigo e no currículo de out/2026.
-> **Atualizado em 20/10/2026**, com o estado real do projeto: Fases 0–3, redesign, conteúdo aprofundado e testes no repositório concluídos.
+> **Atualizado em 20/10/2026**, com o estado real do projeto: Fases 0–4, redesign, conteúdo aprofundado e testes no repositório concluídos. Falta só o que depende do Rafael e o lançamento.
 
 ## 1. Nome e pitch
 
@@ -96,15 +96,18 @@ docs/                        auditoria do site antigo, baseline do Lighthouse, c
   - botão sol/lua no header, ao lado do idioma, com a escolha salva em `localStorage`;
   - a suíte roda nos dois temas (projetos `dark` e `light`), com o axe conferindo contraste AA nos 3 idiomas, nos modais e no seletor.
 
+- **Fase 4 — Qualidade e acabamento:**
+  - axe com todas as regras WCAG 2.2 A/AA (`tests/e2e/a11y.spec.ts`), nos dois temas, nos modais e no menu mobile;
+  - Lighthouse no CI (`npm run lighthouse`): 3 rotas, mobile e desktop, mínimo de 90 em Performance e 100 no resto;
+  - seção ativa no menu (`aria-current`, com traço além da cor);
+  - entrada discreta das seções ao rolar, só com JS e sem reduced motion; o hero não anima (LCP);
+  - README na raiz, com prints gerados por `npm run screenshots` e o antes e depois do Lighthouse (`docs/lighthouse/v1-*.html`).
+
 ### Próximos passos (em ordem)
 
-1. **Fase 4 — Qualidade e acabamento:**
-   - axe completo (hoje só a regra de contraste) e Lighthouse no CI, com nota mínima;
-   - seção ativa no menu;
-   - animações discretas com `prefers-reduced-motion`;
-   - README final com decisões e o antes e depois do Lighthouse.
-2. **Revisões do Rafael:** o espanhol do site, antes de divulgar `/es/`; e a foto profissional, quando houver.
-3. **Lançamento (por último):** comprar o domínio, apontar na Vercel e atualizar `site` em `astro.config.mjs` (hoje `portfolio-chi-pink-45.vercel.app`). Só depois disso o link vai para o CV e o LinkedIn.
+1. **Revisões do Rafael:** o espanhol do site, antes de divulgar `/es/`; e a foto profissional, quando houver.
+   Com a foto nova: `npm run build && npm run screenshots` para atualizar os prints do README.
+2. **Lançamento (por último):** comprar o domínio, apontar na Vercel e atualizar `site` em `astro.config.mjs` (hoje `portfolio-chi-pink-45.vercel.app`). Só depois disso o link vai para o CV, o LinkedIn e o README.
 
 ### Fora do v1 (fica para o v2)
 
@@ -143,7 +146,7 @@ Texto pequeno com `opacity` sobre o destaque não passa de 0,9: abaixo disso, o 
 
 ## 8. Requisitos não funcionais
 
-- **Performance:** Lighthouse ≥ 90 nas quatro categorias. Estado atual: **100** em Performance, Acessibilidade, Boas práticas e SEO.
+- **Performance:** Lighthouse ≥ 90 nas quatro categorias, conferido no CI. Estado atual: **100** em Performance, Acessibilidade, Boas práticas e SEO, nas 3 rotas, em mobile e desktop.
 - **Acessibilidade:** WCAG 2.2 AA: contraste, teclado, foco visível, `alt` real, um `h1` por página, `lang` correto e nenhuma rolagem horizontal de 320px até 200% de zoom.
 - **SEO:** title e description por idioma, Open Graph, `hreflang`, sitemap e canonical.
 - **Privacidade:**
@@ -229,7 +232,9 @@ Texto pequeno com `opacity` sobre o destaque não passa de 0,9: abaixo disso, o 
   - `npm run check`: `astro check`;
   - `npm run test:e2e`: build + testes Playwright (`npm run test:e2e:ui` abre o modo visual). Na primeira vez, `npx playwright install chromium`;
   - `npm run check:cv`: só a guarda do CV;
-  - `npm run brand`: regenera a marca.
+  - `npm run brand`: regenera a marca;
+  - `npm run lighthouse`: Lighthouse com nota mínima sobre o `dist/` (`-- --save v1` grava os relatórios em `docs/lighthouse/`);
+  - `npm run screenshots`: regera os prints do README a partir do `dist/`.
 - **Trocar o currículo:** ver [docs/curriculo.md](docs/curriculo.md). Os nomes dos arquivos são fixos, e os IDs do Canva e o idioma do PDF devem ser conferidos.
 
 ## 12. Definição de Pronto
