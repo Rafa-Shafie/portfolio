@@ -39,33 +39,30 @@ stack:
 # Detalhes do "Explorar a experiência" (modal). TEMPLATE A PREENCHER.
 # - Pode ir além do CV, mas sem nomes de sistemas internos, dados de clientes ou números não
 #   divulgados. Na dúvida, descreva em termos gerais ("um sistema interno de cadastro").
-# - Escreva em pt; a tradução para en e es pode ser feita depois, no mesmo commit.
+# - intro: um parágrafo de abertura. sections: quantas seções quiser, cada uma com heading e
+#   text (parágrafo) e/ou items (lista). Os títulos abaixo são só sugestões.
 # - Enquanto draft for true, isto só aparece no `npm run dev` e no preview da Vercel.
 #   Quando o texto estiver pronto nos 3 idiomas, apague a linha `draft: true`.
 # ---------------------------------------------------------------------------------------------
 details:
   draft: true
-  # Qual era o problema ou a necessidade, quem sofria com ele e por que importava (2 a 4 frases).
-  context:
-    pt: "A PREENCHER: contexto e problema, em termos gerais."
-    en: "TO FILL IN: context and problem, in general terms."
-    es: "POR COMPLETAR: contexto y problema, en términos generales."
-  # O que você fez de fato: decisões, desafios, como resolveu (3 a 6 itens).
-  contributions:
-    pt:
-      - "A PREENCHER: uma contribuição concreta."
-      - "A PREENCHER: uma decisão ou desafio e como foi resolvido."
-      - "A PREENCHER: outra contribuição."
-    en:
-      - "TO FILL IN: a concrete contribution."
-      - "TO FILL IN: a decision or challenge and how it was solved."
-      - "TO FILL IN: another contribution."
-    es:
-      - "POR COMPLETAR: una contribución concreta."
-      - "POR COMPLETAR: una decisión o desafío y cómo se resolvió."
-      - "POR COMPLETAR: otra contribución."
-  # O que foi entregue e o que você aprendeu (2 a 3 frases).
-  outcome:
-    pt: "A PREENCHER: resultado e aprendizados."
-    en: "TO FILL IN: outcome and learnings."
-    es: "POR COMPLETAR: resultado y aprendizajes."
+  intro:
+    pt: "A PREENCHER: resumo da experiência em 2 ou 3 frases."
+    en: "TO FILL IN: two or three sentences summarizing the experience."
+    es: "POR COMPLETAR: resumen de la experiencia en 2 o 3 frases."
+  sections:
+    - heading: { pt: "O problema", en: "The problem", es: "El problema" }
+      text:
+        pt: "A PREENCHER: contexto e problema, em termos gerais."
+        en: "TO FILL IN: context and problem, in general terms."
+        es: "POR COMPLETAR: contexto y problema, en términos generales."
+    - heading: { pt: "O que fiz", en: "What I did", es: "Lo que hice" }
+      items:
+        pt: ["A PREENCHER: uma contribuição concreta.", "A PREENCHER: uma decisão ou desafio e como foi resolvido."]
+        en: ["TO FILL IN: a concrete contribution.", "TO FILL IN: a decision or challenge and how it was solved."]
+        es: ["POR COMPLETAR: una contribución concreta.", "POR COMPLETAR: una decisión o desafío y cómo se resolvió."]
+    - heading: { pt: "O que aprendi", en: "What I learned", es: "Lo que aprendí" }
+      text:
+        pt: "A PREENCHER: resultado e aprendizados."
+        en: "TO FILL IN: outcome and learnings."
+        es: "POR COMPLETAR: resultado y aprendizajes."

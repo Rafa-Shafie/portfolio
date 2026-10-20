@@ -35,7 +35,8 @@ const bars = [40, 70, 55, 95, 80, 120, 105];
 			<path d="M20 0H0V20" class="grid" />
 		</pattern>
 	</defs>
-	<rect width="320" height="180" fill={`url(#${gridId})`} />
+	<!-- A grade passa da área do desenho: preenche o espaço extra quando o cartão é mais alto -->
+	<rect x="-1000" y="-1000" width="2320" height="2180" fill={`url(#${gridId})`} />
 
 	{
 		category === 'ai' && (
@@ -79,6 +80,7 @@ const bars = [40, 70, 55, 95, 80, 120, 105];
 		display: block;
 		width: 100%;
 		height: auto;
+		overflow: hidden;
 		background-color: var(--color-bg);
 	}
 

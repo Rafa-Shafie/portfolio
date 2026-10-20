@@ -70,9 +70,6 @@ export const en: Dictionary = {
 		stack: 'Stack',
 		explore: 'Explore this experience',
 		details: {
-			context: 'The context',
-			contribution: 'My contribution',
-			outcome: 'Delivery and learning',
 			tech: 'Technologies',
 			note: 'An account of my professional contribution. Internal code and materials are not available in this portfolio.',
 		},
@@ -151,7 +148,7 @@ export const en: Dictionary = {
 	projects: {
 		label: 'Projects',
 		heading: 'Ideas, context\nand code.',
-		intro: 'Personal projects in progress, where I put what I am studying in backend, AI and data into practice.',
+		intro: 'From what I have shipped to production to what I am building now: professional and personal projects in backend, AI and data.',
 		filterLabel: 'Filter projects by area',
 		categories: {
 			all: 'All',
@@ -159,16 +156,19 @@ export const en: Dictionary = {
 			backend: 'Backend',
 			data: 'Data',
 		},
+		kinds: {
+			personal: 'Personal project',
+			professional: 'Professional experience',
+		},
 		status: {
 			progress: 'In progress',
+			production: 'In production',
 			released: 'Released',
 		},
 		readMore: 'See details',
 		count: 'projects shown',
 		details: {
-			context: 'Why I am building it',
-			building: 'What I am building',
-			next: 'Next steps',
+			techDetails: 'Technologies in detail',
 			tech: 'Technologies',
 		},
 		repo: 'Code',

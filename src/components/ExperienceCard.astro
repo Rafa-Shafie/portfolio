@@ -65,11 +65,12 @@ const hasDetails = details && isPublished(details);
 			eyebrow={company}
 			title={localize(role, locale)}
 			meta={period}
-			sections={[
-				{ heading: t.experience.details.context, text: localize(details.context, locale) },
-				{ heading: t.experience.details.contribution, items: localize(details.contributions, locale) },
-				{ heading: t.experience.details.outcome, text: localize(details.outcome, locale) },
-			]}
+			intro={details.intro && localize(details.intro, locale)}
+			sections={details.sections.map((section) => ({
+				heading: localize(section.heading, locale),
+				text: section.text && localize(section.text, locale),
+				items: section.items && localize(section.items, locale),
+			}))}
 			tagsHeading={t.experience.details.tech}
 			tags={stack}
 			note={t.experience.details.note}

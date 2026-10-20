@@ -19,9 +19,14 @@ interface Props {
 	eyebrow?: string;
 	/** Linha abaixo do título (cargo, período…). */
 	meta?: string;
+	/** Parágrafo de abertura, antes das seções. */
+	intro?: string;
 	sections: Section[];
 	tagsHeading?: string;
 	tags?: string[];
+	/** Tecnologias em detalhe, agrupadas por frente. */
+	groupsHeading?: string;
+	groups?: { label: string; items: string[] }[];
 	links?: { label: string; href: string; newTabLabel: string }[];
 	note?: string;
 	closeLabel: string;
@@ -29,7 +34,7 @@ interface Props {
 	draftLabel?: string;
 }
 
-const { id, title, eyebrow, meta, sections, tagsHeading, tags = [], links = [], note, closeLabel, draftLabel } = Astro.props;
+const { id, title, eyebrow, meta, intro, sections, tagsHeading, tags = [], groupsHeading, groups = [], links = [], note, closeLabel, draftLabel } = Astro.props;
 const titleId = `${id}-title`;
 ---
 
@@ -46,6 +51,8 @@ const titleId = `${id}-title`;
 				<CloseIcon aria-hidden="true" />
 			</button>
 		</header>
+
+		{intro && <p class="intro">{intro}</p>}
 
 		{
 			sections.map(({ heading, text, items }) => (
@@ -72,6 +79,22 @@ const titleId = `${id}-title`;
 							<li>{tag}</li>
 						))}
 					</ul>
+				</section>
+			)
+		}
+
+		{
+			groups.length > 0 && (
+				<section class="block">
+					<h3 class="block-title">{groupsHeading}</h3>
+					<dl class="groups">
+						{groups.map(({ label, items }) => (
+							<div class="group">
+								<dt>{label}</dt>
+								<dd>{items.join(' · ')}</dd>
+							</div>
+						))}
+					</dl>
 				</section>
 			)
 		}
@@ -220,6 +243,32 @@ const titleId = `${id}-title`;
 		border-top: 1px solid var(--color-border);
 	}
 
+	.intro {
+		font-size: var(--text-lg);
+		line-height: 1.6;
+	}
+
+	.groups {
+		display: grid;
+		gap: var(--space-3);
+	}
+
+	.group {
+		display: grid;
+		gap: var(--space-1);
+		padding-bottom: var(--space-3);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.group dt {
+		font-weight: var(--weight-semibold);
+	}
+
+	.group dd {
+		color: var(--color-text-muted);
+		font-size: var(--text-base);
+	}
+
 	.block-text {
 		color: var(--color-text-muted);
 	}
@@ -265,6 +314,11 @@ const titleId = `${id}-title`;
 	@media (min-width: 40rem) {
 		.dialog-inner {
 			padding: var(--space-7);
+		}
+
+		.group {
+			grid-template-columns: minmax(0, 13rem) minmax(0, 1fr);
+			align-items: baseline;
 		}
 	}
 </style>

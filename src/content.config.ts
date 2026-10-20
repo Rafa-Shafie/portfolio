@@ -17,6 +17,27 @@ function localized<T extends z.ZodType>(schema: T) {
 	return z.object(shape);
 }
 
+/**
+ * Detalhes exibidos no modal (experiências e projetos): um resumo opcional e seções livres, cada
+ * uma com texto e/ou lista. Com draft: true, só aparece no dev e no preview.
+ */
+const detailSections = z.object({
+	draft: z.boolean().default(false),
+	intro: localized(z.string()).optional(),
+	sections: z
+		.array(
+			z.object({
+				heading: localized(z.string()),
+				text: localized(z.string()).optional(),
+				items: localized(z.array(z.string()).min(1)).optional(),
+			}),
+		)
+		.min(1),
+});
+
+/** Tecnologias em detalhe, agrupadas por frente (rótulo traduzível, itens são nomes próprios). */
+const techGroups = z.array(z.object({ label: localized(z.string()), items: z.array(z.string()).min(1) }));
+
 /** Datas do período: o fim, quando existe, não pode vir antes do início. */
 const period = {
 	start: yearMonth,
@@ -39,17 +60,9 @@ const experiences = defineCollection({
 			stack: z.array(z.string()).min(1),
 			/**
 			 * Detalhes do "Explorar a experiência" (modal). Mais profundo que o CV, mas sem nomes de
-			 * sistemas internos, dados de clientes ou números não divulgados. Com draft: true, só
-			 * aparece no dev e no preview.
+			 * sistemas internos, dados de clientes ou números não divulgados.
 			 */
-			details: z
-				.object({
-					draft: z.boolean().default(false),
-					context: localized(z.string()),
-					contributions: localized(z.array(z.string()).min(1)),
-					outcome: localized(z.string()),
-				})
-				.optional(),
+			details: detailSections.optional(),
 		})
 		.refine(endAfterStart, { message: 'end não pode ser anterior a start', path: ['end'] }),
 });
@@ -81,21 +94,16 @@ const projects = defineCollection({
 		/** Resumo do cartão, em uma ou duas frases. */
 		description: localized(z.string()),
 		category: z.enum(['ai', 'backend', 'data']),
-		status: z.enum(['progress', 'released']).default('progress'),
+		/** Projeto pessoal ou feito numa experiência profissional (mostra a organização). */
+		kind: z.enum(['personal', 'professional']).default('personal'),
+		organization: z.string().optional(),
+		status: z.enum(['progress', 'production', 'released']).default('progress'),
 		stack: z.array(z.string()).min(1),
 		repo: z.url().optional(),
 		demo: z.url().optional(),
 		order: z.number().int().default(0),
-		details: z
-			.object({
-				/** Por que estou construindo: o problema ou a motivação. */
-				context: localized(z.string()),
-				/** O que já está pronto ou sendo construído. */
-				building: localized(z.array(z.string()).min(1)),
-				/** Próximos passos. */
-				next: localized(z.string()),
-			})
-			.optional(),
+		details: detailSections.optional(),
+		techDetails: techGroups.optional(),
 	}),
 });
 

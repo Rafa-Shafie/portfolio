@@ -73,9 +73,6 @@ export const pt = {
 		stack: 'Stack',
 		explore: 'Explorar a experiência',
 		details: {
-			context: 'O contexto',
-			contribution: 'Minha contribuição',
-			outcome: 'Entrega e aprendizado',
 			tech: 'Tecnologias',
 			note: 'Relato da minha participação profissional. Código e materiais internos não estão disponíveis neste portfólio.',
 		},
@@ -154,7 +151,7 @@ export const pt = {
 	projects: {
 		label: 'Projetos',
 		heading: 'Ideias, contexto\ne código.',
-		intro: 'Projetos pessoais em andamento, onde coloco em prática o que estou estudando em backend, IA e dados.',
+		intro: 'Do que já entreguei em produção ao que estou construindo agora: projetos profissionais e pessoais em backend, IA e dados.',
 		filterLabel: 'Filtrar projetos por área',
 		categories: {
 			all: 'Todos',
@@ -162,16 +159,19 @@ export const pt = {
 			backend: 'Backend',
 			data: 'Dados',
 		},
+		kinds: {
+			personal: 'Projeto pessoal',
+			professional: 'Experiência profissional',
+		},
 		status: {
 			progress: 'Em andamento',
+			production: 'Em produção',
 			released: 'Publicado',
 		},
 		readMore: 'Ver detalhes',
 		count: 'projetos exibidos',
 		details: {
-			context: 'Por que estou construindo',
-			building: 'O que estou construindo',
-			next: 'Próximos passos',
+			techDetails: 'Tecnologias em detalhe',
 			tech: 'Tecnologias',
 		},
 		repo: 'Código',

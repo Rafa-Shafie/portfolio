@@ -22,18 +22,24 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 <Section id={id} number={number} label={t.projects.label} heading={t.projects.heading}>
 	<p slot="intro">{t.projects.intro}</p>
 
-	<!-- Filtros: só com JavaScript; sem ele, todos os projetos aparecem -->
-	<div class="filters" role="group" aria-label={t.projects.filterLabel} data-project-filters hidden>
-		<button type="button" class="filter" data-filter="all" aria-pressed="true">{t.projects.categories.all}</button>
-		{
-			categories.map((c) => (
-				<button type="button" class="filter" data-filter={c} aria-pressed="false">
-					{t.projects.categories[c]}
-				</button>
-			))
-		}
-	</div>
-	<p class="visually-hidden" role="status" data-project-count data-label={t.projects.count}></p>
+	<!-- Filtros: só com JavaScript (sem ele, todos os projetos aparecem) e só se houver 2+ áreas -->
+	{
+		categories.length > 1 && (
+			<>
+				<div class="filters" role="group" aria-label={t.projects.filterLabel} data-project-filters hidden>
+					<button type="button" class="filter" data-filter="all" aria-pressed="true">
+						{t.projects.categories.all}
+					</button>
+					{categories.map((c) => (
+						<button type="button" class="filter" data-filter={c} aria-pressed="false">
+							{t.projects.categories[c]}
+						</button>
+					))}
+				</div>
+				<p class="visually-hidden" role="status" data-project-count data-label={t.projects.count} />
+			</>
+		)
+	}
 
 	<ul class="grid">
 		{
@@ -49,6 +55,9 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 								<span class="category">{t.projects.categories[data.category]}</span>
 							</p>
 							{data.draft && <p class="draft">{t.a11y.draft}</p>}
+							<p class="kind">
+								{data.organization ? `${t.projects.kinds[data.kind]} · ${data.organization}` : t.projects.kinds[data.kind]}
+							</p>
 							<h3 class="card-title">{title}</h3>
 							<p class="description">{localize(data.description, locale)}</p>
 							<ul class="stack">
@@ -67,13 +76,16 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 						{data.details && (
 							<DetailDialog
 								id={dialogId}
-								eyebrow={`${t.projects.categories[data.category]} · ${t.projects.status[data.status]}`}
+								eyebrow={[data.organization ?? t.projects.kinds[data.kind], t.projects.status[data.status]].join(' · ')}
 								title={title}
-								sections={[
-									{ heading: t.projects.details.context, text: localize(data.details.context, locale) },
-									{ heading: t.projects.details.building, items: localize(data.details.building, locale) },
-									{ heading: t.projects.details.next, text: localize(data.details.next, locale) },
-								]}
+								intro={data.details.intro && localize(data.details.intro, locale)}
+								sections={data.details.sections.map((section) => ({
+									heading: localize(section.heading, locale),
+									text: section.text && localize(section.text, locale),
+									items: section.items && localize(section.items, locale),
+								}))}
+								groupsHeading={t.projects.details.techDetails}
+								groups={(data.techDetails ?? []).map((g) => ({ label: localize(g.label, locale), items: g.items }))}
 								tagsHeading={t.projects.details.tech}
 								tags={data.stack}
 								links={[
@@ -211,6 +223,11 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 		font-size: var(--text-label);
 	}
 
+	.kind {
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+	}
+
 	.card-title {
 		font-size: var(--text-xl);
 		font-weight: var(--weight-semibold);
@@ -234,6 +251,30 @@ const categories = (['ai', 'backend', 'data'] as const).filter((c) => entries.so
 		border: 1px solid var(--color-border);
 		border-radius: var(--radius-full);
 		font-size: var(--text-sm);
+	}
+
+	/* Projeto único: o cartão ocupa a largura toda, com a ilustração ao lado do texto */
+	@media (min-width: 60rem) {
+		.grid:has(> .card:only-child) {
+			grid-template-columns: minmax(0, 1fr);
+		}
+
+		.card:only-child {
+			grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
+			grid-template-rows: auto;
+		}
+
+		.card:only-child .card-body {
+			align-content: center;
+			padding: var(--space-7);
+			border-top: 0;
+			border-left: 1px solid var(--color-border);
+		}
+
+		.card:only-child :global(.art) {
+			height: 100%;
+			object-fit: cover;
+		}
 	}
 
 	.more {
