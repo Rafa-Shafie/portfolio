@@ -102,6 +102,39 @@ const t = useTranslations(locale);
 
 		// Ao passar para o layout de desktop, o estado do menu mobile é descartado
 		matchMedia('(min-width: 60rem)').addEventListener('change', () => setOpen(false));
+
+		// Seção ativa: a última cujo topo já passou de 35% da altura da janela. No fim da página vale
+		// a última seção, que pode ser baixa demais para chegar até essa linha.
+		const links = [...nav.querySelectorAll<HTMLAnchorElement>('a[href^="#"]')];
+		const targets = links.map((link) => document.getElementById(link.hash.slice(1)));
+		let frame = 0;
+
+		const markCurrent = () => {
+			frame = 0;
+			const line = innerHeight * 0.35;
+			const atBottom = innerHeight + scrollY >= document.documentElement.scrollHeight - 2;
+			let current = -1;
+			let best = -Infinity;
+			targets.forEach((target, i) => {
+				const top = target?.getBoundingClientRect().top ?? Infinity;
+				if (top <= line && top > best) [current, best] = [i, top];
+			});
+			if (atBottom && scrollY > 0) {
+				const tops = targets.map((target) => target?.getBoundingClientRect().top ?? -Infinity);
+				current = tops.indexOf(Math.max(...tops));
+			}
+			links.forEach((link, i) => {
+				if (i === current) link.setAttribute('aria-current', 'true');
+				else link.removeAttribute('aria-current');
+			});
+		};
+		const schedule = () => {
+			if (!frame) frame = requestAnimationFrame(markCurrent);
+		};
+
+		addEventListener('scroll', schedule, { passive: true });
+		addEventListener('resize', schedule);
+		markCurrent();
 	}
 </script>
 
@@ -234,7 +267,8 @@ const t = useTranslations(locale);
 		transition: color var(--duration-fast) ease;
 	}
 
-	.site-nav a:hover {
+	.site-nav a:hover,
+	.site-nav a[aria-current='true'] {
 		color: var(--color-accent);
 	}
 
@@ -260,6 +294,11 @@ const t = useTranslations(locale);
 		.site-nav a {
 			padding: var(--space-3) var(--space-5);
 			font-size: var(--text-lg);
+		}
+
+		/* Seção ativa: barra à esquerda, além da cor (WCAG 1.4.1) */
+		.site-nav a[aria-current='true'] {
+			box-shadow: inset 3px 0 0 currentColor;
 		}
 	}
 
@@ -291,6 +330,12 @@ const t = useTranslations(locale);
 		.site-nav a {
 			padding-block: var(--space-2);
 			font-size: var(--text-base);
+			/* Traço sob a seção ativa: a cor sozinha não pode ser a única pista (WCAG 1.4.1) */
+			border-bottom: 2px solid transparent;
+		}
+
+		.site-nav a[aria-current='true'] {
+			border-bottom-color: currentColor;
 		}
 
 		.header-actions {
