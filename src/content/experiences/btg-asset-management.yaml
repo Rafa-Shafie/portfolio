@@ -22,6 +22,10 @@ highlights:
     - Integré datos de dos sistemas, resolví inconsistencias e identifiqué los mismos inmuebles en ambas bases a partir de datos como el precio y la superficie.
     - Desarrollé reglas de negocio y un sistema de puntuación para identificar oportunidades, variaciones de precio, inmuebles en múltiples bases y cambios de estado.
     - Contribuí a un dashboard con filtros, mapas y comparaciones de precio por pie cuadrado para el análisis regional de los inmuebles.
+outcome:
+  pt: "Uma visão única dos anúncios, apresentada em inglês a quem pediu o projeto, com retorno positivo."
+  en: "A single view of the listings, presented in English to the project's requester and well received."
+  es: "Una visión única de los anuncios, presentada en inglés a quien solicitó el proyecto, con una recepción positiva."
 stack:
   - Python
   - SQL

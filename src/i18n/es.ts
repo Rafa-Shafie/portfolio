@@ -68,6 +68,7 @@ export const es: Dictionary = {
 		heading: 'Donde el aprendizaje\nse convirtió en resultados.',
 		intro: 'Dos pasantías en BTG Pactual y una base construida en la empresa júnior de la UFRJ.',
 		stack: 'Stack',
+		outcome: 'Entrega y aprendizaje',
 		explore: 'Explorar la experiencia',
 		details: {
 			tech: 'Tecnologías',

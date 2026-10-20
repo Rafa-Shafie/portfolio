@@ -71,6 +71,7 @@ export const pt = {
 		heading: 'Onde o aprendizado\nvirou entrega.',
 		intro: 'Duas passagens pelo BTG Pactual e uma base construída na empresa júnior da UFRJ.',
 		stack: 'Stack',
+		outcome: 'Entrega & aprendizado',
 		explore: 'Explorar a experiência',
 		details: {
 			tech: 'Tecnologias',

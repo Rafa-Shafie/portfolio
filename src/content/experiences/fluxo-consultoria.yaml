@@ -26,6 +26,10 @@ highlights:
     - Realicé visitas técnicas y entrevisté a empleados de una fábrica de alimentos para recopilar requisitos y mapear procesos; participé en el rediseño del modelo de datos y del flujo de un nuevo sistema para la fábrica.
     - Apoyé las tareas de cuentas por pagar y conciliación bancaria en la Dirección Administrativa y Financiera.
     - Realicé entrevistas y dinámicas de grupo en el proceso de selección y orienté a los nuevos trainees.
+outcome:
+  pt: "Um software de gestão levado do levantamento de requisitos até a entrega, em equipe."
+  en: "A management application taken from requirements gathering to delivery, as a team."
+  es: "Un software de gestión llevado desde la recopilación de requisitos hasta la entrega, en equipo."
 stack:
   - Node.js
   - TypeScript

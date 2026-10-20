@@ -1,6 +1,8 @@
 ---
 import type { CollectionEntry } from 'astro:content';
 import DetailDialog from './DetailDialog.astro';
+import OutcomeIcon from 'bootstrap-icons/icons/arrow-up-right.svg';
+import ArrowIcon from 'bootstrap-icons/icons/arrow-right.svg';
 import { isPublished } from '../data/drafts';
 import { formatPeriod, localize, useTranslations, type Locale } from '../i18n/utils';
 
@@ -17,7 +19,7 @@ interface Props {
 
 const { experience, locale, index, open = false, slug } = Astro.props;
 const t = useTranslations(locale);
-const { company, companyNote, role, start, end, summary, highlights, stack, details } = experience;
+const { company, companyNote, role, start, end, summary, highlights, stack, outcome, details } = experience;
 const period = formatPeriod(start, end, locale);
 const dialogId = `experience-${slug}`;
 const hasDetails = details && isPublished(details);
@@ -39,20 +41,32 @@ const hasDetails = details && isPublished(details);
 	</summary>
 
 	<div class="body">
-		<p class="summary">{localize(summary, locale)}</p>
-		<ul class="highlights">
-			{localize(highlights, locale).map((item) => <li>{item}</li>)}
-		</ul>
-		<h4 class="visually-hidden">{t.experience.stack}</h4>
-		<ul class="stack">
-			{stack.map((tech) => <li>{tech}</li>)}
-		</ul>
+		<div class="content">
+			<p class="summary">{localize(summary, locale)}</p>
+			<ul class="highlights">
+				{localize(highlights, locale).map((item) => <li>{item}</li>)}
+			</ul>
+			<h4 class="visually-hidden">{t.experience.stack}</h4>
+			<ul class="stack">
+				{stack.map((tech) => <li>{tech}</li>)}
+			</ul>
+		</div>
+
+		<!-- Painel "Entrega & aprendizado": o resultado em uma frase e o caminho para os detalhes -->
 		{
-			hasDetails && (
-				<button class="explore" type="button" data-dialog-open={dialogId} aria-haspopup="dialog" hidden>
-					{t.experience.explore}
-					<span aria-hidden="true">→</span>
-				</button>
+			(outcome || hasDetails) && (
+				<div class="outcome">
+					<OutcomeIcon class="outcome-icon" aria-hidden="true" />
+					<p class="outcome-label">{t.experience.outcome}</p>
+					{outcome && <p class="outcome-text">{localize(outcome, locale)}</p>}
+					{hasDetails && (
+						<button class="explore" type="button" data-dialog-open={dialogId} aria-haspopup="dialog" hidden>
+							{t.experience.explore}
+							<span class="visually-hidden">: {company}, {localize(role, locale)}</span>
+							<ArrowIcon class="explore-arrow" aria-hidden="true" />
+						</button>
+					)}
+				</div>
 			)
 		}
 	</div>
@@ -175,8 +189,14 @@ const hasDetails = details && isPublished(details);
 
 	.body {
 		display: grid;
-		gap: var(--space-4);
+		gap: var(--space-6);
 		padding-bottom: var(--space-6);
+	}
+
+	.content {
+		display: grid;
+		align-content: start;
+		gap: var(--space-4);
 	}
 
 	/* No celular, o complemento da empresa vai para a própria linha, sem o ponto separador */
@@ -220,23 +240,73 @@ const hasDetails = details && isPublished(details);
 		font-size: var(--text-sm);
 	}
 
+	.outcome {
+		display: grid;
+		align-self: start;
+		align-content: start;
+		justify-items: start;
+		gap: var(--space-3);
+		padding: var(--space-6);
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+	}
+
+	.outcome-icon {
+		width: 1.25rem;
+		height: 1.25rem;
+		margin-bottom: var(--space-2);
+		color: var(--color-accent);
+	}
+
+	.outcome-label {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.outcome-text {
+		font-size: var(--text-lg);
+		font-weight: var(--weight-regular);
+		line-height: 1.4;
+	}
+
+	/* Link de texto com seta, no lugar do botão cheio */
 	.explore {
 		display: inline-flex;
 		align-items: center;
-		gap: var(--space-2);
-		justify-self: start;
+		gap: var(--space-3);
 		min-height: 2.75rem;
-		padding: 0 var(--space-5);
-		background-color: var(--color-accent);
+		margin-top: var(--space-1);
+		padding: 0;
+		background: none;
 		border: 0;
-		border-radius: var(--radius-full);
-		color: var(--color-on-accent);
+		color: var(--color-text);
 		font-weight: var(--weight-semibold);
 		cursor: pointer;
+		transition: color var(--duration-fast) ease;
+	}
+
+	.explore-arrow {
+		width: 1rem;
+		height: 1rem;
+		transition: transform var(--duration-base) ease;
 	}
 
 	.explore:hover {
-		background-color: var(--color-text);
+		color: var(--color-accent);
+	}
+
+	.explore:hover .explore-arrow {
+		transform: translateX(4px);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.explore:hover .explore-arrow {
+			transform: none;
+		}
 	}
 
 	@media (min-width: 60rem) {
@@ -253,8 +323,10 @@ const hasDetails = details && isPublished(details);
 			grid-column: 4;
 		}
 
+		/* Destaques à esquerda, painel de resultado à direita */
 		.body {
-			max-width: 52rem;
+			grid-template-columns: minmax(0, 1fr) minmax(16rem, 23rem);
+			gap: var(--space-7);
 			padding-left: calc(2.5rem + var(--space-4));
 		}
 	}

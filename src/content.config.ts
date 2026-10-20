@@ -58,6 +58,8 @@ const experiences = defineCollection({
 			summary: localized(z.string()),
 			highlights: localized(z.array(z.string()).min(2).max(3)),
 			stack: z.array(z.string()).min(1),
+			/** Frase de resultado do painel "Entrega & aprendizado", ao lado dos destaques. */
+			outcome: localized(z.string()).optional(),
 			/**
 			 * Detalhes do "Explorar a experiência" (modal). Mais profundo que o CV, mas sem nomes de
 			 * sistemas internos, dados de clientes ou números não divulgados.

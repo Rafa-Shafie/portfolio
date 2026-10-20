@@ -22,6 +22,10 @@ highlights:
     - Implementé búsqueda inteligente en la documentación con RAG y consultas en lenguaje natural a PostgreSQL y MySQL, con referencias a las fuentes y acceso de solo lectura a los datos.
     - Desarrollé el backend en Python/FastAPI y el frontend en React/TypeScript, con chat, historial, feedback y paneles administrativos.
     - Preparé el despliegue con Docker, Kubernetes y Azure DevOps, con observabilidad en Datadog, controles de consumo y costos de IA y evaluaciones automatizadas de las respuestas.
+outcome:
+  pt: "O assistente entrou em produção e passou a ser usado pela equipe."
+  en: "The assistant went live and the team started using it."
+  es: "El asistente entró en producción y el equipo empezó a usarlo."
 stack:
   - Python
   - FastAPI
