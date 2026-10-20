@@ -1,4 +1,13 @@
 ---
+/**
+ * Botão "Ver currículo", usado no hero. Aponta para o PDF do idioma da página e mostra o tamanho
+ * do arquivo, lido no build (ver src/data/cv.ts).
+ *
+ * - target="_blank" abre numa aba nova; rel="noopener" impede a aba nova de controlar esta página
+ *   (uma proteção de segurança padrão para links que abrem outra aba).
+ * - "(abre em nova aba)" vai escondido para quem enxerga, mas é lido pelo leitor de tela: abrir
+ *   outra aba sem avisar desorienta quem não vê a troca.
+ */
 import PdfIcon from 'bootstrap-icons/icons/file-earmark-pdf.svg';
 import { cvFileSize } from '../data/cv';
 import { profile } from '../data/profile';

@@ -36,7 +36,12 @@ export function localize<T>(value: Localized<T>, locale: Locale): T {
 /** "2026-06" → "jun 2026" (ou "Jun 2026" em inglês), no idioma da página. */
 function formatMonth(yearMonth: string, locale: Locale): string {
 	const [year, month] = yearMonth.split('-').map(Number);
+	// Mês em JavaScript começa em 0 (janeiro = 0), por isso o "- 1". UTC nas duas pontas (aqui e no
+	// timeZone abaixo): no fuso do Brasil, "1º de junho à meia-noite" poderia virar 31 de maio.
 	const date = new Date(Date.UTC(year, month - 1, 1));
+	// Intl.DateTimeFormat é a API do JavaScript que formata datas no idioma pedido: "jun", "Jun", "jun"
+	// saem prontos, sem tabela de meses escrita à mão. formatToParts devolve as partes separadas,
+	// para pegar só o nome do mês (sem o ponto que algumas línguas colocam, como "jun.").
 	const parts = new Intl.DateTimeFormat(htmlLang[locale], {
 		month: 'short',
 		year: 'numeric',

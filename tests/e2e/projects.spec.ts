@@ -1,7 +1,17 @@
+/**
+ * Projetos: os filtros por área, os cartões e os modais de detalhe.
+ *
+ * - Filtros: botões com aria-pressed (o leitor de tela anuncia "pressionado"). A contagem fica
+ *   numa região role="status", que é lida em voz alta sozinha quando o texto muda.
+ * - Cartões: o mesmo padrão do painel das experiências, um botão só, com a área de clique no cartão
+ *   inteiro. Envolver o cartão num <button> faria o leitor de tela ler o cartão todo como nome do botão.
+ * - As expectativas vêm dos YAML (ver content.ts): quais projetos existem e em quais áreas.
+ */
 import { test, expect, clickAt, css, focusableCount, labelled } from './fixtures';
 import { pages, projects, projectsIn, term } from './content';
 
 const { t } = pages[0];
+// Áreas que têm pelo menos um projeto (principal ou alsoIn): cada uma vira um botão de filtro
 const areas = [...new Set(projects.flatMap((p) => [p.category, ...(p.alsoIn ?? [])]))];
 const sorted = (list: string[]) => [...list].sort((a, b) => a.localeCompare(b));
 

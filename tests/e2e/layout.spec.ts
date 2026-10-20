@@ -1,3 +1,13 @@
+/**
+ * Layout responsivo: nenhuma rolagem horizontal, do celular pequeno ao desktop.
+ *
+ * - WCAG 1.4.10 (Reflow): com 320px de largura, o conteúdo precisa caber sem rolar para o lado.
+ * - WCAG 1.4.4 (Redimensionar texto): com o texto em 200%, nada pode ficar cortado ou escondido.
+ *   O teste dobra o tamanho da fonte da raiz; como o CSS usa rem (e não px ou vh), tudo cresce junto.
+ *
+ * Os dois `for` geram 27 testes (3 idiomas × 9 casos), um por combinação, para o relatório dizer
+ * exatamente qual largura e qual idioma quebrou.
+ */
 import { test, expect, horizontalOverflow } from './fixtures';
 import { pages } from './content';
 

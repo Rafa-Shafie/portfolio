@@ -1,4 +1,9 @@
 ---
+/**
+ * Seção "Formação": à esquerda, o que está recebendo atenção agora (do dicionário); à direita, a
+ * lista de cursos, um YAML por curso em src/content/education/.
+ * CollectionEntry<'education'> é o tipo gerado pelo Astro a partir do schema: cada item já chega validado.
+ */
 import type { CollectionEntry } from 'astro:content';
 import Section from '../Section.astro';
 import EducationItem from '../EducationItem.astro';

@@ -1,7 +1,15 @@
+/**
+ * Melhoria progressiva: o site funciona primeiro com HTML e CSS, e o JavaScript só melhora.
+ *
+ * Sem JavaScript (javaScriptEnabled: false), nada quebra e todo o conteúdo fica à vista: as abas
+ * viram blocos empilhados, os filtros somem e todos os projetos aparecem. Por isso os botões que
+ * dependem de JS nascem com `hidden` no HTML, e o script é quem mostra.
+ *
+ * Com menos movimento (reducedMotion: 'reduce', a preferência do sistema operacional), nada se
+ * mexe no hover e as animações param. É uma necessidade real para quem sente enjoo com movimento.
+ */
 import { test, expect, css } from './fixtures';
 import { projects } from './content';
-
-// Melhoria progressiva: sem JavaScript, nada quebra e todo o conteúdo fica à vista
 test.describe('sem JavaScript', () => {
 	test.use({ javaScriptEnabled: false });
 

@@ -1,12 +1,22 @@
 ---
+/**
+ * Páginas /en/ e /es/.
+ *
+ * Os colchetes no nome da pasta ([locale]) fazem dela uma rota dinâmica: um arquivo gera várias
+ * páginas. Como o site é estático, o Astro precisa saber no build quais páginas gerar, e é para
+ * isso que serve getStaticPaths: devolve a lista de valores de `locale` ("en" e "es"), e o Astro
+ * escreve um HTML para cada um (dist/en/index.html e dist/es/index.html).
+ */
 import type { GetStaticPaths } from 'astro';
 import HomePage from '../../components/HomePage.astro';
 import { defaultLocale, locales, type Locale } from '../../i18n/utils';
 
 // /en/ e /es/; o idioma padrão (pt) fica na raiz, em pages/index.astro
+// `satisfies` confere o tipo sem mudar o que a função devolve: o TypeScript reclama se o formato estiver errado
 export const getStaticPaths = (() =>
 	locales.filter((locale) => locale !== defaultLocale).map((locale) => ({ params: { locale } }))) satisfies GetStaticPaths;
 
+// O valor da rota atual ("en" ou "es"), vindo de getStaticPaths
 const locale = Astro.params.locale as Locale;
 ---
 

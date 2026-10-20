@@ -1,3 +1,13 @@
+/**
+ * Experiências: o acordeão, o painel "Entrega & aprendizado" e o modal "Explorar a experiência".
+ *
+ * - Acordeão: <details>/<summary> nativos do HTML, que abrem e fecham sem JavaScript.
+ * - Painel clicável por inteiro com um só botão: o botão estica a área de clique com ::after. Os
+ *   testes clicam com o mouse em pontos do painel (clickAt) para provar que o clique chega ao botão,
+ *   e confirmam que destaques e tecnologias, fora do painel, não abrem nada.
+ * - Modal com <dialog> e showModal(): o navegador prende o foco dentro dele, fecha com Esc e deixa
+ *   o resto da página inerte. Nós cuidamos de devolver o foco ao botão e de travar a rolagem atrás.
+ */
 import { test, expect, clickAt, css, focusableCount, labelled, stableBox } from './fixtures';
 import { exploredExperiences, pages } from './content';
 

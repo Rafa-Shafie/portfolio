@@ -68,6 +68,14 @@ const external = [
 </Section>
 
 <script>
+	/*
+	 * Cartão de e-mail: com JavaScript, ele copia o endereço em vez de abrir o app de e-mail.
+	 * Muita gente não tem um app de e-mail configurado no computador, e o link mailto: não faz nada.
+	 *
+	 * O HTML traz os dois: o link mailto (visível) e o botão de copiar (escondido). Se o navegador tem
+	 * a API de área de transferência (navigator.clipboard), o script troca um pelo outro. Sem
+	 * JavaScript, ou sem a API, fica o link, que sempre funciona.
+	 */
 	const link = document.querySelector<HTMLAnchorElement>('[data-email-link]');
 	const button = document.querySelector<HTMLButtonElement>('[data-copy]');
 	const hint = button?.querySelector<HTMLElement>('[data-copy-hint]');
@@ -81,6 +89,8 @@ const external = [
 
 		button.addEventListener('click', async () => {
 			let message: string;
+			// writeText é assíncrona e pode ser recusada (permissão negada, página sem foco): o catch mostra
+			// a mensagem de falha em vez de deixar o clique sem resposta
 			try {
 				await navigator.clipboard.writeText(address);
 				message = status.dataset.ok ?? '';
@@ -90,6 +100,8 @@ const external = [
 			// Mostra a confirmação no próprio cartão e anuncia ao leitor de tela
 			status.textContent = message;
 			hint.textContent = message;
+			// Depois de 2,5 s, volta a mostrar o endereço. clearTimeout cancela o timer anterior: com cliques
+			// seguidos, a contagem recomeça em vez de o texto voltar cedo demais.
 			clearTimeout(timer);
 			timer = window.setTimeout(() => {
 				hint.textContent = address;

@@ -1,4 +1,9 @@
 ---
+/**
+ * Cabeçalho fixo no topo: a marca (volta ao início), o menu das seções e, à direita, o seletor de
+ * idioma e o alternador de tema. No celular, o menu vira uma gaveta aberta pelo botão ☰.
+ * O skip link vem antes de tudo, para ser o primeiro Tab da página.
+ */
 import MenuIcon from 'bootstrap-icons/icons/list.svg';
 import CloseIcon from 'bootstrap-icons/icons/x-lg.svg';
 import BrandMark from '../assets/brand/mark.svg';
@@ -67,11 +72,18 @@ const t = useTranslations(locale);
 </header>
 
 <script>
+	/*
+	 * Menu do celular (padrão "disclosure": um botão que mostra e esconde um conteúdo) e a marcação
+	 * da seção ativa. No desktop, o menu fica sempre à vista e só a seção ativa importa.
+	 */
 	const toggle = document.querySelector<HTMLButtonElement>('.menu-toggle');
 	const nav = document.querySelector<HTMLElement>('#site-nav');
 	const label = toggle?.querySelector<HTMLElement>('[data-menu-label]');
 
+	// Se algum elemento faltar (por exemplo, uma página sem menu), o script não faz nada em vez de dar erro
 	if (toggle && nav && label) {
+		// Um lugar só muda o estado: aria-expanded (lido pelo leitor de tela), data-open (usado pelo CSS
+		// para mostrar a gaveta) e o nome do botão ("Abrir menu" ↔ "Fechar menu")
 		const setOpen = (open: boolean) => {
 			toggle.setAttribute('aria-expanded', String(open));
 			nav.dataset.open = String(open);
@@ -128,6 +140,9 @@ const t = useTranslations(locale);
 				else link.removeAttribute('aria-current');
 			});
 		};
+		// O evento de scroll dispara dezenas de vezes por segundo. requestAnimationFrame junta tudo num
+		// cálculo só por quadro de tela (no máximo ~60 por segundo), e `frame` evita agendar duas vezes.
+		// `passive: true` avisa o navegador que não vamos impedir a rolagem, e ela fica mais fluida.
 		const schedule = () => {
 			if (!frame) frame = requestAnimationFrame(markCurrent);
 		};

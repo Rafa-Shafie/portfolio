@@ -1,4 +1,5 @@
 ---
+/** Rodapé: continua o bloco de destaque do contato, com a marca, os links e o ano. */
 import BrandMark from '../assets/brand/mark.svg';
 import { profile } from '../data/profile';
 import { useTranslations, type Locale } from '../i18n/utils';
@@ -9,6 +10,7 @@ interface Props {
 
 const { locale } = Astro.props;
 const t = useTranslations(locale);
+// O ano é calculado no build, não no navegador: o "© 2026" atualiza no primeiro deploy do ano novo
 const year = new Date().getFullYear();
 ---
 

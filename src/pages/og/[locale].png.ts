@@ -1,6 +1,14 @@
 /**
  * Imagem Open Graph (1200×630) gerada no build, uma por idioma: /og/pt.png.
  * O satori desenha o layout com a Poppins e o sharp converte o SVG em PNG.
+ *
+ * Open Graph é a imagem e o texto que aparecem quando alguém cola o link do site no LinkedIn,
+ * WhatsApp ou Slack. O BaseLayout aponta para esta imagem na tag <meta property="og:image">.
+ *
+ * Como funciona: o satori recebe uma árvore de elementos parecida com HTML (montada com a função
+ * `el` abaixo) e estilos no formato do CSS flexbox, e devolve um SVG. Gerar no build, e não à mão
+ * num editor de imagem, mantém a imagem sempre igual ao site: trocou o headline no dicionário, a
+ * imagem acompanha no próximo build, nos três idiomas.
  */
 import type { APIRoute, GetStaticPaths } from 'astro';
 import { readFile } from 'node:fs/promises';
@@ -17,6 +25,8 @@ const colors = { bg: '#0b1117', text: '#e6edf3', muted: '#9aa7b4', accent: '#12e
 const fontFile = (weight: number) =>
 	readFile(resolve(`node_modules/@fontsource/poppins/files/poppins-latin-${weight}-normal.woff`));
 
+// O satori não baixa arquivos: toda imagem entra embutida como "data URL" (o arquivo em base64
+// dentro do próprio texto). A foto é recortada em quadrado, pelo topo, para o rosto não ser cortado.
 async function photoDataUrl() {
 	const jpeg = await sharp(resolve('src/assets/rafael.jpg')).resize(360, 360, { position: 'top' }).jpeg({ quality: 85 }).toBuffer();
 	return `data:image/jpeg;base64,${jpeg.toString('base64')}`;
@@ -48,6 +58,7 @@ const el = (type: string, style: Record<string, unknown>, ...children: (Node | s
 
 export const GET: APIRoute = async ({ params }) => {
 	const t = useTranslations(params.locale as Locale);
+	// Promise.all lê as fontes, a foto e a marca ao mesmo tempo, em vez de uma depois da outra
 	const [regular, semibold, bold, photo, brand] = await Promise.all([
 		fontFile(400),
 		fontFile(600),
@@ -109,6 +120,7 @@ export const GET: APIRoute = async ({ params }) => {
 			{ name: 'Poppins', data: bold, weight: 700, style: 'normal' },
 		],
 	});
+	// As redes sociais não aceitam SVG como imagem de prévia: o sharp converte para PNG
 	const png = await sharp(Buffer.from(svg)).png().toBuffer();
 
 	return new Response(new Uint8Array(png), { headers: { 'Content-Type': 'image/png' } });

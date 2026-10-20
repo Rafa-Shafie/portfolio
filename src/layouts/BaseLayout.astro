@@ -1,4 +1,13 @@
 ---
+/**
+ * Esqueleto de toda página: o <html> com o idioma, o <head> (SEO, Open Graph, fontes, tema e
+ * analytics) e o <body> onde a página encaixa o conteúdo (<slot />).
+ *
+ * - canonical: o endereço "oficial" da página, para o Google não tratar variações como duplicatas.
+ * - hreflang: as versões da mesma página nos outros idiomas.
+ * - Open Graph (og:*): título, descrição e imagem que aparecem ao compartilhar o link.
+ * - Os CSS globais são importados aqui para valer em todas as páginas.
+ */
 import { Font } from 'astro:assets';
 import { getAbsoluteLocaleUrl } from 'astro:i18n';
 import { defaultLocale, htmlLang, locales, ogLocale, type Locale } from '../i18n/utils';

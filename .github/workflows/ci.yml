@@ -1,47 +1,78 @@
+# CI (Integração Contínua) do portfólio, executado pelo GitHub Actions.
+#
+# O GitHub lê todo arquivo .yml em .github/workflows/ e, quando acontece um dos eventos de `on:`,
+# liga uma máquina virtual nova e roda os passos (`steps`) em ordem. O primeiro passo que falhar
+# (sair com código diferente de 0) interrompe o resto e deixa o run vermelho.
+#
+# Como isto se liga ao CD (Entrega Contínua):
+#   - quem publica o site é a Vercel, sozinha, a cada push na main (e um preview a cada PR);
+#   - a main é protegida (Settings → Branches no GitHub): só aceita merge por PR, e só com o job
+#     `check-and-build` abaixo verde. Assim, só código que passou aqui chega à produção.
+#   - por isso o nome do job importa: se ele mudar, a regra de proteção passa a esperar um check que
+#     não existe mais, e nenhum PR consegue ser mergeado até a regra ser atualizada.
+
 name: CI
 
+# Quando rodar: em todo push na main (depois de um merge) e em todo PR, a cada push no PR.
 on:
   push:
     branches: [main]
   pull_request:
 
+# Menor permissão possível: o workflow só lê o código. Se alguém conseguir injetar um passo malicioso,
+# ele não consegue escrever no repositório com o token do run.
 permissions:
   contents: read
 
+# Um push novo no mesmo PR cancela o run anterior, que já ficou desatualizado, e economiza minutos.
 concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  # Nome exigido pela proteção da main (ver o topo do arquivo). Mudar só junto com a regra.
   check-and-build:
     runs-on: ubuntu-latest
     steps:
+      # Baixa o código do commit que disparou o run.
       - uses: actions/checkout@v7
 
+      # Instala o Node na versão do .nvmrc (a mesma da Vercel e da sua máquina) e guarda em cache a
+      # pasta de downloads do npm, para o próximo run instalar mais rápido.
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
           cache: npm
 
+      # `npm ci` (e não `npm install`): instala exatamente as versões do package-lock.json e falha se
+      # o lockfile estiver desatualizado. É o que garante que o CI testa as mesmas dependências da Vercel.
       - run: npm ci
 
+      # Tipos do TypeScript e templates .astro. Pega, por exemplo, um campo que faltou no dicionário.
       - name: astro check
         run: npm run check
 
+      # Gera o site em dist/. O npm roda o `prebuild` antes sozinho: é a guarda do CV
+      # (scripts/check-cv.mjs), que barra o build se algum PDF tiver telefone.
       - name: build
         run: npm run build
 
-      # Testes de ponta a ponta sobre o dist/ do passo anterior (astro preview + Chromium)
+      # Testes de ponta a ponta sobre o dist/ do passo anterior (astro preview + Chromium).
+      # `--with-deps` instala também as bibliotecas do Linux de que o navegador precisa.
       - name: install Chromium
         run: npx playwright install --with-deps chromium
 
+      # A suíte de tests/e2e/ nos dois temas, com o axe conferindo acessibilidade
+      # (configuração em playwright.config.ts).
       - name: e2e tests
         run: npx playwright test
 
-      # Nota mínima nas 3 rotas, mobile e desktop (scripts/check-lighthouse.mjs, Chromium do Playwright)
+      # Nota mínima nas 3 rotas, em mobile e desktop (scripts/check-lighthouse.mjs, com o Chromium do Playwright).
       - name: Lighthouse
         run: npm run lighthouse
 
+      # Os dois passos abaixo só rodam se algo falhou (`if: failure()`): anexam os relatórios ao run,
+      # para baixar na aba Actions e ver o que quebrou. Ficam guardados por 14 dias.
       - name: upload Playwright report
         if: ${{ failure() }}
         uses: actions/upload-artifact@v7

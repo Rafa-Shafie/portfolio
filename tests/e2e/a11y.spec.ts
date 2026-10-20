@@ -6,6 +6,14 @@ import { pages } from './content';
  * Axe com todas as regras WCAG 2.2 A e AA, em cada idioma. Roda nos dois projetos, então confere o
  * tema escuro e o claro. Com menos movimento, nenhuma seção fica transparente esperando a animação
  * de entrada (o axe pularia o que está com opacity 0).
+ *
+ * O axe-core é o motor de acessibilidade usado também pelo Lighthouse e pelo DevTools. Ele percorre
+ * a página e acusa o que dá para verificar automaticamente: contraste, imagens sem alt, botões sem
+ * nome, `lang` ausente, ids repetidos, ARIA usado errado etc. Não substitui testar com teclado e
+ * leitor de tela (por isso os outros arquivos), mas pega as regressões mais comuns.
+ *
+ * As tags (wcag2a, wcag2aa…) escolhem os conjuntos de regras: os níveis A e AA das versões 2.0,
+ * 2.1 e 2.2 da WCAG. AA é o nível que leis e empresas costumam exigir.
  */
 test.use({ reducedMotion: 'reduce' });
 

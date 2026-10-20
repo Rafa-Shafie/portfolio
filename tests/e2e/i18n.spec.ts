@@ -1,3 +1,13 @@
+/**
+ * Idiomas: as três rotas (/, /en/ e /es/), o seletor de idioma e a troca mantendo o lugar.
+ *
+ * - O `for` no topo gera um teste por idioma: o mesmo roteiro roda em /, /en/ e /es/, cada um com o
+ *   seu dicionário. Se faltar uma tradução ou uma tag, o teste daquele idioma é que falha.
+ * - SEO: `lang` certo no <html> (o leitor de tela escolhe a pronúncia por ele), title, canonical e
+ *   hreflang (diz ao Google que as três páginas são a mesma em idiomas diferentes).
+ * - "toda âncora tem destino" e "ids únicos" pegam links quebrados como o do site antigo, que
+ *   levava a uma seção comentada.
+ */
 import { test, expect, clickOutside } from './fixtures';
 import { locales, pages } from './content';
 

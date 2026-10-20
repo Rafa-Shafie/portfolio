@@ -1,4 +1,12 @@
 ---
+/**
+ * Seletor de idioma: um botão ("PT ⌄") que mostra e esconde a lista de idiomas. É um padrão
+ * "disclosure" com links comuns, e não um <select>: cada idioma é uma página própria, então trocar
+ * de idioma é navegar para outro endereço.
+ *
+ * getRelativeLocaleUrl (do i18n do Astro) monta o endereço certo de cada idioma: "/" para o
+ * português e "/en/" e "/es/" para os outros, seguindo o astro.config.mjs.
+ */
 import { getRelativeLocaleUrl } from 'astro:i18n';
 import ChevronIcon from 'bootstrap-icons/icons/chevron-down.svg';
 import { htmlLang, languageName, locales, useTranslations, type Locale } from '../i18n/utils';

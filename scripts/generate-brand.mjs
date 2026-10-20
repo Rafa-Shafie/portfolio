@@ -16,12 +16,16 @@ import { resolve } from 'node:path';
 import opentype from 'opentype.js';
 import sharp from 'sharp';
 
+// Cores do tema escuro (as mesmas de tokens.css). No site, o CSS troca as cores do mark e do
+// wordmark pelos tokens; estas valem para o favicon e o ícone, que não passam pelo CSS.
 const COLORS = { bg: '#0b1117', text: '#e6edf3', accent: '#12efff' };
 const FONT_FILE = 'node_modules/@fontsource/itim/files/itim-latin-400-normal.woff';
 
+// A opentype.js lê o arquivo da fonte e dá acesso ao desenho (contorno) de cada letra
 const buf = readFileSync(resolve(FONT_FILE));
 const font = opentype.parse(buf.buffer.slice(buf.byteOffset, buf.byteOffset + buf.byteLength));
 
+// Duas casas decimais bastam para o SVG e deixam o arquivo bem menor
 const round = (n) => Math.round(n * 100) / 100;
 
 // O toPathData da opentype.js 2.0 gera "NaN" em algumas posições mesmo com coordenadas válidas,
@@ -30,6 +34,8 @@ function fmt(n) {
 	if (!Number.isFinite(n)) throw new Error(`coordenada inválida: ${n}`);
 	return String(round(n));
 }
+// Converte os comandos de desenho da letra para o atributo `d` de um <path> SVG:
+// M = mover a caneta, L = linha reta, Q e C = curvas (quadrática e cúbica), Z = fechar a forma.
 function pathData(path) {
 	return path.commands
 		.map((c) => {
@@ -66,13 +72,14 @@ function layout(text, x0, y, size) {
 	return { path, end: x };
 }
 
+// O "reforço" do traço: um contorno da mesma cor da letra, com cantos arredondados
 const strokeAttrs = (color, width) =>
 	width > 0 ? ` stroke="${color}" stroke-width="${width}" stroke-linejoin="round"` : '';
 
-/** Monograma RS centralizado pelo desenho das letras dentro de um quadrado arredondado. */
 /**
- * Monograma: o R na cor do texto (classe .mark-r, que o CSS pode sobrescrever) e o S no destaque,
- * como "Rafa" e "Shafie" no wordmark. Contorno na cor de destaque.
+ * Monograma RS centralizado pelo desenho das letras dentro de um quadrado arredondado.
+ * O R vai na cor do texto (classe .mark-r, que o CSS pode sobrescrever) e o S no destaque, como
+ * "Rafa" e "Shafie" no wordmark. Contorno na cor de destaque.
  */
 function monogram({
 	size = 48,
@@ -127,6 +134,8 @@ function wordmark({ fontSize = 40, bold = 1.4, first = 'currentColor', second = 
 // Favicon: letras maiores, contorno mais grosso e fundo escuro para ler bem em 16 px
 const favicon = monogram({ capRatio: 0.52, widthRatio: 0.68, frame: 3.5, radius: 11, bold: 1.8, color: COLORS.accent, background: COLORS.bg });
 
+// Escreve os arquivos. O PNG da tela inicial (iOS) sai do mesmo SVG do favicon, rasterizado pelo sharp:
+// density 600 desenha em alta resolução antes de reduzir para 180 px, para as bordas ficarem lisas.
 mkdirSync(resolve('src/assets/brand'), { recursive: true });
 writeFileSync(resolve('src/assets/brand/mark.svg'), monogram({}));
 writeFileSync(resolve('src/assets/brand/wordmark.svg'), wordmark({}));
