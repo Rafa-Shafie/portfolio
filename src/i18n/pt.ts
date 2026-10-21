@@ -215,7 +215,7 @@ export const pt = {
 		},
 		sets: {
 			languages: 'Linguagens',
-			frameworks: 'Frameworks',
+			frameworks: 'Frameworks e runtimes',
 			persistence: 'Persistência',
 			design: 'Requisitos e modelagem',
 			integration: 'Integração',

@@ -207,7 +207,7 @@ export const es: Dictionary = {
 		},
 		sets: {
 			languages: 'Lenguajes',
-			frameworks: 'Frameworks',
+			frameworks: 'Frameworks y runtimes',
 			persistence: 'Persistencia',
 			design: 'Requisitos y modelado',
 			integration: 'Integración',
