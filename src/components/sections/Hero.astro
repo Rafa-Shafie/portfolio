@@ -124,9 +124,11 @@ const [captionFirst, captionSecond] = t.hero.portraitCaption.split('\n');
 		line-height: 0.98;
 	}
 
+	/* Headline e legenda da foto são identidade, não texto corrido: ficam na Poppins */
 	.headline {
 		margin-top: var(--space-5);
 		color: var(--color-accent);
+		font-family: var(--font-sans);
 		font-size: var(--text-xl);
 		font-weight: var(--weight-semibold);
 	}
@@ -220,6 +222,7 @@ const [captionFirst, captionSecond] = t.hero.portraitCaption.split('\n');
 
 	.portrait-caption {
 		padding-right: var(--space-7);
+		font-family: var(--font-sans);
 		font-size: var(--text-lg);
 		font-weight: var(--weight-semibold);
 		line-height: 1.35;
