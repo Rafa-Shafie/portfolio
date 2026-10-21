@@ -64,11 +64,22 @@ body {
 	min-height: 100vh;
 	background-color: var(--color-bg);
 	color: var(--color-text);
-	font-family: var(--font-sans);
+	font-family: var(--font-body);
 	font-size: var(--text-body);
 	font-weight: var(--weight-regular);
 	line-height: var(--leading-normal);
 	-webkit-font-smoothing: antialiased;
+}
+
+/* A identidade continua na Poppins: títulos, botões e o header; o resto é texto corrido (Inter) */
+h1,
+h2,
+h3,
+h4,
+button,
+.button,
+.site-header {
+	font-family: var(--font-sans);
 }
 
 h1,
