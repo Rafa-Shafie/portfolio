@@ -100,7 +100,7 @@ export const pt = {
 		contact: 'Contato',
 	},
 	hero: {
-		status: 'Aberto a estágios e projetos',
+		status: 'Aberto a oportunidades',
 		headline: 'Engenharia de Software · IA Generativa · Backend',
 		intro:
 			'Estudante de Engenharia de Software. Desenvolvo sistemas backend e aplicações com IA generativa, do levantamento de requisitos até a produção.',
