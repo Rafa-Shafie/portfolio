@@ -60,6 +60,14 @@ html {
 	}
 }
 
+/*
+ * Troca de idioma: o conteúdo fica invisível (o fundo continua) até a página rolar para o lugar
+ * guardado. O layout existe normalmente, então a medida e a rolagem funcionam (ver BaseLayout.astro).
+ */
+.restoring-position body > * {
+	visibility: hidden;
+}
+
 body {
 	min-height: 100vh;
 	background-color: var(--color-bg);
