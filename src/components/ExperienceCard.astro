@@ -116,6 +116,27 @@ const hasDetails = details && isPublished(details);
 <style>
 	.experience {
 		border-top: 1px solid var(--color-border);
+		/* Permite animar a altura até "auto" (o tamanho do conteúdo), que o CSS não interpolava antes */
+		interpolate-size: allow-keywords;
+	}
+
+	/*
+	 * Abrir e fechar suave: ::details-content é a parte do <details> que some quando ele fecha. A altura
+	 * vai de 0 até auto, e content-visibility com allow-discrete espera a animação de fechamento
+	 * terminar antes de esconder o conteúdo. overflow-clip-margin deixa o anel de foco do painel visível.
+	 * Navegador sem suporte abre e fecha na hora, como antes.
+	 */
+	.experience::details-content {
+		block-size: 0;
+		overflow-y: clip;
+		overflow-clip-margin: 0.75rem;
+		transition:
+			block-size 300ms ease,
+			content-visibility 300ms allow-discrete;
+	}
+
+	.experience[open]::details-content {
+		block-size: auto;
 	}
 
 	summary {
