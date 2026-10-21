@@ -1,9 +1,10 @@
 /**
  * Contato e currículo.
  *
- * - Copiar e-mail: o teste dá ao navegador permissão de usar a área de transferência
- *   (`permissions`), clica, lê o que foi copiado e confere a confirmação, que também é anunciada
- *   ao leitor de tela por uma região role="status".
+ * - E-mail: o cartão é o link mailto: (abre o app de e-mail) e o botão no canto copia o endereço.
+ *   O teste dá ao navegador permissão de usar a área de transferência (`permissions`), clica, lê o
+ *   que foi copiado e confere a confirmação, que também é anunciada ao leitor de tela por uma
+ *   região role="status".
  * - Foco visível sobre o bloco de destaque: o anel de foco precisa de 3:1 de contraste contra o
  *   fundo (WCAG 1.4.11). Calculamos o contraste em vez de comparar com uma cor fixa, então o teste
  *   vale para os dois temas.
@@ -38,12 +39,15 @@ test.describe('contato', () => {
 		await page.goto('/');
 	});
 
-	test('o cartão de e-mail copia o endereço e anuncia a confirmação', async ({ page }) => {
+	test('o cartão de e-mail abre o app de e-mail, e o botão no canto copia o endereço', async ({ page }) => {
+		const link = page.locator('[data-email-link]');
+		await expect(link).toBeVisible();
+		await expect(link).toHaveAttribute('href', `mailto:${profile.email}`);
+		await expect(link).toHaveAccessibleName(new RegExp(`${escape(t.contact.email)}.*${escape(profile.email)}`));
+
 		const button = page.locator('button[data-copy]');
 		await expect(button).toBeVisible();
-		await expect(page.locator('[data-email-link]')).toBeHidden();
-		const [action, address] = [escape(t.contact.copyEmail), escape(profile.email)];
-		await expect(button).toHaveAccessibleName(new RegExp(`${action}.*${address}|${address}.*${action}`));
+		await expect(button).toHaveAccessibleName(t.contact.copyEmail);
 
 		await button.click();
 		expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(profile.email);

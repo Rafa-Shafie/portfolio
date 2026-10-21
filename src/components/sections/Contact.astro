@@ -30,22 +30,19 @@ const external = [
 	<p slot="intro">{t.contact.text}</p>
 
 	<ul class="cards">
-		<li class="card">
+		<li class="card email-card">
 			<!--
-				E-mail: com JavaScript, o cartão copia o endereço (funciona para todo mundo; o mailto:
-				abre uma aba vazia quando não há programa de e-mail configurado). Sem JavaScript, é o mailto:.
+				E-mail: o cartão inteiro é o link mailto:, que abre o app de e-mail. O botão redondo no canto
+				copia o endereço, para quem não tem um app de e-mail configurado. Ele só aparece com
+				JavaScript e com a API de área de transferência; sem eles, fica só o link, que sempre funciona.
 			-->
 			<a class="card-link" href={`mailto:${profile.email}`} data-email-link>
 				<EmailIcon class="card-icon" aria-hidden="true" />
 				<span class="card-title">{t.contact.email}</span>
-				<span class="card-hint">{profile.email}</span>
-			</a>
-			<button class="card-link" type="button" data-copy={profile.email} hidden>
-				<EmailIcon class="card-icon" aria-hidden="true" />
-				<!-- O título visível já diz a ação ("Copiar e-mail"); o link mailto acima continua com "E-mail" -->
-				<span class="card-title">{t.contact.copyEmail}</span>
 				<span class="card-hint" data-copy-hint>{profile.email}</span>
-				<CopyIcon class="card-corner" aria-hidden="true" />
+			</a>
+			<button class="copy" type="button" data-copy={profile.email} aria-label={t.contact.copyEmail} hidden>
+				<CopyIcon aria-hidden="true" />
 			</button>
 		</li>
 		{
@@ -69,20 +66,17 @@ const external = [
 
 <script>
 	/*
-	 * Cartão de e-mail: com JavaScript, ele copia o endereço em vez de abrir o app de e-mail.
-	 * Muita gente não tem um app de e-mail configurado no computador, e o link mailto: não faz nada.
+	 * Botão de copiar o e-mail. O cartão em si é o link mailto: (abre o app de e-mail); o botão é a
+	 * alternativa para quem não tem um app configurado, em que o mailto: não faz nada.
 	 *
-	 * O HTML traz os dois: o link mailto (visível) e o botão de copiar (escondido). Se o navegador tem
-	 * a API de área de transferência (navigator.clipboard), o script troca um pelo outro. Sem
-	 * JavaScript, ou sem a API, fica o link, que sempre funciona.
+	 * O botão nasce com `hidden`: só aparece se o navegador tem a API de área de transferência
+	 * (navigator.clipboard). Sem JavaScript, ou sem a API, fica só o link, que sempre funciona.
 	 */
-	const link = document.querySelector<HTMLAnchorElement>('[data-email-link]');
 	const button = document.querySelector<HTMLButtonElement>('[data-copy]');
-	const hint = button?.querySelector<HTMLElement>('[data-copy-hint]');
+	const hint = document.querySelector<HTMLElement>('[data-copy-hint]');
 	const status = document.querySelector<HTMLElement>('[data-copy-status]');
 
-	if (link && button && hint && status && navigator.clipboard) {
-		link.hidden = true;
+	if (button && hint && status && navigator.clipboard) {
 		button.hidden = false;
 		const address = button.dataset.copy ?? '';
 		let timer: number | undefined;
@@ -97,7 +91,7 @@ const external = [
 			} catch {
 				message = status.dataset.fail ?? '';
 			}
-			// Mostra a confirmação no próprio cartão e anuncia ao leitor de tela
+			// Mostra a confirmação no cartão, no lugar do endereço, e anuncia ao leitor de tela
 			status.textContent = message;
 			hint.textContent = message;
 			// Depois de 2,5 s, volta a mostrar o endereço. clearTimeout cancela o timer anterior: com cliques
@@ -125,10 +119,10 @@ const external = [
 
 	.card {
 		display: grid;
-		background-color: var(--color-accent);
+		background-color: var(--color-accent-block);
 	}
 
-	/* Link e botão com a mesma aparência: o cartão inteiro é clicável e todos têm a mesma altura */
+	/* Cartões com a mesma aparência e a mesma altura: o cartão inteiro é o link */
 	.card-link {
 		position: relative;
 		display: grid;
@@ -165,6 +159,36 @@ const external = [
 	.card-hint {
 		font-size: var(--text-base);
 		overflow-wrap: anywhere;
+	}
+
+	/* Botão de copiar, no canto do cartão de e-mail, por cima do link (área de toque de 44px) */
+	.email-card {
+		position: relative;
+	}
+
+	.copy {
+		position: absolute;
+		top: var(--space-3);
+		right: var(--space-3);
+		display: grid;
+		place-items: center;
+		width: 2.75rem;
+		height: 2.75rem;
+		background: none;
+		border: 1px solid color-mix(in srgb, var(--color-on-accent) 40%, transparent);
+		border-radius: 50%;
+		color: var(--color-on-accent);
+		cursor: pointer;
+		transition: background-color var(--duration-fast) ease;
+	}
+
+	.copy:hover {
+		background-color: color-mix(in srgb, var(--color-on-accent) 12%, transparent);
+	}
+
+	.copy svg {
+		width: 1.125rem;
+		height: 1.125rem;
 	}
 
 	.card-corner {

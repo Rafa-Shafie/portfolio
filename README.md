@@ -1,6 +1,6 @@
 # Rafael El Shafie: portfólio
 
-Site pessoal de um estudante de Engenharia de Software focado em **backend e IA generativa**. Tem versões em português, inglês e espanhol, tema claro e escuro, e nota 100 nas quatro categorias do Lighthouse.
+Site pessoal de um estudante de Engenharia de Software focado em **backend e IA generativa**. Tem versões em português, inglês e espanhol, tema claro e escuro, e nota 100 em Acessibilidade, Boas práticas e SEO, e 99 ou mais em Performance no Lighthouse.
 
 **Engenharia de Software · IA Generativa · Backend**
 
@@ -35,7 +35,9 @@ Uma [auditoria](docs/AUDITORIA-PORTFOLIO.md) mostrou que o código não era um a
 | **v1, mobile** | **100** | **100** | **100** | **100** |
 | **v1, desktop** | **100** | **100** | **100** | **100** |
 
-Os relatórios completos e o método estão em [docs/lighthouse/](docs/lighthouse/). O CI mede de novo a cada push e falha se a nota cair.
+A tabela registra o lançamento do v1. Depois, o texto corrido passou a usar a Inter, mais confortável em parágrafos longos (a Poppins segue nos títulos e botões): a Performance no celular ficou em torno de 99, uma troca medida antes e depois.
+
+Os relatórios completos e o método estão em [docs/lighthouse/](docs/lighthouse/). O CI mede de novo a cada push e falha se alguma nota ficar abaixo do mínimo (90 em Performance e 100 nas outras).
 
 ## Stack
 
