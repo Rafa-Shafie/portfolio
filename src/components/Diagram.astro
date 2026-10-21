@@ -1,0 +1,263 @@
+---
+/**
+ * Diagrama ilustrativo dentro de uma seção do modal (Atlas, Manhattan, Modelagem).
+ *
+ * Feito em HTML e CSS, não como imagem:
+ * - o texto é texto de verdade: o leitor de tela lê os passos como uma lista numerada e cada idioma
+ *   tem os seus rótulos (dicionário `diagrams`);
+ * - as cores vêm dos tokens, então acompanham o tema claro e o escuro;
+ * - os passos são uma linha do tempo vertical (círculo numerado + traço até o próximo), que cabe
+ *   em qualquer largura; com espaço, o título e a explicação ficam lado a lado.
+ *
+ * Regra de confidencialidade: o diagrama só mostra o que o texto público da seção já diz.
+ */
+import { useTranslations, type Locale } from '../i18n/utils';
+
+export type DiagramName = 'atlas-flow' | 'manhattan-pipeline' | 'modeling-method';
+
+interface Props {
+	name: DiagramName;
+	locale: Locale;
+}
+
+const { name, locale } = Astro.props;
+const t = useTranslations(locale).diagrams;
+const diagram = { 'atlas-flow': t.atlas, 'manhattan-pipeline': t.manhattan, 'modeling-method': t.modeling }[name];
+---
+
+<figure class="diagram">
+	<ol class="steps">
+		{
+			diagram.steps.map((step, i) => (
+				<li class:list={['step', { muted: 'tag' in step && step.tag }]}>
+					<span class="step-number" aria-hidden="true">
+						{String(i + 1).padStart(2, '0')}
+					</span>
+					<span class="step-title">{step.title}</span>
+					<span class="step-text">{step.text}</span>
+					{'tag' in step && step.tag && <span class="step-tag">{step.tag}</span>}
+				</li>
+			))
+		}
+	</ol>
+
+	{'note' in diagram && <p class="note">{diagram.note}</p>}
+
+	{
+		'areas' in diagram && (
+			<div class="extra">
+				<p class="extra-title">{diagram.areasTitle}</p>
+				<ul class="chips">
+					{diagram.areas.map((area) => (
+						<li>{area}</li>
+					))}
+				</ul>
+			</div>
+		)
+	}
+
+	{
+		'examples' in diagram && (
+			<div class="extra">
+				<p class="extra-title">{diagram.examplesTitle}</p>
+				<ul class="examples">
+					{diagram.examples.map(({ question, route }) => (
+						<li class="example">
+							<p class="question">“{question}”</p>
+							{/* O caminho que a pergunta percorre: uma lista, com setas só decorativas */}
+							<ol class="route">
+								{route.map((stop) => (
+									<li>{stop}</li>
+								))}
+							</ol>
+						</li>
+					))}
+				</ul>
+			</div>
+		)
+	}
+
+	<figcaption>{t.label} · {diagram.caption}</figcaption>
+</figure>
+
+<style>
+	/* O diagrama mede a própria largura (container query): o que importa é o espaço dentro do modal */
+	.diagram {
+		container-type: inline-size;
+		display: grid;
+		gap: var(--space-4);
+		margin: var(--space-2) 0 0;
+		padding: var(--space-5);
+		background-color: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm);
+	}
+
+	/*
+	 * Linha do tempo: cada passo tem um círculo numerado na primeira coluna, e um traço liga o círculo
+	 * ao do passo seguinte (::before, decorativo). A explicação fica embaixo do título.
+	 */
+	.steps {
+		display: grid;
+		padding: 0;
+		list-style: none;
+	}
+
+	.step {
+		position: relative;
+		display: grid;
+		grid-template-columns: 2rem minmax(0, 1fr);
+		column-gap: var(--space-4);
+		align-items: start;
+		padding-bottom: var(--space-4);
+	}
+
+	.step:last-child {
+		padding-bottom: 0;
+	}
+
+	.step:not(:last-child)::before {
+		content: '';
+		position: absolute;
+		top: 2rem;
+		bottom: 0;
+		left: calc(1rem - 1px);
+		width: 2px;
+		background-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border));
+	}
+
+	.step-number {
+		display: grid;
+		grid-row: 1 / span 3;
+		place-items: center;
+		width: 2rem;
+		height: 2rem;
+		background-color: var(--color-surface);
+		border: 1.5px solid var(--color-accent);
+		border-radius: 50%;
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+	}
+
+	.step-title,
+	.step-text,
+	.step-tag {
+		grid-column: 2;
+	}
+
+	.step-title {
+		padding-top: 0.2rem;
+		font-weight: var(--weight-semibold);
+		line-height: 1.35;
+	}
+
+	.step-text {
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+		line-height: 1.5;
+	}
+
+	/* Etapa que já existia (não foi feita por mim): círculo tracejado e neutro */
+	.step.muted .step-number {
+		border-style: dashed;
+		border-color: var(--color-text-muted);
+		color: var(--color-text-muted);
+	}
+
+	.step-tag {
+		justify-self: start;
+		margin-top: var(--space-1);
+		padding: 0 var(--space-2);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		white-space: nowrap;
+	}
+
+	/* Com espaço: título numa coluna e explicação na outra, alinhados ao círculo */
+	@container (min-width: 32rem) {
+		.step {
+			grid-template-columns: 2rem minmax(8rem, 11rem) minmax(0, 1fr);
+		}
+
+		.step-text {
+			grid-column: 3;
+			grid-row: 1 / span 2;
+			padding-top: 0.25rem;
+		}
+	}
+
+	.note {
+		padding: var(--space-3) var(--space-4);
+		border: 1px dashed var(--color-accent);
+		border-radius: var(--radius-sm);
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+		line-height: 1.5;
+	}
+
+	.extra {
+		display: grid;
+		gap: var(--space-3);
+	}
+
+	.extra-title,
+	figcaption {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		letter-spacing: 0.08em;
+	}
+
+	.chips,
+	.route {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-2);
+		padding: 0;
+		list-style: none;
+	}
+
+	.chips li {
+		padding: var(--space-1) var(--space-3);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
+		font-size: var(--text-sm);
+	}
+
+	.examples {
+		display: grid;
+		gap: var(--space-3);
+		padding: 0;
+		list-style: none;
+	}
+
+	.example {
+		display: grid;
+		gap: var(--space-2);
+		padding: var(--space-3) var(--space-4);
+		background-color: var(--color-surface);
+		border-radius: var(--radius-sm);
+	}
+
+	.question {
+		font-size: var(--text-sm);
+		font-style: italic;
+	}
+
+	/* Caminho da pergunta: paradas ligadas por "→" (decorativo, fora da árvore de acessibilidade) */
+	.route li {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+	}
+
+	.route li:not(:last-child)::after {
+		content: '→' / '';
+		margin-left: var(--space-2);
+		color: var(--color-accent);
+	}
+</style>

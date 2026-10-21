@@ -99,3 +99,33 @@ for (const { path, locale, t } of pages) {
 		}
 	});
 }
+
+// Diagramas: o YAML diz em qual seção cada um entra; o dicionário dá os passos de cada idioma
+const diagramKey = { 'atlas-flow': 'atlas', 'manhattan-pipeline': 'manhattan', 'modeling-method': 'modeling' } as const;
+const withDiagram = projects.flatMap((p) =>
+	(p.details?.sections ?? []).flatMap((s) => (s.diagram ? [{ slug: p.slug, name: s.diagram as keyof typeof diagramKey }] : [])),
+);
+
+for (const { path, t } of pages) {
+	test(`${path}: diagramas nos modais certos, com os passos do idioma`, async ({ page }) => {
+		await page.goto(path);
+		expect(withDiagram.length, 'há diagramas nos YAML').toBeGreaterThan(0);
+		await expect(page.locator('.detail-dialog .diagram')).toHaveCount(withDiagram.length);
+		for (const { slug, name } of withDiagram) {
+			const diagram = t.diagrams[diagramKey[name]];
+			await expect(page.locator(`#project-${slug} .diagram .step-title`), slug).toHaveText(diagram.steps.map((s) => s.title));
+			await expect(page.locator(`#project-${slug} .diagram figcaption`), slug).toContainText(t.diagrams.label);
+		}
+	});
+}
+
+test('diagramas cabem no modal em 320px, sem rolagem horizontal', async ({ page }) => {
+	await page.setViewportSize({ width: 320, height: 800 });
+	for (const { slug } of withDiagram) {
+		await page.goto(`/#project-${slug}`);
+		const dialog = page.locator(`#project-${slug}`);
+		await expect(dialog).toHaveAttribute('open');
+		const overflow = await dialog.evaluate((el) => el.scrollWidth - el.clientWidth);
+		expect(overflow, slug).toBeLessThanOrEqual(0);
+	}
+});

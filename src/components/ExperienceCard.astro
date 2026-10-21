@@ -94,6 +94,7 @@ const hasDetails = details && isPublished(details);
 	hasDetails && details && (
 		<DetailDialog
 			id={dialogId}
+			locale={locale}
 			eyebrow={company}
 			title={localize(role, locale)}
 			meta={period}

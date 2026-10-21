@@ -18,6 +18,54 @@ export const pt = {
 		text: 'O endereço pode ter mudado ou não existir mais.',
 		home: 'Ir para o início',
 	},
+	/** Diagramas ilustrativos dos modais (Diagram.astro): só o que o texto público já diz. */
+	diagrams: {
+		label: 'Diagrama ilustrativo',
+		atlas: {
+			caption: 'o caminho de uma pergunta no Atlas',
+			steps: [
+				{ title: 'Pergunta', text: 'em linguagem natural' },
+				{ title: 'Classificação', text: 'conceitual ou sobre um caso específico' },
+				{ title: 'Recuperação', text: 'busca textual nos documentos' },
+				{ title: 'Seleção', text: 'o modelo escolhe as fontes relevantes' },
+				{ title: 'Resposta', text: 'gerada com esse contexto, aos poucos na tela' },
+			],
+			note: 'Caso específico: templates SQL consultam os dados em modo somente leitura, e o resultado também entra no contexto. Sem o identificador, o assistente pede antes de prosseguir.',
+			examplesTitle: 'Exemplos com perguntas inventadas',
+			examples: [
+				{
+					question: 'Como funciona a atualização cadastral de um cliente?',
+					route: ['Conceitual', 'Documentos', 'Resposta'],
+				},
+				{
+					question: 'Qual é a situação do cadastro deste cliente?',
+					route: ['Caso específico', 'Pede o identificador', 'Consulta SQL', 'Resposta'],
+				},
+			],
+		},
+		manhattan: {
+			caption: 'do anúncio ao dashboard, na arquitetura Medallion',
+			steps: [
+				{ title: 'Fontes', text: 'Zillow e StreetEasy' },
+				{ title: 'Bronze', text: 'ingestão dos anúncios', tag: 'já existia' },
+				{ title: 'Prata', text: 'tratamento e conciliação das fontes' },
+				{ title: 'Ouro', text: 'camada analítica' },
+				{ title: 'Saídas', text: 'pontuação, avisos no Teams e dashboard' },
+			],
+		},
+		modeling: {
+			caption: 'do levantamento ao modelo de dados',
+			steps: [
+				{ title: 'Visitas e entrevistas', text: 'com quem usa o sistema' },
+				{ title: 'Processos', text: 'mapeamento da rotina de trabalho' },
+				{ title: 'Requisitos', text: 'necessidades e histórias de usuário' },
+				{ title: 'Modelo conceitual', text: 'elementos e relações do negócio' },
+				{ title: 'Modelo lógico', text: 'entidades, atributos e chaves' },
+			],
+			areasTitle: 'Áreas cobertas',
+			areas: ['Estoque', 'Produção', 'Vendas', 'Faturamento', 'Pessoas', 'Finanças'],
+		},
+	},
 	/** Modais de detalhe: resumo no topo e links entre experiência e projeto. */
 	dialog: {
 		summary: 'Resumo',

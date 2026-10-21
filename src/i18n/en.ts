@@ -13,6 +13,53 @@ export const en: Dictionary = {
 		text: 'The address may have changed or may no longer exist.',
 		home: 'Go to the home page',
 	},
+	diagrams: {
+		label: 'Illustrative diagram',
+		atlas: {
+			caption: 'how a question flows through Atlas',
+			steps: [
+				{ title: 'Question', text: 'in natural language' },
+				{ title: 'Classification', text: 'conceptual or about a specific case' },
+				{ title: 'Retrieval', text: 'text search over the documents' },
+				{ title: 'Selection', text: 'the model picks the relevant sources' },
+				{ title: 'Answer', text: 'generated from that context, streamed to the screen' },
+			],
+			note: 'Specific case: SQL templates query the data in read-only mode, and the result also goes into the context. Without an identifier, the assistant asks for it first.',
+			examplesTitle: 'Examples with made-up questions',
+			examples: [
+				{
+					question: "How does updating a customer's records work?",
+					route: ['Conceptual', 'Documents', 'Answer'],
+				},
+				{
+					question: "What is the status of this customer's records?",
+					route: ['Specific case', 'Asks for the identifier', 'SQL query', 'Answer'],
+				},
+			],
+		},
+		manhattan: {
+			caption: 'from listing to dashboard, in a Medallion architecture',
+			steps: [
+				{ title: 'Sources', text: 'Zillow and StreetEasy' },
+				{ title: 'Bronze', text: 'listing ingestion', tag: 'already existed' },
+				{ title: 'Silver', text: 'cleaning and reconciling the sources' },
+				{ title: 'Gold', text: 'analytics layer' },
+				{ title: 'Outputs', text: 'scores, Teams alerts and dashboard' },
+			],
+		},
+		modeling: {
+			caption: 'from discovery to the data model',
+			steps: [
+				{ title: 'Visits and interviews', text: 'with the people who use the system' },
+				{ title: 'Processes', text: 'mapping the daily routine' },
+				{ title: 'Requirements', text: 'needs and user stories' },
+				{ title: 'Conceptual model', text: 'business elements and relationships' },
+				{ title: 'Logical model', text: 'entities, attributes and keys' },
+			],
+			areasTitle: 'Areas covered',
+			areas: ['Inventory', 'Production', 'Sales', 'Billing', 'People', 'Finance'],
+		},
+	},
 	dialog: {
 		summary: 'Summary',
 		problem: 'Problem',
