@@ -4,9 +4,9 @@ title:
   en: "Professional portfolio"
   es: "Portafolio profesional"
 description:
-  pt: "Este site: portfólio estático em três idiomas, com tema claro e escuro, acessibilidade WCAG AA e testes automatizados a cada mudança."
-  en: "This website: a static portfolio in three languages, with light and dark themes, WCAG AA accessibility and automated tests on every change."
-  es: "Este sitio: portafolio estático en tres idiomas, con tema claro y oscuro, accesibilidad WCAG AA y pruebas automatizadas en cada cambio."
+  pt: "Este site: portfólio estático em três idiomas, com tema claro e escuro e testes automatizados a cada mudança, incluindo verificações de acessibilidade com axe e navegação por teclado."
+  en: "This website: a static portfolio in three languages, with light and dark themes and automated tests on every change, including accessibility checks with axe and keyboard navigation."
+  es: "Este sitio: portafolio estático en tres idiomas, con tema claro y oscuro y pruebas automatizadas en cada cambio, incluidas verificaciones de accesibilidad con axe y navegación por teclado."
 category: frontend
 kind: personal
 status: released
@@ -68,17 +68,17 @@ details:
       items:
         pt:
           - "Testes Playwright de comportamento, teclado, idiomas e layout a cada push, nos dois temas."
-          - "axe com as regras WCAG 2.2 A e AA, incluindo modais e menu do celular."
+          - "axe com as regras WCAG 2.2 A e AA, incluindo modais e menu do celular. Testes automáticos cobrem só parte dos critérios: a avaliação manual com leitor de tela ainda está nos próximos passos."
           - "Lighthouse no CI com nota mínima: hoje, 100 nas quatro categorias, no celular e no desktop."
           - "Uma verificação no build que bloqueia a publicação se um currículo tiver dados pessoais que não devem ir ao ar."
         en:
           - "Playwright tests for behavior, keyboard, languages and layout on every push, in both themes."
-          - "axe with the WCAG 2.2 A and AA rules, including dialogs and the mobile menu."
+          - "axe with the WCAG 2.2 A and AA rules, including dialogs and the mobile menu. Automated tests cover only part of the criteria: a manual review with a screen reader is still on the to-do list."
           - "Lighthouse in CI with a minimum score: currently 100 in all four categories, on mobile and desktop."
           - "A build check that blocks publishing if a CV contains personal data that should not go live."
         es:
           - "Pruebas Playwright de comportamiento, teclado, idiomas y diseño en cada push, en los dos temas."
-          - "axe con las reglas WCAG 2.2 A y AA, incluidos las ventanas y el menú del celular."
+          - "axe con las reglas WCAG 2.2 A y AA, incluidos las ventanas y el menú del celular. Las pruebas automáticas cubren solo parte de los criterios: la evaluación manual con lector de pantalla sigue pendiente."
           - "Lighthouse en el CI con nota mínima: hoy, 100 en las cuatro categorías, en celular y escritorio."
           - "Una verificación en el build que bloquea la publicación si un currículum tiene datos personales que no deben publicarse."
     - heading: { pt: "Como foi construído", en: "How it was built", es: "Cómo se construyó" }
