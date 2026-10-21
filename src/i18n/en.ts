@@ -207,7 +207,7 @@ export const en: Dictionary = {
 		},
 		sets: {
 			languages: 'Languages',
-			frameworks: 'Frameworks',
+			frameworks: 'Frameworks and runtimes',
 			persistence: 'Persistence',
 			design: 'Requirements and modeling',
 			integration: 'Integration',
@@ -262,7 +262,7 @@ export const en: Dictionary = {
 			site: 'Content → 3 languages → 2 themes',
 		},
 		readMore: 'See details',
-		count: 'projects shown',
+		count: { one: 'project shown', other: 'projects shown' },
 		details: {
 			techDetails: 'Technologies in detail',
 			tech: 'Technologies',

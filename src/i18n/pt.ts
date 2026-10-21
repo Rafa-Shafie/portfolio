@@ -215,7 +215,7 @@ export const pt = {
 		},
 		sets: {
 			languages: 'Linguagens',
-			frameworks: 'Frameworks',
+			frameworks: 'Frameworks e runtimes',
 			persistence: 'Persistência',
 			design: 'Requisitos e modelagem',
 			integration: 'Integração',
@@ -270,7 +270,8 @@ export const pt = {
 			site: 'Conteúdo → 3 idiomas → 2 temas',
 		},
 		readMore: 'Ver detalhes',
-		count: 'projetos exibidos',
+		/** Anúncio do filtro: singular e plural (o script escolhe com Intl.PluralRules). */
+		count: { one: 'projeto exibido', other: 'projetos exibidos' },
 		details: {
 			techDetails: 'Tecnologias em detalhe',
 			tech: 'Tecnologias',

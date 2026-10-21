@@ -37,7 +37,8 @@ test('filtros: um por área, marcados com aria-pressed e com a contagem anunciad
 		expect(sorted(titles.map((s) => s.trim())), `filtro ${area}`).toEqual(sorted(expected.map((p) => p.title.pt)));
 		await expect(filters.locator('[aria-pressed="true"]')).toHaveCount(1);
 		await expect(filters.locator(`[data-filter="${area}"]`)).toHaveAttribute('aria-pressed', 'true');
-		await expect(page.locator('[data-project-count]')).toHaveText(`${expected.length} ${t.projects.count}`);
+		const label = new Intl.PluralRules('pt-BR').select(expected.length) === 'one' ? t.projects.count.one : t.projects.count.other;
+		await expect(page.locator('[data-project-count]')).toHaveText(`${expected.length} ${label}`);
 	}
 
 	await filters.locator('[data-filter="all"]').click();

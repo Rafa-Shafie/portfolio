@@ -91,7 +91,7 @@ scripts/          marca em SVG, guarda do CV, Lighthouse com nota mínima, print
 3. **Tema com `light-dark()` e sem flash.** Cada cor é declarada uma vez e o `color-scheme` da raiz escolhe o tema. Sem escolha salva, quem decide é o sistema, mesmo sem JavaScript. Um script síncrono no `<head>` aplica a escolha salva antes da primeira pintura.
 4. **Destaque diferente por tema.** O ciano `#12EFFF` tem 13,4:1 de contraste no escuro, mas ~1,4:1 sobre branco. No claro, o destaque é um ciano escuro (`#0E7490`, 5,1:1).
 5. **Acessibilidade como requisito medido:**
-   - WCAG 2.2 AA conferido pelo axe nos dois temas e nos três idiomas;
+   - regras automáticas da WCAG 2.2 A/AA conferidas pelo axe nos dois temas e nos três idiomas (testes automáticos cobrem parte dos critérios; a avaliação manual com leitor de tela ainda está por fazer);
    - padrões do W3C/APG: abas, disclosure, acordeão nativo e `<dialog>`;
    - teclado, foco visível e `prefers-reduced-motion`;
    - nenhuma rolagem horizontal de 320px até texto a 200%.
