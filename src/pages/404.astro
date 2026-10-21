@@ -1,0 +1,116 @@
+---
+/**
+ * Página 404. A Vercel serve o mesmo 404.html para qualquer endereço que não existe, em qualquer
+ * idioma, então a página fala os três: o português em destaque (o idioma da raiz) e uma linha em
+ * inglês e outra em espanhol, cada uma com o `lang` certo para o leitor de tela pronunciar bem.
+ *
+ * Sem canonical, hreflang nem JSON-LD, e com noindex (BaseLayout com notFound): uma página de erro
+ * não deve aparecer nas buscas.
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BrandMark from '../assets/brand/mark.svg';
+import BrandWordmark from '../assets/brand/wordmark.svg';
+import { htmlLang, useTranslations } from '../i18n/utils';
+
+const pt = useTranslations('pt');
+// Os outros idiomas, cada um com a rota da página inicial
+const others = (['en', 'es'] as const).map((locale) => ({ locale, path: `/${locale}/`, t: useTranslations(locale) }));
+---
+
+<BaseLayout locale="pt" title={pt.notFound.title} description={pt.notFound.text} notFound>
+	<main id="main" class="not-found">
+		<a class="brand" href="/" aria-label="Rafael El Shafie">
+			<BrandMark class="logo-mark" aria-hidden="true" />
+			<BrandWordmark class="logo-word" aria-hidden="true" />
+		</a>
+
+		<p class="code" aria-hidden="true">404</p>
+		<h1>{pt.notFound.heading}</h1>
+		<p class="text">{pt.notFound.text}</p>
+		<a class="button button-primary" href="/">{pt.notFound.home}</a>
+
+		<ul class="others">
+			{
+				others.map(({ locale, path, t }) => (
+					<li lang={htmlLang[locale]}>
+						<span>{t.notFound.heading}.</span>
+						<a href={path} hreflang={htmlLang[locale]}>
+							{t.notFound.home}
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</main>
+</BaseLayout>
+
+<style>
+	.not-found {
+		display: grid;
+		justify-items: start;
+		align-content: center;
+		gap: var(--space-4);
+		width: min(100% - 2rem, 40rem);
+		min-height: 100vh;
+		margin-inline: auto;
+		padding-block: var(--space-8);
+	}
+
+	.brand {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-3);
+		margin-bottom: var(--space-6);
+		color: var(--color-text);
+	}
+
+	.logo-mark {
+		width: 2.5rem;
+		height: 2.5rem;
+	}
+
+	.logo-word {
+		height: 1.5rem;
+		width: auto;
+	}
+
+	.code {
+		color: var(--color-accent);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+		letter-spacing: 0.14em;
+	}
+
+	h1 {
+		font-size: var(--text-3xl);
+		font-weight: var(--weight-bold);
+		letter-spacing: -0.03em;
+		line-height: 1.05;
+	}
+
+	.text {
+		color: var(--color-text-muted);
+	}
+
+	.button {
+		margin-top: var(--space-2);
+	}
+
+	.others {
+		display: grid;
+		gap: var(--space-2);
+		margin-top: var(--space-6);
+		padding: var(--space-5) 0 0;
+		border-top: 1px solid var(--color-border);
+		color: var(--color-text-muted);
+		font-size: var(--text-base);
+		list-style: none;
+	}
+
+	.others a {
+		margin-left: var(--space-2);
+		color: var(--color-text);
+		text-decoration-color: var(--color-accent);
+		text-underline-offset: 0.25em;
+	}
+</style>

@@ -8,6 +8,15 @@ export const pt = {
 		title: 'Rafael El Shafie | Engenharia de Software, IA Generativa e Backend',
 		description:
 			'Portfólio de Rafael El Shafie, estudante de Engenharia de Software com experiência em backend e IA generativa: RAG, Text-to-SQL, Python e FastAPI.',
+		/** Cargo no JSON-LD (dados estruturados para o Google). */
+		jobTitle: 'Estudante de Engenharia de Software',
+	},
+	/** Página 404: uma só para os três idiomas, então cada um tem o seu bloco. */
+	notFound: {
+		title: 'Página não encontrada · Rafael El Shafie',
+		heading: 'Página não encontrada',
+		text: 'O endereço pode ter mudado ou não existir mais.',
+		home: 'Ir para o início',
 	},
 	/** Modais de detalhe: resumo no topo e links entre experiência e projeto. */
 	dialog: {

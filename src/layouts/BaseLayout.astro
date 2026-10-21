@@ -6,11 +6,15 @@
  * - canonical: o endereço "oficial" da página, para o Google não tratar variações como duplicatas.
  * - hreflang: as versões da mesma página nos outros idiomas.
  * - Open Graph (og:*): título, descrição e imagem que aparecem ao compartilhar o link.
+ * - JSON-LD: dados estruturados (schema.org) que dizem ao Google que a página é de uma pessoa, com
+ *   nome, cargo e perfis; ajudam a ligar o nome ao site, ao LinkedIn e ao GitHub nas buscas.
+ * - notFound: a página 404 não tem canonical, hreflang nem JSON-LD e pede para não ser indexada.
  * - Os CSS globais são importados aqui para valer em todas as páginas.
  */
 import { Font } from 'astro:assets';
 import { getAbsoluteLocaleUrl } from 'astro:i18n';
-import { defaultLocale, htmlLang, locales, ogLocale, type Locale } from '../i18n/utils';
+import { profile } from '../data/profile';
+import { defaultLocale, htmlLang, locales, ogLocale, useTranslations, type Locale } from '../i18n/utils';
 import '../styles/tokens.css';
 import '../styles/global.css';
 
@@ -18,15 +22,30 @@ interface Props {
 	locale: Locale;
 	title: string;
 	description: string;
+	/** Página 404: sem canonical, hreflang e JSON-LD, e com noindex. */
+	notFound?: boolean;
 }
 
-const { locale, title, description } = Astro.props;
+const { locale, title, description, notFound = false } = Astro.props;
 const canonical = getAbsoluteLocaleUrl(locale);
 const ogImageUrl = new URL(`/og/${locale}.png`, Astro.site);
 
 // Web Analytics e Speed Insights da Vercel: sem cookies, então seguem a regra de privacidade.
 // Os scripts só existem nos deploys da Vercel (VERCEL=1 no build); no CI e localmente dariam 404.
 const vercelInsights = process.env.VERCEL === '1';
+
+// Dados estruturados da pessoa (schema.org/Person), no idioma da página
+const person = {
+	'@context': 'https://schema.org',
+	'@type': 'Person',
+	name: profile.name,
+	url: canonical,
+	jobTitle: useTranslations(locale).meta.jobTitle,
+	description,
+	address: { '@type': 'PostalAddress', addressLocality: 'Rio de Janeiro', addressCountry: 'BR' },
+	knowsAbout: ['Backend development', 'Generative AI', 'RAG', 'Text-to-SQL', 'Python', 'FastAPI', 'Java', 'Spring Boot'],
+	sameAs: [profile.linkedin, profile.github],
+};
 ---
 
 <!doctype html>
@@ -36,11 +55,21 @@ const vercelInsights = process.env.VERCEL === '1';
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>{title}</title>
 		<meta name="description" content={description} />
-		<link rel="canonical" href={canonical} />
-
-		<!-- A mesma página nos outros idiomas; x-default é a versão para quem não tem idioma correspondente -->
-		{locales.map((l) => <link rel="alternate" hreflang={htmlLang[l]} href={getAbsoluteLocaleUrl(l)} />)}
-		<link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl(defaultLocale)} />
+		{
+			notFound ? (
+				<meta name="robots" content="noindex" />
+			) : (
+				<>
+					<link rel="canonical" href={canonical} />
+					{/* A mesma página nos outros idiomas; x-default é a versão para quem não tem idioma correspondente */}
+					{locales.map((l) => (
+						<link rel="alternate" hreflang={htmlLang[l]} href={getAbsoluteLocaleUrl(l)} />
+					))}
+					<link rel="alternate" hreflang="x-default" href={getAbsoluteLocaleUrl(defaultLocale)} />
+					<script is:inline type="application/ld+json" set:html={JSON.stringify(person)} />
+				</>
+			)
+		}
 
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
