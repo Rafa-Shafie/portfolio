@@ -93,7 +93,7 @@ export const es: Dictionary = {
 		contact: 'Contacto',
 	},
 	hero: {
-		status: 'Abierto a pasantías y proyectos',
+		status: 'Abierto a oportunidades',
 		headline: 'Ingeniería de Software · IA Generativa · Backend',
 		intro:
 			'Estudiante de Ingeniería de Software. Desarrollo sistemas backend y aplicaciones con IA generativa, desde el levantamiento de requisitos hasta producción.',

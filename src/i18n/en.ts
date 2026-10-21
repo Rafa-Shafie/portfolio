@@ -93,7 +93,7 @@ export const en: Dictionary = {
 		contact: 'Contact',
 	},
 	hero: {
-		status: 'Open to internships and projects',
+		status: 'Open to opportunities',
 		headline: 'Software Engineering · Generative AI · Backend',
 		intro:
 			'Software Engineering student. I build backend systems and generative AI applications, from requirements gathering to production.',
