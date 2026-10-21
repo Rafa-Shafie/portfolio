@@ -91,6 +91,20 @@ const person = {
 				}
 				root.dataset.theme = theme;
 				document.querySelector('meta[name="theme-color"]').content = theme === 'light' ? '#f8fafc' : '#0b1117';
+
+				// Vindo de uma troca de idioma: esconde o conteúdo até o script do fim do body rolar até o lugar
+				// guardado. Sem isso, o topo da página aparece por um instante antes de descer (numa rede
+				// lenta, o navegador desenha o começo do HTML antes de o resto chegar). Se algo falhar, a
+				// página aparece sozinha 1 s depois de o HTML terminar de chegar (DOMContentLoaded), e não
+				// antes: contar a partir daqui mostraria o topo numa rede lenta.
+				try {
+					if (sessionStorage.getItem('language-switch-position')) {
+						root.classList.add('restoring-position');
+						addEventListener('DOMContentLoaded', () => {
+							setTimeout(() => root.classList.remove('restoring-position'), 1000);
+						});
+					}
+				} catch {}
 			})();
 		</script>
 		<meta name="generator" content={Astro.generator} />
@@ -127,7 +141,8 @@ const person = {
 
 		<!--
 			Depois de trocar de idioma, volta à mesma seção e à mesma altura dentro dela (o seletor guarda
-			a posição; ver LanguageSwitcher.astro). Módulo inline no fim do body: módulos rodam em ordem,
+			a posição; ver LanguageSwitcher.astro). Enquanto isso, o conteúdo fica escondido (classe
+			restoring-position, posta no <head>), para o topo não aparecer antes de a página descer. Módulo inline no fim do body: módulos rodam em ordem,
 			então este roda depois dos scripts dos componentes, com o layout final (filtros, abas e
 			botões que só aparecem com JS). As seções que ficam na tela aparecem direto, sem animação.
 		-->
@@ -148,6 +163,8 @@ const person = {
 					if (top < innerHeight && bottom > 0) el.classList.remove('reveal', 'reveal-pending');
 				}
 			}
+			// Já no lugar certo (ou sem posição válida): mostra a página
+			document.documentElement.classList.remove('restoring-position');
 		</script>
 	</body>
 </html>

@@ -105,6 +105,15 @@ test.describe('seletor de idioma', () => {
 });
 
 test.describe('trocar de idioma mantém o lugar', () => {
+	test('posição guardada inválida: a página aparece normalmente, no topo', async ({ page }) => {
+		await page.goto('/');
+		await page.evaluate(() => sessionStorage.setItem('language-switch-position', JSON.stringify({ id: 'nao-existe', progress: 0.5 })));
+		await page.goto('/en/');
+		await expect(page.locator('html')).not.toHaveClass(/restoring-position/);
+		await expect(page.locator('#top h1')).toBeVisible();
+		expect(await page.evaluate(() => scrollY)).toBe(0);
+	});
+
 	/** Seção no topo da tela (logo abaixo do header) e a altura dentro dela, de 0 a 1. */
 	const position = (page: import('@playwright/test').Page) =>
 		page.evaluate(() => {
@@ -129,12 +138,40 @@ test.describe('trocar de idioma mantém o lugar', () => {
 		const before = await position(page);
 		expect(before?.id).toBe('projects');
 
+		// Simula uma rede lenta (100 kB/s, pelo protocolo de depuração do Chrome): o HTML chega aos poucos,
+		// e o navegador desenha o começo dele antes de o script do fim do body rolar até o lugar guardado.
+		// É nessa situação que o topo piscava
+		const cdp = await page.context().newCDPSession(page);
+		await cdp.send('Network.enable');
+		await cdp.send('Network.emulateNetworkConditions', {
+			offline: false,
+			latency: 50,
+			downloadThroughput: 100 * 1024,
+			uploadThroughput: 100 * 1024,
+		});
+		// Espião do primeiro quadro da página nova: anota se o conteúdo estava escondido e onde estava a
+		// rolagem. requestAnimationFrame roda logo antes de o navegador desenhar
+		await page.addInitScript(() => {
+			requestAnimationFrame(() => {
+				(window as unknown as { firstFrame: object }).firstFrame = {
+					hidden: document.documentElement.classList.contains('restoring-position'),
+					scrollY,
+				};
+			});
+		});
 		await page.locator('.lang-list a[hreflang="en"]').click();
 		await expect(page).toHaveURL(/\/en\/$/);
 
 		await expect.poll(async () => (await position(page))?.id).toBe('projects');
 		const after = await position(page);
 		expect(Math.abs(after!.progress - before!.progress)).toBeLessThan(0.02);
+
+		// Sem piscar o topo: no primeiro quadro, o conteúdo estava escondido ou a página já estava no lugar.
+		// Depois, a página aparece
+		const firstFrame = await page.evaluate(() => (window as unknown as { firstFrame: { hidden: boolean; scrollY: number } }).firstFrame);
+		expect(firstFrame.hidden || firstFrame.scrollY > 0, 'o topo apareceu antes de descer').toBe(true);
+		await expect(page.locator('html')).not.toHaveClass(/restoring-position/);
+		await expect(page.locator('#projects')).toBeVisible();
 
 		// Nada do que está na tela fica esperando a animação de entrada
 		const pendingOnScreen = await page.evaluate(() =>
