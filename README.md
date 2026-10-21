@@ -4,7 +4,7 @@ Site pessoal de um estudante de Engenharia de Software focado em **backend e IA 
 
 **Engenharia de Software · IA Generativa · Backend**
 
-**Site:** [portfolio-chi-pink-45.vercel.app](https://portfolio-chi-pink-45.vercel.app) · [English](https://portfolio-chi-pink-45.vercel.app/en/) · [Español](https://portfolio-chi-pink-45.vercel.app/es/)
+**Site:** [rafashafie.site](https://www.rafashafie.site) · [English](https://www.rafashafie.site/en/) · [Español](https://www.rafashafie.site/es/)
 
 | Escuro | Claro |
 |---|---|

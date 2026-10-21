@@ -20,9 +20,10 @@ const inter = '@fontsource/inter/files/inter-latin';
 
 // https://astro.build/config
 export default defineConfig({
-	// Endereço público do site. O Astro usa este valor para montar URLs absolutas: canonical, Open
-	// Graph (a imagem do link compartilhado), hreflang e sitemap. Trocar quando houver domínio próprio.
-	site: 'https://portfolio-chi-pink-45.vercel.app',
+	// Endereço público do site (domínio próprio; o endereço sem www e o antigo da Vercel redirecionam
+	// para cá). O Astro usa este valor para montar URLs absolutas: canonical, Open Graph (a imagem do
+	// link compartilhado), hreflang, sitemap, robots.txt e JSON-LD.
+	site: 'https://www.rafashafie.site',
 	// i18n por rota: português na raiz (/), inglês e espanhol em /en/ e /es/.
 	// prefixDefaultLocale: false é o que deixa o português sem /pt/ na frente.
 	i18n: {
