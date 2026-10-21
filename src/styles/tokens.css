@@ -25,6 +25,12 @@
 	--color-text-muted: light-dark(#475569, #9aa7b4);
 	--color-accent: light-dark(#0e7490, #12efff);
 	--color-on-accent: light-dark(#ffffff, #0b1117);
+	/*
+	 * Fundo dos blocos de destaque (contato e rodapé): no escuro, um ciano menos saturado que o do
+	 * texto, para a mudança de intensidade no fim da página não ser tão brusca. O texto por cima é o
+	 * --color-on-accent (contraste de ~9:1 no escuro).
+	 */
+	--color-accent-block: light-dark(#0e7490, #35c9d4);
 	--color-focus: var(--color-accent);
 	/* fundo atrás dos modais e sombras: no claro, mais leves e no tom do texto */
 	--color-backdrop: light-dark(rgb(15 23 42 / 0.5), rgb(5 9 12 / 0.75));
@@ -33,6 +39,8 @@
 
 	/* tipografia — o Astro injeta --font-poppins com a fonte e os fallbacks */
 	--font-sans: var(--font-poppins, system-ui, sans-serif);
+	/* texto corrido: Inter, mais legível em parágrafos longos (a Poppins fica nos títulos e botões) */
+	--font-body: var(--font-inter, system-ui, sans-serif);
 	/* rótulos e metadados: fonte monoespaçada do sistema, sem download */
 	--font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Consolas, monospace;
 
@@ -98,6 +106,7 @@
 		--color-text-muted: #9aa7b4;
 		--color-accent: #12efff;
 		--color-on-accent: #0b1117;
+		--color-accent-block: #35c9d4;
 		--color-backdrop: rgb(5 9 12 / 0.75);
 		--shadow-color: rgb(0 0 0 / 0.5);
 		--shadow-color-strong: rgb(0 0 0 / 0.6);

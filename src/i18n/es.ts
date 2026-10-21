@@ -5,6 +5,13 @@ export const es: Dictionary = {
 		title: 'Rafael El Shafie | Ingeniería de Software, IA Generativa y Backend',
 		description:
 			'Portafolio de Rafael El Shafie, estudiante de Ingeniería de Software con experiencia en backend e IA generativa: RAG, Text-to-SQL, Python y FastAPI.',
+		jobTitle: 'Estudiante de Ingeniería de Software',
+	},
+	notFound: {
+		title: 'Página no encontrada · Rafael El Shafie',
+		heading: 'Página no encontrada',
+		text: 'La dirección puede haber cambiado o ya no existir.',
+		home: 'Ir al inicio',
 	},
 	dialog: {
 		summary: 'Resumen',

@@ -23,7 +23,11 @@ export const test = base.extend({
 	page: async ({ page }, use) => {
 		const errors: string[] = [];
 		page.on('console', (message) => {
-			if (message.type() === 'error') errors.push(message.text());
+			if (message.type() !== 'error') return;
+			// A página 404 responde com status 404 de propósito: o navegador anota isso como erro do
+			// próprio documento. Só esse caso é ignorado; um recurso faltando (imagem, script) reprova.
+			const documentNotFound = message.text().includes('status of 404') && message.location().url === page.url();
+			if (!documentNotFound) errors.push(message.text());
 		});
 		page.on('pageerror', (error) => errors.push(error.message));
 		await use(page);
