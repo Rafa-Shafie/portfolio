@@ -52,7 +52,7 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 						</button>
 					))}
 				</div>
-				<p class="visually-hidden" role="status" data-project-count data-label={t.projects.count} />
+				<p class="visually-hidden" role="status" data-project-count data-one={t.projects.count.one} data-other={t.projects.count.other} />
 			</>
 		)
 	}
@@ -181,8 +181,10 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 				if (match) shown++;
 			});
 			// Anuncia quantos projetos ficaram visíveis. O parágrafo tem role="status": o leitor de tela lê
-			// sozinho quando o texto muda, sem tirar o foco do botão (é uma "live region")
-			status.textContent = `${shown} ${status.dataset.label ?? ''}`;
+			// sozinho quando o texto muda, sem tirar o foco do botão (é uma "live region").
+			// Intl.PluralRules conhece a regra de cada idioma: 1 → "one" (projeto), o resto → "other"
+			const form = new Intl.PluralRules(document.documentElement.lang).select(shown) === 'one' ? 'one' : 'other';
+			status.textContent = `${shown} ${status.dataset[form] ?? ''}`;
 			centerLastRow();
 		});
 	}
