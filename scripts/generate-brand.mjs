@@ -2,8 +2,9 @@
  * Gera a marca do site a partir dos contornos da fonte Itim (OFL):
  *   src/assets/brand/mark.svg       monograma RS com contorno (cabeçalho)
  *   src/assets/brand/wordmark.svg   "Rafa" + "Shafie" (cabeçalho e imagem OG)
- *   public/favicon.svg              monograma otimizado para 16–32 px, com fundo
- *   public/apple-touch-icon.png     ícone de 180 px para a tela inicial
+ *   public/favicon.svg              só as letras RS, ocupando o quadrado, com cores que seguem o tema
+ *                                   do sistema (a barra de abas pode ser clara ou escura)
+ *   public/apple-touch-icon.png     ícone de 180 px para a tela inicial, com fundo escuro
  *
  * Uso: npm run brand. Os arquivos gerados ficam versionados; o build não roda este script.
  *
@@ -19,6 +20,9 @@ import sharp from 'sharp';
 // Cores do tema escuro (as mesmas de tokens.css). No site, o CSS troca as cores do mark e do
 // wordmark pelos tokens; estas valem para o favicon e o ícone, que não passam pelo CSS.
 const COLORS = { bg: '#0b1117', text: '#e6edf3', accent: '#12efff' };
+// Tema claro (tokens.css): texto quase preto e ciano escuro. O ciano claro teria ~1,4:1 sobre a
+// barra de abas branca, e um R branco sumiria nela
+const LIGHT = { text: '#0f172a', accent: '#0e7490' };
 const FONT_FILE = 'node_modules/@fontsource/itim/files/itim-latin-400-normal.woff';
 
 // A opentype.js lê o arquivo da fonte e dá acesso ao desenho (contorno) de cada letra
@@ -77,6 +81,24 @@ const strokeAttrs = (color, width) =>
 	width > 0 ? ` stroke="${color}" stroke-width="${width}" stroke-linejoin="round"` : '';
 
 /**
+ * O R e o S centralizados pelo desenho real das letras num quadrado de lado `size`. A altura ocupa no
+ * máximo `capRatio` do lado e a largura, `widthRatio` (o RS da Itim é mais largo que alto). Devolve o
+ * desenho de cada letra separado, para cada uma ter a sua cor.
+ */
+function placeRS(size, capRatio, widthRatio) {
+	const probe = layout('RS', 0, 0, 100).path.getBoundingBox();
+	const fontSize = 100 * Math.min((size * capRatio) / (probe.y2 - probe.y1), (size * widthRatio) / (probe.x2 - probe.x1));
+	const box = layout('RS', 0, 0, fontSize).path.getBoundingBox();
+	const x = size / 2 - (box.x1 + box.x2) / 2;
+	const y = size / 2 - (box.y1 + box.y2) / 2;
+	// R e S separados, na mesma posição que teriam juntos (avanço do R + kerning do par)
+	const r = layout('R', x, y, fontSize);
+	const kern = font.getKerningValue(font.charToGlyph('R'), font.charToGlyph('S'));
+	const s = layout('S', r.end + (Number.isFinite(kern) ? kern : 0) * (fontSize / font.unitsPerEm), y, fontSize);
+	return { r: pathData(r.path), s: pathData(s.path) };
+}
+
+/**
  * Monograma RS centralizado pelo desenho das letras dentro de um quadrado arredondado.
  * O R vai na cor do texto (classe .mark-r, que o CSS pode sobrescrever) e o S no destaque, como
  * "Rafa" e "Shafie" no wordmark. Contorno na cor de destaque.
@@ -92,22 +114,49 @@ function monogram({
 	first = COLORS.text,
 	background,
 }) {
-	// Limita pela altura e pela largura: o RS da Itim é mais largo que alto
-	const probe = layout('RS', 0, 0, 100).path.getBoundingBox();
-	const fontSize = 100 * Math.min((size * capRatio) / (probe.y2 - probe.y1), (size * widthRatio) / (probe.x2 - probe.x1));
-	const box = layout('RS', 0, 0, fontSize).path.getBoundingBox();
-	const x = size / 2 - (box.x1 + box.x2) / 2;
-	const y = size / 2 - (box.y1 + box.y2) / 2;
-	// R e S separados, na mesma posição que teriam juntos (avanço do R + kerning do par)
-	const r = layout('R', x, y, fontSize);
-	const kern = font.getKerningValue(font.charToGlyph('R'), font.charToGlyph('S'));
-	const s = layout('S', r.end + (Number.isFinite(kern) ? kern : 0) * (fontSize / font.unitsPerEm), y, fontSize);
+	const { r, s } = placeRS(size, capRatio, widthRatio);
 	const inset = frame / 2;
 	const bg = background ? ` fill="${background}"` : ' fill="none"';
 	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}">
   <rect x="${inset}" y="${inset}" width="${size - frame}" height="${size - frame}" rx="${radius}"${bg} stroke="${color}" stroke-width="${frame}"/>
-  <path class="mark-r" fill="${first}"${strokeAttrs(first, bold)} d="${pathData(r.path)}"/>
-  <path fill="${color}"${strokeAttrs(color, bold)} d="${pathData(s.path)}"/>
+  <path class="mark-r" fill="${first}"${strokeAttrs(first, bold)} d="${r}"/>
+  <path fill="${color}"${strokeAttrs(color, bold)} d="${s}"/>
+</svg>
+`;
+}
+
+/**
+ * Favicon só com as letras, ocupando quase todo o quadrado (em 16 px, cada pixel conta). As cores vêm
+ * de um <style> dentro do SVG: escuro por padrão (R claro, S ciano) e, com o sistema no tema claro,
+ * R quase preto e S ciano escuro. Chrome, Edge e Firefox aplicam essa media query no ícone da aba.
+ */
+function letters({ size = 48, capRatio = 0.8, widthRatio = 0.9, bold = 2.4 }) {
+	const { r, s } = placeRS(size, capRatio, widthRatio);
+	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}">
+  <style>
+    .r { fill: ${COLORS.text}; stroke: ${COLORS.text} }
+    .s { fill: ${COLORS.accent}; stroke: ${COLORS.accent} }
+    @media (prefers-color-scheme: light) {
+      .r { fill: ${LIGHT.text}; stroke: ${LIGHT.text} }
+      .s { fill: ${LIGHT.accent}; stroke: ${LIGHT.accent} }
+    }
+  </style>
+  <path class="r" stroke-width="${bold}" stroke-linejoin="round" d="${r}"/>
+  <path class="s" stroke-width="${bold}" stroke-linejoin="round" d="${s}"/>
+</svg>
+`;
+}
+
+/**
+ * Ícone da tela inicial (iOS): o iOS preenche transparência com preto e arredonda os cantos sozinho,
+ * então vai com fundo escuro de borda a borda, sem moldura, e as letras com margem.
+ */
+function homeIcon({ size = 48, capRatio = 0.5, widthRatio = 0.66, bold = 1.8 }) {
+	const { r, s } = placeRS(size, capRatio, widthRatio);
+	return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${size} ${size}">
+  <rect width="${size}" height="${size}" fill="${COLORS.bg}"/>
+  <path fill="${COLORS.text}"${strokeAttrs(COLORS.text, bold)} d="${r}"/>
+  <path fill="${COLORS.accent}"${strokeAttrs(COLORS.accent, bold)} d="${s}"/>
 </svg>
 `;
 }
@@ -131,15 +180,12 @@ function wordmark({ fontSize = 40, bold = 1.4, first = 'currentColor', second = 
 `;
 }
 
-// Favicon: letras maiores, contorno mais grosso e fundo escuro para ler bem em 16 px
-const favicon = monogram({ capRatio: 0.52, widthRatio: 0.68, frame: 3.5, radius: 11, bold: 1.8, color: COLORS.accent, background: COLORS.bg });
-
-// Escreve os arquivos. O PNG da tela inicial (iOS) sai do mesmo SVG do favicon, rasterizado pelo sharp:
-// density 600 desenha em alta resolução antes de reduzir para 180 px, para as bordas ficarem lisas.
+// Escreve os arquivos. O PNG da tela inicial (iOS) é rasterizado pelo sharp: density 600 desenha em
+// alta resolução antes de reduzir para 180 px, para as bordas ficarem lisas.
 mkdirSync(resolve('src/assets/brand'), { recursive: true });
 writeFileSync(resolve('src/assets/brand/mark.svg'), monogram({}));
 writeFileSync(resolve('src/assets/brand/wordmark.svg'), wordmark({}));
-writeFileSync(resolve('public/favicon.svg'), favicon);
-await sharp(Buffer.from(favicon), { density: 600 }).resize(180, 180).png().toFile(resolve('public/apple-touch-icon.png'));
+writeFileSync(resolve('public/favicon.svg'), letters({}));
+await sharp(Buffer.from(homeIcon({})), { density: 600 }).resize(180, 180).png().toFile(resolve('public/apple-touch-icon.png'));
 
 console.log('marca gerada: mark.svg, wordmark.svg, favicon.svg, apple-touch-icon.png');
