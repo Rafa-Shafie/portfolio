@@ -15,6 +15,8 @@ import { defaultLocale, htmlLang, locales } from './src/i18n/utils.ts';
 
 // Pasta dos arquivos da Poppins dentro do pacote @fontsource/poppins (node_modules)
 const poppins = '@fontsource/poppins/files/poppins-latin';
+// Inter, a fonte do texto corrido: menos geométrica que a Poppins, mais confortável em parágrafos longos
+const inter = '@fontsource/inter/files/inter-latin';
 
 // https://astro.build/config
 export default defineConfig({
@@ -49,6 +51,20 @@ export default defineConfig({
 					{ weight: 400, style: 'normal', src: [`${poppins}-400-normal.woff2`] },
 					{ weight: 600, style: 'normal', src: [`${poppins}-600-normal.woff2`] },
 					{ weight: 700, style: 'normal', src: [`${poppins}-700-normal.woff2`] },
+				],
+			},
+		},
+		{
+			// Texto corrido (parágrafos, listas, modais). A Poppins segue nos títulos, botões e header.
+			provider: fontProviders.local(),
+			name: 'Inter',
+			cssVariable: '--font-inter',
+			fallbacks: ['system-ui', 'sans-serif'],
+			options: {
+				// Regular para o texto e semibold para os destaques dentro dele
+				variants: [
+					{ weight: 400, style: 'normal', src: [`${inter}-400-normal.woff2`] },
+					{ weight: 600, style: 'normal', src: [`${inter}-600-normal.woff2`] },
 				],
 			},
 		},

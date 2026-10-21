@@ -95,8 +95,9 @@ const person = {
 		</script>
 		<meta name="generator" content={Astro.generator} />
 
-		<!-- Pré-carrega os pesos do texto e dos títulos; o 600 vem sob demanda -->
-		<Font cssVariable="--font-poppins" preload={[{ weight: 400 }, { weight: 700 }]} />
+		<!-- Pré-carrega só o que aparece na primeira tela: o texto (Inter 400) e o nome (Poppins 700) -->
+		<Font cssVariable="--font-poppins" preload={[{ weight: 700 }]} />
+		<Font cssVariable="--font-inter" preload={[{ weight: 400 }]} />
 
 		<meta property="og:type" content="website" />
 		<meta property="og:site_name" content="Rafael El Shafie" />

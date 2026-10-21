@@ -39,6 +39,8 @@
 
 	/* tipografia — o Astro injeta --font-poppins com a fonte e os fallbacks */
 	--font-sans: var(--font-poppins, system-ui, sans-serif);
+	/* texto corrido: Inter, mais legível em parágrafos longos (a Poppins fica nos títulos e botões) */
+	--font-body: var(--font-inter, system-ui, sans-serif);
 	/* rótulos e metadados: fonte monoespaçada do sistema, sem download */
 	--font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Consolas, monospace;
 
