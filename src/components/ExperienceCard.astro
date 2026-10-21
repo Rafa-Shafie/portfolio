@@ -124,12 +124,14 @@ const hasDetails = details && isPublished(details);
 	/*
 	 * Abrir e fechar suave: ::details-content é a parte do <details> que some quando ele fecha. A altura
 	 * vai de 0 até auto, e content-visibility com allow-discrete espera a animação de fechamento
-	 * terminar antes de esconder o conteúdo. overflow-clip-margin deixa o anel de foco do painel visível.
+	 * terminar antes de esconder o conteúdo. overflow-clip-margin dá uma folga ao recorte, para o painel
+	 * que sobe no hover e o anel de foco não serem cortados. O Chrome só respeita essa folga com
+	 * overflow: clip nos dois eixos (com overflow-y só, a borda de cima do painel sumia no hover).
 	 * Navegador sem suporte abre e fecha na hora, como antes.
 	 */
 	.experience::details-content {
 		block-size: 0;
-		overflow-y: clip;
+		overflow: clip;
 		overflow-clip-margin: 0.75rem;
 		transition:
 			block-size 300ms ease,
