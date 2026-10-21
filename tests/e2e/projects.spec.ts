@@ -15,6 +15,18 @@ const { t } = pages[0];
 const areas = [...new Set(projects.flatMap((p) => [p.category, ...(p.alsoIn ?? [])]))];
 const sorted = (list: string[]) => [...list].sort((a, b) => a.localeCompare(b));
 
+/**
+ * Clica num filtro e espera a contagem anunciada mudar. Com a transição dos filtros (View
+ * Transitions), a mudança acontece um quadro depois do clique; quando a contagem muda, os cartões
+ * já estão no lugar novo (a animação é só uma foto por cima).
+ */
+async function filterBy(page: import('@playwright/test').Page, area: string) {
+	await page.locator(`[data-project-filters] [data-filter="${area}"]`).click();
+	const count = area === 'all' ? projects.length : projectsIn(area).length;
+	const label = new Intl.PluralRules('pt-BR').select(count) === 'one' ? t.projects.count.one : t.projects.count.other;
+	await expect(page.locator('[data-project-count]')).toHaveText(`${count} ${label}`);
+}
+
 test.beforeEach(async ({ page }) => {
 	await page.goto('/');
 });
@@ -31,17 +43,16 @@ test('filtros: um por área, marcados com aria-pressed e com a contagem anunciad
 	await expect(filters.locator('[data-filter]')).toHaveCount(areas.length + 1);
 
 	for (const area of areas) {
-		await filters.locator(`[data-filter="${area}"]`).click();
+		// filterBy já confere a contagem anunciada (singular ou plural)
+		await filterBy(page, area);
 		const expected = projectsIn(area);
 		const titles = await page.locator('#projects .card:visible .card-title').allTextContents();
 		expect(sorted(titles.map((s) => s.trim())), `filtro ${area}`).toEqual(sorted(expected.map((p) => p.title.pt)));
 		await expect(filters.locator('[aria-pressed="true"]')).toHaveCount(1);
 		await expect(filters.locator(`[data-filter="${area}"]`)).toHaveAttribute('aria-pressed', 'true');
-		const label = new Intl.PluralRules('pt-BR').select(expected.length) === 'one' ? t.projects.count.one : t.projects.count.other;
-		await expect(page.locator('[data-project-count]')).toHaveText(`${expected.length} ${label}`);
 	}
 
-	await filters.locator('[data-filter="all"]').click();
+	await filterBy(page, 'all');
 	await expect(page.locator('#projects .card:visible')).toHaveCount(projects.length);
 });
 
@@ -93,7 +104,7 @@ for (const [device, width] of [
 		await page.setViewportSize({ width, height: 900 });
 		const grid = page.locator('#projects ul.grid');
 		for (const filter of ['all', ...areas]) {
-			await page.locator(`[data-filter="${filter}"]`).click();
+			await filterBy(page, filter);
 			const box = (await grid.boundingBox())!;
 			const cards = await page
 				.locator('#projects .card:visible')
@@ -104,6 +115,28 @@ for (const [device, width] of [
 			const rightGap = box.x + box.width - Math.max(...last.map((c) => c.right));
 			expect(Math.abs(leftGap - rightGap), `filtro ${filter}`).toBeLessThan(2);
 		}
+	});
+}
+
+// A transição suave dos filtros usa document.startViewTransition. O teste "espia" a função (troca
+// por uma versão que conta as chamadas e chama a original) antes de a página carregar
+for (const motion of ['no-preference', 'reduce'] as const) {
+	test(`filtros: transição suave ${motion === 'reduce' ? 'desligada com menos movimento' : 'ligada'}`, async ({ page }) => {
+		await page.emulateMedia({ reducedMotion: motion });
+		await page.addInitScript(() => {
+			const original = document.startViewTransition?.bind(document);
+			(window as unknown as { transitions: number }).transitions = 0;
+			if (original) {
+				document.startViewTransition = ((update: () => void) => {
+					(window as unknown as { transitions: number }).transitions++;
+					return original(update);
+				}) as typeof document.startViewTransition;
+			}
+		});
+		await page.goto('/');
+		await filterBy(page, areas[0]);
+		const transitions = await page.evaluate(() => (window as unknown as { transitions: number }).transitions);
+		expect(transitions).toBe(motion === 'reduce' ? 0 : 1);
 	});
 }
 
