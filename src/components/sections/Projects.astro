@@ -74,7 +74,10 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 					links: [{ label: `${localize(experience.data.role, locale)} · ${experience.data.company}`, id: `experience-${experience.id}` }],
 				};
 				return (
-					<li class:list={['card', { featured: data.featured }]} data-categories={[data.category, ...(data.alsoIn ?? [])].join(' ')}>
+					<li
+						class:list={['card', { featured: data.featured }]}
+						style={`view-transition-name: project-card-${slug}`}
+						data-categories={[data.category, ...(data.alsoIn ?? [])].join(' ')}>
 						<ProjectArt
 							category={data.category}
 							variant={data.art}
@@ -173,19 +176,32 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 			const filter = button.dataset.filter;
 			// aria-pressed: o leitor de tela anuncia qual filtro está ligado
 			buttons.forEach((b) => b.setAttribute('aria-pressed', String(b === button)));
-			let shown = 0;
-			// Cada cartão leva as áreas em data-categories ("backend ai"); esconde os que não têm a área
-			cards.forEach((card) => {
-				const match = filter === 'all' || (card.dataset.categories ?? '').split(' ').includes(filter ?? '');
-				card.hidden = !match;
-				if (match) shown++;
-			});
-			// Anuncia quantos projetos ficaram visíveis. O parágrafo tem role="status": o leitor de tela lê
-			// sozinho quando o texto muda, sem tirar o foco do botão (é uma "live region").
-			// Intl.PluralRules conhece a regra de cada idioma: 1 → "one" (projeto), o resto → "other"
-			const form = new Intl.PluralRules(document.documentElement.lang).select(shown) === 'one' ? 'one' : 'other';
-			status.textContent = `${shown} ${status.dataset[form] ?? ''}`;
-			centerLastRow();
+
+			const apply = () => {
+				let shown = 0;
+				// Cada cartão leva as áreas em data-categories ("backend ai"); esconde os que não têm a área
+				cards.forEach((card) => {
+					const match = filter === 'all' || (card.dataset.categories ?? '').split(' ').includes(filter ?? '');
+					card.hidden = !match;
+					if (match) shown++;
+				});
+				// Anuncia quantos projetos ficaram visíveis. O parágrafo tem role="status": o leitor de tela lê
+				// sozinho quando o texto muda, sem tirar o foco do botão (é uma "live region").
+				// Intl.PluralRules conhece a regra de cada idioma: 1 → "one" (projeto), o resto → "other"
+				const form = new Intl.PluralRules(document.documentElement.lang).select(shown) === 'one' ? 'one' : 'other';
+				status.textContent = `${shown} ${status.dataset[form] ?? ''}`;
+				centerLastRow();
+			};
+
+			/*
+			 * Transição suave (View Transitions API): o navegador fotografa os cartões, aplica a mudança e
+			 * anima da foto antiga para a nova. Cada cartão tem um view-transition-name próprio, então os
+			 * que saem somem, os que entram aparecem e os que ficam deslizam até o lugar novo. Sem suporte
+			 * no navegador, ou com menos movimento pedido, a troca é imediata, como antes.
+			 */
+			const smooth = 'startViewTransition' in document && matchMedia('(prefers-reduced-motion: no-preference)').matches;
+			if (smooth) document.startViewTransition(apply);
+			else apply();
 		});
 	}
 
@@ -240,6 +256,18 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 		matchMedia(query).addEventListener('change', centerLastRow);
 	}
 </script>
+
+<style is:global>
+	/* Na transição dos filtros, só os cartões animam: o resto da página troca na hora, sem piscar */
+	:root {
+		view-transition-name: none;
+	}
+
+	::view-transition-group(*) {
+		animation-duration: 250ms;
+		animation-timing-function: ease;
+	}
+</style>
 
 <style>
 	.filters {
