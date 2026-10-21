@@ -143,7 +143,7 @@ const projects = defineCollection({
 		 * links um para o outro; um nome errado quebra o build.
 		 */
 		experience: reference('experiences').optional(),
-		/** Trabalho principal: na galeria, o cartão ocupa metade da linha (os outros, um terço). */
+		/** Trabalho principal: na galeria, o cartão ganha borda e traço ciano (o tamanho é o mesmo dos outros). */
 		featured: z.boolean().default(false),
 		details: detailSections.optional(),
 		techDetails: techGroups.optional(),

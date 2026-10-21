@@ -65,19 +65,46 @@ test('cada cartão: um só botão, clicável por inteiro, e o foco volta ao fech
 	}
 });
 
-// Hierarquia: na grade de 6 colunas do desktop, destaque ocupa 3 (metade) e os outros, 2 (um terço)
-test('galeria: no desktop, os trabalhos principais ocupam metade da linha', async ({ page }) => {
+// Hierarquia sem mudar o tamanho: o destaque tem a mesma largura dos outros (a grade fica igual em
+// qualquer filtro) e se distingue pela borda ciano e pelo traço no topo
+test('galeria: trabalhos principais com o mesmo tamanho e destaque na borda', async ({ page }) => {
 	await page.setViewportSize({ width: 1440, height: 900 });
-	const width = async (slug: string) =>
-		(await page.locator(`#projects .card:has(#project-${slug})`).boundingBox())!.width;
+	const card = (slug: string) => page.locator(`#projects .card:has(#project-${slug})`);
 	const featured = projects.filter((p) => p.featured);
-	const regular = projects.filter((p) => !p.featured);
+	const [regular] = projects.filter((p) => !p.featured);
 	expect(featured.length, 'há trabalhos em destaque').toBeGreaterThan(0);
 	for (const project of featured) {
-		const ratio = (await width(project.slug)) / (await width(regular[0].slug));
-		expect(ratio, project.slug).toBeCloseTo(1.5, 1);
+		const width = (await card(project.slug).boundingBox())!.width;
+		expect(Math.abs(width - (await card(regular.slug).boundingBox())!.width), project.slug).toBeLessThan(1);
+		expect(await css(card(project.slug), 'border-top-color'), project.slug).not.toBe(
+			await css(card(regular.slug), 'border-top-color'),
+		);
 	}
 });
+
+// Última linha centralizada: em todo filtro, a folga à esquerda dela é igual à folga à direita
+// (um cartão sozinho fica no meio; dois ficam sob os vãos dos três de cima)
+for (const [device, width] of [
+	['desktop', 1440],
+	['tablet', 800],
+] as const) {
+	test(`galeria (${device}): a última linha fica centralizada em todos os filtros`, async ({ page }) => {
+		await page.setViewportSize({ width, height: 900 });
+		const grid = page.locator('#projects ul.grid');
+		for (const filter of ['all', ...areas]) {
+			await page.locator(`[data-filter="${filter}"]`).click();
+			const box = (await grid.boundingBox())!;
+			const cards = await page
+				.locator('#projects .card:visible')
+				.evaluateAll((els) => els.map((el) => el.getBoundingClientRect()).map(({ top, left, right }) => ({ top, left, right })));
+			const lastTop = Math.max(...cards.map((c) => c.top));
+			const last = cards.filter((c) => Math.abs(c.top - lastTop) < 1);
+			const leftGap = Math.min(...last.map((c) => c.left)) - box.x;
+			const rightGap = box.x + box.width - Math.max(...last.map((c) => c.right));
+			expect(Math.abs(leftGap - rightGap), `filtro ${filter}`).toBeLessThan(2);
+		}
+	});
+}
 
 test('repositórios abrem em nova aba, com rel seguro', async ({ page }) => {
 	for (const project of projects.filter((p) => p.repo)) {

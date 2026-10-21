@@ -183,7 +183,59 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 			// Anuncia quantos projetos ficaram visíveis. O parágrafo tem role="status": o leitor de tela lê
 			// sozinho quando o texto muda, sem tirar o foco do botão (é uma "live region")
 			status.textContent = `${shown} ${status.dataset.label ?? ''}`;
+			centerLastRow();
 		});
+	}
+
+	/*
+	 * Última linha centralizada: se ela não enche a grade (ex.: um cartão sozinho), o primeiro cartão
+	 * dela começa mais à direita, na coluna que deixa a linha no meio. Com dois cartões, eles ficam
+	 * sob os vãos dos três de cima, como uma pirâmide invertida.
+	 *
+	 * O script "simula" a grade: lê quantas colunas ela tem agora (muda no tablet e no desktop) e
+	 * quantas cada cartão visível ocupa, monta as linhas e mede a sobra da última. Roda ao carregar,
+	 * a cada filtro e quando a tela muda de faixa. Sem JavaScript, a última linha fica à esquerda.
+	 */
+	function centerLastRow() {
+		const grid = document.querySelector<HTMLElement>('#projects ul.grid');
+		if (!grid) return;
+		const visible = [...grid.querySelectorAll<HTMLElement>(':scope > .card')].filter((card) => {
+			card.style.gridColumn = '';
+			return !card.hidden;
+		});
+		const columns = getComputedStyle(grid).gridTemplateColumns.split(' ').length;
+		if (columns < 2) return;
+
+		// Quantas colunas o cartão ocupa: "span 4" vem do CSS; "auto" é uma; uma posição fixa (o
+		// projeto único, de borda a borda) conta como a linha inteira
+		const spanOf = (card: HTMLElement) => {
+			const start = getComputedStyle(card).gridColumnStart;
+			const match = /span (\d+)/.exec(start);
+			return match ? Math.min(Number(match[1]), columns) : start === 'auto' ? 1 : columns;
+		};
+
+		// Monta as linhas: um cartão que não cabe na sobra da linha atual abre a próxima
+		let row: { card: HTMLElement; span: number }[] = [];
+		let used = 0;
+		for (const card of visible) {
+			const span = spanOf(card);
+			if (used + span > columns) {
+				row = [];
+				used = 0;
+			}
+			row.push({ card, span });
+			used += span;
+		}
+
+		// A sobra é par (ver o CSS), então metade dela é um número inteiro de colunas. O primeiro cartão
+		// da linha ganha posição e largura; os seguintes vêm logo depois dele, sozinhos
+		const offset = (columns - used) / 2;
+		if (row.length > 0 && offset > 0) row[0].card.style.gridColumn = `${offset + 1} / span ${row[0].span}`;
+	}
+
+	centerLastRow();
+	for (const query of ['(min-width: 40rem)', '(min-width: 64rem)']) {
+		matchMedia(query).addEventListener('change', centerLastRow);
 	}
 </script>
 
@@ -217,9 +269,12 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 	}
 
 	/*
-	 * Hierarquia da galeria: no celular, uma coluna; no tablet, duas; no desktop, seis colunas, com os
-	 * trabalhos principais (featured) ocupando metade da linha e os outros, um terço. Cartões escondidos
+	 * Galeria: no celular, um cartão por linha; no tablet, dois; no desktop, três. Cartões escondidos
 	 * pelo filtro saem do fluxo (hidden), e a grade se rearruma sozinha.
+	 *
+	 * As colunas são "finas" de propósito (4 no tablet, 6 no desktop, cada cartão ocupando 2): assim, a
+	 * sobra da última linha é sempre um número par de colunas, e o script acima consegue centralizar
+	 * essa linha exatamente.
 	 */
 	.grid {
 		display: grid;
@@ -231,25 +286,17 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 
 	@media (min-width: 40rem) {
 		.grid {
-			grid-template-columns: repeat(2, 1fr);
+			grid-template-columns: repeat(4, 1fr);
+		}
+
+		.card {
+			grid-column: span 2;
 		}
 	}
 
 	@media (min-width: 64rem) {
 		.grid {
 			grid-template-columns: repeat(6, 1fr);
-		}
-
-		.card {
-			grid-column: span 2;
-		}
-
-		.card.featured {
-			grid-column: span 3;
-		}
-
-		.featured .card-title {
-			font-size: var(--text-2xl);
 		}
 	}
 
@@ -270,6 +317,26 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 	.card:has(.more:not([hidden])):is(:hover, :focus-within) {
 		transform: translateY(-4px);
 		border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+	}
+
+	/*
+	 * Trabalhos principais (featured): mesmo tamanho dos outros, para a grade ficar igual em qualquer
+	 * filtro; o destaque vem da borda ciano e de um traço mais grosso no topo. O traço é um ::before do
+	 * próprio cartão (que já é a referência de posição), então não atrapalha a área de clique esticada.
+	 */
+	/* Depois do hover e com a mesma força de seletor: no hover, a borda do destaque continua ciano cheio */
+	.card.featured,
+	.card.featured:has(.more):is(:hover, :focus-within) {
+		border-color: var(--color-accent);
+	}
+
+	.card.featured::before {
+		content: '';
+		position: absolute;
+		inset: 0 0 auto;
+		z-index: 1;
+		height: 4px;
+		background-color: var(--color-accent);
 	}
 
 	.card-body {
