@@ -33,8 +33,9 @@ test.describe('sem JavaScript', () => {
 		await expect(page.locator('#experience .outcome').first()).toBeVisible();
 	});
 
-	test('o cartão de e-mail é o link mailto', async ({ page }) => {
+	test('o cartão de e-mail é o link mailto (o menu de opções só existe com JS)', async ({ page }) => {
 		await expect(page.locator('[data-email-link]')).toBeVisible();
+		await expect(page.locator('[data-email-toggle]')).toBeHidden();
 		await expect(page.locator('button[data-copy]')).toBeHidden();
 	});
 });

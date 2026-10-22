@@ -4,7 +4,10 @@ import LinkedInIcon from 'bootstrap-icons/icons/linkedin.svg';
 import GitHubIcon from 'bootstrap-icons/icons/github.svg';
 import CvIcon from 'bootstrap-icons/icons/file-earmark-pdf.svg';
 import ArrowIcon from 'bootstrap-icons/icons/arrow-up-right.svg';
+import ChevronIcon from 'bootstrap-icons/icons/chevron-down.svg';
 import CopyIcon from 'bootstrap-icons/icons/copy.svg';
+import AppIcon from 'bootstrap-icons/icons/envelope-arrow-up.svg';
+import NewTabIcon from 'bootstrap-icons/icons/box-arrow-up-right.svg';
 import Section from '../Section.astro';
 import { cvFileSize } from '../../data/cv';
 import { profile } from '../../data/profile';
@@ -18,47 +21,103 @@ interface Props {
 
 const { id, number, locale } = Astro.props;
 const t = useTranslations(locale);
+const o = t.contact.emailOptions;
 
 const external = [
 	{ href: profile.linkedin, title: t.contact.linkedin, hint: t.contact.linkedinHint, Icon: LinkedInIcon },
 	{ href: profile.github, title: t.contact.github, hint: t.contact.githubHint, Icon: GitHubIcon },
 	{ href: profile.cv[locale], title: t.contact.cv, hint: `PDF · ${cvFileSize(locale)}`, Icon: CvIcon },
 ];
+
+// Links oficiais de "novo e-mail" do Gmail e do Outlook na web, já com o destinatário preenchido.
+// Quem não está logado faz o login primeiro e cai na mesma tela.
+const to = encodeURIComponent(profile.email);
+const webmail = [
+	{ href: `https://mail.google.com/mail/?view=cm&fs=1&to=${to}`, label: o.gmail },
+	{ href: `https://outlook.live.com/mail/0/deeplink/compose?to=${to}`, label: o.outlook },
+];
 ---
 
 <Section id={id} number={number} label={t.contact.label} heading={t.contact.heading} variant="inverted">
 	<p slot="intro">{t.contact.text}</p>
 
-	<ul class="cards">
-		<li class="card email-card">
-			<!--
-				E-mail: o cartão inteiro é o link mailto:, que abre o app de e-mail. O botão redondo no canto
-				copia o endereço, para quem não tem um app de e-mail configurado. Ele só aparece com
-				JavaScript e com a API de área de transferência; sem eles, fica só o link, que sempre funciona.
-			-->
-			<a class="card-link" href={`mailto:${profile.email}`} data-email-link>
-				<EmailIcon class="card-icon" aria-hidden="true" />
-				<span class="card-title">{t.contact.email}</span>
-				<span class="card-hint" data-copy-hint>{profile.email}</span>
-			</a>
-			<button class="copy" type="button" data-copy={profile.email} aria-label={t.contact.copyEmail} hidden>
-				<CopyIcon aria-hidden="true" />
-			</button>
-		</li>
-		{
-			external.map(({ href, title, hint, Icon }) => (
-				<li class="card">
-					<a class="card-link" href={href} target="_blank" rel="noopener noreferrer">
-						<Icon class="card-icon" aria-hidden="true" />
-						<span class="card-title">{title}</span>
-						<span class="card-hint">{hint}</span>
-						<ArrowIcon class="card-corner" aria-hidden="true" />
-						<span class="visually-hidden">{t.a11y.newTab}</span>
-					</a>
-				</li>
-			))
-		}
-	</ul>
+	<!-- Referência de posição do menu de e-mail (ver o CSS): fica fora da lista, que corta o que transborda -->
+	<div class="cards-wrap">
+		<ul class="cards">
+			<li class="card email-card">
+				<!--
+					E-mail: o site não sabe qual serviço cada pessoa usa, então o cartão abre um menu com os
+					caminhos possíveis, e a pessoa escolhe: copiar (serve para qualquer serviço), o app de
+					e-mail do aparelho (mailto:), ou escrever direto pelo Gmail ou pelo Outlook na web.
+					Sem JavaScript, o cartão é só o link mailto:, que sempre funciona.
+				-->
+				<a class="card-link" href={`mailto:${profile.email}`} data-email-link>
+					<EmailIcon class="card-icon" aria-hidden="true" />
+					<span class="card-title">{t.contact.email}</span>
+					<span class="card-hint">{profile.email}</span>
+				</a>
+				<button
+					class="card-link"
+					type="button"
+					data-email-toggle
+					aria-expanded="false"
+					aria-controls="email-options"
+					hidden
+				>
+					<EmailIcon class="card-icon" aria-hidden="true" />
+					<span class="card-title">{t.contact.email}</span>
+					<span class="card-hint" data-copy-hint>{profile.email}</span>
+					<ChevronIcon class="card-corner chevron" aria-hidden="true" />
+				</button>
+				<ul class="email-options" id="email-options" aria-label={o.label} hidden>
+					<li>
+						<button class="option" type="button" data-copy={profile.email}>
+							<span class="option-text">
+								<span class="option-title">{o.copy}</span>
+								<span class="option-hint">{o.copyHint}</span>
+							</span>
+							<CopyIcon class="option-icon" aria-hidden="true" />
+						</button>
+					</li>
+					<li>
+						<a class="option" href={`mailto:${profile.email}`}>
+							<span class="option-text">
+								<span class="option-title">{o.app}</span>
+								<span class="option-hint">{o.appHint}</span>
+							</span>
+							<AppIcon class="option-icon" aria-hidden="true" />
+						</a>
+					</li>
+					{
+						webmail.map(({ href, label }) => (
+							<li>
+								<a class="option" href={href} target="_blank" rel="noopener noreferrer">
+									<span class="option-text">
+										<span class="option-title">{label}</span>
+										<span class="option-hint">{o.webHint}</span>
+									</span>
+									<NewTabIcon class="option-icon" aria-hidden="true" />
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</li>
+			{
+				external.map(({ href, title, hint, Icon }) => (
+					<li class="card">
+						<a class="card-link" href={href} target="_blank" rel="noopener noreferrer">
+							<Icon class="card-icon" aria-hidden="true" />
+							<span class="card-title">{title}</span>
+							<span class="card-hint">{hint}</span>
+							<ArrowIcon class="card-corner" aria-hidden="true" />
+							<span class="visually-hidden">{t.a11y.newTab}</span>
+						</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
 
 	<p class="visually-hidden" role="status" data-copy-status data-ok={t.contact.copied} data-fail={t.contact.copyFailed}>
 	</p>
@@ -66,22 +125,85 @@ const external = [
 
 <script>
 	/*
-	 * Botão de copiar o e-mail. O cartão em si é o link mailto: (abre o app de e-mail); o botão é a
-	 * alternativa para quem não tem um app configurado, em que o mailto: não faz nada.
+	 * Menu do cartão de e-mail (padrão "disclosure" do W3C: um botão com aria-expanded que mostra e
+	 * esconde a lista). Com JavaScript, o link mailto: dá lugar ao botão; sem JavaScript, fica o link.
 	 *
-	 * O botão nasce com `hidden`: só aparece se o navegador tem a API de área de transferência
-	 * (navigator.clipboard). Sem JavaScript, ou sem a API, fica só o link, que sempre funciona.
+	 * - Abrir: a lista aparece logo abaixo do cartão e o foco vai para a primeira opção.
+	 * - Teclado: setas para cima e para baixo andam pelas opções; Esc fecha e devolve o foco ao botão.
+	 * - Fecha ao clicar fora, quando o foco sai do menu, ao escolher uma opção e ao redimensionar a tela.
+	 * - Copiar: copia o endereço, mostra a confirmação no cartão e anuncia ao leitor de tela.
 	 */
-	const button = document.querySelector<HTMLButtonElement>('[data-copy]');
+	const link = document.querySelector<HTMLAnchorElement>('[data-email-link]');
+	const toggle = document.querySelector<HTMLButtonElement>('[data-email-toggle]');
+	const menu = document.querySelector<HTMLUListElement>('#email-options');
 	const hint = document.querySelector<HTMLElement>('[data-copy-hint]');
 	const status = document.querySelector<HTMLElement>('[data-copy-status]');
+	const copy = menu?.querySelector<HTMLButtonElement>('[data-copy]');
 
-	if (button && hint && status && navigator.clipboard) {
-		button.hidden = false;
-		const address = button.dataset.copy ?? '';
+	if (link && toggle && menu && hint && status && copy) {
+		const card = toggle.closest<HTMLElement>('.card')!;
+		const options = [...menu.querySelectorAll<HTMLElement>('.option')];
+		const address = copy.dataset.copy ?? '';
 		let timer: number | undefined;
 
-		button.addEventListener('click', async () => {
+		link.hidden = true;
+		toggle.hidden = false;
+		// Sem a API de área de transferência (navegador antigo ou página sem HTTPS), não há como copiar
+		if (!navigator.clipboard) copy.closest('li')!.hidden = true;
+
+		const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
+
+		const setOpen = (open: boolean, focusFirst = false) => {
+			toggle.setAttribute('aria-expanded', String(open));
+			menu.hidden = !open;
+			if (open) {
+				// Posição: logo abaixo do cartão, alinhado à esquerda dele. O menu é medido a partir de
+				// .cards-wrap (o primeiro ancestral com position), por isso escapa do corte da lista.
+				// O contato é a última seção: se não couber embaixo, na tela, o menu abre para cima
+				const gap = 8;
+				const box = card.getBoundingClientRect();
+				const fitsBelow = innerHeight - box.bottom >= menu.offsetHeight + gap;
+				const fitsAbove = box.top >= menu.offsetHeight + gap;
+				const above = !fitsBelow && fitsAbove;
+				menu.style.top = above
+					? `${card.offsetTop - menu.offsetHeight - gap}px`
+					: `${card.offsetTop + card.offsetHeight + gap}px`;
+				menu.style.left = `${card.offsetLeft}px`;
+				if (focusFirst) options.find((option) => !option.closest('li')!.hidden)?.focus();
+			}
+		};
+
+		toggle.addEventListener('click', () => setOpen(!isOpen(), true));
+
+		// Setas andam pelas opções visíveis; Esc fecha e devolve o foco ao botão do cartão
+		card.addEventListener('keydown', (event) => {
+			if (!isOpen()) return;
+			if (event.key === 'Escape') {
+				setOpen(false);
+				toggle.focus();
+				return;
+			}
+			if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+			event.preventDefault();
+			const visible = options.filter((option) => !option.closest('li')!.hidden);
+			const current = visible.indexOf(document.activeElement as HTMLElement);
+			const step = event.key === 'ArrowDown' ? 1 : -1;
+			visible[(current + step + visible.length) % visible.length].focus();
+		});
+
+		// Fecha ao clicar fora ou quando o foco sai do cartão (Tab depois da última opção)
+		document.addEventListener('click', (event) => {
+			if (isOpen() && !card.contains(event.target as Node)) setOpen(false);
+		});
+		card.addEventListener('focusout', (event) => {
+			if (isOpen() && !card.contains(event.relatedTarget as Node | null)) setOpen(false);
+		});
+		// Escolher um link (app de e-mail, Gmail ou Outlook) também fecha o menu
+		for (const option of options) if (option.tagName === 'A') option.addEventListener('click', () => setOpen(false));
+		// A posição foi calculada para o tamanho de tela atual; ao mudar, o menu fecha
+		addEventListener('resize', () => isOpen() && setOpen(false));
+
+		copy.addEventListener('click', async () => {
 			let message: string;
 			// writeText é assíncrona e pode ser recusada (permissão negada, página sem foco): o catch mostra
 			// a mensagem de falha em vez de deixar o clique sem resposta
@@ -91,6 +213,8 @@ const external = [
 			} catch {
 				message = status.dataset.fail ?? '';
 			}
+			setOpen(false);
+			toggle.focus();
 			// Mostra a confirmação no cartão, no lugar do endereço, e anuncia ao leitor de tela
 			status.textContent = message;
 			hint.textContent = message;
@@ -106,6 +230,11 @@ const external = [
 </script>
 
 <style>
+	/* O menu de e-mail se posiciona por aqui; a lista de cartões não tem position, então não o corta */
+	.cards-wrap {
+		position: relative;
+	}
+
 	.cards {
 		display: grid;
 		gap: 1px;
@@ -122,7 +251,7 @@ const external = [
 		background-color: var(--color-accent-block);
 	}
 
-	/* Cartões com a mesma aparência e a mesma altura: o cartão inteiro é o link */
+	/* Cartões com a mesma aparência e a mesma altura: o cartão inteiro é o link (ou o botão do e-mail) */
 	.card-link {
 		position: relative;
 		display: grid;
@@ -161,42 +290,98 @@ const external = [
 		overflow-wrap: anywhere;
 	}
 
-	/* Botão de copiar, no canto do cartão de e-mail, por cima do link (área de toque de 44px) */
-	.email-card {
-		position: relative;
-	}
-
-	.copy {
-		position: absolute;
-		top: var(--space-3);
-		right: var(--space-3);
-		display: grid;
-		place-items: center;
-		width: 2.75rem;
-		height: 2.75rem;
-		background: none;
-		border: 1px solid color-mix(in srgb, var(--color-on-accent) 40%, transparent);
-		border-radius: 50%;
-		color: var(--color-on-accent);
-		cursor: pointer;
-		transition: background-color var(--duration-fast) ease;
-	}
-
-	.copy:hover {
-		background-color: color-mix(in srgb, var(--color-on-accent) 12%, transparent);
-	}
-
-	.copy svg {
-		width: 1.125rem;
-		height: 1.125rem;
-	}
-
 	.card-corner {
 		position: absolute;
 		top: var(--space-5);
 		right: var(--space-5);
 		width: 1.125rem;
 		height: 1.125rem;
+	}
+
+	/* A seta do e-mail aponta para cima com o menu aberto */
+	.chevron {
+		transition: rotate var(--duration-fast) ease;
+	}
+
+	[aria-expanded='true'] .chevron {
+		rotate: 180deg;
+	}
+
+	/* Menu de opções: um cartão claro sobre o bloco ciano, logo abaixo do cartão de e-mail */
+	.email-options {
+		position: absolute;
+		z-index: 10;
+		display: grid;
+		gap: var(--space-1);
+		width: min(100%, 21rem);
+		margin: 0;
+		padding: var(--space-2);
+		background-color: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		box-shadow: 0 1rem 2.5rem var(--shadow-color-strong);
+		list-style: none;
+	}
+
+	.option {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: var(--space-4);
+		width: 100%;
+		min-height: 2.75rem;
+		padding: var(--space-2) var(--space-3);
+		background: none;
+		border: 0;
+		border-radius: var(--radius-sm);
+		color: var(--color-text);
+		font: inherit;
+		text-align: left;
+		text-decoration: none;
+		cursor: pointer;
+	}
+
+	.option:hover {
+		background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
+	}
+
+	.option-text {
+		display: grid;
+	}
+
+	.option-title {
+		font-size: var(--text-base);
+		font-weight: var(--weight-semibold);
+		line-height: 1.35;
+	}
+
+	.option-hint {
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+		line-height: 1.4;
+	}
+
+	.option-icon {
+		flex: none;
+		width: 1rem;
+		height: 1rem;
+		color: var(--color-accent);
+	}
+
+	/* "Copiar" é o caminho que serve para todo mundo: fica separado das outras opções por uma linha */
+	.email-options li:first-child {
+		padding-bottom: var(--space-1);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	/*
+	 * Dentro do menu, o anel de foco usa o destaque normal: o bloco de contato troca o anel para a cor
+	 * escura (para aparecer sobre o ciano), mas o fundo do menu é a superfície, onde ele sumiria.
+	 * O seletor mais específico vence a regra do bloco.
+	 */
+	.email-options .option:focus-visible {
+		outline-color: var(--color-accent);
+		outline-offset: -2px;
 	}
 
 	@media (min-width: 40rem) {

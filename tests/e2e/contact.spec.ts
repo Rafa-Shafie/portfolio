@@ -1,15 +1,17 @@
 /**
  * Contato e currículo.
  *
- * - E-mail: o cartão é o link mailto: (abre o app de e-mail) e o botão no canto copia o endereço.
- *   O teste dá ao navegador permissão de usar a área de transferência (`permissions`), clica, lê o
- *   que foi copiado e confere a confirmação, que também é anunciada ao leitor de tela por uma
- *   região role="status".
+ * - E-mail: o cartão abre um menu com quatro caminhos (copiar, app de e-mail, Gmail e Outlook), e a
+ *   pessoa escolhe. Para copiar, o teste dá ao navegador permissão de usar a área de transferência
+ *   (`permissions`), clica, lê o que foi copiado e confere a confirmação, que também é anunciada ao
+ *   leitor de tela por uma região role="status". O menu segue o padrão "disclosure": aria-expanded,
+ *   Esc, setas e clique fora.
  * - Foco visível sobre o bloco de destaque: o anel de foco precisa de 3:1 de contraste contra o
  *   fundo (WCAG 1.4.11). Calculamos o contraste em vez de comparar com uma cor fixa, então o teste
  *   vale para os dois temas.
  * - CV: abre numa aba nova, no visualizador de PDF do navegador, sem forçar download.
  */
+import AxeBuilder from '@axe-core/playwright';
 import { test, expect, css, escape } from './fixtures';
 import { pages, profile } from './content';
 
@@ -39,22 +41,83 @@ test.describe('contato', () => {
 		await page.goto('/');
 	});
 
-	test('o cartão de e-mail abre o app de e-mail, e o botão no canto copia o endereço', async ({ page }) => {
-		const link = page.locator('[data-email-link]');
-		await expect(link).toBeVisible();
-		await expect(link).toHaveAttribute('href', `mailto:${profile.email}`);
-		await expect(link).toHaveAccessibleName(new RegExp(`${escape(t.contact.email)}.*${escape(profile.email)}`));
+	test('o cartão de e-mail abre um menu com os quatro caminhos, cada um no destino certo', async ({ page }) => {
+		const toggle = page.locator('[data-email-toggle]');
+		const menu = page.locator('#email-options');
+		await expect(page.locator('[data-email-link]')).toBeHidden();
+		await expect(toggle).toHaveAccessibleName(new RegExp(`${escape(t.contact.email)}.*${escape(profile.email)}`));
+		await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+		await expect(menu).toBeHidden();
 
-		const button = page.locator('button[data-copy]');
-		await expect(button).toBeVisible();
-		await expect(button).toHaveAccessibleName(t.contact.copyEmail);
+		await toggle.click();
+		await expect(toggle).toHaveAttribute('aria-expanded', 'true');
+		await expect(menu).toBeVisible();
+		const o = t.contact.emailOptions;
+		await expect(menu.locator('.option-title')).toHaveText([o.copy, o.app, o.gmail, o.outlook]);
 
-		await button.click();
+		// App de e-mail: o mailto: de sempre. Gmail e Outlook: tela de novo e-mail, em nova aba
+		const to = encodeURIComponent(profile.email);
+		await expect(menu.getByRole('link', { name: new RegExp(escape(o.app)) })).toHaveAttribute('href', `mailto:${profile.email}`);
+		for (const [name, href] of [
+			[o.gmail, `https://mail.google.com/mail/?view=cm&fs=1&to=${to}`],
+			[o.outlook, `https://outlook.live.com/mail/0/deeplink/compose?to=${to}`],
+		]) {
+			const link = menu.getByRole('link', { name: new RegExp(escape(name)) });
+			await expect(link).toHaveAttribute('href', href);
+			await expect(link).toHaveAttribute('target', '_blank');
+			await expect(link).toHaveAttribute('rel', /noopener/);
+		}
+
+		// O menu não fica cortado pela lista de cartões: o centro da última opção é a própria opção
+		const last = menu.locator('.option').last();
+		const box = (await last.boundingBox())!;
+		const hit = await page.evaluate(({ x, y }) => document.elementFromPoint(x, y)?.closest('.option') !== null, {
+			x: box.x + box.width / 2,
+			y: box.y + box.height / 2,
+		});
+		expect(hit, 'última opção visível e clicável').toBe(true);
+
+		// Clique fora fecha
+		await page.locator('#contact .section-title').click();
+		await expect(menu).toBeHidden();
+		await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+	});
+
+	test('copiar: copia o endereço, fecha o menu e anuncia a confirmação', async ({ page }) => {
+		await page.locator('[data-email-toggle]').click();
+		await page.locator('#email-options [data-copy]').click();
 		expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(profile.email);
+		await expect(page.locator('#email-options')).toBeHidden();
+		await expect(page.locator('[data-email-toggle]')).toBeFocused();
 		await expect(page.locator('[data-copy-hint]')).toHaveText(t.contact.copied);
 		await expect(page.locator('[data-copy-status]')).toHaveText(t.contact.copied);
 		// Depois de alguns segundos, o cartão volta a mostrar o endereço
 		await expect(page.locator('[data-copy-hint]')).toHaveText(profile.email, { timeout: 5000 });
+	});
+
+	test('teclado: abre na primeira opção, setas navegam, Esc fecha e devolve o foco', async ({ page }) => {
+		const toggle = page.locator('[data-email-toggle]');
+		const options = page.locator('#email-options .option');
+		await toggle.focus();
+		await page.keyboard.press('Enter');
+		await expect(options.first()).toBeFocused();
+		await page.keyboard.press('ArrowDown');
+		await expect(options.nth(1)).toBeFocused();
+		await page.keyboard.press('ArrowUp');
+		await page.keyboard.press('ArrowUp');
+		await expect(options.last()).toBeFocused();
+		await page.keyboard.press('Escape');
+		await expect(page.locator('#email-options')).toBeHidden();
+		await expect(toggle).toBeFocused();
+	});
+
+	test('menu aberto sem violações do axe', async ({ page }) => {
+		await page.locator('[data-email-toggle]').click();
+		const { violations } = await new AxeBuilder({ page })
+			.include('#contact')
+			.withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+			.analyze();
+		expect(violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(', ')}`)).toEqual([]);
 	});
 
 	test('cartões com a mesma altura e foco visível sobre o fundo de destaque', async ({ page }) => {
@@ -65,7 +128,7 @@ test.describe('contato', () => {
 		expect(new Set(heights).size).toBe(1);
 
 		const background = await css(page.locator('#contact'), 'background-color');
-		const button = page.locator('button[data-copy]');
+		const button = page.locator('[data-email-toggle]');
 		await button.focus();
 		// WCAG 1.4.11: o anel de foco precisa de 3:1 contra o fundo
 		expect(contrast(await css(button, 'outline-color'), background)).toBeGreaterThanOrEqual(3);
