@@ -289,7 +289,17 @@ export const pt = {
 		cv: 'Currículo',
 		linkedinHint: 'Vamos nos conectar',
 		githubHint: 'Meus repositórios',
-		copyEmail: 'Copiar e-mail',
+		/** Menu do cartão de e-mail: cada pessoa escolhe como escrever (nada é decidido por ela). */
+		emailOptions: {
+			label: 'Opções de e-mail',
+			copy: 'Copiar endereço',
+			copyHint: 'Funciona com qualquer serviço',
+			app: 'Abrir no app de e-mail',
+			appHint: 'O padrão do seu aparelho',
+			gmail: 'Escrever pelo Gmail',
+			outlook: 'Escrever pelo Outlook',
+			webHint: 'Abre numa nova aba',
+		},
 		copied: 'E-mail copiado.',
 		copyFailed: 'Não foi possível copiar o e-mail. Tente novamente.',
 	},
