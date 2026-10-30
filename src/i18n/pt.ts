@@ -169,7 +169,7 @@ export const pt = {
 		nowTag: 'Em evolução',
 		now: [
 			{ title: 'Backend com Java', text: 'Java, orientação a objetos e Spring Boot no bootcamp DIO · Itaú.' },
-			{ title: 'Engenharia de IA', text: 'Agentes e sistemas multiagentes com LangGraph, protocolos como MCP e observabilidade de aplicações com LLMs.' },
+			{ title: 'Engenharia de IA', text: 'Estudando machine learning, deep learning, LLMs e agentes. Próximo passo: uma trilha de carreira com RAG, LangChain e LangGraph, protocolos como MCP e observabilidade de LLMs.' },
 			{ title: 'Inglês', text: 'Estudo contínuo no Kumon, com foco em leitura, gramática e ampliação de vocabulário.' },
 		],
 		listTitle: 'Formação e cursos',

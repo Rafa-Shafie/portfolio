@@ -161,7 +161,7 @@ export const en: Dictionary = {
 		nowTag: 'Growing',
 		now: [
 			{ title: 'Backend with Java', text: 'Java, object-oriented programming and Spring Boot in the DIO · Itaú bootcamp.' },
-			{ title: 'AI engineering', text: 'Agents and multi-agent systems with LangGraph, protocols such as MCP and observability for LLM applications.' },
+			{ title: 'AI engineering', text: 'Studying machine learning, deep learning, LLMs and agents. Next step: a career track covering RAG, LangChain and LangGraph, protocols such as MCP and LLM observability.' },
 			{ title: 'English', text: 'Ongoing study at Kumon, focused on reading, grammar and building vocabulary.' },
 		],
 		listTitle: 'Education and courses',
