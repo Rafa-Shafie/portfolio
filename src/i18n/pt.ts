@@ -175,6 +175,9 @@ export const pt = {
 		listTitle: 'Formação e cursos',
 		grade: 'Nota',
 		classAverage: 'média da turma',
+		documents: { certificate: 'Declaração de conclusão', transcript: 'Histórico' },
+		verify: 'Conferir autenticidade',
+		code: 'código',
 	},
 	skills: {
 		label: 'Habilidades',

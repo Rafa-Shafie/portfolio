@@ -105,6 +105,12 @@ const education = defineCollection({
 					classAverage: z.number().min(0).max(10),
 				})
 				.optional(),
+			// Comprovantes em public/, abertos no visualizador de PDF do navegador (como o CV)
+			documents: z
+				.array(z.object({ kind: z.enum(['certificate', 'transcript']), href: z.string().startsWith('/') }))
+				.optional(),
+			// Onde conferir a autenticidade no site da instituição, e com qual código
+			verification: z.object({ url: z.url(), code: z.string() }).optional(),
 		})
 		.refine((item) => !item.end || item.start, { message: 'end exige start', path: ['start'] })
 		.refine((item) => !item.end || !item.start || item.end >= item.start, {

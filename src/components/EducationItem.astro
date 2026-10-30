@@ -2,7 +2,8 @@
 /**
  * Um item da lista de formação: instituição, curso e período. Sem datas (o Kumon, no próprio
  * ritmo), mostra "em andamento"; sem fim, "atual" (ver formatPeriod em src/i18n/utils.ts).
- * Com nota, uma linha a mais: "Nota 10,0/10 · média da turma 5,5".
+ * Com nota, uma linha a mais: "Nota 10,0/10 · média da turma 5,5". Com comprovantes, links para os
+ * PDFs e para a página da instituição que confere a autenticidade, todos em nova aba (como o CV).
  */
 import type { CollectionEntry } from 'astro:content';
 import { formatPeriod, htmlLang, localize, useTranslations, type Locale } from '../i18n/utils';
@@ -14,7 +15,7 @@ interface Props {
 
 const { education, locale } = Astro.props;
 const t = useTranslations(locale);
-const { institution, course, start, end, grade } = education;
+const { institution, course, start, end, grade, documents, verification } = education;
 // Sempre com uma casa decimal, no separador do idioma: 10,0 em pt e es, 10.0 em en
 const score = new Intl.NumberFormat(htmlLang[locale], { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 ---
@@ -29,6 +30,29 @@ const score = new Intl.NumberFormat(htmlLang[locale], { minimumFractionDigits: 1
 					{t.education.grade} {score.format(grade.score)}/10 · {t.education.classAverage}{' '}
 					{score.format(grade.classAverage)}
 				</p>
+			)
+		}
+		{
+			(documents || verification) && (
+				<ul class="proofs">
+					{documents?.map(({ kind, href }) => (
+						<li>
+							<a href={href} target="_blank" rel="noopener">
+								{t.education.documents[kind]} (PDF)
+								<span class="visually-hidden">{t.a11y.newTab}</span>
+							</a>
+						</li>
+					))}
+					{verification && (
+						<li>
+							<a href={verification.url} target="_blank" rel="noopener noreferrer">
+								{t.education.verify}
+								<span class="visually-hidden">{t.a11y.newTab}</span>
+							</a>{' '}
+							· {t.education.code} <span class="code">{verification.code}</span>
+						</li>
+					)}
+				</ul>
 			)
 		}
 	</div>
@@ -49,9 +73,30 @@ const score = new Intl.NumberFormat(htmlLang[locale], { minimumFractionDigits: 1
 	}
 
 	.institution,
-	.grade {
+	.grade,
+	.proofs {
 		color: var(--color-text-muted);
 		font-size: var(--text-sm);
+	}
+
+	.proofs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0 var(--space-4);
+		margin-top: var(--space-1);
+		padding: 0;
+		list-style: none;
+	}
+
+	/* 24px de altura: o alvo mínimo de toque da WCAG 2.5.8 */
+	.proofs a {
+		display: inline-flex;
+		align-items: center;
+		min-height: 1.5rem;
+	}
+
+	.code {
+		font-family: var(--font-mono);
 	}
 
 	.period {

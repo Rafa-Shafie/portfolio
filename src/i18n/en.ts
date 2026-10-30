@@ -167,6 +167,9 @@ export const en: Dictionary = {
 		listTitle: 'Education and courses',
 		grade: 'Grade',
 		classAverage: 'class average',
+		documents: { certificate: 'Certificate of completion', transcript: 'Transcript' },
+		verify: 'Verify authenticity',
+		code: 'code',
 	},
 	skills: {
 		label: 'Skills',
