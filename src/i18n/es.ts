@@ -165,6 +165,8 @@ export const es: Dictionary = {
 			{ title: 'Inglés', text: 'Estudio continuo en Kumon, con foco en lectura, gramática y ampliación de vocabulario.' },
 		],
 		listTitle: 'Formación y cursos',
+		grade: 'Nota',
+		classAverage: 'promedio del grupo',
 	},
 	skills: {
 		label: 'Habilidades',

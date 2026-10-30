@@ -98,6 +98,13 @@ const education = defineCollection({
 			// Sem datas = em andamento, no próprio ritmo (ex.: Kumon)
 			start: yearMonth.optional(),
 			end: yearMonth.optional(),
+			// Nota final, de 0 a 10, com a média da turma para dar a medida (ex.: PUC-Rio)
+			grade: z
+				.object({
+					score: z.number().min(0).max(10),
+					classAverage: z.number().min(0).max(10),
+				})
+				.optional(),
 		})
 		.refine((item) => !item.end || item.start, { message: 'end exige start', path: ['start'] })
 		.refine((item) => !item.end || !item.start || item.end >= item.start, {

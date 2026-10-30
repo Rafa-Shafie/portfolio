@@ -173,6 +173,8 @@ export const pt = {
 			{ title: 'Inglês', text: 'Estudo contínuo no Kumon, com foco em leitura, gramática e ampliação de vocabulário.' },
 		],
 		listTitle: 'Formação e cursos',
+		grade: 'Nota',
+		classAverage: 'média da turma',
 	},
 	skills: {
 		label: 'Habilidades',

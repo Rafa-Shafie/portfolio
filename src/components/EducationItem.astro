@@ -2,9 +2,10 @@
 /**
  * Um item da lista de formação: instituição, curso e período. Sem datas (o Kumon, no próprio
  * ritmo), mostra "em andamento"; sem fim, "atual" (ver formatPeriod em src/i18n/utils.ts).
+ * Com nota, uma linha a mais: "Nota 10,0/10 · média da turma 5,5".
  */
 import type { CollectionEntry } from 'astro:content';
-import { formatPeriod, localize, useTranslations, type Locale } from '../i18n/utils';
+import { formatPeriod, htmlLang, localize, useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
 	education: CollectionEntry<'education'>['data'];
@@ -13,13 +14,23 @@ interface Props {
 
 const { education, locale } = Astro.props;
 const t = useTranslations(locale);
-const { institution, course, start, end } = education;
+const { institution, course, start, end, grade } = education;
+// Sempre com uma casa decimal, no separador do idioma: 10,0 em pt e es, 10.0 em en
+const score = new Intl.NumberFormat(htmlLang[locale], { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 ---
 
 <li class="item">
 	<div>
 		<h4 class="course">{localize(course, locale)}</h4>
 		<p class="institution">{institution}</p>
+		{
+			grade && (
+				<p class="grade">
+					{t.education.grade} {score.format(grade.score)}/10 · {t.education.classAverage}{' '}
+					{score.format(grade.classAverage)}
+				</p>
+			)
+		}
 	</div>
 	<p class="period">{start ? formatPeriod(start, end, locale) : t.period.inProgress}</p>
 </li>
@@ -37,7 +48,8 @@ const { institution, course, start, end } = education;
 		font-weight: var(--weight-semibold);
 	}
 
-	.institution {
+	.institution,
+	.grade {
 		color: var(--color-text-muted);
 		font-size: var(--text-sm);
 	}
