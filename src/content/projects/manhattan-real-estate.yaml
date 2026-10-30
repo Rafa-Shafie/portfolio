@@ -13,7 +13,7 @@ description:
 category: data
 kind: professional
 organization: BTG Pactual
-status: delivered
+status: production
 art: map
 order: 1
 featured: true
@@ -39,9 +39,9 @@ details:
       en: "A single listings base in Databricks, with scoring, event tracking, Microsoft Teams alerts and an interactive dashboard."
       es: "Una base única de anuncios en Databricks, con puntuación, seguimiento de eventos, avisos en Microsoft Teams y un dashboard interactivo."
     result:
-      pt: "Apresentado em inglês a quem pediu o projeto, com retorno positivo. A validação foi por comparação manual; não acompanhei a evolução depois do estágio."
-      en: "Presented in English to the person who requested the project, with positive feedback. Validation was done by manual comparison; I did not follow the project after the internship."
-      es: "Presentado en inglés a quien pidió el proyecto, con una respuesta positiva. La validación fue por comparación manual; no seguí la evolución del proyecto después de la pasantía."
+      pt: "Apresentado em inglês a quem pediu o projeto, com retorno positivo. A validação foi por comparação manual. Depois do estágio, o projeto entrou em produção."
+      en: "Presented in English to the person who requested the project, with positive feedback. Validation was done by manual comparison. After the internship, the project went into production."
+      es: "Presentado en inglés a quien pidió el proyecto, con una respuesta positiva. La validación fue por comparación manual. Después de la pasantía, el proyecto entró en producción."
   intro:
     pt: "Visão técnica do Manhattan Real Estate, a solução de dados que desenvolvi em dupla no Summer Job no BTG Pactual. O projeto pertence ao banco, então não há código nem demonstração públicos."
     en: "A technical view of Manhattan Real Estate, the data solution I built in a pair during my Summer Job at BTG Pactual. The project belongs to the bank, so there is no public code or demo."
@@ -144,9 +144,9 @@ details:
           - "Filtros, gráfico y mapa conectados, para mantener la exploración consistente."
     - heading: { pt: "Entrega e validação", en: "Delivery and validation", es: "Entrega y validación" }
       text:
-        pt: "A entrega reuniu dados tratados, regras de análise, acompanhamento de eventos, notificações e um dashboard funcional, apresentados em inglês a quem pediu o projeto, com retorno positivo. A validação foi feita por inspeção e comparação manual dos registros e dos resultados. Não acompanhei a evolução do projeto depois do estágio."
-        en: "The delivery brought together processed data, analysis rules, event tracking, notifications and a working dashboard, presented in English to the requester and well received. Validation was done by manually inspecting and comparing records and results. I did not follow the project after the internship ended."
-        es: "La entrega reunió datos tratados, reglas de análisis, seguimiento de eventos, notificaciones y un dashboard funcional, presentados en inglés a quien solicitó el proyecto, con una recepción positiva. La validación se hizo mediante inspección y comparación manual de los registros y los resultados. No seguí la evolución del proyecto después de la pasantía."
+        pt: "A entrega reuniu dados tratados, regras de análise, acompanhamento de eventos, notificações e um dashboard funcional, apresentados em inglês a quem pediu o projeto, com retorno positivo. A validação foi feita por inspeção e comparação manual dos registros e dos resultados. Depois do estágio, o projeto entrou em produção."
+        en: "The delivery brought together processed data, analysis rules, event tracking, notifications and a working dashboard, presented in English to the requester and well received. Validation was done by manually inspecting and comparing records and results. After the internship, the project went into production."
+        es: "La entrega reunió datos tratados, reglas de análisis, seguimiento de eventos, notificaciones y un dashboard funcional, presentados en inglés a quien solicitó el proyecto, con una recepción positiva. La validación se hizo mediante inspección y comparación manual de los registros y los resultados. Después de la pasantía, el proyecto entró en producción."
 techDetails:
   - label: { pt: "Processamento de dados", en: "Data processing", es: "Procesamiento de datos" }
     items: ["Databricks", "Apache Spark", "Python", "SQL", "Pandas", "Medallion"]
