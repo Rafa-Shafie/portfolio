@@ -47,7 +47,7 @@ const t = useTranslations(locale);
 		<div>
 			<h3 class="col-label">{t.education.listTitle}</h3>
 			<ol class="list">
-				{entries.map((entry) => <EducationItem education={entry.data} locale={locale} />)}
+				{entries.map((entry) => <EducationItem id={entry.id} education={entry.data} locale={locale} />)}
 			</ol>
 		</div>
 	</div>

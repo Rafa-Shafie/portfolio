@@ -1,0 +1,48 @@
+institution: Alura
+course:
+  pt: Carreira Desenvolvimento Back-End Java
+  en: Java Back-End Development Career Track
+  es: Carrera Desarrollo Back-End Java
+
+# ---------------------------------------------------------------------------------------------
+# Detalhes do "Ver detalhes" (modal), escritos a partir da página da carreira na Alura.
+# "Onde estou" muda conforme os cursos são concluídos: atualizar a cada etapa.
+# ---------------------------------------------------------------------------------------------
+details:
+  intro:
+    pt: "Carreira da Alura de back-end com Java e Spring, da primeira aplicação à arquitetura de sistemas distribuídos. São quatro etapas, uma base e três níveis, e cada nível termina com um checkpoint prático."
+    en: "An Alura career track in back-end development with Java and Spring, from the first application to distributed systems architecture. It has four stages, a foundation and three levels, and each level ends with a hands-on checkpoint."
+    es: "Carrera de Alura de back-end con Java y Spring, de la primera aplicación a la arquitectura de sistemas distribuidos. Tiene cuatro etapas, una base y tres niveles, y cada nivel termina con un checkpoint práctico."
+  sections:
+    - heading: { pt: "Trilha", en: "Curriculum", es: "Ruta" }
+      items:
+        pt:
+          - "Base: pensamento computacional e lógica de programação."
+          - "Nível 1, aplicações web com Java e Spring: orientação a objetos, coleções, lambdas e streams, exceções, Spring Data JPA, primeira API, refatoração, testes automatizados, GitHub e Docker."
+          - "Nível 2, APIs seguras, microsserviços e CI/CD: Spring Boot 3, Swagger, Spring Security (perfis, login com GitHub e Google e autenticação de dois fatores), microsserviços com RabbitMQ e deploy na AWS com CDK, testes de integração e GitHub Actions."
+          - "Nível 3, arquitetura avançada: arquitetura de software, padrões de integração, aplicações reativas com WebFlux, mensageria com RabbitMQ e Kafka, Spring Batch, persistência poliglota, Kubernetes com Helm e Istio e entrega contínua na AWS (EC2 e ECS)."
+        en:
+          - "Foundation: computational thinking and programming logic."
+          - "Level 1, web applications with Java and Spring: object-oriented programming, collections, lambdas and streams, exceptions, Spring Data JPA, a first API, refactoring, automated tests, GitHub and Docker."
+          - "Level 2, secure APIs, microservices and CI/CD: Spring Boot 3, Swagger, Spring Security (roles, sign-in with GitHub and Google and two-factor authentication), microservices with RabbitMQ and AWS deployment with CDK, integration tests and GitHub Actions."
+          - "Level 3, advanced architecture: software architecture, integration patterns, reactive applications with WebFlux, messaging with RabbitMQ and Kafka, Spring Batch, polyglot persistence, Kubernetes with Helm and Istio and continuous delivery on AWS (EC2 and ECS)."
+        es:
+          - "Base: pensamiento computacional y lógica de programación."
+          - "Nivel 1, aplicaciones web con Java y Spring: programación orientada a objetos, colecciones, lambdas y streams, excepciones, Spring Data JPA, primera API, refactorización, pruebas automatizadas, GitHub y Docker."
+          - "Nivel 2, APIs seguras, microservicios y CI/CD: Spring Boot 3, Swagger, Spring Security (perfiles, inicio de sesión con GitHub y Google y autenticación de dos factores), microservicios con RabbitMQ y despliegue en AWS con CDK, pruebas de integración y GitHub Actions."
+          - "Nivel 3, arquitectura avanzada: arquitectura de software, patrones de integración, aplicaciones reactivas con WebFlux, mensajería con RabbitMQ y Kafka, Spring Batch, persistencia políglota, Kubernetes con Helm e Istio y entrega continua en AWS (EC2 y ECS)."
+    - heading: { pt: "Onde estou", en: "Where I am", es: "Dónde estoy" }
+      text:
+        pt: "Estou no nível 1: concluí o curso da primeira aplicação em Java e agora estou em orientação a objetos."
+        en: "I'm at level 1: I've completed the first Java application course and I'm now on object-oriented programming."
+        es: "Estoy en el nivel 1: terminé el curso de la primera aplicación en Java y ahora estoy en programación orientada a objetos."
+
+techDetails:
+  - label: { pt: "Java e Spring", en: "Java and Spring", es: "Java y Spring" }
+    items: ["Java", "Spring Boot", "Spring Data JPA", "Spring Security", "Spring WebFlux", "Spring Batch"]
+  - label: { pt: "APIs e mensageria", en: "APIs and messaging", es: "APIs y mensajería" }
+    items: ["REST", "Swagger", "RabbitMQ", "Kafka"]
+  - label: { pt: "Entrega e infraestrutura", en: "Delivery and infrastructure", es: "Entrega e infraestructura" }
+    items: ["Git", "GitHub Actions", "Docker", "Kubernetes", "Helm", "Istio"]
+  - label: { pt: "Nuvem", en: "Cloud", es: "Nube" }
+    items: ["AWS CDK", "Amazon EC2", "Amazon ECS"]

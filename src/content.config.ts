@@ -95,16 +95,18 @@ const education = defineCollection({
 		.object({
 			institution: z.string(),
 			course: localized(z.string()),
-			// Sem datas = em andamento, no próprio ritmo (ex.: Kumon)
+			// Sem datas = em andamento, no próprio ritmo (ex.: o curso da Udemy)
 			start: yearMonth.optional(),
 			end: yearMonth.optional(),
-			// Nota final, de 0 a 10, com a média da turma para dar a medida (ex.: PUC-Rio)
-			grade: z
-				.object({
-					score: z.number().min(0).max(10),
-					classAverage: z.number().min(0).max(10),
-				})
-				.optional(),
+			// Carga horária total, mostrada no modal ao lado do período (ex.: 30 horas, 33,5 horas)
+			hours: z.number().positive().optional(),
+			/**
+			 * O "Ver detalhes" (modal), no mesmo formato das experiências e projetos: abertura e seções.
+			 * Escrito a partir da ementa oficial do curso, sem inventar conteúdo.
+			 */
+			details: detailSections.optional(),
+			/** Tecnologias do curso, agrupadas por frente (como o techDetails dos projetos). */
+			techDetails: techGroups.optional(),
 			// Comprovantes em public/, abertos no visualizador de PDF do navegador (como o CV)
 			documents: z
 				.array(z.object({ kind: z.enum(['certificate', 'transcript']), href: z.string().startsWith('/') }))

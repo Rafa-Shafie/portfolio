@@ -5,9 +5,60 @@ course:
   es: "Inteligencia Artificial y Ciencia de Datos en la Nube: AWS en la Práctica"
 start: 2026-04
 end: 2026-07
-grade:
-  score: 10
-  classAverage: 5.5
+hours: 30
+
+# ---------------------------------------------------------------------------------------------
+# Detalhes do "Ver detalhes" (modal), escritos a partir da página oficial do curso na CCEC:
+# https://ccec.puc-rio.br/Site/Folder?nCurso=inteligencia-artificial-e-ciencia-de-dados-na-nuvem:-aws-na-pratica&nInst=CCE
+# ---------------------------------------------------------------------------------------------
+details:
+  intro:
+    pt: "Curso de curta duração da PUC-Rio sobre computação em nuvem para ciência de dados com os serviços da AWS. Juntou teoria e prática: aulas ao vivo e laboratórios num ambiente real da AWS, pela plataforma AWS Academy."
+    en: "A short course at PUC-Rio on cloud computing for data science with AWS services. It combined theory and practice: live classes and labs in a real AWS environment, through the AWS Academy platform."
+    es: "Curso de corta duración de la PUC-Rio sobre computación en la nube para ciencia de datos con los servicios de AWS. Combinó teoría y práctica: clases en vivo y laboratorios en un entorno real de AWS, a través de la plataforma AWS Academy."
+  sections:
+    - heading: { pt: "O que estudei", en: "What I studied", es: "Lo que estudié" }
+      items:
+        pt:
+          - "Fundamentos de nuvem: por que usar nuvem, o papel do cientista de dados e os principais recursos da AWS para a área."
+          - "Máquinas virtuais com Amazon EC2 e armazenamento de arquivos no Amazon S3."
+          - "Python para ciência de dados, dos fundamentos às bibliotecas Pandas e NumPy, em Jupyter Notebooks."
+          - "Análise de dados guardados no S3, para extrair informações e encontrar padrões."
+          - "Machine learning no Amazon SageMaker AI: modelos de classificação, regressão e previsão de séries temporais, com jobs de treinamento e APIs para usar os modelos."
+          - "Bancos de dados na AWS: Amazon RDS (relacional) e DynamoDB."
+          - "Segurança e custos: controle de acesso com IAM, boas práticas de segurança na nuvem, monitoramento e cálculo de custos."
+        en:
+          - "Cloud fundamentals: why use the cloud, the data scientist's role and the main AWS resources for the field."
+          - "Virtual machines with Amazon EC2 and file storage on Amazon S3."
+          - "Python for data science, from the basics to the Pandas and NumPy libraries, in Jupyter Notebooks."
+          - "Analyzing data stored on S3 to extract information and find patterns."
+          - "Machine learning on Amazon SageMaker AI: classification, regression and time-series forecasting models, with training jobs and APIs to use the models."
+          - "Databases on AWS: Amazon RDS (relational) and DynamoDB."
+          - "Security and costs: access control with IAM, cloud security best practices, monitoring and cost calculation."
+        es:
+          - "Fundamentos de la nube: por qué usar la nube, el papel del científico de datos y los principales recursos de AWS para el área."
+          - "Máquinas virtuales con Amazon EC2 y almacenamiento de archivos en Amazon S3."
+          - "Python para ciencia de datos, de los fundamentos a las bibliotecas Pandas y NumPy, en Jupyter Notebooks."
+          - "Análisis de datos almacenados en S3 para extraer información y encontrar patrones."
+          - "Machine learning en Amazon SageMaker AI: modelos de clasificación, regresión y pronóstico de series temporales, con jobs de entrenamiento y APIs para usar los modelos."
+          - "Bases de datos en AWS: Amazon RDS (relacional) y DynamoDB."
+          - "Seguridad y costos: control de acceso con IAM, buenas prácticas de seguridad en la nube, monitoreo y cálculo de costos."
+    - heading: { pt: "Como foi o curso", en: "How the course worked", es: "Cómo fue el curso" }
+      text:
+        pt: "Aulas online ao vivo e laboratórios práticos na AWS Academy, num ambiente controlado, sem conta própria nem cartão de crédito. O curso é do Departamento de Engenharia Elétrica, e as aulas foram dadas por pesquisadores do Laboratório de Inteligência Computacional Aplicada (ICA) da PUC-Rio, certificados como AWS Educators."
+        en: "Live online classes and hands-on labs on AWS Academy, in a controlled environment, with no personal account or credit card. The course belongs to the Department of Electrical Engineering, and it was taught by researchers from PUC-Rio's Applied Computational Intelligence Laboratory (ICA), certified as AWS Educators."
+        es: "Clases en línea en vivo y laboratorios prácticos en AWS Academy, en un entorno controlado, sin cuenta propia ni tarjeta de crédito. El curso es del Departamento de Ingeniería Eléctrica, y lo impartieron investigadores del Laboratorio de Inteligencia Computacional Aplicada (ICA) de la PUC-Rio, certificados como AWS Educators."
+
+techDetails:
+  - label: { pt: "Nuvem", en: "Cloud", es: "Nube" }
+    items: ["Amazon EC2", "Amazon S3", "AWS IAM", "AWS Academy"]
+  - label: { pt: "Dados e programação", en: "Data and programming", es: "Datos y programación" }
+    items: ["Python", "Pandas", "NumPy", "Jupyter"]
+  - label: { pt: "Machine learning", en: "Machine learning", es: "Machine learning" }
+    items: ["Amazon SageMaker AI"]
+  - label: { pt: "Bancos de dados", en: "Databases", es: "Bases de datos" }
+    items: ["Amazon RDS", "Amazon DynamoDB"]
+
 documents:
   - kind: certificate
     href: /education/puc-rio-certificate.pdf

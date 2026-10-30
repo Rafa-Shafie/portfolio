@@ -1,0 +1,50 @@
+institution: Alura
+course:
+  pt: Carreira Especialista em Inteligência Artificial
+  en: AI Specialist Career Track
+  es: Carrera Especialista en Inteligencia Artificial
+
+# ---------------------------------------------------------------------------------------------
+# Detalhes do "Ver detalhes" (modal), escritos a partir da página da carreira na Alura.
+# "Onde estou" muda conforme os cursos são concluídos: atualizar a cada etapa.
+# ---------------------------------------------------------------------------------------------
+details:
+  intro:
+    pt: "Carreira da Alura que vai da programação em Python para IA até a operação de sistemas inteligentes em produção. São quatro etapas, uma base e três níveis, e cada nível termina com um checkpoint prático."
+    en: "An Alura career track that goes from Python programming for AI to running intelligent systems in production. It has four stages, a foundation and three levels, and each level ends with a hands-on checkpoint."
+    es: "Carrera de Alura que va de la programación en Python para IA a la operación de sistemas inteligentes en producción. Tiene cuatro etapas, una base y tres niveles, y cada nivel termina con un checkpoint práctico."
+  sections:
+    - heading: { pt: "Trilha", en: "Curriculum", es: "Ruta" }
+      items:
+        pt:
+          - "Base: pensamento computacional e Python aplicado à IA, com manipulação de dados, APIs, modelos open source e LLMs."
+          - "Nível 1, produtividade e automação: assistentes e agentes no trabalho, automação de processos com n8n (fluxos, dados e bases de conhecimento), Langflow, Copilot Studio e Claude Cowork."
+          - "Nível 2, arquitetura de sistemas com agentes: RAG com embeddings e busca semântica, LangChain, LangGraph, protocolos como MCP, A2A e AG-UI, Hugging Face e CrewAI."
+          - "Nível 3, operação e governança: observabilidade de LLMs com Langfuse, MLflow, pipelines de IA em Azure, AWS e GCP, governança de IA, produto e empreendedorismo com IA."
+        en:
+          - "Foundation: computational thinking and Python applied to AI, with data handling, APIs, open-source models and LLMs."
+          - "Level 1, productivity and automation: assistants and agents at work, process automation with n8n (workflows, data and knowledge bases), Langflow, Copilot Studio and Claude Cowork."
+          - "Level 2, agent-based system architecture: RAG with embeddings and semantic search, LangChain, LangGraph, protocols such as MCP, A2A and AG-UI, Hugging Face and CrewAI."
+          - "Level 3, operations and governance: LLM observability with Langfuse, MLflow, AI pipelines on Azure, AWS and GCP, AI governance, product and entrepreneurship with AI."
+        es:
+          - "Base: pensamiento computacional y Python aplicado a la IA, con manejo de datos, APIs, modelos open source y LLMs."
+          - "Nivel 1, productividad y automatización: asistentes y agentes en el trabajo, automatización de procesos con n8n (flujos, datos y bases de conocimiento), Langflow, Copilot Studio y Claude Cowork."
+          - "Nivel 2, arquitectura de sistemas con agentes: RAG con embeddings y búsqueda semántica, LangChain, LangGraph, protocolos como MCP, A2A y AG-UI, Hugging Face y CrewAI."
+          - "Nivel 3, operación y gobernanza: observabilidad de LLMs con Langfuse, MLflow, pipelines de IA en Azure, AWS y GCP, gobernanza de IA, producto y emprendimiento con IA."
+    - heading: { pt: "Onde estou", en: "Where I am", es: "Dónde estoy" }
+      text:
+        pt: "Estou na base, terminando o curso de pensamento computacional. Depois vem Python aplicado à IA e, em seguida, o nível 1."
+        en: "I'm in the foundation stage, finishing the computational thinking course. Next comes Python applied to AI, followed by level 1."
+        es: "Estoy en la base, terminando el curso de pensamiento computacional. Después viene Python aplicado a la IA y, luego, el nivel 1."
+
+techDetails:
+  - label: { pt: "Linguagem", en: "Language", es: "Lenguaje" }
+    items: ["Python"]
+  - label: { pt: "Automação", en: "Automation", es: "Automatización" }
+    items: ["n8n", "Langflow", "Copilot Studio", "Claude Cowork"]
+  - label: { pt: "LLMs e agentes", en: "LLMs and agents", es: "LLMs y agentes" }
+    items: ["LangChain", "LangGraph", "CrewAI", "Hugging Face"]
+  - label: { pt: "Protocolos", en: "Protocols", es: "Protocolos" }
+    items: ["MCP", "A2A", "AG-UI"]
+  - label: { pt: "Operação", en: "Operations", es: "Operación" }
+    items: ["Langfuse", "MLflow", "Azure", "AWS", "GCP"]

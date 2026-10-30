@@ -4,3 +4,57 @@ course:
   en: Java, Spring Boot & AI Bootcamp
   es: Bootcamp de Java, Spring Boot e IA
 start: 2026-08
+hours: 45
+
+# ---------------------------------------------------------------------------------------------
+# Detalhes do "Ver detalhes" (modal), escritos a partir da página do bootcamp na DIO.
+# "Onde estou" muda conforme os cursos são concluídos: atualizar a cada etapa.
+# ---------------------------------------------------------------------------------------------
+details:
+  intro:
+    pt: "Bootcamp gratuito do Itaú em parceria com a DIO. Começa nos fundamentos de Java, passa por orientação a objetos e boas práticas e chega a APIs com Spring Boot integradas a IA generativa, com cursos, mentorias ao vivo, desafios de código e projetos para o portfólio."
+    en: "A free bootcamp by Itaú in partnership with DIO. It starts with Java fundamentals, moves through object-oriented programming and best practices, and ends with Spring Boot APIs integrated with generative AI, through courses, live mentoring sessions, coding challenges and portfolio projects."
+    es: "Bootcamp gratuito de Itaú en alianza con DIO. Empieza por los fundamentos de Java, pasa por la programación orientada a objetos y las buenas prácticas y llega a APIs con Spring Boot integradas con IA generativa, con cursos, mentorías en vivo, desafíos de código y proyectos para el portafolio."
+  sections:
+    - heading: { pt: "Trilha", en: "Curriculum", es: "Ruta" }
+      items:
+        pt:
+          - "IA para estudos e carreira: fundamentos de machine learning, LLMs, IA generativa e agentes, e engenharia de prompts."
+          - "Fundamentos de Java: ambiente de desenvolvimento, sintaxe e estruturas de controle, com desafios de código do setor bancário."
+          - "Orientação a objetos: classes e encapsulamento, herança e polimorfismo, interfaces e lambdas, collections, debugging e tratamento de exceções."
+          - "Web e boas práticas: como funcionam a web e o HTTP, introdução a APIs, annotations, SOLID, Clean Code e design patterns, dos clássicos (GoF) ao Spring."
+          - "APIs no ecossistema Spring: Spring Boot, Spring Data, Spring Security e Spring Cloud OpenFeign."
+        en:
+          - "AI for studying and career growth: fundamentals of machine learning, LLMs, generative AI and agents, and prompt engineering."
+          - "Java fundamentals: development environment, syntax and control structures, with coding challenges from the banking sector."
+          - "Object-oriented programming: classes and encapsulation, inheritance and polymorphism, interfaces and lambdas, collections, debugging and exception handling."
+          - "Web and best practices: how the web and HTTP work, an introduction to APIs, annotations, SOLID, Clean Code and design patterns, from the classics (GoF) to Spring."
+          - "APIs in the Spring ecosystem: Spring Boot, Spring Data, Spring Security and Spring Cloud OpenFeign."
+        es:
+          - "IA para el estudio y la carrera: fundamentos de machine learning, LLMs, IA generativa y agentes, e ingeniería de prompts."
+          - "Fundamentos de Java: entorno de desarrollo, sintaxis y estructuras de control, con desafíos de código del sector bancario."
+          - "Programación orientada a objetos: clases y encapsulamiento, herencia y polimorfismo, interfaces y lambdas, collections, depuración y manejo de excepciones."
+          - "Web y buenas prácticas: cómo funcionan la web y HTTP, introducción a las APIs, annotations, SOLID, Clean Code y patrones de diseño, de los clásicos (GoF) a Spring."
+          - "APIs en el ecosistema Spring: Spring Boot, Spring Data, Spring Security y Spring Cloud OpenFeign."
+    - heading: { pt: "Projeto final", en: "Final project", es: "Proyecto final" }
+      text:
+        pt: "O bootcamp termina com um desafio de projeto: uma API inteligente com reconhecimento de fala, feita com Spring Boot."
+        en: "The bootcamp ends with a project challenge: a smart API with speech recognition, built with Spring Boot."
+        es: "El bootcamp termina con un desafío de proyecto: una API inteligente con reconocimiento de voz, hecha con Spring Boot."
+    - heading: { pt: "Onde estou", en: "Where I am", es: "Dónde estoy" }
+      text:
+        pt: "Concluí os cursos de IA e os fundamentos de Java. Agora sigo para orientação a objetos e, depois, para o ecossistema Spring."
+        en: "I've completed the AI courses and the Java fundamentals. Next up are object-oriented programming and then the Spring ecosystem."
+        es: "Terminé los cursos de IA y los fundamentos de Java. Ahora sigo con la programación orientada a objetos y, después, con el ecosistema Spring."
+
+techDetails:
+  - label: { pt: "Linguagem", en: "Language", es: "Lenguaje" }
+    items: ["Java"]
+  - label: { pt: "Ecossistema Spring", en: "Spring ecosystem", es: "Ecosistema Spring" }
+    items: ["Spring Boot", "Spring Data", "Spring Security", "Spring Cloud OpenFeign"]
+  - label: { pt: "Boas práticas", en: "Best practices", es: "Buenas prácticas" }
+    items: ["SOLID", "Clean Code", "Design Patterns"]
+  - label: { pt: "IA", en: "AI", es: "IA" }
+    items:
+      - { pt: "IA generativa", en: "Generative AI", es: "IA generativa" }
+      - { pt: "Engenharia de prompts", en: "Prompt engineering", es: "Ingeniería de prompts" }
