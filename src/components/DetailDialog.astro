@@ -1,11 +1,15 @@
 ---
 /**
- * Modal de detalhes (experiências e projetos), com <dialog> nativo + showModal():
+ * Modal de detalhes (experiências, projetos e formação), com <dialog> nativo + showModal():
  * foco preso no modal, Esc fecha e o resto da página fica inerte. O script abaixo cuida de abrir
  * pelos botões [data-dialog-open], fechar ao clicar fora e devolver o foco a quem abriu.
  */
 import CloseIcon from 'bootstrap-icons/icons/x-lg.svg';
 import ArrowIcon from 'bootstrap-icons/icons/arrow-right.svg';
+import PdfIcon from 'bootstrap-icons/icons/file-earmark-pdf.svg';
+import ExternalIcon from 'bootstrap-icons/icons/box-arrow-up-right.svg';
+import CopyIcon from 'bootstrap-icons/icons/copy.svg';
+import CheckIcon from 'bootstrap-icons/icons/check2.svg';
 import Diagram, { type DiagramName } from './Diagram.astro';
 import type { Locale } from '../i18n/utils';
 
@@ -22,6 +26,22 @@ interface Related {
 	heading: string;
 	text: string;
 	links: { label: string; id: string }[];
+}
+
+/** Comprovantes (formação): os PDFs em cartões e o código para conferir a autenticidade. */
+interface Proofs {
+	heading: string;
+	documents: { label: string; href: string }[];
+	verification?: {
+		label: string;
+		url: string;
+		code: string;
+		codeLabel: string;
+		copyLabel: string;
+		copiedLabel: string;
+		copyFailedLabel: string;
+	};
+	newTabLabel: string;
 }
 
 interface Props {
@@ -45,6 +65,7 @@ interface Props {
 	groupsHeading?: string;
 	groups?: { label: string; items: string[] }[];
 	links?: { label: string; href: string; newTabLabel: string }[];
+	proofs?: Proofs;
 	related?: Related;
 	note?: string;
 	closeLabel: string;
@@ -67,6 +88,7 @@ const {
 	groupsHeading,
 	groups = [],
 	links = [],
+	proofs,
 	related,
 	note,
 	closeLabel,
@@ -149,6 +171,56 @@ const titleId = `${id}-title`;
 							</div>
 						))}
 					</dl>
+				</section>
+			)
+		}
+
+		{
+			proofs && (
+				<section class="block">
+					<h3 class="block-title">{proofs.heading}</h3>
+					<ul class="docs">
+						{proofs.documents.map(({ label, href }) => (
+							<li>
+								<a class="doc" href={href} target="_blank" rel="noopener">
+									<PdfIcon class="doc-icon" aria-hidden="true" />
+									<span class="doc-text">
+										<span class="doc-label">{label}</span>
+										<span class="doc-type">PDF</span>
+									</span>
+									<ExternalIcon class="doc-external" aria-hidden="true" />
+									<span class="visually-hidden">{proofs.newTabLabel}</span>
+								</a>
+							</li>
+						))}
+					</ul>
+					{proofs.verification && (
+						<div class="verify">
+							<p class="verify-code">
+								<span class="verify-label">{proofs.verification.codeLabel}</span>
+								<code>{proofs.verification.code}</code>
+								{/* Escondido até o script confirmar que dá para copiar: sem área de transferência, nada de botão morto */}
+								<button
+									class="copy"
+									type="button"
+									hidden
+									data-copy-code={proofs.verification.code}
+									data-ok={proofs.verification.copiedLabel}
+									data-fail={proofs.verification.copyFailedLabel}
+								>
+									<CopyIcon class="copy-icon" aria-hidden="true" />
+									<CheckIcon class="check-icon" aria-hidden="true" />
+									<span class="visually-hidden">{proofs.verification.copyLabel}</span>
+								</button>
+								<span class="copy-status visually-hidden" role="status" />
+							</p>
+							<a class="verify-link" href={proofs.verification.url} target="_blank" rel="noopener noreferrer">
+								{proofs.verification.label}
+								<ExternalIcon aria-hidden="true" />
+								<span class="visually-hidden">{proofs.newTabLabel}</span>
+							</a>
+						</div>
+					)}
 				</section>
 			)
 		}
@@ -298,6 +370,38 @@ const titleId = `${id}-title`;
 	};
 	openFromHash();
 	addEventListener('hashchange', openFromHash);
+
+	/*
+	 * Botão de copiar o código de autenticação (comprovantes da formação). Deu certo: o ícone vira um ✓
+	 * (um texto ao lado empurraria o resto da linha). Deu errado: a mensagem aparece. Nos dois casos,
+	 * o role="status" anuncia ao leitor de tela; depois de 2,5 s, tudo volta ao normal.
+	 */
+	for (const button of document.querySelectorAll<HTMLButtonElement>('[data-copy-code]')) {
+		// Sem a API de área de transferência (navegador antigo ou página sem HTTPS), o botão fica escondido
+		if (!navigator.clipboard) continue;
+		button.hidden = false;
+		const status = button.nextElementSibling as HTMLElement;
+		let timer: number | undefined;
+
+		button.addEventListener('click', async () => {
+			// writeText pode ser recusada (permissão negada, página sem foco): o catch mostra a falha
+			let ok = true;
+			try {
+				await navigator.clipboard.writeText(button.dataset.copyCode ?? '');
+			} catch {
+				ok = false;
+			}
+			status.textContent = (ok ? button.dataset.ok : button.dataset.fail) ?? '';
+			status.classList.toggle('visually-hidden', ok);
+			button.toggleAttribute('data-copied', ok);
+			// Com cliques seguidos, a contagem recomeça em vez de a mensagem sumir cedo demais
+			clearTimeout(timer);
+			timer = window.setTimeout(() => {
+				status.textContent = '';
+				button.removeAttribute('data-copied');
+			}, 2500);
+		});
+	}
 </script>
 
 <style>
@@ -529,6 +633,131 @@ const titleId = `${id}-title`;
 		display: flex;
 		flex-wrap: wrap;
 		gap: var(--space-3);
+	}
+
+	/* Comprovantes: um cartão por PDF, lado a lado quando há espaço */
+	.docs {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+		gap: var(--space-3);
+		padding: 0;
+		list-style: none;
+	}
+
+	.doc {
+		display: flex;
+		align-items: center;
+		gap: var(--space-3);
+		height: 100%;
+		padding: var(--space-3) var(--space-4);
+		background-color: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm);
+		color: var(--color-text);
+		text-decoration: none;
+		transition: border-color var(--duration-fast) ease;
+	}
+
+	.doc:hover {
+		border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+	}
+
+	.doc-icon {
+		flex: none;
+		width: 1.5rem;
+		height: 1.5rem;
+		color: var(--color-accent);
+	}
+
+	.doc-text {
+		display: grid;
+		flex: 1;
+		gap: var(--space-1);
+		line-height: 1.3;
+	}
+
+	.doc-label {
+		font-weight: var(--weight-semibold);
+	}
+
+	.doc-type {
+		color: var(--color-text-muted);
+		font-family: var(--font-mono);
+		font-size: var(--text-label);
+	}
+
+	.doc-external {
+		flex: none;
+		width: 0.875rem;
+		height: 0.875rem;
+		color: var(--color-text-muted);
+	}
+
+	/* Código de autenticação e o link para conferir, numa linha que quebra no celular */
+	.verify {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-2) var(--space-4);
+		color: var(--color-text-muted);
+		font-size: var(--text-sm);
+	}
+
+	.verify-code {
+		display: inline-flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0 var(--space-2);
+	}
+
+	.verify-code code {
+		color: var(--color-text);
+		font-family: var(--font-mono);
+	}
+
+	/* 24px: o alvo mínimo de toque da WCAG 2.5.8 */
+	.copy {
+		display: inline-grid;
+		place-items: center;
+		width: 1.5rem;
+		height: 1.5rem;
+		padding: 0;
+		background: none;
+		border: 0;
+		border-radius: var(--radius-sm);
+		color: inherit;
+		cursor: pointer;
+	}
+
+	.copy:hover {
+		color: var(--color-text);
+	}
+
+	.copy svg {
+		width: 0.875rem;
+		height: 0.875rem;
+	}
+
+	.copy:not([data-copied]) .check-icon,
+	.copy[data-copied] .copy-icon {
+		display: none;
+	}
+
+	.copy[data-copied] {
+		color: var(--color-accent);
+	}
+
+	.verify-link {
+		display: inline-flex;
+		align-items: center;
+		gap: var(--space-2);
+		min-height: 1.5rem;
+	}
+
+	.verify-link svg {
+		width: 0.75rem;
+		height: 0.75rem;
 	}
 
 	.note {

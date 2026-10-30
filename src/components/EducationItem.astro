@@ -1,62 +1,98 @@
 ---
 /**
- * Um item da lista de formação: instituição, curso e período. Sem datas (o Kumon, no próprio
+ * Um item da lista de formação: instituição, curso e período. Sem datas (o curso da Udemy, no próprio
  * ritmo), mostra "em andamento"; sem fim, "atual" (ver formatPeriod em src/i18n/utils.ts).
- * Com nota, uma linha a mais: "Nota 10,0/10 · média da turma 5,5". Com comprovantes, links para os
- * PDFs e para a página da instituição que confere a autenticidade, todos em nova aba (como o CV).
+ * Com detalhes ou comprovantes, um "Ver detalhes" abre o mesmo modal das experiências e projetos,
+ * no mesmo formato: abertura, seções, tecnologias por frente e, quando há, os comprovantes (PDFs e
+ * o código para conferir a autenticidade).
  */
 import type { CollectionEntry } from 'astro:content';
-import { formatPeriod, htmlLang, localize, useTranslations, type Locale } from '../i18n/utils';
+import ArrowIcon from 'bootstrap-icons/icons/arrow-right.svg';
+import DetailDialog from './DetailDialog.astro';
+import { isPublished } from '../data/drafts';
+import { localizeDetails } from '../data/details';
+import { formatPeriod, htmlLang, localize, localizeTerm, useTranslations, type Locale } from '../i18n/utils';
 
 interface Props {
+	/** Nome do arquivo YAML (ex.: puc-rio), usado no id do modal: #education-puc-rio. */
+	id: string;
 	education: CollectionEntry<'education'>['data'];
 	locale: Locale;
 }
 
-const { education, locale } = Astro.props;
+const { id, education, locale } = Astro.props;
 const t = useTranslations(locale);
-const { institution, course, start, end, grade, documents, verification } = education;
-// Sempre com uma casa decimal, no separador do idioma: 10,0 em pt e es, 10.0 em en
-const score = new Intl.NumberFormat(htmlLang[locale], { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+const { institution, course, start, end, hours, details, techDetails = [], documents = [], verification } = education;
+const title = localize(course, locale);
+const period = start ? formatPeriod(start, end, locale) : t.period.inProgress;
+const dialogId = `education-${id}`;
+// Carga horária no separador do idioma: 33,5 horas em pt e es, 33.5 hours em en
+const duration = hours && `${new Intl.NumberFormat(htmlLang[locale]).format(hours)} ${t.education.hours}`;
+const hasProofs = documents.length > 0 || !!verification;
+const hasDialog = isPublished(details) || hasProofs;
+// Abertura e seções no idioma da página, pelo mesmo caminho das experiências e projetos
+const content = details && isPublished(details) ? localizeDetails(details, locale) : { sections: [] };
+const proofs = hasProofs
+	? {
+			heading: t.education.proofs,
+			documents: documents.map(({ kind, href }) => ({ label: t.education.documents[kind], href })),
+			verification: verification && {
+				label: t.education.verify,
+				url: verification.url,
+				code: verification.code,
+				codeLabel: t.education.code,
+				copyLabel: t.education.copyCode,
+				copiedLabel: t.education.codeCopied,
+				copyFailedLabel: t.education.codeCopyFailed,
+			},
+			newTabLabel: t.a11y.newTab,
+		}
+	: undefined;
 ---
 
 <li class="item">
 	<div>
-		<h4 class="course">{localize(course, locale)}</h4>
+		<h4 class="course">{title}</h4>
 		<p class="institution">{institution}</p>
 		{
-			grade && (
-				<p class="grade">
-					{t.education.grade} {score.format(grade.score)}/10 · {t.education.classAverage}{' '}
-					{score.format(grade.classAverage)}
-				</p>
-			)
-		}
-		{
-			(documents || verification) && (
-				<ul class="proofs">
-					{documents?.map(({ kind, href }) => (
-						<li>
-							<a href={href} target="_blank" rel="noopener">
-								{t.education.documents[kind]} (PDF)
-								<span class="visually-hidden">{t.a11y.newTab}</span>
-							</a>
-						</li>
-					))}
-					{verification && (
-						<li>
-							<a href={verification.url} target="_blank" rel="noopener noreferrer">
-								{t.education.verify}
-								<span class="visually-hidden">{t.a11y.newTab}</span>
-							</a>{' '}
-							· {t.education.code} <span class="code">{verification.code}</span>
-						</li>
-					)}
-				</ul>
+			hasDialog && (
+				<button
+					class="more"
+					type="button"
+					data-dialog-open={dialogId}
+					aria-haspopup="dialog"
+					aria-label={`${t.education.more}: ${title}`}
+					hidden
+				>
+					{t.education.more}
+					<ArrowIcon class="more-arrow" aria-hidden="true" />
+				</button>
 			)
 		}
 	</div>
-	<p class="period">{start ? formatPeriod(start, end, locale) : t.period.inProgress}</p>
+	<p class="period">{period}</p>
+
+	{/* Dentro do <li>: uma <ol> só aceita <li> como filho. Aberto, o modal sai do fluxo da lista. */}
+	{
+		hasDialog && (
+			<DetailDialog
+				id={dialogId}
+				locale={locale}
+				eyebrow={institution}
+				title={title}
+				meta={duration ? `${period} · ${duration}` : period}
+				{...content}
+				groupsHeading={t.education.tech}
+				groups={techDetails.map((g) => ({
+					label: localize(g.label, locale),
+					items: g.items.map((term) => localizeTerm(term, locale)),
+				}))}
+				proofs={proofs}
+				closeLabel={t.a11y.closeDetails}
+				draftLabel={details?.draft ? t.a11y.draft : undefined}
+			/>
+		)
+	}
 </li>
 
 <style>
@@ -72,31 +108,41 @@ const score = new Intl.NumberFormat(htmlLang[locale], { minimumFractionDigits: 1
 		font-weight: var(--weight-semibold);
 	}
 
-	.institution,
-	.grade,
-	.proofs {
+	.institution {
 		color: var(--color-text-muted);
 		font-size: var(--text-sm);
 	}
 
-	.proofs {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0 var(--space-4);
-		margin-top: var(--space-1);
-		padding: 0;
-		list-style: none;
-	}
-
-	/* 24px de altura: o alvo mínimo de toque da WCAG 2.5.8 */
-	.proofs a {
+	/* Link de texto com seta, como o "Explorar a experiência"; 24px de altura (WCAG 2.5.8) */
+	.more {
 		display: inline-flex;
 		align-items: center;
+		gap: var(--space-2);
 		min-height: 1.5rem;
+		margin-top: var(--space-2);
+		padding: 0;
+		background: none;
+		border: 0;
+		color: var(--color-text);
+		font-size: var(--text-sm);
+		font-weight: var(--weight-semibold);
+		cursor: pointer;
+		transition: color var(--duration-fast) ease;
 	}
 
-	.code {
-		font-family: var(--font-mono);
+	.more-arrow {
+		width: 0.875rem;
+		height: 0.875rem;
+		color: var(--color-accent);
+		transition: transform var(--duration-base) ease;
+	}
+
+	.more:hover {
+		color: var(--color-accent);
+	}
+
+	.more:hover .more-arrow {
+		transform: translateX(4px);
 	}
 
 	.period {

@@ -1,6 +1,6 @@
 /**
- * Detalhes de um modal (experiência ou projeto) no idioma da página: resumo, abertura e seções.
- * Os dois cartões usam o mesmo formato de detalhes (detailSections em content.config.ts), então a
+ * Detalhes de um modal (experiência, projeto ou formação) no idioma da página: resumo, abertura e seções.
+ * Todos usam o mesmo formato de detalhes (detailSections em content.config.ts), então a
  * tradução para as props do DetailDialog mora aqui, num lugar só.
  */
 import type { CollectionEntry } from 'astro:content';

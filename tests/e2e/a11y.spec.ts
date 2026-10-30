@@ -42,6 +42,7 @@ for (const { path } of pages) {
 		for (const id of [
 			await page.locator('#experience [data-dialog-open]').first().getAttribute('data-dialog-open'),
 			await page.locator('#projects [data-dialog-open]').first().getAttribute('data-dialog-open'),
+			await page.locator('#education [data-dialog-open]').first().getAttribute('data-dialog-open'),
 		]) {
 			await page.locator(`[data-dialog-open="${id}"]`).evaluate((button: HTMLButtonElement) => button.click());
 			await expect(page.locator(`#${id}`)).toHaveAttribute('open');
