@@ -5,3 +5,72 @@ course:
   es: Licenciatura en Ingeniería de Software
 start: 2025-01
 end: 2028-12
+
+# ---------------------------------------------------------------------------------------------
+# Detalhes do "Ver detalhes" (modal), escritos a partir da página do curso na Estácio e da grade
+# curricular (disciplinas obrigatórias e optativas). As obrigatórias estão agrupadas por área;
+# das optativas, só as de computação, numa seção própria.
+# ---------------------------------------------------------------------------------------------
+details:
+  intro:
+    pt: "Graduação voltada à especificação, ao desenvolvimento, ao teste e à manutenção de software, com foco em qualidade e nos objetivos do negócio. A grade vai dos fundamentos da computação a back-end, front-end, mobile, dados, nuvem e DevOps."
+    en: "A degree focused on specifying, developing, testing and maintaining software, with an emphasis on quality and business goals. The curriculum goes from computing fundamentals to back-end, front-end, mobile, data, cloud and DevOps."
+    es: "Carrera enfocada en la especificación, el desarrollo, las pruebas y el mantenimiento de software, con foco en la calidad y en los objetivos del negocio. El plan de estudios va de los fundamentos de la computación al back-end, front-end, mobile, datos, nube y DevOps."
+  sections:
+    - heading: { pt: "Grade curricular", en: "Curriculum", es: "Plan de estudios" }
+      items:
+        pt:
+          - "Fundamentos da computação: pensamento computacional, matemática e lógica, arquitetura de computadores, sistemas operacionais, redes de computadores e métodos quantitativos."
+          - "Programação: introdução à programação, paradigmas de linguagens em Python, estrutura de dados, orientação a objetos e padrões de projeto em Java, Python para análise de dados e Big Data."
+          - "Desenvolvimento: web com HTML5, CSS, JavaScript e PHP, web full MVC, front-end, back-end, aplicativos Android, bancos de dados relacionais e NoSQL, computação em nuvem e arquitetura de sistemas."
+          - "Engenharia de software: processos de desenvolvimento, requisitos, modelagem em UML, métodos ágeis com Scrum, qualidade e testes, gerência de configuração, DevOps, engenharia de produto, linhas de produtos de software, usabilidade e modelagem de processos."
+          - "Segurança e gestão: segurança da informação, desenvolvimento de software seguro, direito cibernético, gerenciamento de projetos, indicadores de desempenho de TI, comportamento organizacional e sistemas de informação e sociedade."
+        en:
+          - "Computing fundamentals: computational thinking, mathematics and logic, computer architecture, operating systems, computer networks and quantitative methods."
+          - "Programming: introduction to programming, programming language paradigms in Python, data structures, object-oriented programming and design patterns in Java, Python for data analysis and Big Data."
+          - "Development: web with HTML5, CSS, JavaScript and PHP, full MVC web, front-end, back-end, Android apps, relational and NoSQL databases, cloud computing and systems architecture."
+          - "Software engineering: development processes, requirements, UML modeling, agile methods with Scrum, quality and testing, configuration management, DevOps, product engineering, software product lines, usability and process modeling."
+          - "Security and management: information security, secure software development, cyber law, project management, IT performance indicators, organizational behavior and information systems and society."
+        es:
+          - "Fundamentos de la computación: pensamiento computacional, matemática y lógica, arquitectura de computadoras, sistemas operativos, redes de computadoras y métodos cuantitativos."
+          - "Programación: introducción a la programación, paradigmas de lenguajes en Python, estructuras de datos, programación orientada a objetos y patrones de diseño en Java, Python para análisis de datos y Big Data."
+          - "Desarrollo: web con HTML5, CSS, JavaScript y PHP, web full MVC, front-end, back-end, aplicaciones Android, bases de datos relacionales y NoSQL, computación en la nube y arquitectura de sistemas."
+          - "Ingeniería de software: procesos de desarrollo, requisitos, modelado en UML, métodos ágiles con Scrum, calidad y pruebas, gestión de configuración, DevOps, ingeniería de producto, líneas de productos de software, usabilidad y modelado de procesos."
+          - "Seguridad y gestión: seguridad de la información, desarrollo de software seguro, derecho cibernético, gestión de proyectos, indicadores de desempeño de TI, comportamiento organizacional y sistemas de información y sociedad."
+    - heading: { pt: "Optativas", en: "Electives", es: "Optativas" }
+      items:
+        pt:
+          - "Programação de software básico em C."
+          - "Desenvolvimento rápido de aplicações em Python."
+          - "Aplicações de cloud, IoT e Indústria 4.0 em Python."
+          - "Algoritmos e complexidade."
+          - "Sistemas distribuídos e computação paralela."
+        en:
+          - "Systems programming in C."
+          - "Rapid application development in Python."
+          - "Cloud, IoT and Industry 4.0 applications in Python."
+          - "Algorithms and complexity."
+          - "Distributed systems and parallel computing."
+        es:
+          - "Programación de software básico en C."
+          - "Desarrollo rápido de aplicaciones en Python."
+          - "Aplicaciones de nube, IoT e Industria 4.0 en Python."
+          - "Algoritmos y complejidad."
+          - "Sistemas distribuidos y computación paralela."
+
+techDetails:
+  - label: { pt: "Linguagens", en: "Languages", es: "Lenguajes" }
+    items: ["Python", "Java", "JavaScript", "PHP", "C"]
+  - label: { pt: "Web e mobile", en: "Web and mobile", es: "Web y mobile" }
+    items: ["HTML5", "CSS", "MVC", "Android"]
+  - label: { pt: "Dados", en: "Data", es: "Datos" }
+    items:
+      - { pt: "Bancos de dados relacionais", en: "Relational databases", es: "Bases de datos relacionales" }
+      - "NoSQL"
+      - "Big Data"
+  - label: { pt: "Processos e qualidade", en: "Processes and quality", es: "Procesos y calidad" }
+    items:
+      - "UML"
+      - "Scrum"
+      - "DevOps"
+      - { pt: "Testes de software", en: "Software testing", es: "Pruebas de software" }

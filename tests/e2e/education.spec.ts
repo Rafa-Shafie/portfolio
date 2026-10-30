@@ -1,13 +1,14 @@
 /**
- * "Ver detalhes" das formações (hoje, PUC-Rio e o bootcamp DIO · Itaú).
+ * "Ver detalhes" das formações.
  *
  * O botão abre o mesmo modal das experiências e projetos, no mesmo formato: abertura, seções,
- * tecnologias por frente e, quando há, os comprovantes. Os PDFs e a página de autenticação abrem em nova aba; o código de autenticação tem
- * um botão de copiar. Como no cartão de e-mail, o teste dá permissão à área de transferência, clica,
- * lê o que foi copiado e confere o anúncio da região role="status".
+ * tecnologias por frente e, quando há, os comprovantes. Os PDFs e a página de autenticação abrem
+ * em nova aba; o código de autenticação tem um botão de copiar. Como no cartão de e-mail, o teste
+ * dá permissão à área de transferência, clica, lê o que foi copiado e confere o anúncio da região
+ * role="status".
  */
 import { test, expect, escape } from './fixtures';
-import { pages } from './content';
+import { detailedEducation, pages } from './content';
 
 const { t } = pages[0];
 
@@ -57,8 +58,12 @@ test.describe('detalhes da formação', () => {
 		await expect(dialog.getByRole('heading', { name: t.education.proofs })).toHaveCount(0);
 	});
 
-	test('formações sem detalhes nem comprovantes não ganham botão', async ({ page }) => {
+	test('só as formações com detalhes ou comprovantes ganham botão, cada uma com o seu modal', async ({ page }) => {
 		await page.goto('/');
-		await expect(page.locator('#education li.item', { hasText: 'Estácio' }).locator('[data-dialog-open]')).toHaveCount(0);
+		const buttons = page.locator('#education [data-dialog-open]');
+		await expect(buttons).toHaveCount(detailedEducation.length);
+		for (const { slug } of detailedEducation) {
+			await expect(page.locator(`[data-dialog-open="education-${slug}"]`)).toBeVisible();
+		}
 	});
 });

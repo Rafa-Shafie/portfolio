@@ -68,6 +68,18 @@ const published = (item?: { draft?: boolean }) => !!item && !item.draft;
 export const projects = readCollection<Project>('projects').filter(published);
 export const experiences = readCollection<Experience>('experiences');
 
+interface Education {
+	slug: string;
+	details?: Details;
+	documents?: unknown[];
+	verification?: unknown;
+}
+
+/** Formações com o modal "Ver detalhes": as que têm detalhes publicados ou comprovantes. */
+export const detailedEducation = readCollection<Education>('education').filter(
+	(e) => published(e.details) || !!e.documents?.length || !!e.verification,
+);
+
 /** Experiências com o modal "Explorar a experiência". */
 export const exploredExperiences = experiences.filter((e) => published(e.details));
 
