@@ -3,3 +3,88 @@ course:
   pt: Machine Learning, Deep Learning, LLMs, IA Generativa e Agentes
   en: Machine Learning, Deep Learning, LLMs, Generative AI and Agents
   es: Machine Learning, Deep Learning, LLMs, IA Generativa y Agentes
+hours: 33.5
+
+# ---------------------------------------------------------------------------------------------
+# Detalhes do "Ver detalhes" (modal), escritos a partir da página do curso na Udemy
+# (Fernando Amaral). Em andamento: quando houver progresso para contar, entra uma seção
+# "Onde estou", como no bootcamp DIO · Itaú.
+# ---------------------------------------------------------------------------------------------
+details:
+  intro:
+    pt: "Curso de inteligência artificial que vai do machine learning clássico a LLMs, IA generativa e agentes, com o professor Fernando Amaral. São mais de 200 aulas e mais de 60 implementações práticas em Python."
+    en: "An artificial intelligence course that goes from classic machine learning to LLMs, generative AI and agents, taught by Fernando Amaral. It has more than 200 lessons and more than 60 hands-on implementations in Python."
+    es: "Curso de inteligencia artificial que va del machine learning clásico a los LLMs, la IA generativa y los agentes, con el profesor Fernando Amaral. Tiene más de 200 clases y más de 60 implementaciones prácticas en Python."
+  sections:
+    - heading: { pt: "Machine learning", en: "Machine learning", es: "Machine learning" }
+      items:
+        pt:
+          - "Fundamentos: classificação, regressão, agrupamentos e regras de associação, com avaliação de performance e matriz de confusão."
+          - "Algoritmos: regressão linear, Naive Bayes, árvores de decisão, Random Forest, KNN, K-means e Apriori."
+          - "Tópicos avançados: engenharia e seleção de atributos, PCA, classificação multi-label, dados desbalanceados, AutoML e tuning de modelos."
+          - "Machine learning explicável: modelos white-box e black-box, LIME, ELI5, SHAP e InterpretML."
+        en:
+          - "Fundamentals: classification, regression, clustering and association rules, with performance evaluation and confusion matrices."
+          - "Algorithms: linear regression, Naive Bayes, decision trees, Random Forest, KNN, K-means and Apriori."
+          - "Advanced topics: feature engineering and selection, PCA, multi-label classification, imbalanced data, AutoML and model tuning."
+          - "Explainable machine learning: white-box and black-box models, LIME, ELI5, SHAP and InterpretML."
+        es:
+          - "Fundamentos: clasificación, regresión, agrupamiento y reglas de asociación, con evaluación de rendimiento y matriz de confusión."
+          - "Algoritmos: regresión lineal, Naive Bayes, árboles de decisión, Random Forest, KNN, K-means y Apriori."
+          - "Temas avanzados: ingeniería y selección de atributos, PCA, clasificación multietiqueta, datos desbalanceados, AutoML y ajuste de modelos."
+          - "Machine learning explicable: modelos white-box y black-box, LIME, ELI5, SHAP e InterpretML."
+    - heading: { pt: "Deep learning e NLP", en: "Deep learning and NLP", es: "Deep learning y NLP" }
+      items:
+        pt:
+          - "Redes neurais: perceptron, hiperparâmetros, CNNs para visão computacional, LSTMs, autoencoders e detecção de objetos com OpenCV."
+          - "Processamento de linguagem natural: tokenização, POS tagging, lematização, word embeddings e transformers."
+        en:
+          - "Neural networks: perceptron, hyperparameters, CNNs for computer vision, LSTMs, autoencoders and object detection with OpenCV."
+          - "Natural language processing: tokenization, POS tagging, lemmatization, word embeddings and transformers."
+        es:
+          - "Redes neuronales: perceptrón, hiperparámetros, CNNs para visión por computadora, LSTMs, autoencoders y detección de objetos con OpenCV."
+          - "Procesamiento de lenguaje natural: tokenización, POS tagging, lematización, word embeddings y transformers."
+    - heading: { pt: "LLMs, IA generativa e agentes", en: "LLMs, generative AI and agents", es: "LLMs, IA generativa y agentes" }
+      items:
+        pt:
+          - "LLMs com Hugging Face, GPT (OpenAI), Gemini e DeepSeek: geração, preenchimento e resumo de texto."
+          - "IA generativa de imagem e áudio: DALL-E, Stable Diffusion e Whisper."
+          - "Agentes de IA: pesquisa na web, RAG com LangChain, MCP (Model Context Protocol) e automação com n8n."
+        en:
+          - "LLMs with Hugging Face, GPT (OpenAI), Gemini and DeepSeek: text generation, fill-mask and summarization."
+          - "Generative AI for images and audio: DALL-E, Stable Diffusion and Whisper."
+          - "AI agents: web search, RAG with LangChain, MCP (Model Context Protocol) and automation with n8n."
+        es:
+          - "LLMs con Hugging Face, GPT (OpenAI), Gemini y DeepSeek: generación, completado y resumen de texto."
+          - "IA generativa de imagen y audio: DALL-E, Stable Diffusion y Whisper."
+          - "Agentes de IA: búsqueda en la web, RAG con LangChain, MCP (Model Context Protocol) y automatización con n8n."
+    - heading: { pt: "Outras técnicas", en: "Other techniques", es: "Otras técnicas" }
+      items:
+        pt:
+          - "Detecção de anomalias e séries temporais: z-score, IQR, Isolation Forest, LOF, autoencoders, LSTM, médias móveis, exponential smoothing, decomposição sazonal e ARIMA."
+          - "Algoritmos genéticos, busca e otimização (hill climbing, BFS, DFS, tabu search e simulated annealing) e lógica difusa."
+        en:
+          - "Anomaly detection and time series: z-score, IQR, Isolation Forest, LOF, autoencoders, LSTM, moving averages, exponential smoothing, seasonal decomposition and ARIMA."
+          - "Genetic algorithms, search and optimization (hill climbing, BFS, DFS, tabu search and simulated annealing) and fuzzy logic."
+        es:
+          - "Detección de anomalías y series temporales: z-score, IQR, Isolation Forest, LOF, autoencoders, LSTM, medias móviles, exponential smoothing, descomposición estacional y ARIMA."
+          - "Algoritmos genéticos, búsqueda y optimización (hill climbing, BFS, DFS, tabu search y simulated annealing) y lógica difusa."
+    - heading: { pt: "Como é o curso", en: "How the course works", es: "Cómo es el curso" }
+      text:
+        pt: "Cada tema junta teoria e laboratórios em Python no Google Colab, com testes de fixação e exercícios de programação. O curso termina com um desafio final e inclui uma seção opcional de fundamentos de Python."
+        en: "Each topic combines theory with Python labs on Google Colab, plus quizzes and coding exercises. The course ends with a final challenge and includes an optional Python fundamentals section."
+        es: "Cada tema combina teoría y laboratorios en Python en Google Colab, con cuestionarios y ejercicios de programación. El curso termina con un desafío final e incluye una sección opcional de fundamentos de Python."
+
+techDetails:
+  - label: { pt: "Linguagem e dados", en: "Language and data", es: "Lenguaje y datos" }
+    items: ["Python", "Pandas", "NumPy", "SciPy", "Google Colab"]
+  - label: { pt: "Machine learning", en: "Machine learning", es: "Machine learning" }
+    items: ["scikit-learn", "StatsModels", "H2O"]
+  - label: { pt: "Deep learning e visão", en: "Deep learning and vision", es: "Deep learning y visión" }
+    items: ["Keras", "TensorFlow", "PyTorch", "OpenCV"]
+  - label: { pt: "Explicabilidade", en: "Explainability", es: "Explicabilidad" }
+    items: ["LIME", "ELI5", "SHAP", "InterpretML"]
+  - label: { pt: "LLMs e IA generativa", en: "LLMs and generative AI", es: "LLMs e IA generativa" }
+    items: ["Hugging Face", "OpenAI", "Google Gemini", "DeepSeek", "Stable Diffusion", "Whisper"]
+  - label: { pt: "Agentes", en: "Agents", es: "Agentes" }
+    items: ["LangChain", "MCP", "n8n"]
