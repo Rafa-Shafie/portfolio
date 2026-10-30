@@ -98,6 +98,19 @@ const education = defineCollection({
 			// Sem datas = em andamento, no próprio ritmo (ex.: Kumon)
 			start: yearMonth.optional(),
 			end: yearMonth.optional(),
+			// Nota final, de 0 a 10, com a média da turma para dar a medida (ex.: PUC-Rio)
+			grade: z
+				.object({
+					score: z.number().min(0).max(10),
+					classAverage: z.number().min(0).max(10),
+				})
+				.optional(),
+			// Comprovantes em public/, abertos no visualizador de PDF do navegador (como o CV)
+			documents: z
+				.array(z.object({ kind: z.enum(['certificate', 'transcript']), href: z.string().startsWith('/') }))
+				.optional(),
+			// Onde conferir a autenticidade no site da instituição, e com qual código
+			verification: z.object({ url: z.url(), code: z.string() }).optional(),
 		})
 		.refine((item) => !item.end || item.start, { message: 'end exige start', path: ['start'] })
 		.refine((item) => !item.end || !item.start || item.end >= item.start, {

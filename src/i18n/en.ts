@@ -165,6 +165,11 @@ export const en: Dictionary = {
 			{ title: 'English', text: 'Ongoing study at Kumon, focused on reading, grammar and building vocabulary.' },
 		],
 		listTitle: 'Education and courses',
+		grade: 'Grade',
+		classAverage: 'class average',
+		documents: { certificate: 'Certificate of completion', transcript: 'Transcript' },
+		verify: 'Verify authenticity',
+		code: 'code',
 	},
 	skills: {
 		label: 'Skills',

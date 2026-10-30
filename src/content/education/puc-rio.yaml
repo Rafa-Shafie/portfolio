@@ -4,4 +4,15 @@ course:
   en: "Artificial Intelligence and Data Science in the Cloud: AWS in Practice"
   es: "Inteligencia Artificial y Ciencia de Datos en la Nube: AWS en la Práctica"
 start: 2026-04
-end: 2026-09
+end: 2026-07
+grade:
+  score: 10
+  classAverage: 5.5
+documents:
+  - kind: certificate
+    href: /education/puc-rio-certificate.pdf
+  - kind: transcript
+    href: /education/puc-rio-transcript.pdf
+verification:
+  url: https://ccec.puc-rio.br/autenticar/
+  code: XYX6E9F976
