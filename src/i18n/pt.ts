@@ -168,8 +168,8 @@ export const pt = {
 		intro: 'Minha formação, os cursos que concluí e o que estou estudando agora.',
 		nowTag: 'Em evolução',
 		now: [
-			{ title: 'Backend com Java', text: 'Java, orientação a objetos e Spring Boot no bootcamp DIO · Itaú.' },
-			{ title: 'Engenharia de IA', text: 'Estudando machine learning, deep learning, LLMs e agentes.' },
+			{ title: 'Backend com Java', text: 'Java, orientação a objetos e Spring Boot no bootcamp DIO · Itaú e na carreira de back-end da Alura.' },
+			{ title: 'Engenharia de IA', text: 'Carreira de Especialista em IA na Alura, começando pela base de Python aplicado à IA, rumo a agentes, RAG e operação de LLMs.' },
 			{ title: 'Inglês', text: 'Estudo contínuo no Kumon, com foco em leitura, gramática e ampliação de vocabulário.' },
 		],
 		listTitle: 'Formação e cursos',
@@ -228,6 +228,7 @@ export const pt = {
 			frameworks: 'Frameworks e runtimes',
 			persistence: 'Persistência',
 			design: 'Requisitos e modelagem',
+			practices: 'Boas práticas',
 			integration: 'Integração',
 			applications: 'Aplicações',
 			ml: 'Machine learning',

@@ -160,8 +160,8 @@ export const es: Dictionary = {
 		intro: 'Mi formación, los cursos que completé y lo que estoy estudiando ahora.',
 		nowTag: 'En evolución',
 		now: [
-			{ title: 'Backend con Java', text: 'Java, programación orientada a objetos y Spring Boot en el bootcamp DIO · Itaú.' },
-			{ title: 'Ingeniería de IA', text: 'Estudiando machine learning, deep learning, LLMs y agentes.' },
+			{ title: 'Backend con Java', text: 'Java, programación orientada a objetos y Spring Boot en el bootcamp DIO · Itaú y en la carrera de back-end de Alura.' },
+			{ title: 'Ingeniería de IA', text: 'Carrera de Especialista en IA en Alura, empezando por la base de Python aplicado a la IA, rumbo a agentes, RAG y operación de LLMs.' },
 			{ title: 'Inglés', text: 'Estudio continuo en Kumon, con foco en lectura, gramática y ampliación de vocabulario.' },
 		],
 		listTitle: 'Formación y cursos',
@@ -220,6 +220,7 @@ export const es: Dictionary = {
 			frameworks: 'Frameworks y runtimes',
 			persistence: 'Persistencia',
 			design: 'Requisitos y modelado',
+			practices: 'Buenas prácticas',
 			integration: 'Integración',
 			applications: 'Aplicaciones',
 			ml: 'Machine learning',

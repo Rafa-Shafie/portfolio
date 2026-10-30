@@ -43,6 +43,8 @@ const t = useTranslations(locale);
 					</button>
 				))
 			}
+			<!-- Sublinhado da aba ativa: desliza de uma aba para a outra (posição e largura vêm do script) -->
+			<span class="tab-indicator" aria-hidden="true"></span>
 		</div>
 
 		{
@@ -56,8 +58,8 @@ const t = useTranslations(locale);
 							<p class="context-text">{t.skills.context[group.id].text}</p>
 						</div>
 						<dl class="sets">
-							{group.sets.map((set) => (
-								<div class="set">
+							{group.sets.map((set, i) => (
+								<div class="set" style={`--i: ${i}`}>
 									<dt>{t.skills.sets[set.id]}</dt>
 									<dd>
 										<ul class="items">
@@ -92,6 +94,7 @@ const t = useTranslations(locale);
 		const tablist = root.querySelector<HTMLElement>('[role="tablist"]');
 		const tabs = [...root.querySelectorAll<HTMLButtonElement>('[role="tab"]')];
 		const panels = [...root.querySelectorAll<HTMLElement>('.panel')];
+		const indicator = root.querySelector<HTMLElement>('.tab-indicator');
 		if (!tablist || tabs.length === 0) continue;
 
 		// Liga o modo abas: cada painel vira tabpanel rotulado pela sua aba
@@ -104,9 +107,21 @@ const t = useTranslations(locale);
 			panel.tabIndex = 0;
 		});
 
+		// Leva o sublinhado para baixo da aba: a posição e a largura viram variáveis CSS, e a transição
+		// do CSS faz o deslize. offsetLeft conta a partir da lista de abas (position: relative).
+		let current = tabs[0];
+		const moveIndicator = () => {
+			indicator?.style.setProperty('--x', `${current.offsetLeft}px`);
+			indicator?.style.setProperty('--w', `${current.offsetWidth}px`);
+		};
+		// A largura das abas muda quando a fonte termina de carregar ou a tela muda de tamanho
+		new ResizeObserver(moveIndicator).observe(tablist);
+
 		// Ativa uma aba. "Roving tabindex": só a aba ativa fica com tabindex 0 (alcançável pelo Tab);
 		// as outras ficam com -1, e quem anda entre elas são as setas.
 		const select = (tab: HTMLButtonElement, focus = false) => {
+			current = tab;
+			moveIndicator();
 			tabs.forEach((t) => {
 				const active = t === tab;
 				t.setAttribute('aria-selected', String(active));
@@ -120,6 +135,8 @@ const t = useTranslations(locale);
 			}
 		};
 		select(tabs[0]);
+		// O sublinhado aparece já no lugar; só depois a transição liga, para os deslizes entre abas
+		requestAnimationFrame(() => tablist.classList.add('is-ready'));
 
 		tabs.forEach((tab) => tab.addEventListener('click', () => select(tab)));
 
@@ -146,6 +163,7 @@ const t = useTranslations(locale);
 	/* Rola na horizontal quando as abas não cabem (celular), sem barra visível: arrasta-se no toque
 	   e as setas do teclado trazem a aba escolhida para a vista */
 	.tablist {
+		position: relative;
 		display: flex;
 		gap: var(--space-1);
 		overflow-x: auto;
@@ -174,9 +192,30 @@ const t = useTranslations(locale);
 		color: var(--color-text);
 	}
 
+	.tab {
+		transition: color var(--duration-fast) ease;
+	}
+
 	.tab[aria-selected='true'] {
 		color: var(--color-accent);
-		box-shadow: inset 0 -2px 0 var(--color-accent);
+	}
+
+	/* O sublinhado da aba ativa, que desliza entre as abas (transição só depois da primeira posição) */
+	.tab-indicator {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: var(--w, 0);
+		height: 2px;
+		background-color: var(--color-accent);
+		translate: var(--x, 0) 0;
+		pointer-events: none;
+	}
+
+	.is-ready .tab-indicator {
+		transition:
+			translate 300ms cubic-bezier(0.2, 0.7, 0.2, 1),
+			width 300ms cubic-bezier(0.2, 0.7, 0.2, 1);
 	}
 
 	/* Sem JavaScript: grupos empilhados, cada um com o seu título */
@@ -196,15 +235,24 @@ const t = useTranslations(locale);
 		border-top: 0;
 	}
 
-	/* Troca de aba: o painel novo entra com um fade curto (o escondido fica com display: none) */
-	.is-tabs .panel:not([hidden]) {
-		animation: panel-in 200ms ease-out;
+	/*
+	 * Troca de aba: o conteúdo novo sobe e aparece em cascata, primeiro o texto de contexto e depois
+	 * cada subgrupo, 50 ms após o anterior (--i é a posição do subgrupo). A animação roda sempre que o
+	 * painel sai de display: none. `both` mantém o estado inicial durante o atraso. Com menos
+	 * movimento pedido, o global.css zera a duração.
+	 */
+	.is-tabs .panel:not([hidden]) :is(.context, .set) {
+		animation: panel-in 380ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+	}
+
+	.is-tabs .panel:not([hidden]) .set {
+		animation-delay: calc(60ms + var(--i, 0) * 50ms);
 	}
 
 	@keyframes panel-in {
 		from {
 			opacity: 0;
-			translate: 0 0.25rem;
+			translate: 0 0.75rem;
 		}
 	}
 
