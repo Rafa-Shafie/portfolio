@@ -161,7 +161,7 @@ export const es: Dictionary = {
 		nowTag: 'En evolución',
 		now: [
 			{ title: 'Backend con Java', text: 'Java, programación orientada a objetos y Spring Boot en el bootcamp DIO · Itaú.' },
-			{ title: 'Ingeniería de IA', text: 'Agentes y sistemas multiagente con LangGraph, protocolos como MCP y observabilidad de aplicaciones con LLMs.' },
+			{ title: 'Ingeniería de IA', text: 'Estudiando machine learning, deep learning, LLMs y agentes. Próximo paso: una ruta de formación con RAG, LangChain y LangGraph, protocolos como MCP y observabilidad de LLMs.' },
 			{ title: 'Inglés', text: 'Estudio continuo en Kumon, con foco en lectura, gramática y ampliación de vocabulario.' },
 		],
 		listTitle: 'Formación y cursos',
