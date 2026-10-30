@@ -111,13 +111,19 @@ test.describe('contato', () => {
 		await expect(toggle).toBeFocused();
 	});
 
-	test('menu aberto sem violações do axe', async ({ page }) => {
-		await page.locator('[data-email-toggle]').click();
-		const { violations } = await new AxeBuilder({ page })
-			.include('#contact')
-			.withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
-			.analyze();
-		expect(violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(', ')}`)).toEqual([]);
+	test.describe('sem a animação de entrada', () => {
+		// Com a animação, o clique traz a seção para a tela e o axe pode medir o contraste com ela ainda
+		// meio transparente (como em a11y.spec.ts)
+		test.use({ reducedMotion: 'reduce' });
+
+		test('menu aberto sem violações do axe', async ({ page }) => {
+			await page.locator('[data-email-toggle]').click();
+			const { violations } = await new AxeBuilder({ page })
+				.include('#contact')
+				.withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+				.analyze();
+			expect(violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target).join(', ')}`)).toEqual([]);
+		});
 	});
 
 	test('cartões com a mesma altura e foco visível sobre o fundo de destaque', async ({ page }) => {
