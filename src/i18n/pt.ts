@@ -318,9 +318,6 @@ export const pt = {
 		present: 'atual',
 		inProgress: 'em andamento',
 	},
-	footer: {
-		builtWith: 'Feito com Astro.',
-	},
 };
 
 export type Dictionary = typeof pt;

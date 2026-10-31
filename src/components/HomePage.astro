@@ -88,5 +88,5 @@ const number = (id: SectionId) => String(visible.indexOf(id) + 1).padStart(2, '0
 		{show.education && <Education id="education" number={number('education')} locale={locale} entries={education} />}
 		{show.contact && <Contact id="contact" number={number('contact')} locale={locale} />}
 	</main>
-	<Footer locale={locale} />
+	<Footer />
 </BaseLayout>
