@@ -308,7 +308,4 @@ export const en: Dictionary = {
 		present: 'present',
 		inProgress: 'in progress',
 	},
-	footer: {
-		builtWith: 'Built with Astro.',
-	},
 };
