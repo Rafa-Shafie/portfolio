@@ -23,9 +23,9 @@ highlights:
     - Desarrollé reglas de puntuación y de monitoreo de anuncios que señalan oportunidades, variaciones de precio y cambios de estado, con notificaciones por Microsoft Teams.
     - Construí en Databricks el dashboard de la solución, con filtros, mapa y comparación del precio por pie cuadrado por zona.
 outcome:
-  pt: "Uma visão única dos anúncios, apresentada em inglês a quem pediu o projeto, com retorno positivo."
-  en: "A single view of the listings, presented in English to the project's requester and well received."
-  es: "Una visión única de los anuncios, presentada en inglés a quien solicitó el proyecto, con una recepción positiva."
+  pt: "Uma visão única dos anúncios, apresentada em inglês a quem pediu o projeto, com retorno positivo, e que depois entrou em produção."
+  en: "A single view of the listings, presented in English to the project's requester, well received and later put into production."
+  es: "Una visión única de los anuncios, presentada en inglés a quien solicitó el proyecto, con una recepción positiva, y que después entró en producción."
 stack:
   - Python
   - SQL
@@ -40,7 +40,8 @@ stack:
 # Detalhes do "Explorar a experiência" (modal). Fonte: relato do Rafael sobre o Summer Job.
 # Nível de confidencialidade: nome Manhattan Real Estate liberado; ferramenta do banco generalizada,
 # sem regras proprietárias detalhadas e sem métricas (não houve medição de ganho ou adoção).
-# Validação manual e retorno positivo da apresentação são o resultado relatado.
+# Validação manual e retorno positivo da apresentação são o resultado relatado; depois do estágio,
+# o projeto entrou em produção.
 # A visão técnica fica em src/content/projects/manhattan-real-estate.yaml.
 # O dashboard foi construído pelo Rafael em Databricks (inspirado num existente) e depois levado
 # por um colega para a ferramenta do banco; por isso o CV diz "contribuí".
@@ -80,9 +81,9 @@ details:
           - "Seguir los cambios: guardamos registros anteriores para identificar inmuebles que salían de una fuente y volvían a anunciarse, comparando principalmente el precio."
     - heading: { pt: "Resultado", en: "Outcome", es: "Resultado" }
       text:
-        pt: "Apresentamos o projeto em inglês a quem o pediu, usando o dashboard para demonstrar o funcionamento e os resultados. Recebemos elogios na apresentação, e o retorno positivo também chegou aos nossos gestores. A entrega centralizou informações antes consultadas em fontes diferentes e facilitou a comparação. Não acompanhei a evolução do projeto depois do estágio."
-        en: "We presented the project in English to its requester, using the dashboard to show how it worked and what it found. The presentation was praised, and the positive feedback also reached our managers. The delivery brought together information previously looked up in different sources and made comparisons easier. I did not follow the project after the internship ended."
-        es: "Presentamos el proyecto en inglés a quien lo solicitó, usando el dashboard para mostrar su funcionamiento y sus resultados. Recibimos elogios en la presentación, y la valoración positiva también llegó a nuestros gestores. La entrega centralizó información que antes se consultaba en fuentes distintas y facilitó la comparación. No seguí la evolución del proyecto después de la pasantía."
+        pt: "Apresentamos o projeto em inglês a quem o pediu, usando o dashboard para demonstrar o funcionamento e os resultados. Recebemos elogios na apresentação, e o retorno positivo também chegou aos nossos gestores. A entrega centralizou informações antes consultadas em fontes diferentes e facilitou a comparação. Depois do estágio, o projeto entrou em produção."
+        en: "We presented the project in English to its requester, using the dashboard to show how it worked and what it found. The presentation was praised, and the positive feedback also reached our managers. The delivery brought together information previously looked up in different sources and made comparisons easier. After the internship, the project went into production."
+        es: "Presentamos el proyecto en inglés a quien lo solicitó, usando el dashboard para mostrar su funcionamiento y sus resultados. Recibimos elogios en la presentación, y la valoración positiva también llegó a nuestros gestores. La entrega centralizó información que antes se consultaba en fuentes distintas y facilitó la comparación. Después de la pasantía, el proyecto entró en producción."
     - heading: { pt: "O que aprendi", en: "What I learned", es: "Lo que aprendí" }
       text:
         pt: "Reforcei Python e SQL e tive contato prático com Spark e Databricks, arquitetura Medallion, recursos de AWS e um fluxo de notificações com mensageria. Aprendi que mais dados nem sempre melhoram a análise: foi preciso escolher fontes, ajustar o escopo e tratar divergências para chegar a uma visão coerente. O trabalho em dupla e a apresentação em inglês reforçaram minha capacidade de discutir decisões e de explicar uma solução técnica pela sua utilidade para o negócio."

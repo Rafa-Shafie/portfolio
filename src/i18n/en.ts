@@ -160,8 +160,8 @@ export const en: Dictionary = {
 		intro: 'My education, the courses I have completed and what I am studying now.',
 		nowTag: 'Growing',
 		now: [
-			{ title: 'Backend with Java', text: 'Java, object-oriented programming and Spring Boot in the DIO · Itaú bootcamp.' },
-			{ title: 'AI engineering', text: 'Studying machine learning, deep learning, LLMs and agents.' },
+			{ title: 'Backend with Java', text: 'Java, object-oriented programming and Spring Boot in the DIO · Itaú bootcamp and the Alura back-end career track.' },
+			{ title: 'AI engineering', text: 'The AI Specialist career track at Alura, starting with Python applied to AI and moving on to agents, RAG and LLM operations.' },
 			{ title: 'English', text: 'Ongoing study at Kumon, focused on reading, grammar and building vocabulary.' },
 		],
 		listTitle: 'Education and courses',
@@ -220,6 +220,7 @@ export const en: Dictionary = {
 			frameworks: 'Frameworks and runtimes',
 			persistence: 'Persistence',
 			design: 'Requirements and modeling',
+			practices: 'Best practices',
 			integration: 'Integration',
 			applications: 'Applications',
 			ml: 'Machine learning',

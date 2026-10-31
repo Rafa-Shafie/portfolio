@@ -83,9 +83,9 @@ details:
           - "Una verificación en el build que bloquea la publicación si un currículum tiene datos personales que no deben publicarse."
     - heading: { pt: "Como foi construído", en: "How it was built", es: "Cómo se construyó" }
       text:
-        pt: "Usei o Claude Code como par de programação. Eu definia o que construir, revisava cada mudança e decidia o que entrava; os testes no CI conferem o resultado a cada push."
-        en: "I used Claude Code as a pair programmer. I defined what to build, reviewed every change and decided what went in; CI tests check the result on every push."
-        es: "Usé Claude Code como compañero de programación. Yo definía qué construir, revisaba cada cambio y decidía qué entraba; las pruebas del CI comprueban el resultado en cada push."
+        pt: "Conduzi o desenvolvimento do portfólio com foco em desempenho, acessibilidade e facilidade de manutenção, integrando o Claude Code ao meu fluxo para acelerar a implementação e os ciclos de melhoria. Combinei esse apoio com decisões de arquitetura, revisão de código e testes automatizados para validar a experiência nos três idiomas e nos dois temas."
+        en: "I led the portfolio's development with a focus on performance, accessibility and ease of maintenance, bringing Claude Code into my workflow to speed up implementation and improvement cycles. I combined that support with architecture decisions, code review and automated tests to validate the experience in all three languages and both themes."
+        es: "Conduje el desarrollo del portafolio con foco en el rendimiento, la accesibilidad y la facilidad de mantenimiento, integrando Claude Code en mi flujo para acelerar la implementación y los ciclos de mejora. Combiné ese apoyo con decisiones de arquitectura, revisión de código y pruebas automatizadas para validar la experiencia en los tres idiomas y en los dos temas."
 techDetails:
   - label: { pt: "Base", en: "Foundation", es: "Base" }
     items: ["Astro", "TypeScript", "Content collections", "Zod"]

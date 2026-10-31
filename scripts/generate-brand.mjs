@@ -180,12 +180,43 @@ function wordmark({ fontSize = 40, bold = 1.4, first = 'currentColor', second = 
 `;
 }
 
-// Escreve os arquivos. O PNG da tela inicial (iOS) é rasterizado pelo sharp: density 600 desenha em
-// alta resolução antes de reduzir para 180 px, para as bordas ficarem lisas.
+/**
+ * Arquivo .ico com vários tamanhos, cada um guardado como PNG (formato aceito desde o Windows Vista).
+ * Estrutura: um cabeçalho de 6 bytes, uma entrada de 16 bytes por imagem (tamanho e onde ela começa
+ * no arquivo) e, em seguida, os PNGs. Números em little-endian, como o formato pede.
+ */
+function ico(pngs) {
+	const header = Buffer.alloc(6);
+	header.writeUInt16LE(0, 0); // reservado
+	header.writeUInt16LE(1, 2); // tipo 1 = ícone
+	header.writeUInt16LE(pngs.length, 4);
+	let offset = 6 + 16 * pngs.length;
+	const entries = pngs.map(({ size, data }) => {
+		const entry = Buffer.alloc(16);
+		entry.writeUInt8(size, 0); // largura
+		entry.writeUInt8(size, 1); // altura
+		entry.writeUInt16LE(1, 4); // planos de cor
+		entry.writeUInt16LE(32, 6); // bits por pixel
+		entry.writeUInt32LE(data.length, 8);
+		entry.writeUInt32LE(offset, 12);
+		offset += data.length;
+		return entry;
+	});
+	return Buffer.concat([header, ...entries, ...pngs.map(({ data }) => data)]);
+}
+
+// Escreve os arquivos. Os PNGs são rasterizados pelo sharp: density 600 desenha em alta resolução
+// antes de reduzir, para as bordas ficarem lisas.
 mkdirSync(resolve('src/assets/brand'), { recursive: true });
 writeFileSync(resolve('src/assets/brand/mark.svg'), monogram({}));
 writeFileSync(resolve('src/assets/brand/wordmark.svg'), wordmark({}));
 writeFileSync(resolve('public/favicon.svg'), letters({}));
-await sharp(Buffer.from(homeIcon({})), { density: 600 }).resize(180, 180).png().toFile(resolve('public/apple-touch-icon.png'));
+const raster = (size) => sharp(Buffer.from(homeIcon({})), { density: 600 }).resize(size, size).png().toBuffer();
+writeFileSync(resolve('public/apple-touch-icon.png'), await raster(180));
+// favicon.ico: o Google procura um ícone em /favicon.ico, e o dos resultados de busca precisa ser
+// múltiplo de 48 px. O SVG transparente sai com letras claras quando não há tema (como o robô do
+// Google o abre) e some no fundo branco; este vai com fundo escuro, como o da tela inicial.
+const icoSizes = [16, 32, 48];
+writeFileSync(resolve('public/favicon.ico'), ico(await Promise.all(icoSizes.map(async (size) => ({ size, data: await raster(size) })))));
 
-console.log('marca gerada: mark.svg, wordmark.svg, favicon.svg, apple-touch-icon.png');
+console.log('marca gerada: mark.svg, wordmark.svg, favicon.svg, favicon.ico, apple-touch-icon.png');

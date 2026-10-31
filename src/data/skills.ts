@@ -40,7 +40,16 @@ export const skillGroups: SkillGroup[] = [
 		id: 'backend',
 		sets: [
 			{ id: 'languages', items: [...s('Python', 'TypeScript', 'JavaScript', 'SQL'), { name: 'Java', learning: true }] },
-			{ id: 'frameworks', items: [...s('FastAPI', 'Node.js', 'NestJS'), { name: 'Spring Boot · Spring Data', learning: true }] },
+			{
+				id: 'frameworks',
+				items: [
+					...s('FastAPI', 'Node.js', 'NestJS'),
+					// Em formação no bootcamp DIO · Itaú (e na carreira de back-end da Alura)
+					{ name: 'Spring Boot · Spring Data', learning: true },
+					{ name: 'Spring Security', learning: true },
+					{ name: 'Spring Cloud OpenFeign', learning: true },
+				],
+			},
 			{ id: 'persistence', items: s('SQLAlchemy', 'Alembic', 'Prisma') },
 			{ id: 'integration', items: [{ name: { pt: 'APIs REST', en: 'REST APIs', es: 'APIs REST' } }, ...s('RabbitMQ')] },
 			{
@@ -50,12 +59,29 @@ export const skillGroups: SkillGroup[] = [
 					{ name: { pt: 'Modelagem de dados', en: 'Data modeling', es: 'Modelado de datos' } },
 				],
 			},
+			// Em formação no bootcamp DIO · Itaú
+			{
+				id: 'practices',
+				items: [
+					{ name: 'SOLID', learning: true },
+					{ name: 'Clean Code', learning: true },
+					{ name: 'Design Patterns', learning: true },
+				],
+			},
 		],
 	},
 	{
 		id: 'ai',
 		sets: [
-			{ id: 'applications', items: s('LLMs', 'RAG', 'Text-to-SQL') },
+			{
+				id: 'applications',
+				items: [
+					...s('LLMs', 'RAG', 'Text-to-SQL'),
+					// Em formação: cursos de IA do bootcamp DIO · Itaú
+					{ name: { pt: 'Engenharia de prompts', en: 'Prompt engineering', es: 'Ingeniería de prompts' }, learning: true },
+					{ name: { pt: 'Agentes de IA', en: 'AI agents', es: 'Agentes de IA' }, learning: true },
+				],
+			},
 			{ id: 'ml', items: s('scikit-learn', 'LightGBM') },
 			{ id: 'aws', items: s('Amazon SageMaker', 'Amazon Bedrock') },
 		],
@@ -63,7 +89,7 @@ export const skillGroups: SkillGroup[] = [
 	{
 		id: 'data',
 		sets: [
-			{ id: 'databases', items: s('PostgreSQL', 'MySQL') },
+			{ id: 'databases', items: s('PostgreSQL', 'MySQL', 'Amazon DynamoDB') },
 			{ id: 'processing', items: s('Pandas', 'NumPy', 'Apache Spark', 'Databricks') },
 			{ id: 'analysis', items: s('Power BI', 'Excel') },
 		],
@@ -79,7 +105,7 @@ export const skillGroups: SkillGroup[] = [
 		id: 'infra',
 		sets: [
 			{ id: 'containers', items: s('Docker', 'Kubernetes') },
-			{ id: 'cloud', items: s('AWS (S3, EC2, RDS, Secrets Manager, ECR)') },
+			{ id: 'cloud', items: s('AWS (S3, EC2, RDS, IAM, Secrets Manager, ECR)') },
 			{ id: 'delivery', items: s('Azure DevOps', 'Git/GitHub', 'GitHub Actions', 'Vercel', 'Datadog') },
 		],
 	},
