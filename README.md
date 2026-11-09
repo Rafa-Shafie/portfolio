@@ -55,7 +55,7 @@ Os relatórios completos e o método estão em [docs/lighthouse/](docs/lighthous
 - **CSS puro com design tokens**, `<style>` escopado por componente e nenhum framework de CSS. Recursos nativos onde eles bastam: `light-dark()`, container queries, `@starting-style` e a View Transitions API.
 - **Fontes self-hosted** pela fonts API do Astro, só o subset latin: Poppins nos títulos e botões, Inter no texto corrido. A marca (RS + RafaShafie) é um SVG gerado a partir da Itim.
 - **Scripts pequenos em TS** para menu, idioma, tema, abas, filtros, modais e e-mail. Nada aqui justifica React.
-- **Playwright + axe + Lighthouse** no GitHub Actions; deploy na **Vercel**, com preview por PR.
+- **Playwright + axe + Lighthouse** no GitHub Actions, com os testes nos três motores de navegador (Chromium, Firefox e WebKit) e no toque de iPhone, Android e iPad; deploy na **Vercel**, com preview por PR.
 
 ## Como funciona
 
@@ -78,7 +78,7 @@ flowchart LR
   P[push / PR] --> K[astro check]
   K --> G[guarda do CV<br/>prebuild]
   G --> B[build]
-  B --> E[Playwright<br/>2 temas · axe WCAG 2.2]
+  B --> E[Playwright<br/>Chromium · Firefox · WebKit<br/>celular e tablet · axe WCAG 2.2]
   E --> L[Lighthouse<br/>3 rotas · mobile e desktop]
 ```
 
@@ -132,7 +132,7 @@ npm run dev          # http://localhost:4321
 |---|---|
 | `npm run build` | Guarda do CV + build estático em `dist/` |
 | `npm run check` | `astro check` (tipos e templates) |
-| `npm run test:e2e` | Build + testes Playwright nos dois temas (na primeira vez: `npx playwright install chromium`) |
+| `npm run test:e2e` | Build + testes Playwright no Chromium (dois temas), Firefox e WebKit, mais o teste de toque em iPhone, Android e iPad (na primeira vez: `npx playwright install chromium firefox webkit`) |
 | `npm run test:e2e:ui` | Testes no modo visual do Playwright |
 | `npm run lighthouse` | Lighthouse nas 3 rotas, mobile e desktop, com nota mínima (precisa do build) |
 | `npm run screenshots` | Regera os prints deste README (precisa do build) |

@@ -1,5 +1,5 @@
 import AxeBuilder from '@axe-core/playwright';
-import { test, expect } from './fixtures';
+import { test, expect, phone } from './fixtures';
 import { pages } from './content';
 
 /**
@@ -55,7 +55,7 @@ for (const { path } of pages) {
 	});
 
 	test.describe('celular', () => {
-		test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+		test.use(phone);
 
 		test(`${path}: menu aberto`, async ({ page }) => {
 			await page.goto(path);

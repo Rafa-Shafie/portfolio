@@ -21,21 +21,59 @@ import { test as base, expect, type Locator, type Page } from '@playwright/test'
  */
 export const test = base.extend({
 	page: async ({ page }, use) => {
-		const errors: string[] = [];
-		page.on('console', (message) => {
-			if (message.type() !== 'error') return;
-			// A página 404 responde com status 404 de propósito: o navegador anota isso como erro do
-			// próprio documento. Só esse caso é ignorado; um recurso faltando (imagem, script) reprova.
-			const documentNotFound = message.text().includes('status of 404') && message.location().url === page.url();
-			if (!documentNotFound) errors.push(message.text());
+		const errors: { text: string; url: string }[] = [];
+		// Documentos (páginas) que responderam 404: a página 404 responde assim de propósito
+		const notFound = new Set<string>();
+		page.on('response', (response) => {
+			if (response.request().isNavigationRequest() && response.status() === 404) notFound.add(response.url());
 		});
-		page.on('pageerror', (error) => errors.push(error.message));
+		page.on('console', (message) => {
+			if (message.type() === 'error') errors.push({ text: message.text(), url: message.location().url });
+		});
+		page.on('pageerror', (error) => errors.push({ text: error.message, url: '' }));
 		await use(page);
-		expect(errors, 'erros no console ou de script').toEqual([]);
+		// O navegador anota o 404 do próprio documento como erro. Só esse caso é ignorado; um recurso
+		// faltando (imagem, script) reprova. A conferência fica para o fim porque o WebKit anota o erro
+		// antes de a navegação terminar.
+		const real = errors.filter(({ text, url }) => !(text.includes('status of 404') && notFound.has(url))).map(({ text }) => text);
+		expect(real, 'erros no console ou de script').toEqual([]);
 	},
 });
 
 export { expect };
+
+/**
+ * No Safari, por padrão, o Tab passa só por botões e campos e pula os links (no Mac, quem navega pelo
+ * teclado liga "Pressionar Tab para realçar cada item" nos ajustes ou usa Option+Tab). O WebKit do
+ * Playwright faz o mesmo, e lá o Option+Tab não existe. Os testes que andam por links com Tab rodam
+ * no Chromium e no Firefox: a ordem do Tab vem do HTML, que é o mesmo nos três.
+ * Uso: test.skip(tabSkipsLinks(browserName), 'Safari: o Tab pula links').
+ */
+export const tabSkipsLinks = (browserName: string) => browserName === 'webkit';
+
+/** No Safari, clicar num botão não o foca (só o teclado foca). */
+export const clickFocusesButtons = (browserName: string) => browserName !== 'webkit';
+
+/**
+ * Celular nos testes de layout: tela de 390x844 com toque, num test.use(phone). isMobile (que faz o
+ * navegador tratar a página como no celular) não existe no Firefox, que recusa a opção; lá fica só a
+ * tela e o toque. A função recebe o navegador do projeto e devolve o valor da opção.
+ */
+export const phone = {
+	viewport: { width: 390, height: 844 },
+	hasTouch: true,
+	isMobile: async ({ browserName }: { browserName: string }, use: (value: boolean) => Promise<void>) =>
+		use(browserName !== 'firefox'),
+};
+
+/**
+ * Permissão para os testes lerem a área de transferência de volta. Só o Chromium tem essa
+ * permissão; no Firefox e no WebKit, o teste confere a confirmação na tela.
+ */
+export const clipboard = {
+	permissions: async ({ browserName }: { browserName: string }, use: (value: string[]) => Promise<void>) =>
+		use(browserName === 'chromium' ? ['clipboard-read', 'clipboard-write'] : []),
+};
 
 /**
  * Quantos pixels a página passa da largura da janela (0 = sem rolagem horizontal).
@@ -76,6 +114,17 @@ export async function clickAt(page: Page, locator: Locator, dx?: number, dy?: nu
  * fixo pode cair num link (o "Ver currículo" do hero, por exemplo) e abrir outra aba.
  */
 export async function clickOutside(page: Page, outside: Locator) {
+	const point = await neutralPoint(page, outside);
+	await page.mouse.click(point.x, point.y);
+}
+
+/** Como clickOutside, mas tocando na tela, como no celular. */
+export async function tapOutside(page: Page, outside: Locator) {
+	const point = await neutralPoint(page, outside);
+	await page.touchscreen.tap(point.x, point.y);
+}
+
+async function neutralPoint(page: Page, outside: Locator) {
 	const exclude = await outside.elementHandle();
 	const point = await page.evaluate((excluded) => {
 		const { innerWidth: width, innerHeight: height } = window;
@@ -88,7 +137,7 @@ export async function clickOutside(page: Page, outside: Locator) {
 		return null;
 	}, exclude);
 	if (!point) throw new Error('nenhum ponto neutro na tela');
-	await page.mouse.click(point.x, point.y);
+	return point;
 }
 
 /** Elementos focáveis dentro de `root`, ignorando os que estão dentro de modais. */

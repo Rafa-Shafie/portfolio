@@ -8,7 +8,7 @@
  * - "toda âncora tem destino" e "ids únicos" pegam links quebrados como o do site antigo, que
  *   levava a uma seção comentada.
  */
-import { test, expect, clickOutside } from './fixtures';
+import { test, expect, clickOutside, phone, tabSkipsLinks } from './fixtures';
 import { locales, pages } from './content';
 
 for (const { path, lang, locale, t } of pages) {
@@ -44,7 +44,7 @@ for (const { path, lang, locale, t } of pages) {
 }
 
 test.describe('seletor de idioma', () => {
-	test('abre, fecha com Esc, clique fora e foco saindo, e troca de página', async ({ page }) => {
+	test('abre, fecha com Esc, clique fora e foco saindo, e troca de página', async ({ page, browserName }) => {
 		await page.goto('/');
 		const toggle = page.locator('.lang-toggle');
 		const list = page.locator('.lang-list');
@@ -63,12 +63,15 @@ test.describe('seletor de idioma', () => {
 		await clickOutside(page, page.locator('[data-language-switcher]'));
 		await expect(list).toBeHidden();
 
-		await toggle.focus();
-		await page.keyboard.press('Enter');
-		await page.keyboard.press('Tab');
-		await expect(list.locator('a').first()).toBeFocused();
-		for (let i = 0; i < locales.length; i++) await page.keyboard.press('Tab');
-		await expect(list).toBeHidden();
+		// Foco saindo pelo Tab depois do último idioma (no Safari, o Tab pula os links: ver fixtures.ts)
+		if (!tabSkipsLinks(browserName)) {
+			await toggle.focus();
+			await page.keyboard.press('Enter');
+			await page.keyboard.press('Tab');
+			await expect(list.locator('a').first()).toBeFocused();
+			for (let i = 0; i < locales.length; i++) await page.keyboard.press('Tab');
+			await expect(list).toBeHidden();
+		}
 
 		await toggle.click();
 		await list.locator('a[hreflang="es"]').click();
@@ -76,21 +79,25 @@ test.describe('seletor de idioma', () => {
 	});
 
 	test.describe('celular', () => {
-		test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+		test.use(phone);
 
-		test('fica visível sem abrir o menu e vem depois dos links no Tab', async ({ page }) => {
+		test('fica visível sem abrir o menu e vem depois dos links no Tab', async ({ page, browserName }) => {
+			test.skip(tabSkipsLinks(browserName), 'Safari: o Tab pula links');
 			const en = pages.find((p) => p.locale === 'en')!;
 			await page.goto(en.path);
 			await expect(page.locator('.lang-toggle')).toBeVisible();
 
+			// Aberto pelo teclado, o menu põe o foco no primeiro link; o Tab anda pelos outros e, depois
+			// do último, chega ao seletor de idioma
 			const menu = page.locator('.menu-toggle');
-			await menu.click();
-			await expect(menu).toHaveAccessibleName(en.t.a11y.closeMenu);
 			await menu.focus();
+			await page.keyboard.press('Enter');
+			await expect(menu).toHaveAccessibleName(en.t.a11y.closeMenu);
+			await expect(page.locator('#site-nav a').first()).toBeFocused();
 
 			const linkCount = await page.locator('#site-nav a').count();
-			const order: string[] = [];
-			for (let i = 0; i <= linkCount; i++) {
+			const order: string[] = ['nav'];
+			for (let i = 1; i <= linkCount; i++) {
 				await page.keyboard.press('Tab');
 				order.push(
 					await page.evaluate(() =>
@@ -126,7 +133,7 @@ test.describe('trocar de idioma mantém o lugar', () => {
 			return { id: current.id, progress: (line - box.top) / box.height };
 		});
 
-	test('no meio de uma seção, a página nova abre na mesma seção e na mesma altura', async ({ page }) => {
+	test('no meio de uma seção, a página nova abre na mesma seção e na mesma altura', async ({ page, browserName }) => {
 		await page.goto('/');
 		// Com as fontes carregadas, o layout para de mudar (antes disso, a mesma rolagem cai em outro ponto)
 		await page.evaluate(() => document.fonts.ready);
@@ -140,15 +147,18 @@ test.describe('trocar de idioma mantém o lugar', () => {
 
 		// Simula uma rede lenta (100 kB/s, pelo protocolo de depuração do Chrome): o HTML chega aos poucos,
 		// e o navegador desenha o começo dele antes de o script do fim do body rolar até o lugar guardado.
-		// É nessa situação que o topo piscava
-		const cdp = await page.context().newCDPSession(page);
-		await cdp.send('Network.enable');
-		await cdp.send('Network.emulateNetworkConditions', {
-			offline: false,
-			latency: 50,
-			downloadThroughput: 100 * 1024,
-			uploadThroughput: 100 * 1024,
-		});
+		// É nessa situação que o topo piscava. O protocolo só existe no Chromium; no Firefox e no WebKit,
+		// o teste confere o mesmo, na rede normal
+		if (browserName === 'chromium') {
+			const cdp = await page.context().newCDPSession(page);
+			await cdp.send('Network.enable');
+			await cdp.send('Network.emulateNetworkConditions', {
+				offline: false,
+				latency: 50,
+				downloadThroughput: 100 * 1024,
+				uploadThroughput: 100 * 1024,
+			});
+		}
 		// Espião do primeiro quadro da página nova: anota se o conteúdo estava escondido e onde estava a
 		// rolagem. requestAnimationFrame roda logo antes de o navegador desenhar
 		await page.addInitScript(() => {

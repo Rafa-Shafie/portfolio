@@ -9,7 +9,7 @@
  * `test.describe` agrupa testes, e `test.use` dentro dele muda a configuração só daquele grupo
  * (aqui, a janela de celular).
  */
-import { test, expect, clickOutside } from './fixtures';
+import { test, expect, clickOutside, phone, tabSkipsLinks } from './fixtures';
 import { pages } from './content';
 
 // O dicionário do português: os testes comparam com os textos reais, não com cópias escritas à mão
@@ -23,7 +23,8 @@ test.describe('desktop', () => {
 		await expect(page.locator('#site-nav a').first()).toBeVisible();
 	});
 
-	test('o primeiro Tab foca o skip link, que aparece na tela', async ({ page }) => {
+	test('o primeiro Tab foca o skip link, que aparece na tela', async ({ page, browserName }) => {
+		test.skip(tabSkipsLinks(browserName), 'Safari: o Tab pula links');
 		await page.goto('/');
 		await page.keyboard.press('Tab');
 		const skip = page.locator('.skip-link');
@@ -34,17 +35,18 @@ test.describe('desktop', () => {
 });
 
 test.describe('celular', () => {
-	test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+	test.use(phone);
 
-	test('menu pelo teclado: abre, entra nos links, Esc fecha e devolve o foco', async ({ page }) => {
+	test('menu pelo teclado: abre no primeiro link, Esc fecha e devolve o foco', async ({ page, browserName }) => {
+		test.skip(tabSkipsLinks(browserName), 'Safari: o Tab pula links');
 		await page.goto('/');
 		const toggle = page.locator('.menu-toggle');
 		const nav = page.locator('#site-nav');
 		await expect(toggle).toBeVisible();
 		await expect(nav).toBeHidden();
 
-		// skip link → marca → botão do menu
-		for (let i = 0; i < 3; i++) await page.keyboard.press('Tab');
+		// skip link → marca → idioma → tema → botão do menu (o último, na ponta direita)
+		for (let i = 0; i < 5; i++) await page.keyboard.press('Tab');
 		await expect(toggle).toBeFocused();
 		await expect(toggle).toHaveAccessibleName(t.a11y.openMenu);
 
@@ -52,8 +54,7 @@ test.describe('celular', () => {
 		await expect(toggle).toHaveAttribute('aria-expanded', 'true');
 		await expect(nav).toBeVisible();
 		await expect(toggle).toHaveAccessibleName(t.a11y.closeMenu);
-
-		await page.keyboard.press('Tab');
+		// Aberto pelo teclado, o foco entra na gaveta
 		await expect(nav.locator('a').first()).toBeFocused();
 
 		await page.keyboard.press('Escape');
