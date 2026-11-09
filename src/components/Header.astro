@@ -1,7 +1,8 @@
 ---
 /**
  * Cabeçalho fixo no topo: a marca (volta ao início), o menu das seções e, à direita, o seletor de
- * idioma e o alternador de tema. No celular, o menu vira uma gaveta aberta pelo botão ☰.
+ * idioma e o alternador de tema. No celular, o menu vira uma gaveta aberta pelo botão ☰, que fica na
+ * ponta direita, depois do idioma e do tema.
  * O skip link vem antes de tudo, para ser o primeiro Tab da página.
  */
 import MenuIcon from 'bootstrap-icons/icons/list.svg';
@@ -34,7 +35,23 @@ const t = useTranslations(locale);
 
 		{
 			links.length > 0 && (
-				<>
+				<nav id="site-nav" class="site-nav" aria-label={t.a11y.mainNav} data-open="false">
+					<ul>
+						{links.map(({ id, label }) => (
+							<li>
+								<a href={`#${id}`}>{label}</a>
+							</li>
+						))}
+					</ul>
+				</nav>
+			)
+		}
+
+		<div class="header-actions">
+			<LanguageSwitcher locale={locale} />
+			<ThemeToggle locale={locale} />
+			{
+				links.length > 0 && (
 					<button
 						class="menu-toggle"
 						type="button"
@@ -49,24 +66,8 @@ const t = useTranslations(locale);
 							{t.a11y.openMenu}
 						</span>
 					</button>
-
-					<!-- Gaveta no mobile, linha no desktop. Vem depois do botão para o Tab seguir a ordem visual -->
-					<nav id="site-nav" class="site-nav" aria-label={t.a11y.mainNav} data-open="false">
-						<ul>
-							{links.map(({ id, label }) => (
-								<li>
-									<a href={`#${id}`}>{label}</a>
-								</li>
-							))}
-						</ul>
-					</nav>
-				</>
-			)
-		}
-
-		<div class="header-actions">
-			<LanguageSwitcher locale={locale} />
-			<ThemeToggle locale={locale} />
+				)
+			}
 		</div>
 	</div>
 </header>
@@ -91,7 +92,14 @@ const t = useTranslations(locale);
 		};
 		const isOpen = () => toggle.getAttribute('aria-expanded') === 'true';
 
-		toggle.addEventListener('click', () => setOpen(!isOpen()));
+		// Aberto pelo teclado (Enter ou espaço: event.detail é 0), o foco vai para o primeiro link. A
+		// gaveta vem antes do botão no HTML, para o desktop seguir a ordem visual; sem isso, o Tab sairia
+		// do botão para fora do header. Com toque ou mouse, o foco fica onde está.
+		toggle.addEventListener('click', (event) => {
+			const open = !isOpen();
+			setOpen(open);
+			if (open && event.detail === 0) nav.querySelector('a')?.focus();
+		});
 
 		// Escolher um destino fecha o menu
 		nav.addEventListener('click', (event) => {
@@ -106,8 +114,9 @@ const t = useTranslations(locale);
 			}
 		});
 
-		// Clique fora fecha
-		document.addEventListener('click', (event) => {
+		// Toque ou clique fora fecha. pointerdown, e não click: no iPhone, tocar numa área sem nada
+		// clicável não gera click no document
+		document.addEventListener('pointerdown', (event) => {
 			const target = event.target as Node;
 			if (isOpen() && !nav.contains(target) && !toggle.contains(target)) setOpen(false);
 		});
@@ -282,9 +291,15 @@ const t = useTranslations(locale);
 		transition: color var(--duration-fast) ease;
 	}
 
-	.site-nav a:hover,
 	.site-nav a[aria-current='true'] {
 		color: var(--color-accent);
+	}
+
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.site-nav a:hover {
+			color: var(--color-accent);
+		}
 	}
 
 	/* Mobile: o menu é uma gaveta logo abaixo do header */

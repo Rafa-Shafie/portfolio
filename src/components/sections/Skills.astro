@@ -114,8 +114,33 @@ const t = useTranslations(locale);
 			indicator?.style.setProperty('--x', `${current.offsetLeft}px`);
 			indicator?.style.setProperty('--w', `${current.offsetWidth}px`);
 		};
+
+		// Esmaecido nas bordas quando há abas escondidas daquele lado (celular): avisa que dá para
+		// arrastar. O CSS lê os atributos data-fade-start e data-fade-end.
+		const updateFade = () => {
+			const max = tablist.scrollWidth - tablist.clientWidth;
+			tablist.toggleAttribute('data-fade-start', tablist.scrollLeft > 1);
+			tablist.toggleAttribute('data-fade-end', tablist.scrollLeft < max - 1);
+		};
+		tablist.addEventListener('scroll', updateFade, { passive: true });
+
 		// A largura das abas muda quando a fonte termina de carregar ou a tela muda de tamanho
-		new ResizeObserver(moveIndicator).observe(tablist);
+		new ResizeObserver(() => {
+			moveIndicator();
+			updateFade();
+		}).observe(tablist);
+
+		// Rola a lista só o necessário para a aba escolhida ficar inteira à vista, fora do esmaecido.
+		// Mexe só na lista: scrollIntoView também rolaria a página.
+		const reveal = (tab: HTMLButtonElement) => {
+			const margin = 48;
+			const min = tab.offsetLeft + tab.offsetWidth + margin - tablist.clientWidth;
+			const max = tab.offsetLeft - margin;
+			const left = Math.min(Math.max(tablist.scrollLeft, min), max);
+			if (Math.abs(left - tablist.scrollLeft) < 1) return;
+			const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+			tablist.scrollTo({ left: Math.max(0, left), behavior: reduce ? 'auto' : 'smooth' });
+		};
 
 		// Ativa uma aba. "Roving tabindex": só a aba ativa fica com tabindex 0 (alcançável pelo Tab);
 		// as outras ficam com -1, e quem anda entre elas são as setas.
@@ -129,10 +154,8 @@ const t = useTranslations(locale);
 				const panel = root.querySelector<HTMLElement>(`#${t.getAttribute('aria-controls')}`);
 				if (panel) panel.hidden = !active;
 			});
-			if (focus) {
-				tab.focus();
-				tab.scrollIntoView({ block: 'nearest', inline: 'nearest' });
-			}
+			reveal(tab);
+			if (focus) tab.focus();
 		};
 		select(tabs[0]);
 		// O sublinhado aparece já no lugar; só depois a transição liga, para os deslizes entre abas
@@ -161,8 +184,18 @@ const t = useTranslations(locale);
 
 <style>
 	/* Rola na horizontal quando as abas não cabem (celular), sem barra visível: arrasta-se no toque
-	   e as setas do teclado trazem a aba escolhida para a vista */
+	   e as setas do teclado trazem a aba escolhida para a vista. O esmaecido (máscara) na borda
+	   com abas escondidas mostra que há mais para arrastar; o script liga cada lado. */
 	.tablist {
+		--fade-start: 0px;
+		--fade-end: 0px;
+		--fade: linear-gradient(
+			to right,
+			transparent,
+			#000 var(--fade-start),
+			#000 calc(100% - var(--fade-end)),
+			transparent
+		);
 		position: relative;
 		display: flex;
 		gap: var(--space-1);
@@ -170,6 +203,16 @@ const t = useTranslations(locale);
 		overflow-y: hidden;
 		box-shadow: inset 0 -1px 0 var(--color-border);
 		scrollbar-width: none;
+		-webkit-mask-image: var(--fade);
+		mask-image: var(--fade);
+	}
+
+	.tablist[data-fade-start] {
+		--fade-start: 2.5rem;
+	}
+
+	.tablist[data-fade-end] {
+		--fade-end: 3.5rem;
 	}
 
 	.tablist::-webkit-scrollbar {
@@ -188,8 +231,11 @@ const t = useTranslations(locale);
 		cursor: pointer;
 	}
 
-	.tab:hover {
-		color: var(--color-text);
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.tab:hover {
+			color: var(--color-text);
+		}
 	}
 
 	.tab {

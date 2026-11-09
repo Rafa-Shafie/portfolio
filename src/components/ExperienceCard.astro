@@ -226,8 +226,11 @@ const hasDetails = details && isPublished(details);
 		transform: rotate(45deg);
 	}
 
-	summary:hover .company {
-		color: var(--color-accent);
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		summary:hover .company {
+			color: var(--color-accent);
+		}
 	}
 
 	.body {
@@ -351,20 +354,33 @@ const hasDetails = details && isPublished(details);
 	}
 
 	/* Painel clicável (com JS): sobe um pouco, a borda acende e a seta anda */
-	.outcome:has(.explore:not([hidden])):hover,
 	.outcome:has(.explore:focus-visible) {
 		transform: translateY(-3px);
 		border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
 	}
 
-	.outcome:hover .explore,
 	.explore:focus-visible {
 		color: var(--color-accent);
 	}
 
-	.outcome:hover .explore-arrow,
 	.explore:focus-visible .explore-arrow {
 		transform: translateX(4px);
+	}
+
+	/* O mesmo efeito ao passar o mouse; só com mouse, porque no toque o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.outcome:has(.explore:not([hidden])):hover {
+			transform: translateY(-3px);
+			border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+		}
+
+		.outcome:hover .explore {
+			color: var(--color-accent);
+		}
+
+		.outcome:hover .explore-arrow {
+			transform: translateX(4px);
+		}
 	}
 
 	/* O anel de foco contorna o painel, que é a área clicável */

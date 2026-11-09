@@ -574,8 +574,11 @@ const titleId = `${id}-title`;
 		transition: translate var(--duration-fast) ease;
 	}
 
-	.related a:hover svg {
-		translate: 3px 0;
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.related a:hover svg {
+			translate: 3px 0;
+		}
 	}
 
 	.groups {
@@ -658,8 +661,11 @@ const titleId = `${id}-title`;
 		transition: border-color var(--duration-fast) ease;
 	}
 
-	.doc:hover {
-		border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.doc:hover {
+			border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+		}
 	}
 
 	.doc-icon {
@@ -730,8 +736,11 @@ const titleId = `${id}-title`;
 		cursor: pointer;
 	}
 
-	.copy:hover {
-		color: var(--color-text);
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.copy:hover {
+			color: var(--color-text);
+		}
 	}
 
 	.copy svg {
