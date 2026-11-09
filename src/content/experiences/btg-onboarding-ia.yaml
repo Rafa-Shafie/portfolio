@@ -6,26 +6,26 @@ role:
 start: 2026-06
 end: 2026-10
 summary:
-  pt: Desenvolvi do zero e de ponta a ponta um assistente de IA para apoiar operadores de onboarding bancário em dúvidas operacionais, evitando chamados desnecessários à equipe de sustentação. Em quatro meses, a aplicação entrou em produção e passou a ser usada pela equipe.
-  en: Built an AI assistant from scratch, end to end, to help banking onboarding operators with operational questions and avoid unnecessary tickets to the support team. Within four months, the application went live and the team started using it.
-  es: Desarrollé desde cero y de principio a fin un asistente de IA para ayudar a los operadores de onboarding bancario con dudas operativas, evitando tickets innecesarios al equipo de soporte. En cuatro meses, la aplicación entró en producción y el equipo empezó a usarla.
+  pt: Desenvolvi do zero e de ponta a ponta um assistente de IA para apoiar operadores de onboarding bancário em dúvidas operacionais e ajudar a reduzir chamados de orientação à equipe de sustentação.
+  en: Built an AI assistant from scratch, end to end, to support banking onboarding operators with operational questions and help reduce guidance tickets to the support team.
+  es: Desarrollé desde cero y de principio a fin un asistente de IA para apoyar a los operadores de onboarding bancario en dudas operativas y ayudar a reducir los tickets de orientación al equipo de soporte.
 highlights:
   pt:
-    - Implementei busca inteligente na documentação com RAG e consultas em linguagem natural a PostgreSQL e MySQL, com indicação de fontes e acesso somente leitura aos dados.
+    - Implementei busca inteligente na documentação com RAG e consultas SQL parametrizadas a partir de perguntas em linguagem natural, em PostgreSQL e MySQL, com indicação de fontes e acesso somente leitura aos dados.
     - Desenvolvi o backend em Python/FastAPI e o frontend em React/TypeScript, com chat, histórico, feedback e painéis administrativos.
     - Preparei a entrega com Docker, Kubernetes e Azure DevOps, com observabilidade no Datadog, controles de custo de IA e avaliações automatizadas da qualidade das respostas.
   en:
-    - Implemented intelligent document search with RAG and natural-language queries to PostgreSQL and MySQL, with source references and read-only data access.
+    - Implemented intelligent document search with RAG and parameterized SQL queries built from natural-language questions, on PostgreSQL and MySQL, with source references and read-only data access.
     - Developed the Python/FastAPI backend and React/TypeScript frontend, including chat, conversation history, feedback and administrative dashboards.
     - Prepared application delivery with Docker, Kubernetes and Azure DevOps, with Datadog observability, AI usage and cost controls and automated AI response evaluations.
   es:
-    - Implementé búsqueda inteligente en la documentación con RAG y consultas en lenguaje natural a PostgreSQL y MySQL, con referencias a las fuentes y acceso de solo lectura a los datos.
+    - Implementé búsqueda inteligente en la documentación con RAG y consultas SQL parametrizadas a partir de preguntas en lenguaje natural, en PostgreSQL y MySQL, con referencias a las fuentes y acceso de solo lectura a los datos.
     - Desarrollé el backend en Python/FastAPI y el frontend en React/TypeScript, con chat, historial, feedback y paneles administrativos.
     - Preparé el despliegue con Docker, Kubernetes y Azure DevOps, con observabilidad en Datadog, controles de consumo y costos de IA y evaluaciones automatizadas de las respuestas.
 outcome:
-  pt: "O assistente entrou em produção em quatro meses e passou a ser usado pela equipe."
-  en: "The assistant went live within four months and the team started using it."
-  es: "El asistente entró en producción en cuatro meses y el equipo empezó a usarlo."
+  pt: "Em produção em quatro meses, validado pelo time de sustentação e com o uso iniciado pela operação."
+  en: "In production within four months, validated by the support team and adopted by operations."
+  es: "En producción en cuatro meses, validado por el equipo de soporte y con el uso iniciado por operaciones."
 stack:
   - Python
   - FastAPI
