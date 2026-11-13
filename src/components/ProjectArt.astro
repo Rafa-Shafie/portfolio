@@ -552,26 +552,33 @@ const siteCards = [50, 125, 200];
 		transform-origin: center;
 	}
 
-	:global(.card:is(:hover, :focus-within)) .flow {
-		opacity: 0.9;
-		animation: flow 0.9s linear infinite;
-	}
+	/*
+	 * Cartão em foco ou com o mouse em cima: a ilustração se mexe. Decorativo, então só em aparelhos
+	 * com mouse: no toque, o :hover gruda depois do toque e a animação ficaria rodando sem parar.
+	 * :focus-visible (e não :focus-within) pelo mesmo motivo: o foco volta ao cartão ao fechar o modal.
+	 */
+	@media (hover: hover) {
+		:global(.card:is(:hover, :has(:focus-visible))) .flow {
+			opacity: 0.9;
+			animation: flow 0.9s linear infinite;
+		}
 
-	:global(.card:is(:hover, :focus-within)) .core {
-		transform: scale(1.08);
-	}
+		:global(.card:is(:hover, :has(:focus-visible))) .core {
+			transform: scale(1.08);
+		}
 
-	:global(.card:is(:hover, :focus-within)) .pin-halo {
-		animation: pulse 1.6s ease-out infinite;
-	}
+		:global(.card:is(:hover, :has(:focus-visible))) .pin-halo {
+			animation: pulse 1.6s ease-out infinite;
+		}
 
-	:global(.card:is(:hover, :focus-within)) .wave {
-		animation: speak 0.7s ease-in-out infinite alternate;
-	}
+		:global(.card:is(:hover, :has(:focus-visible))) .wave {
+			animation: speak 0.7s ease-in-out infinite alternate;
+		}
 
-	/* Placar: as barras crescem um pouco, como pontos entrando */
-	:global(.card:is(:hover, :focus-within)) .bar {
-		transform: scaleX(1.08);
+		/* Placar: as barras crescem um pouco, como pontos entrando */
+		:global(.card:is(:hover, :has(:focus-visible))) .bar {
+			transform: scaleX(1.08);
+		}
 	}
 
 	@keyframes speak {
@@ -601,14 +608,14 @@ const siteCards = [50, 125, 200];
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		:global(.card:is(:hover, :focus-within)) .flow,
-		:global(.card:is(:hover, :focus-within)) .pin-halo,
-		:global(.card:is(:hover, :focus-within)) .wave {
+		:global(.card:is(:hover, :has(:focus-visible))) .flow,
+		:global(.card:is(:hover, :has(:focus-visible))) .pin-halo,
+		:global(.card:is(:hover, :has(:focus-visible))) .wave {
 			animation: none;
 		}
 
-		:global(.card:is(:hover, :focus-within)) .core,
-		:global(.card:is(:hover, :focus-within)) .bar {
+		:global(.card:is(:hover, :has(:focus-visible))) .core,
+		:global(.card:is(:hover, :has(:focus-visible))) .bar {
 			transform: none;
 		}
 	}

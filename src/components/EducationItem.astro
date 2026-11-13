@@ -137,12 +137,15 @@ const proofs = hasProofs
 		transition: transform var(--duration-base) ease;
 	}
 
-	.more:hover {
-		color: var(--color-accent);
-	}
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.more:hover {
+			color: var(--color-accent);
+		}
 
-	.more:hover .more-arrow {
-		transform: translateX(4px);
+		.more:hover .more-arrow {
+			transform: translateX(4px);
+		}
 	}
 
 	.period {

@@ -80,9 +80,12 @@ const t = useTranslations(Astro.props.locale);
 		display: inline-grid;
 	}
 
-	.theme-toggle:hover {
-		border-color: var(--color-accent);
-		color: var(--color-accent);
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.theme-toggle:hover {
+			border-color: var(--color-accent);
+			color: var(--color-accent);
+		}
 	}
 
 	.icon {

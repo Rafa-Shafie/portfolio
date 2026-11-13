@@ -12,7 +12,7 @@
  * - CV: abre numa aba nova, no visualizador de PDF do navegador, sem forçar download.
  */
 import AxeBuilder from '@axe-core/playwright';
-import { test, expect, css, escape } from './fixtures';
+import { test, expect, css, escape, clipboard } from './fixtures';
 import { pages, profile } from './content';
 
 const { t } = pages[0];
@@ -35,7 +35,7 @@ function contrast(a: string, b: string) {
 }
 
 test.describe('contato', () => {
-	test.use({ permissions: ['clipboard-read', 'clipboard-write'] });
+	test.use(clipboard);
 
 	test.beforeEach(async ({ page }) => {
 		await page.goto('/');
@@ -83,10 +83,11 @@ test.describe('contato', () => {
 		await expect(toggle).toHaveAttribute('aria-expanded', 'false');
 	});
 
-	test('copiar: copia o endereço, fecha o menu e anuncia a confirmação', async ({ page }) => {
+	test('copiar: copia o endereço, fecha o menu e anuncia a confirmação', async ({ page, browserName }) => {
 		await page.locator('[data-email-toggle]').click();
 		await page.locator('#email-options [data-copy]').click();
-		expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(profile.email);
+		// Ler de volta só é permitido no Chromium (ver `clipboard` em fixtures.ts)
+		if (browserName === 'chromium') expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(profile.email);
 		await expect(page.locator('#email-options')).toBeHidden();
 		await expect(page.locator('[data-email-toggle]')).toBeFocused();
 		await expect(page.locator('[data-copy-hint]')).toHaveText(t.contact.copied);
@@ -148,7 +149,7 @@ test.describe('contato', () => {
 });
 
 for (const { path, locale, t } of pages) {
-	test(`${path}: o CV do idioma abre em nova aba, sem download`, async ({ page, context }) => {
+	test(`${path}: o CV do idioma abre em nova aba, sem download`, async ({ page, context, browserName }) => {
 		await page.goto(path);
 		const links = page.locator(`a[href="${profile.cv[locale]}"]`);
 		await expect(links).toHaveCount(2); // hero e contato
@@ -159,7 +160,14 @@ for (const { path, locale, t } of pages) {
 		await expect(hero).toHaveAttribute('target', '_blank');
 		await expect(hero).toHaveAttribute('rel', 'noopener');
 
-		// O clique abre uma aba nova que pede o PDF (no visualizador do navegador); a página continua onde estava
+		const response = await page.request.get(profile.cv[locale]);
+		expect(response.status()).toBe(200);
+		expect(response.headers()['content-type']).toContain('application/pdf');
+
+		// O clique abre uma aba nova que pede o PDF (no visualizador do navegador); a página continua onde
+		// estava. Fora do Firefox: o do Playwright, sem interface, baixa o PDF em vez de mostrá-lo (o
+		// Firefox de verdade abre no visualizador dele)
+		if (browserName === 'firefox') return;
 		let downloaded = false;
 		page.on('download', () => (downloaded = true));
 		const [popup, request] = await Promise.all([
@@ -171,9 +179,5 @@ for (const { path, locale, t } of pages) {
 		expect(new URL(page.url()).pathname).toBe(path);
 		expect(downloaded).toBe(false);
 		await popup.close();
-
-		const response = await page.request.get(profile.cv[locale]);
-		expect(response.status()).toBe(200);
-		expect(response.headers()['content-type']).toContain('application/pdf');
 	});
 }

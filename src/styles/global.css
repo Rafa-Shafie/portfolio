@@ -146,9 +146,12 @@ a {
 	color: var(--color-on-accent);
 }
 
-.button-primary:hover {
-	background-color: transparent;
-	color: var(--color-accent);
+/* Só com mouse: no toque, o :hover gruda depois do toque */
+@media (hover: hover) {
+	.button-primary:hover {
+		background-color: transparent;
+		color: var(--color-accent);
+	}
 }
 
 .button-secondary {
@@ -156,9 +159,11 @@ a {
 	color: var(--color-accent);
 }
 
-.button-secondary:hover {
-	background-color: var(--color-accent);
-	color: var(--color-on-accent);
+@media (hover: hover) {
+	.button-secondary:hover {
+		background-color: var(--color-accent);
+		color: var(--color-on-accent);
+	}
 }
 
 /* Utilitários */

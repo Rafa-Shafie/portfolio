@@ -57,13 +57,14 @@ jobs:
       - name: build
         run: npm run build
 
-      # Testes de ponta a ponta sobre o dist/ do passo anterior (astro preview + Chromium).
-      # `--with-deps` instala também as bibliotecas do Linux de que o navegador precisa.
-      - name: install Chromium
-        run: npx playwright install --with-deps chromium
+      # Testes de ponta a ponta sobre o dist/ do passo anterior, nos três motores de navegador:
+      # Chromium (Chrome, Edge, Android), Firefox e WebKit (Safari, iPhone e iPad).
+      # `--with-deps` instala também as bibliotecas do Linux de que cada navegador precisa.
+      - name: install browsers
+        run: npx playwright install --with-deps chromium firefox webkit
 
-      # A suíte de tests/e2e/ nos dois temas, com o axe conferindo acessibilidade
-      # (configuração em playwright.config.ts).
+      # A suíte de tests/e2e/ no desktop (Chromium nos dois temas, Firefox e WebKit) e o teste de toque
+      # em iPhone, Android e iPad, com o axe conferindo acessibilidade (configuração em playwright.config.ts).
       - name: e2e tests
         run: npx playwright test
 
