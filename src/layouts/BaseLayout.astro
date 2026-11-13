@@ -157,6 +157,19 @@ const person = {
 			} catch {}
 			const target = saved && typeof saved.progress === 'number' && document.getElementById(saved.id);
 			if (target) {
+				// Espera o CSS chegar. No Safari, este módulo pode rodar antes das folhas de estilo, e a página
+				// sem estilo é mais que o dobro da altura: a conta cairia em outra seção. link.sheet só existe
+				// depois de a folha carregar; com erro de rede, segue assim mesmo
+				const pending = [...document.querySelectorAll('link[rel="stylesheet"]')].filter((link) => !link.sheet);
+				await Promise.all(
+					pending.map(
+						(link) =>
+							new Promise((resolve) => {
+								link.addEventListener('load', resolve, { once: true });
+								link.addEventListener('error', resolve, { once: true });
+							}),
+					),
+				);
 				const header = document.querySelector('.site-header');
 				const box = target.getBoundingClientRect();
 				const line = header ? header.getBoundingClientRect().bottom : 0;

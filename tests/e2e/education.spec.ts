@@ -7,15 +7,15 @@
  * dá permissão à área de transferência, clica, lê o que foi copiado e confere o anúncio da região
  * role="status".
  */
-import { test, expect, escape } from './fixtures';
+import { test, expect, escape, clipboard } from './fixtures';
 import { detailedEducation, pages } from './content';
 
 const { t } = pages[0];
 
 test.describe('detalhes da formação', () => {
-	test.use({ permissions: ['clipboard-read', 'clipboard-write'] });
+	test.use(clipboard);
 
-	test('o modal mostra o que estudei e os comprovantes, com o código para copiar', async ({ page }) => {
+	test('o modal mostra o que estudei e os comprovantes, com o código para copiar', async ({ page, browserName }) => {
 		await page.goto('/');
 		const button = page.locator('#education [data-dialog-open="education-puc-rio"]');
 		const dialog = page.locator('#education-puc-rio');
@@ -39,7 +39,8 @@ test.describe('detalhes da formação', () => {
 		const copy = dialog.getByRole('button', { name: t.education.copyCode });
 		const code = (await dialog.locator('.verify-code code').textContent())!;
 		await copy.click();
-		expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(code);
+		// Ler de volta só é permitido no Chromium (ver `clipboard` em fixtures.ts)
+		if (browserName === 'chromium') expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(code);
 		await expect(dialog.getByRole('status')).toHaveText(t.education.codeCopied);
 		await expect(copy).toHaveAttribute('data-copied', '');
 

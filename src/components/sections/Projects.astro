@@ -288,8 +288,11 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 		cursor: pointer;
 	}
 
-	.filter:hover {
-		color: var(--color-text);
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.filter:hover {
+			color: var(--color-text);
+		}
 	}
 
 	.filter[aria-pressed='true'] {
@@ -344,9 +347,19 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 	}
 
 	/* Cartão clicável (com JS): sobe um pouco e a borda acende */
-	.card:has(.more:not([hidden])):is(:hover, :focus-within) {
+	.card:has(.more:focus-visible) {
 		transform: translateY(-4px);
 		border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+	}
+
+	/* Ao passar o mouse, o mesmo efeito; só com mouse, porque no toque o :hover gruda depois do toque.
+	   O foco usa :focus-visible (e não :focus-within) pelo mesmo motivo: ao fechar o modal, o foco
+	   volta ao botão do cartão, e depois de um toque o cartão ficaria levantado. */
+	@media (hover: hover) {
+		.card:has(.more:not([hidden])):hover {
+			transform: translateY(-4px);
+			border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+		}
 	}
 
 	/*
@@ -356,7 +369,7 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 	 */
 	/* Depois do hover e com a mesma força de seletor: no hover, a borda do destaque continua ciano cheio */
 	.card.featured,
-	.card.featured:has(.more):is(:hover, :focus-within) {
+	.card.featured:has(.more):is(:hover, :has(:focus-visible)) {
 		border-color: var(--color-accent);
 	}
 
@@ -500,9 +513,16 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 			color var(--duration-base) ease;
 	}
 
-	.card:is(:hover, :focus-within) .arrow {
+	.card:has(:focus-visible) .arrow {
 		color: var(--color-accent);
 		transform: translate(2px, -2px);
+	}
+
+	@media (hover: hover) {
+		.card:hover .arrow {
+			color: var(--color-accent);
+			transform: translate(2px, -2px);
+		}
 	}
 
 	/* Projeto único: o cartão ocupa a largura toda, com a ilustração ao lado do texto */
@@ -532,8 +552,8 @@ const categories = (['ai', 'backend', 'data', 'frontend'] as const).filter((c) =
 	}
 
 	@media (prefers-reduced-motion: reduce) {
-		.card:has(.more:not([hidden])):is(:hover, :focus-within),
-		.card:is(:hover, :focus-within) .arrow {
+		.card:has(.more:not([hidden])):is(:hover, :has(:focus-visible)),
+		.card:is(:hover, :has(:focus-visible)) .arrow {
 			transform: none;
 		}
 	}

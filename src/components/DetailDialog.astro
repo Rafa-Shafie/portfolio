@@ -280,6 +280,13 @@ const titleId = `${id}-title`;
 	// Na troca de um modal para outro (links "Experiência relacionada"), o fechamento do primeiro não
 	// devolve o foco: ele só volta ao botão de origem quando o último modal fechar
 	let switching = false;
+	// Se o último uso foi toque ou mouse (e não teclado). O foco devolvido ao fechar só mostra o
+	// anel e levanta o cartão para quem usa teclado; no toque, o Safari mostrava o cartão levantado
+	let pointer = false;
+	for (const type of ['pointerdown', 'touchstart']) {
+		document.addEventListener(type, () => (pointer = true), { capture: true, passive: true });
+	}
+	document.addEventListener('keydown', () => (pointer = false), { capture: true });
 
 	const dialogFor = (id: string) => {
 		const element = id ? document.getElementById(id) : null;
@@ -344,7 +351,11 @@ const titleId = `${id}-title`;
 				switching = false;
 				return;
 			}
-			opener?.focus();
+			// focusVisible decide se o foco aparece (:focus-visible), em vez de deixar cada navegador adivinhar.
+			// O próprio <dialog> já devolve o foco a quem abriu, e o Safari marca esse foco como visível;
+			// focus() num elemento que já tem o foco não muda nada, então ele sai e volta
+			if (opener && document.activeElement === opener) opener.blur();
+			opener?.focus({ focusVisible: !pointer });
 			opener = null;
 		});
 	}
@@ -574,8 +585,11 @@ const titleId = `${id}-title`;
 		transition: translate var(--duration-fast) ease;
 	}
 
-	.related a:hover svg {
-		translate: 3px 0;
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.related a:hover svg {
+			translate: 3px 0;
+		}
 	}
 
 	.groups {
@@ -658,8 +672,11 @@ const titleId = `${id}-title`;
 		transition: border-color var(--duration-fast) ease;
 	}
 
-	.doc:hover {
-		border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.doc:hover {
+			border-color: color-mix(in srgb, var(--color-accent) 55%, var(--color-border));
+		}
 	}
 
 	.doc-icon {
@@ -730,8 +747,11 @@ const titleId = `${id}-title`;
 		cursor: pointer;
 	}
 
-	.copy:hover {
-		color: var(--color-text);
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.copy:hover {
+			color: var(--color-text);
+		}
 	}
 
 	.copy svg {

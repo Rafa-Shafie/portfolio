@@ -11,7 +11,7 @@
  * Este arquivo roda só no projeto 'dark' (ver playwright.config.ts): cada teste escolhe o tema do
  * sistema que precisa.
  */
-import { test, expect, css } from './fixtures';
+import { test, expect, css, clickFocusesButtons } from './fixtures';
 import { pages } from './content';
 
 const { t } = pages[0];
@@ -41,13 +41,13 @@ for (const theme of ['light', 'dark'] as const) {
 test.describe('alternador', () => {
 	test.use({ colorScheme: 'dark' });
 
-	test('troca o tema, salva a escolha e ela vale ao recarregar', async ({ page }) => {
+	test('troca o tema, salva a escolha e ela vale ao recarregar', async ({ page, browserName }) => {
 		await page.goto('/');
 		await toggle(page).click();
 		await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 		expect(await css(page.locator('body'), 'background-color')).toBe(background.light);
 		await expect(toggle(page)).toHaveAccessibleName(t.a11y.themeToDark);
-		await expect(toggle(page)).toBeFocused();
+		if (clickFocusesButtons(browserName)) await expect(toggle(page)).toBeFocused();
 		expect(await page.evaluate(() => localStorage.getItem('theme'))).toBe('light');
 		expect(await themeColor(page)).toBe(background.light);
 

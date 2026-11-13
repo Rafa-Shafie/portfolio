@@ -25,6 +25,10 @@ async function filterBy(page: import('@playwright/test').Page, area: string) {
 	const count = area === 'all' ? projects.length : projectsIn(area).length;
 	const label = new Intl.PluralRules('pt-BR').select(count) === 'one' ? t.projects.count.one : t.projects.count.other;
 	await expect(page.locator('[data-project-count]')).toHaveText(`${count} ${label}`);
+	// A troca roda dentro de uma View Transition, que aplica o filtro um pouco depois do clique. Se o
+	// filtro anterior tinha a mesma contagem, o texto acima já bate antes da troca: espera os cartões
+	if (area !== 'all') await expect(page.locator(`#projects .card:not([hidden]):not([data-categories~="${area}"])`)).toHaveCount(0);
+	await expect(page.locator('#projects .card:not([hidden])')).toHaveCount(count);
 }
 
 test.beforeEach(async ({ page }) => {

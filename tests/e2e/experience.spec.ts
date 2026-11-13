@@ -8,7 +8,7 @@
  * - Modal com <dialog> e showModal(): o navegador prende o foco dentro dele, fecha com Esc e deixa
  *   o resto da página inerte. Nós cuidamos de devolver o foco ao botão e de travar a rolagem atrás.
  */
-import { test, expect, clickAt, css, focusableCount, labelled, stableBox } from './fixtures';
+import { test, expect, clickAt, css, focusableCount, labelled, stableBox, phone } from './fixtures';
 import { exploredExperiences, pages } from './content';
 
 const { t } = pages[0];
@@ -130,7 +130,7 @@ test('desktop: painel à direita do texto', async ({ page }) => {
 });
 
 test.describe('celular', () => {
-	test.use({ viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true });
+	test.use(phone);
 
 	test('painel abaixo do texto, e tocar nele abre o modal', async ({ page }) => {
 		const first = page.locator('#experience details').first();

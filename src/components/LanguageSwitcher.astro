@@ -81,20 +81,24 @@ const t = useTranslations(locale);
 
 		button.addEventListener('click', () => setOpen(!isOpen()));
 
-		// Esc fecha e devolve o foco ao botão
-		root.addEventListener('keydown', (event) => {
+		// Esc fecha e devolve o foco ao botão. Escuta no document, e não no seletor: no Safari, clicar no
+		// botão não o foca, e o Esc de quem abriu com o mouse não passaria pelo seletor
+		document.addEventListener('keydown', (event) => {
 			if (event.key === 'Escape' && isOpen()) {
 				setOpen(false);
 				button.focus();
 			}
 		});
 
-		// Fecha ao clicar fora ou quando o foco sai do seletor
-		document.addEventListener('click', (event) => {
+		// Fecha ao tocar ou clicar fora (pointerdown: no iPhone, tocar numa área sem nada clicável não
+		// gera click no document) ou quando o foco vai para fora do seletor. Foco sem destino
+		// (relatedTarget null) não fecha: é o que o Safari faz ao tocar num link da lista.
+		document.addEventListener('pointerdown', (event) => {
 			if (isOpen() && !root.contains(event.target as Node)) setOpen(false);
 		});
 		root.addEventListener('focusout', (event) => {
-			if (isOpen() && !root.contains(event.relatedTarget as Node | null)) setOpen(false);
+			const next = event.relatedTarget as Node | null;
+			if (isOpen() && next && !root.contains(next)) setOpen(false);
 		});
 	}
 </script>
@@ -154,8 +158,11 @@ const t = useTranslations(locale);
 		text-decoration: none;
 	}
 
-	.lang-list a:hover {
-		background-color: var(--color-bg);
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.lang-list a:hover {
+			background-color: var(--color-bg);
+		}
 	}
 
 	.lang-list a[aria-current='page'] {

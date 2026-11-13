@@ -14,11 +14,22 @@ const port = 4173;
 // O GitHub Actions define CI=true. Algumas opções mudam entre o CI e a sua máquina.
 const ci = !!process.env.CI;
 
-// Navegador usado por todos os testes: o perfil "Desktop Chrome" do Playwright (user agent, escala
-// de tela etc.) com uma janela de 1280x900. Os testes de celular trocam a janela com test.use().
+/*
+ * O site tem que funcionar igual em qualquer aparelho. Todo navegador roda sobre um de três motores,
+ * e a suíte testa os três:
+ *   - Chromium: Chrome, Edge, Samsung Internet, Opera e quase todo Android;
+ *   - WebKit: Safari no Mac e todos os navegadores do iPhone e do iPad (até o Chrome do iPhone);
+ *   - Firefox (Gecko).
+ *
+ * Desktop: a suíte inteira nos três motores, numa janela de 1280x900. Os testes de celular dentro
+ * dela trocam a janela com test.use().
+ * Toque: touch.spec.ts usa cada controle tocando, como no celular, em iPhone, Android e iPad.
+ */
+const desktop = { viewport: { width: 1280, height: 900 } };
 // channel "chromium": o Chromium completo no modo headless novo, com visualizador de PDF
 // (o headless shell padrão baixaria o CV em vez de abri-lo, e o teste do CV falharia).
-const browser = { ...devices['Desktop Chrome'], channel: 'chromium', viewport: { width: 1280, height: 900 } };
+const chrome = { ...devices['Desktop Chrome'], ...desktop, channel: 'chromium' };
+const touch = /touch\.spec\.ts/;
 
 export default defineConfig({
 	testDir: 'tests/e2e',
@@ -40,12 +51,23 @@ export default defineConfig({
 		// abrir com `npx playwright show-trace` e ver exatamente o que aconteceu.
 		trace: 'retain-on-failure',
 	},
-	// "Projetos" são a mesma suíte rodando com configurações diferentes. Aqui, uma vez com o sistema
-	// em tema escuro e outra em tema claro: assim todo teste (inclusive o de contraste) vale para os dois.
-	// theme.spec.ts escolhe o tema dentro de cada teste, então roda uma vez só.
+	// "Projetos" são a mesma suíte rodando com configurações diferentes.
+	// - Chromium duas vezes, com o sistema em tema escuro e em tema claro: assim todo teste (inclusive
+	//   o de contraste) vale para os dois. theme.spec.ts escolhe o tema dentro de cada teste, então
+	//   roda uma vez só.
+	// - Firefox e WebKit (Safari) uma vez cada, um em cada tema.
+	// - Celular e tablet: só o teste de toque, nos aparelhos do Playwright (tela, escala, toque e user
+	//   agent de cada um).
 	projects: [
-		{ name: 'dark', use: { ...browser, colorScheme: 'dark' } },
-		{ name: 'light', use: { ...browser, colorScheme: 'light' }, testIgnore: /theme\.spec\.ts/ },
+		{ name: 'dark', use: { ...chrome, colorScheme: 'dark' }, testIgnore: touch },
+		{ name: 'light', use: { ...chrome, colorScheme: 'light' }, testIgnore: [/theme\.spec\.ts/, touch] },
+		{ name: 'firefox', use: { ...devices['Desktop Firefox'], ...desktop, colorScheme: 'dark' }, testIgnore: touch },
+		// O WebKit do Playwright é o mais lento dos três: os testes que abrem modal por modal levam o dobro
+		// do tempo e, com a máquina cheia, passavam do limite padrão de 30 s
+		{ name: 'webkit', use: { ...devices['Desktop Safari'], ...desktop, colorScheme: 'light' }, testIgnore: touch, timeout: 60_000 },
+		{ name: 'iphone', use: devices['iPhone 13'], testMatch: touch },
+		{ name: 'android', use: devices['Pixel 7'], testMatch: touch },
+		{ name: 'ipad', use: devices['iPad (gen 7)'], testMatch: touch },
 	],
 	// O Playwright sobe o servidor antes dos testes e derruba no fim. Localmente, se você já estiver
 	// rodando `npm run preview` na porta 4173, ele reaproveita esse servidor em vez de subir outro.

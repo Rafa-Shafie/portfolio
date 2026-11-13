@@ -191,12 +191,17 @@ const webmail = [
 			visible[(current + step + visible.length) % visible.length].focus();
 		});
 
-		// Fecha ao clicar fora ou quando o foco sai do cartão (Tab depois da última opção)
-		document.addEventListener('click', (event) => {
+		// Fecha ao tocar ou clicar fora. pointerdown, e não click: no iPhone, um toque numa área sem
+		// nada clicável não gera click no document, e o menu ficaria aberto.
+		document.addEventListener('pointerdown', (event) => {
 			if (isOpen() && !card.contains(event.target as Node)) setOpen(false);
 		});
+		// Fecha quando o foco vai para fora do cartão (Tab depois da última opção). Sem destino
+		// (relatedTarget null), não fecha: é o que o Safari faz ao tocar numa opção, porque toque não
+		// foca botão nem link. Fechar aí escondia o menu antes de o toque chegar à opção.
 		card.addEventListener('focusout', (event) => {
-			if (isOpen() && !card.contains(event.relatedTarget as Node | null)) setOpen(false);
+			const next = event.relatedTarget as Node | null;
+			if (isOpen() && next && !card.contains(next)) setOpen(false);
 		});
 		// Escolher um link (app de e-mail, Gmail ou Outlook) também fecha o menu
 		for (const option of options) if (option.tagName === 'A') option.addEventListener('click', () => setOpen(false));
@@ -270,8 +275,11 @@ const webmail = [
 		transition: background-color var(--duration-fast) ease;
 	}
 
-	.card-link:hover {
-		background-color: color-mix(in srgb, var(--color-on-accent) 8%, transparent);
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.card-link:hover {
+			background-color: color-mix(in srgb, var(--color-on-accent) 8%, transparent);
+		}
 	}
 
 	.card-icon {
@@ -341,8 +349,11 @@ const webmail = [
 		cursor: pointer;
 	}
 
-	.option:hover {
-		background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
+	/* Só com mouse: no toque, o :hover gruda depois do toque */
+	@media (hover: hover) {
+		.option:hover {
+			background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
+		}
 	}
 
 	.option-text {
