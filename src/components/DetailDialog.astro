@@ -280,6 +280,13 @@ const titleId = `${id}-title`;
 	// Na troca de um modal para outro (links "Experiência relacionada"), o fechamento do primeiro não
 	// devolve o foco: ele só volta ao botão de origem quando o último modal fechar
 	let switching = false;
+	// Se o último uso foi toque ou mouse (e não teclado). O foco devolvido ao fechar só mostra o
+	// anel e levanta o cartão para quem usa teclado; no toque, o Safari mostrava o cartão levantado
+	let pointer = false;
+	for (const type of ['pointerdown', 'touchstart']) {
+		document.addEventListener(type, () => (pointer = true), { capture: true, passive: true });
+	}
+	document.addEventListener('keydown', () => (pointer = false), { capture: true });
 
 	const dialogFor = (id: string) => {
 		const element = id ? document.getElementById(id) : null;
@@ -344,7 +351,8 @@ const titleId = `${id}-title`;
 				switching = false;
 				return;
 			}
-			opener?.focus();
+			// focusVisible decide se o foco aparece (:focus-visible), em vez de deixar cada navegador adivinhar
+			opener?.focus({ focusVisible: !pointer });
 			opener = null;
 		});
 	}
