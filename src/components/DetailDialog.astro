@@ -351,7 +351,10 @@ const titleId = `${id}-title`;
 				switching = false;
 				return;
 			}
-			// focusVisible decide se o foco aparece (:focus-visible), em vez de deixar cada navegador adivinhar
+			// focusVisible decide se o foco aparece (:focus-visible), em vez de deixar cada navegador adivinhar.
+			// O próprio <dialog> já devolve o foco a quem abriu, e o Safari marca esse foco como visível;
+			// focus() num elemento que já tem o foco não muda nada, então ele sai e volta
+			if (opener && document.activeElement === opener) opener.blur();
 			opener?.focus({ focusVisible: !pointer });
 			opener = null;
 		});
