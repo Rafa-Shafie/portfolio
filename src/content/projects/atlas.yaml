@@ -35,9 +35,9 @@ details:
       en: "I built it end to end, with guidance from my manager: knowledge base, backend, interface, AI and database integration, testing and deployment."
       es: "Lo desarrollé de principio a fin, con la orientación de mi gestor: base de conocimiento, backend, interfaz, integración con IA y bases de datos, pruebas y despliegue."
     delivery:
-      pt: "Um assistente de IA com RAG e Text-to-SQL que reúne documentação, orientações e dados autorizados numa conversa."
-      en: "An AI assistant with RAG and Text-to-SQL that brings documentation, guidance and authorized data together in one conversation."
-      es: "Un asistente de IA con RAG y Text-to-SQL que reúne documentación, orientaciones y datos autorizados en una conversación."
+      pt: "Um assistente de IA que reúne documentação, orientações e dados autorizados numa conversa, com RAG e consultas SQL parametrizadas a partir de perguntas em linguagem natural."
+      en: "An AI assistant that brings documentation, guidance and authorized data together in one conversation, with RAG and parameterized SQL queries built from natural-language questions."
+      es: "Un asistente de IA que reúne documentación, orientaciones y datos autorizados en una conversación, con RAG y consultas SQL parametrizadas a partir de preguntas en lenguaje natural."
     result:
       pt: "Em produção em quatro meses, validado pelo time de sustentação e usado pela operação. Reduzir os chamados evitáveis segue como objetivo da solução."
       en: "In production within four months, validated by the support team and used by operations. Reducing avoidable tickets remains the solution's goal."
