@@ -1,24 +1,24 @@
-# Liga Familiar Gamificada: projeto de estudo em andamento, redefinido para Postgres com volume e
-# event sourcing (ADR-007), com o event sourcing justificado por medição (ADR-012). Repositório público.
-# Status honesto: só a infraestrutura e as decisões de arquitetura (ADRs) existem; não há código de
-# domínio nem nenhuma medição. A meta de latência é meta, não resultado. Sem demo ao vivo e sem link
-# para os ADRs (ficam no repositório).
+# Liga Familiar Gamificada: exercício de aprendizado declarado (decisão de 10/11/2026, ADR-007 e
+# ADR-012). Postgres com volume e event sourcing medido contra SQL direto. Repositório público.
+# Status honesto: só a infraestrutura (fatia 0) e as decisões de arquitetura (ADRs) existem; não há
+# código de domínio nem nenhuma medição. As metas são metas, não resultados. Sem demo, sem hospedagem
+# e sem usuários reais; sem link para os ADRs (ficam no repositório).
 # Privacidade: sem os nomes dos membros da família.
 title:
   pt: "Liga Familiar Gamificada"
   en: "Liga Familiar Gamificada"
   es: "Liga Familiar Gamificada"
 description:
-  pt: "Projeto de estudo que usa um gerenciador de tarefas domésticas como pretexto para aprender Postgres com grande volume de dados e event sourcing, e medir quando o event sourcing compensa."
-  en: "A study project that uses a household chore manager as a pretext to learn Postgres at high data volume and event sourcing, and to measure when event sourcing pays off."
-  es: "Proyecto de estudio que usa un gestor de tareas domésticas como pretexto para aprender Postgres con gran volumen de datos y event sourcing, y medir cuándo compensa el event sourcing."
+  pt: "Exercício de aprendizado para medir antes de otimizar e modelar estado como eventos: um gerenciador de tarefas domésticas serve de pretexto para estudar Postgres com milhões de eventos e comparar event sourcing com SQL direto."
+  en: "A learning exercise in measuring before optimizing and modeling state as events: a household chore manager is the pretext to study Postgres with millions of events and compare event sourcing with plain SQL."
+  es: "Ejercicio de aprendizaje para medir antes de optimizar y modelar el estado como eventos: un gestor de tareas domésticas sirve de pretexto para estudiar Postgres con millones de eventos y comparar event sourcing con SQL directo."
 category: backend
 kind: personal
 status: progress
 stage:
-  pt: "Infraestrutura e decisões de arquitetura concluídas · implementação do domínio ainda não começou"
-  en: "Infrastructure and architecture decisions done · domain implementation not started yet"
-  es: "Infraestructura y decisiones de arquitectura concluidas · la implementación del dominio aún no empezó"
+  pt: "Infraestrutura concluída · primeira fatia do domínio ainda não começou"
+  en: "Infrastructure done · first domain slice not started yet"
+  es: "Infraestructura concluida · la primera etapa del dominio aún no empezó"
 art: league
 order: 6
 repo: https://github.com/Rafa-Shafie/familia-liga-gamificada
@@ -31,66 +31,66 @@ stack:
   - Docker Compose
 details:
   intro:
-    pt: "Cada tarefa doméstica concluída vai valer pontos, e os pontos serão eventos imutáveis. O domínio é simples de propósito: serve para estudar duas coisas que meus outros projetos não cobrem. A primeira é Postgres com volume: consultas analíticas, índices, rollups e views materializadas, a serem provados com medição antes e depois sobre milhões de eventos sintéticos. A segunda é event sourcing: o placar e as sequências serão projeções reconstruídas por replay, com snapshots e versionamento de eventos."
-    en: "Each completed household chore will be worth points, and the points will be immutable events. The domain is simple on purpose: it exists to study two things my other projects do not cover. The first is Postgres at volume: analytical queries, indexes, rollups and materialized views, to be proven with before-and-after measurement over millions of synthetic events. The second is event sourcing: the scoreboard and the streaks will be projections rebuilt by replay, with snapshots and event versioning."
-    es: "Cada tarea doméstica completada va a valer puntos, y los puntos serán eventos inmutables. El dominio es simple a propósito: sirve para estudiar dos cosas que mis otros proyectos no cubren. La primera es Postgres con volumen: consultas analíticas, índices, rollups y vistas materializadas, que se probarán con medición antes y después sobre millones de eventos sintéticos. La segunda es event sourcing: el marcador y las rachas serán proyecciones reconstruidas por replay, con snapshots y versionado de eventos."
+    pt: "Um exercício de aprendizado declarado, não um produto para a família usar. As tarefas com pontos são só o pretexto: num razão de pontos, uma tabela append-only com SUM já resolve o placar. Mesmo assim, a Liga vai implementar event sourcing completo e medir o custo contra o SQL direto, e o relatório final vai dizer quando cada forma compensa. Se o SQL vencer em tudo, esse é o resultado."
+    en: "A declared learning exercise, not a product for my family to use. Chores worth points are only the pretext: in a points ledger, an append-only table with SUM already solves the scoreboard. Even so, Liga will implement full event sourcing and measure its cost against plain SQL, and the final report will say when each approach pays off. If SQL wins everywhere, that is the result."
+    es: "Un ejercicio de aprendizaje declarado, no un producto para que lo use mi familia. Las tareas con puntos son solo el pretexto: en un libro de puntos, una tabla append-only con SUM ya resuelve el marcador. Aun así, la Liga va a implementar event sourcing completo y medir su costo frente al SQL directo, y el informe final va a decir cuándo compensa cada forma. Si el SQL gana en todo, ese es el resultado."
   sections:
     - heading: { pt: "Como é construído", en: "How it is built", es: "Cómo se construye" }
       text:
-        pt: "O domínio não exige event sourcing: uma tabela append-only com uma soma resolveria o placar. Por isso o projeto não tenta justificá-lo por argumento, e sim por medição. O mesmo placar será calculado por SQL direto, projeção incremental, replay completo, rollup e replay a partir de snapshot, em 100 mil, 1 milhão e 10 milhões de eventos. O relatório final vai responder quando cada forma compensa, e um ADR registra quando eu não usaria event sourcing. O desenvolvimento avança em fatias verticais, cada uma funcionando e testada antes da próxima, e cada decisão de arquitetura fica registrada em um ADR (Architecture Decision Record)."
-        en: "The domain does not require event sourcing: an append-only table with a sum would solve the scoreboard. That is why the project does not try to justify it by argument, but by measurement. The same scoreboard will be calculated by plain SQL, incremental projection, full replay, rollup and replay from a snapshot, at 100 thousand, 1 million and 10 million events. The final report will answer when each approach pays off, and an ADR records when I would not use event sourcing. Development moves in vertical slices, each one working and tested before the next, and every architecture decision is recorded in an ADR (Architecture Decision Record)."
-        es: "El dominio no exige event sourcing: una tabla append-only con una suma resolvería el marcador. Por eso el proyecto no intenta justificarlo con argumentos, sino con mediciones. El mismo marcador se calculará con SQL directo, proyección incremental, replay completo, rollup y replay a partir de un snapshot, con 100 mil, 1 millón y 10 millones de eventos. El informe final va a responder cuándo compensa cada forma, y un ADR registra cuándo no usaría event sourcing. El desarrollo avanza en vertical slices, cada una funcionando y probada antes de la siguiente, y cada decisión de arquitectura queda registrada en un ADR (Architecture Decision Record)."
+        pt: "Duas frentes de estudo: desempenho de consulta com volume, medido antes e depois de cada técnica, e event sourcing com projeções reconstruíveis. O modelo já está decidido: uma tabela única de eventos, com colunas tipadas e JSONB, para TarefaConcluida, PenalidadeAplicada e ConclusaoEstornada, com o estorno vinculado ao evento original. Cada evento terá duas linhas do tempo, quando aconteceu e quando o sistema soube; o replay segue a ordem do id, e os horários são convertidos para America/Sao_Paulo na consulta. De propósito, nenhuma regra depende de saldo. Não há login, hospedagem nem usuários reais: as famílias existem como dados. A tela será mínima e gerada com o Claude Code, porque o foco é back-end e dados. O desenvolvimento avança em fatias verticais, e cada decisão de arquitetura fica registrada em um ADR (Architecture Decision Record)."
+        en: "Two lines of study: query performance at volume, measured before and after each technique, and event sourcing with rebuildable projections. The model is already decided: a single events table, with typed columns and JSONB, for TarefaConcluida, PenalidadeAplicada and ConclusaoEstornada, with each reversal linked to the original event. Every event will have two timelines, when it happened and when the system learned about it; replay follows the id order, and timestamps are converted to America/Sao_Paulo at query time. On purpose, no rule depends on a balance. There is no login, hosting or real users: families exist as data. The UI will be minimal and generated with Claude Code, because the focus is backend and data. Development moves in vertical slices, and every architecture decision is recorded in an ADR (Architecture Decision Record)."
+        es: "Dos frentes de estudio: rendimiento de consultas con volumen, medido antes y después de cada técnica, y event sourcing con proyecciones reconstruibles. El modelo ya está decidido: una tabla única de eventos, con columnas tipadas y JSONB, para TarefaConcluida, PenalidadeAplicada y ConclusaoEstornada, con la reversión vinculada al evento original. Cada evento tendrá dos líneas de tiempo, cuándo ocurrió y cuándo lo supo el sistema; el replay sigue el orden del id, y los horarios se convierten a America/Sao_Paulo en la consulta. A propósito, ninguna regla depende de un saldo. No hay login, hosting ni usuarios reales: las familias existen como datos. La pantalla será mínima y generada con Claude Code, porque el foco es el backend y los datos. El desarrollo avanza en vertical slices, y cada decisión de arquitectura queda registrada en un ADR (Architecture Decision Record)."
     - heading: { pt: "Já implementado", en: "Already built", es: "Ya implementado" }
       items:
         pt:
           - "Ambiente reproduzível com Docker Compose: PostgreSQL 18 com versão fixada, volume persistente e healthcheck."
-          - "Schema versionado com Flyway como único dono da estrutura; o Hibernate apenas valida o mapeamento."
+          - "Spring Boot 4 conectado ao banco, com o Flyway como único dono do schema; o Hibernate só valida o mapeamento."
           - "Configuração e segredos fora do código."
           - "12 ADRs, incluindo os que registram as mudanças de escopo e a justificativa do event sourcing."
         en:
           - "A reproducible environment with Docker Compose: PostgreSQL 18 with a pinned version, a persistent volume and a healthcheck."
-          - "A versioned schema with Flyway as the single owner of the structure; Hibernate only validates the mapping."
+          - "Spring Boot 4 connected to the database, with Flyway as the single owner of the schema; Hibernate only validates the mapping."
           - "Configuration and secrets kept out of the code."
           - "12 ADRs, including the ones that record the scope changes and the rationale for event sourcing."
         es:
           - "Entorno reproducible con Docker Compose: PostgreSQL 18 con versión fijada, volumen persistente y healthcheck."
-          - "Schema versionado con Flyway como único dueño de la estructura; Hibernate solo valida el mapeo."
+          - "Spring Boot 4 conectado a la base de datos, con Flyway como único dueño del schema; Hibernate solo valida el mapeo."
           - "Configuración y secretos fuera del código."
           - "12 ADRs, incluidos los que registran los cambios de alcance y la justificación del event sourcing."
     - heading: { pt: "Planejado (ainda não implementado)", en: "Planned (not built yet)", es: "Planificado (todavía no implementado)" }
       items:
         pt:
-          - "Tabela de eventos imutável, garantida pelo próprio banco, com correção por estorno (nada é apagado ou editado)."
-          - "Duas linhas do tempo por evento (quando aconteceu e quando o sistema soube), permitindo consultar o placar de uma data passada como era conhecido naquela data."
-          - "Oito consultas analíticas medidas (window functions, CTEs, date_trunc com fuso, EXPLAIN ANALYZE) sobre 2 anos de dados sintéticos."
-          - "Índices, rollups com @Scheduled e views materializadas."
-          - "Replay, snapshots e versionamento de eventos."
-          - "Comparação medida entre SQL direto e as formas de event sourcing."
-          - "Testes de integração com Testcontainers e PostgreSQL real, e CI no GitHub Actions."
-          - "Meta (não é resultado): p95 abaixo de 100 ms nas consultas por família com 10 milhões de eventos."
+          - "Registrar uma conclusão como evento e cadastrar famílias, membros e tarefas, com API, tela mínima, testes de integração com Testcontainers e PostgreSQL real (sem H2) e CI no GitHub Actions."
+          - "Penalidade e estorno, com um índice único no banco que recusa estorno duplicado, e o placar reconstruído por replay."
+          - "Gerador de dados sintéticos com semente fixa e registros tardios: 2 anos de eventos, com 100 mil, 1 milhão e 10 milhões."
+          - "Baseline de 8 consultas fixas (placar da semana, ranking com RANK, série mensal, maior sequência de dias seguidos, total do ano, top 10 famílias, eficiência por família e placar numa data passada com o que se sabia nela), com EXPLAIN (ANALYZE, BUFFERS), 30 execuções, p50 e p95, cache frio e quente e relatórios versionados."
+          - "Índices, rollups e view materializada, snapshots e versionamento de eventos, com um relatório final que compara cinco formas de calcular o mesmo placar: SQL direto, projeção incremental, replay completo, rollup e replay a partir de snapshot."
+          - "Provas do lado event sourcing: projeção incremental idêntica ao replay, replay determinístico, banco recusando UPDATE e DELETE e eventos v1 legíveis depois de mudar o formato."
+          - "Opcionais, ao final: particionamento por mês e detecção de trapaça."
+          - "Metas, não resultados: p95 abaixo de 100 ms por família com 10 milhões de eventos e ganho de 10x por técnica, ou a explicação de por que não veio."
         en:
-          - "An immutable events table, enforced by the database itself, with corrections made by reversal (nothing is deleted or edited)."
-          - "Two timelines per event (when it happened and when the system learned about it), making it possible to query the scoreboard for a past date as it was known on that date."
-          - "Eight measured analytical queries (window functions, CTEs, time-zone-aware date_trunc, EXPLAIN ANALYZE) over 2 years of synthetic data."
-          - "Indexes, rollups with @Scheduled and materialized views."
-          - "Replay, snapshots and event versioning."
-          - "A measured comparison between plain SQL and the event sourcing approaches."
-          - "Integration tests with Testcontainers and a real PostgreSQL, and CI on GitHub Actions."
-          - "Target (not a result): p95 below 100 ms for per-family queries with 10 million events."
+          - "Recording a completion as an event and registering families, members and chores, with an API, a minimal UI, integration tests with Testcontainers and a real PostgreSQL (no H2), and CI on GitHub Actions."
+          - "Penalties and reversals, with a unique index in the database that rejects duplicate reversals, and the scoreboard rebuilt by replay."
+          - "A synthetic data generator with a fixed seed and late-arriving records: 2 years of events, at 100 thousand, 1 million and 10 million."
+          - "A baseline of 8 fixed queries (weekly scoreboard, ranking with RANK, monthly series, longest streak of consecutive days, yearly total, top 10 families, efficiency per family and the scoreboard on a past date as it was known then), with EXPLAIN (ANALYZE, BUFFERS), 30 runs, p50 and p95, cold and warm cache, and versioned reports."
+          - "Indexes, rollups and a materialized view, snapshots and event versioning, with a final report comparing five ways to calculate the same scoreboard: plain SQL, incremental projection, full replay, rollup and replay from a snapshot."
+          - "Event sourcing proofs: incremental projection identical to the replay, deterministic replay, the database rejecting UPDATE and DELETE, and v1 events still readable after the format changes."
+          - "Optional, at the end: monthly partitioning and cheating detection."
+          - "Targets, not results: p95 below 100 ms per family with 10 million events and a 10x gain per technique, or an explanation of why it did not come."
         es:
-          - "Tabla de eventos inmutable, garantizada por la propia base de datos, con corrección mediante reversión (nada se borra ni se edita)."
-          - "Dos líneas de tiempo por evento (cuándo ocurrió y cuándo lo supo el sistema), lo que permite consultar el marcador de una fecha pasada tal como se conocía en esa fecha."
-          - "Ocho consultas analíticas medidas (window functions, CTEs, date_trunc con zona horaria, EXPLAIN ANALYZE) sobre 2 años de datos sintéticos."
-          - "Índices, rollups con @Scheduled y vistas materializadas."
-          - "Replay, snapshots y versionado de eventos."
-          - "Comparación medida entre SQL directo y las formas de event sourcing."
-          - "Pruebas de integración con Testcontainers y PostgreSQL real, y CI en GitHub Actions."
-          - "Meta (no es un resultado): p95 por debajo de 100 ms en las consultas por familia con 10 millones de eventos."
+          - "Registrar una tarea completada como evento y dar de alta familias, miembros y tareas, con API, pantalla mínima, pruebas de integración con Testcontainers y PostgreSQL real (sin H2) y CI en GitHub Actions."
+          - "Penalización y reversión, con un índice único en la base de datos que rechaza reversiones duplicadas, y el marcador reconstruido por replay."
+          - "Generador de datos sintéticos con semilla fija y registros tardíos: 2 años de eventos, con 100 mil, 1 millón y 10 millones."
+          - "Baseline de 8 consultas fijas (marcador de la semana, ranking con RANK, serie mensual, racha más larga de días seguidos, total del año, top 10 familias, eficiencia por familia y marcador en una fecha pasada con lo que se sabía entonces), con EXPLAIN (ANALYZE, BUFFERS), 30 ejecuciones, p50 y p95, caché fría y caliente e informes versionados."
+          - "Índices, rollups y vista materializada, snapshots y versionado de eventos, con un informe final que compara cinco formas de calcular el mismo marcador: SQL directo, proyección incremental, replay completo, rollup y replay a partir de un snapshot."
+          - "Pruebas del lado de event sourcing: proyección incremental idéntica al replay, replay determinista, base de datos que rechaza UPDATE y DELETE y eventos v1 legibles después de cambiar el formato."
+          - "Opcionales, al final: particionamiento por mes y detección de trampas."
+          - "Metas, no resultados: p95 por debajo de 100 ms por familia con 10 millones de eventos y una ganancia de 10x por técnica, o la explicación de por qué no llegó."
     - heading: { pt: "Desafio até aqui", en: "Challenge so far", es: "Desafío hasta ahora" }
       text:
-        pt: "Duas decisões de escopo marcaram o projeto antes de existir código de domínio. A primeira foi abandonar autenticação e multi-tenancy, que pratico em outros projetos, para focar no que nenhum outro cobre (ADR-007). A segunda foi admitir que o domínio não exige event sourcing e transformar isso no experimento: medir quando ele compensa em vez de afirmar que compensa (ADR-012)."
-        en: "Two scope decisions shaped the project before any domain code existed. The first was dropping authentication and multi-tenancy, which I practice in other projects, to focus on what none of the others cover (ADR-007). The second was admitting that the domain does not require event sourcing and turning that into the experiment: measuring when it pays off instead of claiming that it does (ADR-012)."
-        es: "Dos decisiones de alcance marcaron el proyecto antes de que existiera código de dominio. La primera fue abandonar la autenticación y el multi-tenancy, que practico en otros proyectos, para enfocarme en lo que ningún otro cubre (ADR-007). La segunda fue admitir que el dominio no exige event sourcing y convertir eso en el experimento: medir cuándo compensa en lugar de afirmar que compensa (ADR-012)."
+        pt: "A pergunta que guia o projeto: num razão de pontos, uma tabela append-only com SUM resolve, então por que gravar eventos e derivar o placar, e o que se ganha e se perde? Em vez de defender uma resposta, decidi medi-la (ADR-012). Antes disso, o escopo mudou antes de existir código de domínio: o produto multi-família com login foi descartado para focar no que meus outros projetos não cobrem (ADR-007)."
+        en: "The question that drives the project: in a points ledger, an append-only table with SUM is enough, so why store events and derive the scoreboard, and what do you gain and lose? Instead of defending an answer, I decided to measure it (ADR-012). Before that, the scope changed before any domain code existed: the multi-family product with login was dropped to focus on what my other projects do not cover (ADR-007)."
+        es: "La pregunta que guía el proyecto: en un libro de puntos, una tabla append-only con SUM es suficiente, entonces ¿por qué guardar eventos y derivar el marcador, y qué se gana y qué se pierde? En lugar de defender una respuesta, decidí medirla (ADR-012). Antes de eso, el alcance cambió antes de que existiera código de dominio: el producto multifamilia con login se descartó para enfocarme en lo que mis otros proyectos no cubren (ADR-007)."
 techDetails:
   - label: { pt: "Backend", en: "Backend", es: "Backend" }
     items: ["Java 21", "Spring Boot 4", "Spring Data JPA", "Maven"]
