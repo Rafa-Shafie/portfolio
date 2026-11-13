@@ -1,103 +1,104 @@
-# Liga Familiar Gamificada: projeto pessoal em andamento (fatia 1). Repositório público.
+# Liga Familiar Gamificada: projeto de estudo em andamento, redefinido para Postgres com volume e
+# event sourcing (ADR-007), com o event sourcing justificado por medição (ADR-012). Repositório público.
+# Status honesto: só a infraestrutura e as decisões de arquitetura (ADRs) existem; não há código de
+# domínio nem nenhuma medição. A meta de latência é meta, não resultado. Sem demo ao vivo e sem link
+# para os ADRs (ficam no repositório).
 # Privacidade: sem os nomes dos membros da família.
 title:
   pt: "Liga Familiar Gamificada"
   en: "Liga Familiar Gamificada"
   es: "Liga Familiar Gamificada"
 description:
-  pt: "Gerenciador de tarefas domésticas no estilo RPG: cada membro da família ganha pontos ao concluir tarefas e acompanha sua evolução num placar. Roda localmente no Wi-Fi da casa, sem custo."
-  en: "An RPG-style household chore manager: each family member earns points for completed chores and follows their progress on a leaderboard. It runs locally on the home Wi-Fi, at no cost."
-  es: "Gestor de tareas domésticas al estilo RPG: cada miembro de la familia gana puntos al completar tareas y sigue su evolución en un marcador. Funciona localmente en el Wi-Fi de la casa, sin costo."
+  pt: "Projeto de estudo que usa um gerenciador de tarefas domésticas como pretexto para aprender Postgres com grande volume de dados e event sourcing, e medir quando o event sourcing compensa."
+  en: "A study project that uses a household chore manager as a pretext to learn Postgres at high data volume and event sourcing, and to measure when event sourcing pays off."
+  es: "Proyecto de estudio que usa un gestor de tareas domésticas como pretexto para aprender Postgres con gran volumen de datos y event sourcing, y medir cuándo compensa el event sourcing."
 category: backend
 kind: personal
 status: progress
 stage:
-  pt: "Infraestrutura pronta · primeira funcionalidade em desenvolvimento"
-  en: "Infrastructure ready · first feature in development"
-  es: "Infraestructura lista · primera funcionalidad en desarrollo"
+  pt: "Infraestrutura e decisões de arquitetura concluídas · implementação do domínio ainda não começou"
+  en: "Infrastructure and architecture decisions done · domain implementation not started yet"
+  es: "Infraestructura y decisiones de arquitectura concluidas · la implementación del dominio aún no empezó"
 art: league
 order: 6
 repo: https://github.com/Rafa-Shafie/familia-liga-gamificada
+# As 5 do cartão; Testcontainers e GitHub Actions (planejados) ficam no techDetails
 stack:
   - Java 21
-  - Spring Boot
-  - Spring Data JPA
-  - PostgreSQL
+  - Spring Boot 4
+  - PostgreSQL 18
+  - Flyway
   - Docker Compose
 details:
   intro:
-    pt: "Um gerenciador de tarefas domésticas no estilo RPG, feito para os quatro membros da minha família usarem de verdade e darem feedback. Tudo roda localmente no Wi-Fi da casa, sem custo, e cada decisão importante fica registrada em um ADR."
-    en: "An RPG-style household chore manager, built for the four members of my family to actually use and give feedback on. Everything runs locally on the home Wi-Fi, at no cost, and every important decision is recorded in an ADR."
-    es: "Un gestor de tareas domésticas al estilo RPG, hecho para que los cuatro miembros de mi familia lo usen de verdad y den feedback. Todo funciona localmente en el Wi-Fi de la casa, sin costo, y cada decisión importante queda registrada en un ADR."
+    pt: "Cada tarefa doméstica concluída vai valer pontos, e os pontos serão eventos imutáveis. O domínio é simples de propósito: serve para estudar duas coisas que meus outros projetos não cobrem. A primeira é Postgres com volume: consultas analíticas, índices, rollups e views materializadas, a serem provados com medição antes e depois sobre milhões de eventos sintéticos. A segunda é event sourcing: o placar e as sequências serão projeções reconstruídas por replay, com snapshots e versionamento de eventos."
+    en: "Each completed household chore will be worth points, and the points will be immutable events. The domain is simple on purpose: it exists to study two things my other projects do not cover. The first is Postgres at volume: analytical queries, indexes, rollups and materialized views, to be proven with before-and-after measurement over millions of synthetic events. The second is event sourcing: the scoreboard and the streaks will be projections rebuilt by replay, with snapshots and event versioning."
+    es: "Cada tarea doméstica completada va a valer puntos, y los puntos serán eventos inmutables. El dominio es simple a propósito: sirve para estudiar dos cosas que mis otros proyectos no cubren. La primera es Postgres con volumen: consultas analíticas, índices, rollups y vistas materializadas, que se probarán con medición antes y después sobre millones de eventos sintéticos. La segunda es event sourcing: el marcador y las rachas serán proyecciones reconstruidas por replay, con snapshots y versionado de eventos."
   sections:
-    - heading: { pt: "Por que existe", en: "Why it exists", es: "Por qué existe" }
+    - heading: { pt: "Como é construído", en: "How it is built", es: "Cómo se construye" }
       text:
-        pt: "Dois motivos com o mesmo peso. O uso real: quatro pessoas vão usar o sistema em casa e dizer o que funciona. E o portfólio de backend: mostrar software rodando, com decisões bem justificadas, Clean Architecture e Java moderno, o que diz mais do que uma arquitetura elaborada que ninguém usa."
-        en: "Two equally important reasons. Real use: four people will use the system at home and tell me what works. And a backend portfolio: showing running software, with well-justified decisions, Clean Architecture and modern Java, which says more than an elaborate architecture nobody uses."
-        es: "Dos motivos con el mismo peso. El uso real: cuatro personas van a usar el sistema en casa y decir qué funciona. Y el portafolio de backend: mostrar software funcionando, con decisiones bien justificadas, Clean Architecture y Java moderno, lo que dice más que una arquitectura elaborada que nadie usa."
-    - heading: { pt: "O que já funciona", en: "What already works", es: "Lo que ya funciona" }
+        pt: "O domínio não exige event sourcing: uma tabela append-only com uma soma resolveria o placar. Por isso o projeto não tenta justificá-lo por argumento, e sim por medição. O mesmo placar será calculado por SQL direto, projeção incremental, replay completo, rollup e replay a partir de snapshot, em 100 mil, 1 milhão e 10 milhões de eventos. O relatório final vai responder quando cada forma compensa, e um ADR registra quando eu não usaria event sourcing. O desenvolvimento avança em fatias verticais, cada uma funcionando e testada antes da próxima, e cada decisão de arquitetura fica registrada em um ADR (Architecture Decision Record)."
+        en: "The domain does not require event sourcing: an append-only table with a sum would solve the scoreboard. That is why the project does not try to justify it by argument, but by measurement. The same scoreboard will be calculated by plain SQL, incremental projection, full replay, rollup and replay from a snapshot, at 100 thousand, 1 million and 10 million events. The final report will answer when each approach pays off, and an ADR records when I would not use event sourcing. Development moves in vertical slices, each one working and tested before the next, and every architecture decision is recorded in an ADR (Architecture Decision Record)."
+        es: "El dominio no exige event sourcing: una tabla append-only con una suma resolvería el marcador. Por eso el proyecto no intenta justificarlo con argumentos, sino con mediciones. El mismo marcador se calculará con SQL directo, proyección incremental, replay completo, rollup y replay a partir de un snapshot, con 100 mil, 1 millón y 10 millones de eventos. El informe final va a responder cuándo compensa cada forma, y un ADR registra cuándo no usaría event sourcing. El desarrollo avanza en vertical slices, cada una funcionando y probada antes de la siguiente, y cada decisión de arquitectura queda registrada en un ADR (Architecture Decision Record)."
+    - heading: { pt: "Já implementado", en: "Already built", es: "Ya implementado" }
       items:
         pt:
-          - "Docker Compose com PostgreSQL (healthcheck, volume nomeado e credenciais num .env fora do Git), e o Spring Boot só sobe depois que o banco está saudável."
-          - "Dockerfile com Java 21 (Eclipse Temurin)."
-          - "ADR-001: deploy local com custo zero, no Windows no MVP e num Raspberry Pi depois."
-          - "ADR-002: sem autenticação no início; os membros são identificados por um enum."
-          - "ADR-003: um modelo de tarefas em três camadas, estacionado até haver dados reais de uso."
+          - "Ambiente reproduzível com Docker Compose: PostgreSQL 18 com versão fixada, volume persistente e healthcheck."
+          - "Schema versionado com Flyway como único dono da estrutura; o Hibernate apenas valida o mapeamento."
+          - "Configuração e segredos fora do código."
+          - "12 ADRs, incluindo os que registram as mudanças de escopo e a justificativa do event sourcing."
         en:
-          - "Docker Compose with PostgreSQL (healthcheck, named volume and credentials in a .env kept out of Git), with Spring Boot starting only once the database is healthy."
-          - "A Java 21 (Eclipse Temurin) Dockerfile."
-          - "ADR-001: zero-cost local deployment, on Windows for the MVP and on a Raspberry Pi later."
-          - "ADR-002: no authentication at first; members are identified by an enum."
-          - "ADR-003: a three-layer task model, parked until there is real usage data."
+          - "A reproducible environment with Docker Compose: PostgreSQL 18 with a pinned version, a persistent volume and a healthcheck."
+          - "A versioned schema with Flyway as the single owner of the structure; Hibernate only validates the mapping."
+          - "Configuration and secrets kept out of the code."
+          - "12 ADRs, including the ones that record the scope changes and the rationale for event sourcing."
         es:
-          - "Docker Compose con PostgreSQL (healthcheck, volumen con nombre y credenciales en un .env fuera de Git), y Spring Boot solo arranca cuando la base de datos está saludable."
-          - "Dockerfile con Java 21 (Eclipse Temurin)."
-          - "ADR-001: despliegue local con costo cero, en Windows para el MVP y en una Raspberry Pi después."
-          - "ADR-002: sin autenticación al principio; los miembros se identifican con un enum."
-          - "ADR-003: un modelo de tareas en tres capas, estacionado hasta que haya datos reales de uso."
-    - heading: { pt: "A fatia atual", en: "The current slice", es: "La porción actual" }
-      text:
-        pt: "Registrar que um membro concluiu uma tarefa e ver a pontuação subir na tela, passando por banco, domínio, endpoint e interface. Antes da primeira migration com Flyway, falta fechar uma decisão de design: com os membros num enum, o que vai para a tabela? E, ao concluir uma tarefa, o sistema grava o saldo atualizado ou o evento que gerou o ponto?"
-        en: "Recording that a member completed a chore and seeing their score go up on screen, end to end through database, domain, endpoint and interface. Before the first Flyway migration, one design decision is still open: with members in an enum, what goes into the table? And when a chore is completed, does the system store the updated balance or the event that earned the points?"
-        es: "Registrar que un miembro completó una tarea y ver subir la puntuación en la pantalla, pasando por la base de datos, el dominio, el endpoint y la interfaz. Antes de la primera migration con Flyway, falta cerrar una decisión de diseño: con los miembros en un enum, ¿qué va a la tabla? Y, al completar una tarea, ¿el sistema guarda el saldo actualizado o el evento que generó el punto?"
-    - heading: { pt: "Próximas fatias", en: "Next slices", es: "Próximas porciones" }
-      text:
-        pt: "Cada fatia termina em algo que a família consegue usar, e o roteiro deve mudar com o uso real depois da primeira:"
-        en: "Each slice ends in something the family can use, and the plan is expected to change with real use after the first one:"
-        es: "Cada porción termina en algo que la familia puede usar, y el plan debe cambiar con el uso real después de la primera:"
+          - "Entorno reproducible con Docker Compose: PostgreSQL 18 con versión fijada, volumen persistente y healthcheck."
+          - "Schema versionado con Flyway como único dueño de la estructura; Hibernate solo valida el mapeo."
+          - "Configuración y secretos fuera del código."
+          - "12 ADRs, incluidos los que registran los cambios de alcance y la justificación del event sourcing."
+    - heading: { pt: "Planejado (ainda não implementado)", en: "Planned (not built yet)", es: "Planificado (todavía no implementado)" }
       items:
         pt:
-          - "Catálogo de tarefas com seus valores em pontos."
-          - "Ranking entre os membros, com filtro por período."
-          - "Níveis e progressão visível."
-          - "Tarefas recorrentes e reset de períodos com @Scheduled."
-          - "Vencedores da semana, do mês e do ano, com histórico."
-          - "Migração para o Raspberry Pi com o mesmo docker-compose.yml, sem alterações."
-          - "README, diagrama do modelo de dados em Mermaid e ADRs consolidados."
+          - "Tabela de eventos imutável, garantida pelo próprio banco, com correção por estorno (nada é apagado ou editado)."
+          - "Duas linhas do tempo por evento (quando aconteceu e quando o sistema soube), permitindo consultar o placar de uma data passada como era conhecido naquela data."
+          - "Oito consultas analíticas medidas (window functions, CTEs, date_trunc com fuso, EXPLAIN ANALYZE) sobre 2 anos de dados sintéticos."
+          - "Índices, rollups com @Scheduled e views materializadas."
+          - "Replay, snapshots e versionamento de eventos."
+          - "Comparação medida entre SQL direto e as formas de event sourcing."
+          - "Testes de integração com Testcontainers e PostgreSQL real, e CI no GitHub Actions."
+          - "Meta (não é resultado): p95 abaixo de 100 ms nas consultas por família com 10 milhões de eventos."
         en:
-          - "A chore catalog with point values."
-          - "A leaderboard between members, filterable by period."
-          - "Levels and visible progression."
-          - "Recurring chores and period resets with @Scheduled."
-          - "Winners of the week, month and year, with history."
-          - "Moving to the Raspberry Pi with the same docker-compose.yml, unchanged."
-          - "README, a Mermaid data model diagram and consolidated ADRs."
+          - "An immutable events table, enforced by the database itself, with corrections made by reversal (nothing is deleted or edited)."
+          - "Two timelines per event (when it happened and when the system learned about it), making it possible to query the scoreboard for a past date as it was known on that date."
+          - "Eight measured analytical queries (window functions, CTEs, time-zone-aware date_trunc, EXPLAIN ANALYZE) over 2 years of synthetic data."
+          - "Indexes, rollups with @Scheduled and materialized views."
+          - "Replay, snapshots and event versioning."
+          - "A measured comparison between plain SQL and the event sourcing approaches."
+          - "Integration tests with Testcontainers and a real PostgreSQL, and CI on GitHub Actions."
+          - "Target (not a result): p95 below 100 ms for per-family queries with 10 million events."
         es:
-          - "Catálogo de tareas con su valor en puntos."
-          - "Ranking entre los miembros, con filtro por período."
-          - "Niveles y progresión visible."
-          - "Tareas recurrentes y reinicio de períodos con @Scheduled."
-          - "Ganadores de la semana, del mes y del año, con historial."
-          - "Migración a la Raspberry Pi con el mismo docker-compose.yml, sin cambios."
-          - "README, diagrama del modelo de datos en Mermaid y ADRs consolidados."
+          - "Tabla de eventos inmutable, garantizada por la propia base de datos, con corrección mediante reversión (nada se borra ni se edita)."
+          - "Dos líneas de tiempo por evento (cuándo ocurrió y cuándo lo supo el sistema), lo que permite consultar el marcador de una fecha pasada tal como se conocía en esa fecha."
+          - "Ocho consultas analíticas medidas (window functions, CTEs, date_trunc con zona horaria, EXPLAIN ANALYZE) sobre 2 años de datos sintéticos."
+          - "Índices, rollups con @Scheduled y vistas materializadas."
+          - "Replay, snapshots y versionado de eventos."
+          - "Comparación medida entre SQL directo y las formas de event sourcing."
+          - "Pruebas de integración con Testcontainers y PostgreSQL real, y CI en GitHub Actions."
+          - "Meta (no es un resultado): p95 por debajo de 100 ms en las consultas por familia con 10 millones de eventos."
+    - heading: { pt: "Desafio até aqui", en: "Challenge so far", es: "Desafío hasta ahora" }
+      text:
+        pt: "Duas decisões de escopo marcaram o projeto antes de existir código de domínio. A primeira foi abandonar autenticação e multi-tenancy, que pratico em outros projetos, para focar no que nenhum outro cobre (ADR-007). A segunda foi admitir que o domínio não exige event sourcing e transformar isso no experimento: medir quando ele compensa em vez de afirmar que compensa (ADR-012)."
+        en: "Two scope decisions shaped the project before any domain code existed. The first was dropping authentication and multi-tenancy, which I practice in other projects, to focus on what none of the others cover (ADR-007). The second was admitting that the domain does not require event sourcing and turning that into the experiment: measuring when it pays off instead of claiming that it does (ADR-012)."
+        es: "Dos decisiones de alcance marcaron el proyecto antes de que existiera código de dominio. La primera fue abandonar la autenticación y el multi-tenancy, que practico en otros proyectos, para enfocarme en lo que ningún otro cubre (ADR-007). La segunda fue admitir que el dominio no exige event sourcing y convertir eso en el experimento: medir cuándo compensa en lugar de afirmar que compensa (ADR-012)."
 techDetails:
   - label: { pt: "Backend", en: "Backend", es: "Backend" }
-    items: ["Java 21", "Spring Boot 3", "Spring Data JPA", "@Scheduled", "Maven"]
+    items: ["Java 21", "Spring Boot 4", "Spring Data JPA", "Maven"]
   - label: { pt: "Dados", en: "Data", es: "Datos" }
-    items: ["PostgreSQL", "Flyway"]
-  - label: { pt: "Interface", en: "Interface", es: "Interfaz" }
-    items: ["HTML5", "Tailwind CSS", "Alpine.js"]
+    items: ["PostgreSQL 18", "Flyway"]
   - label: { pt: "Infraestrutura", en: "Infrastructure", es: "Infraestructura" }
-    items: ["Docker", "Docker Compose", "Windows", "Raspberry Pi"]
+    items: ["Docker Compose"]
   - label: { pt: "Decisões", en: "Decisions", es: "Decisiones" }
-    items: ["ADRs", "Clean Architecture"]
+    items: ["ADRs"]
+  - label: { pt: "Planejado", en: "Planned", es: "Planificado" }
+    items: ["Testcontainers", "GitHub Actions"]
